@@ -1,0 +1,22 @@
+---
+import HeaderNav from "./HeaderNav/HeaderNav.astro";
+// import HeaderNav from "./HeaderNav/HeaderNav";
+import HeaderLogo from "./Header/HeaderLogo";
+---
+
+<header class="mb-4">
+    <HeaderLogo />
+    <HeaderNav />
+</header>
+
+<style>
+    header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    header p {
+        color: var(--color-secondary);
+        font-size: 1rem;
+    }
+</style>

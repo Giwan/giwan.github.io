@@ -1,0 +1,248 @@
+---
+description: Setup a basic electron (desktop) app using snowpack for ReactJS. This article demonstrates how to get up and running.No webpack and no create-react-app.
+
+title: "Basic ElectronJS project using React"
+
+createdDate: "2021-04-11"
+published: "2021-04-11"
+pubDate: "2021-04-11"
+readTime: 1
+layout: "../../../layouts/BlogArticle.astro"
+---
+
+ElectronJS is a common choice for desktop applications.
+Among others , the popular VSCode and Slack desktop apps have been created with it.
+
+## Risks
+
+If not managed well an ElectronJS application can **expose the entire system**.
+This project will also address these and explain how to mitigate them.
+
+## Project setup
+
+In the projects directory, create a new folder named `electron-snowpack-basic`.
+In the newly created directory run `npm init -y` to initialise the project with a default **yes**.
+The folder now has a `package.json`.
+
+### Add Electron to package.json
+
+```bash
+# add electron
+npm i --save-dev electron
+```
+
+Start electron now with `electron .` and it will look for a `index.js` by default.
+Change the default to `main` in `package.json`.
+It's not strictly necessary but helps keep things organised.
+
+```json
+// package.json
+// ...
+"main": "main.js",
+```
+
+### The starting electron file
+
+Create a `main.js` file in the root folder.
+The main file is where a new browser window is created.
+
+```js
+// main.js
+// When started, electron will start with this file.
+
+const { BrowserWindow } = require("electron");
+const path = require("path");
+
+/**
+ * Create main electron window
+ */
+function createWindow() {
+    const win = new BrowserWindow({
+        width: 800,
+        height: 600,
+        title: "Editoory",
+        webPreferences: {
+            contextIsolation: true,
+            preload: path.join(__dirname, "preload.js"),
+        },
+    });
+
+    win.loadFile("index.html");
+}
+
+app.whenReady().then(createWindow);
+```
+
+The `BrowserWindow` object is imported from `electron`.
+With it a new window is created with a the given sizes.
+
+the `webPreferences` object is important for security.
+Exposure is limited by setting `contextIsolation` to `true`.
+The `preload` file helps to channel information between the **insecure** browser window and the electron app that has access to NodeJS.
+
+To avoid a reference error, create the `preload.js` file with `touch preload.js`.
+For the moment it does not need any content.
+
+Also create a basic `index.html` file and add the following.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <h1>Electron basics</h1>
+    </body>
+</html>
+```
+
+This is the content that will be rendered in the newly created `browserWindow`.
+
+Add this `start` script to the `package.json` file.
+`start: "electron ."`
+
+Now the application can be started with `npm start`.
+The electron app should now start and show the contents of`index.html`.
+
+---
+
+# React with snowpack
+
+The next part is to use React with Snowpack.
+Currently the electron app renders the vanilla `index.html`.
+To use react, it's embedded in the html file.
+
+Start by installing `snowpack`, `concurrently` and `wait-on`. with `npm i --save-dev snowpack concurrently wait-on`.
+Concurrently will ensure that both the electron process as the react process run _concurrently_.
+With `wait-on`, the react process is ready before starting electron.
+Otherwise the window will need to be reloaded to see the react rendered page the first time.
+
+The `package.json` scripts can now be adapted to use these.
+
+```json
+
+"start": "concurrently 'npm run snowpack-dev' 'wait-on http://localhost:8080 && npm run electron-start'",
+"snowpack-dev": "snowpack dev --open none --polyfill-node",
+"electron-start": "electron .",
+
+```
+
+The start script uses `concurrently` to run two other npm scripts.
+`snowpack-dev` starts snowpack. `--open-none` prevents snowpack from opening a new browser window.
+
+`--polyfill-node` is necessary to enable the communication between the renderer (React/JavaScript) and the main Electron process.
+
+Next the React script is added to the html file.
+Add the following to `index.html`.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script type="module" src="/src/index.js"></script>
+    </body>
+</html>
+```
+
+This references the `/src/` directory that will be created in the build output directory.
+The build directory is automatically created by Snowpack when running the build command below.
+
+Snowpack looks for the `.jsx` extension to recognise the files it should treat as React.
+Create a `src` folder. It separates the React code from the the Electron.
+
+### The ReactJS content
+
+Start by creating `index.jsx` in the src directory.
+
+```jsx
+import React from "react";
+import { render } from "react-dom";
+import App from "./App";
+import "./index.css";
+
+render(<App />, document.getElementById("root"));
+```
+
+The `react` and `react-dom` packages are required.
+
+```bash
+# install react and react-dom
+npm i --save-dev react react-dom
+```
+
+### Build script
+
+Add a new entry to `package.json` `scripts` object.
+The snowpack build command builds the react files allowing electron to access them as regular JavaScript.
+The following are a few script commands to facilitate building in different environments.
+
+```json
+
+"snowpack-prepare": "snowpack install",
+"build": "npm run snowpack-build",
+"snowpack-build": "snowpack build"
+
+```
+
+The `package.json` script object should now look like this:
+
+```json
+
+
+    "start": "concurrently 'npm run snowpack-dev' 'wait-on http://localhost:8080 && npm run electron-start'",
+    "build": "npm run snowpack-build",
+    "electron-start": "electron .",
+    "electron-prod": "cross-env NODE_ENV=production electron .",
+    "snowpack-dev": "snowpack dev --open none --polyfill-node",
+    "snowpack-prepare": "snowpack install",
+    "snowpack-build": "snowpack build"
+
+```
+
+While developing a `snowpack dev` will run a local server which provides valuable tools like hot module reloading.
+In production mode only the final HTML and JS files will need to be referenced.
+
+The `main.js` file will also need to be updated to handle two different context that the application can be in:
+
+```js
+//  main.js
+
+const { BrowserWindow, app } = require("electron");
+const path = require("path");
+
+function createWindow() {
+    const win = new BrowserWindow({
+        width: 800,
+        height: 600,
+        title: "Editoory",
+        webPreferences: {
+            contextIsolation: true,
+            preload: path.join(__dirname, "preload.js"),
+        },
+    });
+
+    process.env.NODE_ENV === "production"
+        ? win.loadFile("./build/index.html")
+        : win.loadURL("http://localhost:8080");
+}
+
+app.whenReady().then(createWindow);
+```
+
+The process is checked `NODE_ENV`. In **production** the final `build/index.html` can be loaded.
+Any other mode reads from the local development server.
+
+Start the electron application with `npm start`
+
+A follow-up article will discuss how to send data to the main electron process to securely access the file system.

@@ -1,0 +1,37 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../../config";
+import Categories from "../../components/Categories/Categories";
+import ToolsList from "../../components/ToolsList/ToolsList";
+import { categoriesList as categories } from "../../data/categories";
+
+// list the category pages for static rendering
+export function getStaticPaths() {
+    return categories.map((c) => ({
+        params: {
+            category: c,
+        },
+    }));
+}
+
+let { category } = Astro.params;
+category = String(category || categories[0]);
+---
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    </head>
+
+    <body class="p-4">
+        <Header />
+        <main>
+            <Categories {...{ category }} />
+            <ToolsList {...{ category }} />
+        </main>
+        <Footer />
+    </body>
+</html>

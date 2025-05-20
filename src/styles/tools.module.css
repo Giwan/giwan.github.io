@@ -1,0 +1,75 @@
+.toolsList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: calc(var(--unit) * 2);
+    min-height: calc(100vh - 372px);
+    margin-top: var(--unit);
+}
+
+.toolsItem {
+    font-size: var(--font-size-small);
+    font-family: var(--font-family-text-2);
+    height: 100%;
+    margin-top: var(--unit);
+    box-sizing: border-box;
+}
+
+.toolsItem:hover {
+    opacity: 1;
+}
+
+.toolsItemTitle {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-large);
+    color: var(--color-primary);
+    word-wrap: break-word;
+    word-break: break-word;
+    margin-bottom: calc(var(--unit) / 4);
+}
+
+.toolsItem a {
+    text-decoration: none;
+}
+
+.toolsItem:hover h2 {
+    text-decoration: underline;
+}
+
+.toolDescription {
+    font-family: var(--font-family-text-2);
+    font-size: var(--font-size-small);
+    color: var(--color-secondary);
+}
+
+/* Some tool items are importing an mdx description */
+.toolDescription p {
+    line-height: calc(1.33em + 0.2vw);
+    margin: 0;
+}
+
+.toolsItemFooter {
+    margin: calc(var(--unit) / 4) 0;
+}
+
+.toolsItemLabel {
+    display: inline-block;
+    margin: calc(var(--unit) / 4) calc(var(--unit) / 4) 0 0;
+    font-size: var(--font-size-small-x);
+    font-family: var(--font-family-heading);
+    color: var(--color-secondary);
+    text-transform: capitalize;
+    background-color: var(--color-background-light);
+    padding: 0 var(--unit-sm);
+    border-radius: var(--unit-sm);
+}
+
+.categoryStyle {
+    display: block;
+    font-size: var(--font-size-small-x);
+    font-family: var(--font-family-heading);
+    color: var(--color-secondary);
+    padding-right: 5px;
+    text-transform: uppercase;
+    /* text-align: right; */
+    max-width: 100%;
+}

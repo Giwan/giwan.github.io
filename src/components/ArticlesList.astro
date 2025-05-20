@@ -1,0 +1,89 @@
+---
+import { formatArticlePublishedDate } from "../utils/helpers";
+import type { IPost } from "../types/post";
+
+const getPubDate = (post: string | any) =>
+    new Date(post.frontmatter.pubDate || post.frontmatter.published).valueOf();
+
+const allPosts = (await Astro.glob("/src/pages/blog/**/*.{md,mdx}")) as IPost[];
+
+const filterFn = (post: IPost): boolean =>
+    Boolean(post.frontmatter.pubDate || post.frontmatter.published);
+
+const posts = allPosts
+    .filter(filterFn)
+    .sort((a, b) => getPubDate(b) - getPubDate(a));
+---
+
+<main class="col-span-full">
+    <ul>
+        {
+            posts.map((post) => (
+                <li>
+                    <a href={post.url}>
+                        <h2>{post.frontmatter.title}</h2>
+                    </a>
+                    <p class="date mb-2">{formatArticlePublishedDate(post)}</p>
+                    <p class="text-slate-200 leading-7 description">
+                        {post.frontmatter.description}
+                    </p>
+                </li>
+            ))
+        }
+    </ul>
+</main>
+
+<style>
+    ul {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+        width: 100%;
+    }
+    li {
+        border: 1rem solid var(--color-background-light);
+        padding: 1rem;
+        border-radius: 1rem;
+        background-color: var(--color-background-light);
+        height: 420px;
+        overflow: hidden;
+        transition: background-color 0.2s, border-color 0.35s;
+    }
+
+    li:hover {
+        background-color: var(--color-background-highlight);
+        border-color: var(--color-background-highlight);
+    }
+
+    li:hover h2 {
+        text-decoration: underline;
+    }
+
+    @media (min-width: 708px) {
+        li:first-child {
+            /* border: 1px solid red; */
+            grid-column: 1 / span 2;
+        }
+    }
+    h2 {
+        font-size: 1.75rem;
+        line-height: 2.25rem;
+        margin-bottom: 0.25rem;
+        font-family: var(--font-family-heading);
+        font-weight: 800;
+    }
+
+    .date {
+        color: var(--color-secondary);
+        margin-bottom: 1rem;
+        font-family: var(--font-family-heading);
+    }
+
+    .description {
+        font-size: 1.15rem;
+        line-height: 1.7rem;
+        grid-column-start: 2;
+        color: var(--color-secondary);
+    }
+</style>

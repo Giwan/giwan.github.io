@@ -1,0 +1,465 @@
+---
+description: This is a simple demo app that get's a list of applicants from the server. Those applicants are listed in a table. The user can filter and sort them.
+
+title: "Applicants demo app"
+
+createdDate: "2022-09-19"
+published: "2022-09-30"
+pubDate: "2022-09-30"
+status: "published"
+readTime: 5
+layout: "../../../layouts/BlogArticle.astro"
+---
+
+This is a demo app I built for a code assignment. Since I didn't use the code for anything else,
+this post helps to document the process. Since the assignment I spent some more time on improving
+the code.
+
+# The backend
+
+While the output from the backend is static JSON file, I did need to generate the data.
+My goal was to easily generate files with which ever amount of candidate.
+To do that, I used <a target="_blank" href="https://www.npmjs.com/package/casual" rel="noopener noreferrer">casual</a>, an NPM package for node
+that allows fake data to be easily generated.
+
+## The applicant properties
+
+Using the casual we can create a function that will generate an applicant with random properties.
+
+```js
+casual.define("user", function () {
+    const applicationDay = casual.integer(0, 15);
+    return {
+        firstName: casual.first_name,
+        lastName: casual.last_name,
+        email: casual.email,
+        dob: calcBirthDay(casual.integer(24, 65)),
+        experience: casual.integer(0, 15),
+        position: casual.random_element(positionsList),
+        dateOfApplication: moment()
+            .subtract(applicationDay, "days")
+            .format("yyyy-MM-DD"),
+        statusOfApplication: casual.random_element(applicationStatusList),
+    };
+});
+```
+
+`casual.define` lets us create function that we can call using the casual object.
+Using that feature we create a "user". Inside we define the properties using other casual
+features.
+
+The `dob` (date of birth) is calculated with an external function.
+Age input is randomised with `calcBirthDay(casual.integer(24, 55))` meaning that
+we will always get someone with ages between 24 and 65.
+
+```js
+export const calcBirthDay = (age) => {
+    const _year = new Date().getFullYear() + 1;
+    const day = casual.integer(1, 28);
+    const month = casual.integer(1, 12);
+    const year = _year - age;
+    return `${year}-${month}-${day}`;
+};
+```
+
+Using the random age, the date of birth is calculated based on the moment that the
+script is executed. This returns the generated birth date in format `yyyy-mm-dd`.
+
+The only part that is left is to call this newly defined casual function in a loop to create
+the amount of candidates we would like to have. Once those have been created we write that to a
+JSON file.
+
+```js
+let applicants = [];
+const numberOfApplicants = 2000;
+
+for (let i = 0; i < numberOfApplicants; i++) {
+    applicants.push(casual.user);
+}
+
+fs.writeFileSync(
+    `./candidatesData/users_${numberOfApplicants}.json`,
+    JSON.stringify(applicants)
+);
+```
+
+## Serving the backend data
+
+Using a Netlify serverless function we can serve the backend data.
+At a random interval the backend should fail 20% of the time, giving the front-end a chance to also show the error screen.
+The file `/netlify/functions/candidates.js` is the serverless function.
+
+```js
+const candidates = require("../../candidatesData/users_2000.json");
+
+const headers = {
+    "Content-Type": "application/json",
+    "access-control-allow-origin": "*",
+};
+
+const getRandomInt = function (max) {
+    return Math.floor(Math.random() * max);
+};
+
+exports.handler = async function () {
+    // Randomly cause the backend to fail.
+    if (getRandomInt(5) === 4) {
+        return {
+            statusCode: 404,
+            headers,
+        };
+    }
+
+    return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({ candidates }),
+    };
+};
+```
+
+---
+
+# The front-end
+
+The front-end is a react application using react router.
+It loads the applicants and shows them in a table view. It's important that the data structure matches.
+
+```js
+// src/types/types.d.ts
+export type ApplicantType = {
+    id: number,
+    firstName: string,
+    lastName: string,
+    email: string,
+    dob: string,
+    age?: number,
+    experience: number,
+    position: string,
+    dateOfApplication: string,
+    statusOfApplication: "approved" | "rejected" | "waiting",
+};
+```
+
+The sorting and filter functions rely on some of these key fields to be present.
+
+## Sorting
+
+The table is sortable by _experience_, _position applied_ and _date of application_.
+The sorting works both ascending as descending.
+
+## Filtering
+
+The table can also be filtered.
+The first and last names are filtered based on the text entered into the input field.
+In addition the _position_ and _status_ can also be filtered.
+
+## Application flow
+
+When `App.tsx` is loaded, it fetches the list of applications from the backend using a `useEffect` hook.
+
+```js
+// src/App.tsx
+
+const _fetchApplicants = useCallback(
+    () => dispatch(fetchApplicantList()),
+    [dispatch]
+);
+
+useEffect(() => {
+    _fetchApplicants();
+}, []);
+```
+
+Using `useCallback` prevents the `_fetchApplicants` function to cause an infinite loop in the `useEffect`.
+
+After fetching the applicants list, check if the list has been received.
+If the request failed, show the user an error, otherwise store the list in Redux.
+
+```js
+export const fetchApplicantList = ({ force = false } = {}) =>
+    async function (dispatch: Function, getState: Function) {
+        const { applicantsList, isLoading } = getState().applicantReducer;
+        if (
+            ((applicantsList && applicantsList.length > 0) || isLoading) &&
+            !force
+        )
+            return;
+
+        dispatch(setIsLoading(true));
+        dispatch(setError(undefined));
+
+        const handleError = (error: Error | unknown) =>
+            dispatch(
+                setError({
+                    title: "Failed to load applicants",
+                    error,
+                })
+            );
+
+        const clearLoading = () => dispatch(setIsLoading(false));
+        const list = await networkFetchApplicantList(handleError, clearLoading);
+        const candidates = list?.candidates.map((item: ApplicantType) => ({
+            ...item,
+            dob: calculateAge(item.dob),
+        }));
+        dispatch(setApplicantList(candidates));
+    };
+```
+
+Importantly the date of birth string is replaced by the calculated age.
+Keeping the same key value, even though it's no longer the date of birth but the age,
+ensures that the table still renders the value in the same position.
+
+From a performance perspective the age should NOT be calculated while rendering the table.
+The age calculation function is then called four times for each applicant in development mode.
+It's likely to be less in production.
+
+Formatting the received data from the backend at the moment it has been received circumvents this issue.
+
+## Sorting
+
+Sorting, when applied, is stored in the URL, allowing the user to send the applied sorting (and filters) to someone.
+When `App.tsx` retrieves the list from Redux, it does so in a way that if there are filters or sort settings applied that it will get that subset.
+
+```js
+// src/App.tsx
+const applicantList = useAppSelector(
+    applicantFilteredListSelector(searchParams)
+);
+```
+
+The `applicantFilteredListSelector` takes the searchParams hook as an argument.
+The hook is used in the selector to easily get the parameters from the URL.
+
+```js
+// src/features/applicant/applicantSlice.ts
+export const applicantFilteredListSelector =
+    (searchParams: URLSearchParams) => (state: RootState) => {
+        // check if the filtered list is available otherwise provide the full list
+        const _list =
+            state?.applicantReducer?.applicantFilteredList ||
+            state?.applicantReducer?.applicantList ||
+            [];
+
+        // Sort if there are sort parameters
+        return sortApplicants(
+            convertSortKey(searchParams.get("sort")),
+            _list,
+            convertSortDirection(searchParams.get("sortDirection"))
+        );
+    };
+```
+
+### Sorting in the sortController
+
+The sort controller file has all the functions used to apply the sort.
+The full file can be reviewed in the <a href="https://github.com/Giwan/candidatesList/blob/main/src/controller/sortController.ts" target="_blank" rel="noopener noreferrer">projects GitHub repo.</a>
+
+Here is the main function to kick-off the sorting.
+The `key` is the column that should be sorted on. The `list` is the list to be sorted and `sortDirection` the sort direction.
+
+```js
+
+// src/controller/sortController.ts
+export const sortApplicants = (key: string | undefined | null, list: ApplicantType[], sortDirection: boolean) => {
+    if (!key) return list;
+
+    if (!list) {
+        throw new Error("Error: list required to complete sort");
+    }
+    const ref = tableHeaderConstants[key as keyof tableHeaderConstantsType];
+    return [...list].sort(sortFnReference[ref](sortDirection));
+}
+
+```
+
+Since different sorting methods need to be applied, the following object tracks which sort method should be applied.
+
+```js
+// src/controller/sortController.ts
+const sortFnReference = {
+    [tableHeaderConstants.experience]: sortYears,
+    [tableHeaderConstants.positionApplied]: sortPosition,
+    [tableHeaderConstants.dateOfApplication]: sortDate,
+};
+```
+
+With this it's easy to pass in the sorting method and get the sort function.
+
+#### Sorting years of experience
+
+When sorting the years of experience, the direction is retrieved from the URL.
+The `key` activates the `sortYears` method.
+
+```js
+// src/controller/sortController.ts
+export const sortYears =
+    (direction: boolean) => (a: ApplicantType, b: ApplicantType) => {
+        // swap a and b to invert the direction
+        const [_a, _b] = direction ? [a, b] : [b, a];
+        return _a.experience > _b.experience ? -1 : 1;
+    };
+```
+
+With this the direction is known, and the list can be sorted based on the `experience` property of the data object.
+
+#### Sorting on position
+
+The sort functionality consists of two functions. First the property value `position` is acquired and
+converted to lower case string, needed for accurate comparison. After that the second function evaluates the _position_ property.
+
+<table>
+  <th>
+    <td>Comparison</td>
+    <td>Result</td>
+  </th>
+  <tbody>
+    <tr>
+      <td>`"a" < "b"`</td>
+      <td>`true`</td>
+    </tr>
+    <tr>
+      <td>`"b" < "a"`</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>`"administrator" < "designer"`</td>
+      <td>`true`</td>
+    </tr>
+  </tbody>
+</table>
+
+```js
+// First function to prepare for sorting
+export const sortPosition =
+    (direction: boolean) => (a: ApplicantType, b: ApplicantType) => {
+        const [pa, pb] = [a, b].map((x) => x.position.toLowerCase());
+        return sortPositionLogic(direction, pa, pb);
+    };
+
+// Second function to actually sort based on the position.
+export const sortPositionLogic = (
+    direction: boolean,
+    pa: string,
+    pb: string
+) => {
+    if (pa === pb) return 0;
+    const [_pa, _pb] = direction ? [pa, pb] : [pb, pa];
+    return _pa < _pb ? 1 : -1;
+};
+```
+
+#### Sorting on Application date
+
+In this case sorting should take place on the application date field.
+This also consists of two functions.
+The first function merely pulls out the `dateOfApplication` property
+and passes that to the `_sortDate` function.
+
+```js
+export const sortDate =
+    (direction: boolean) =>
+    (a: ApplicantType, b: ApplicantType): number =>
+        _sortDate(direction)(a.dateOfApplication, b.dateOfApplication);
+
+// Actually with the sort values
+export const _sortDate = (dir: boolean) => (d1: string, d2: string) => {
+    const _d1 = +new Date(d1),
+        _d2 = +new Date(d2);
+    if (_d1 === _d2) return 0;
+
+    // reverse the dates based on the direction
+    const [_dd1, _dd2] = dir ? [_d1, _d2] : [_d2, _d1];
+    return _dd1 > _dd2 ? 1 : -1;
+};
+```
+
+To sort, the date string values are first converted to date values.
+Those can then be compared against each other.
+
+### Filtering in the application flow
+
+A form at the top allows the user to filter the content.
+The `filterApplicants` function in the `applicantsController` kicks off the filtering.
+
+```js
+export const filterApplicants =
+    (searchParams: URLSearchParams, filters: FiltersType) =>
+    (dispatch: Function, getState: Function) => {
+        let applicantList = getState().applicantReducer.applicantList;
+        const nameFilter = filters.name || searchParams.get("name");
+        const statusFilter = filters.status || searchParams.get("status");
+        const positionFilter = filters.position || searchParams.get("position");
+
+        applicantList = filterByName(applicantList, nameFilter);
+        applicantList = filterByPosition(applicantList, positionFilter);
+        applicantList = filterByStatus(applicantList, statusFilter);
+
+        dispatch(setFilteredList(applicantList));
+    };
+```
+
+The `React Router` based search params are passed in from the calling component, which gets it from the React hook.
+Together with the `applicantList` retrieved from redux all the data required to apply the filtering is available.
+
+#### Filter by name
+
+This filter function takes the list and the name value that should be filtered on.
+Both the first name and last name are filtered on the value of `nameFilter`.
+
+```js
+export const filterByName = (
+    list: ApplicantType[],
+    nameFilter: string | null
+) => {
+    if (!nameFilter) return list;
+
+    return list.filter(({ firstName, lastName }) => {
+        const _re = new RegExp(nameFilter, "i");
+        return _re.test(firstName) || _re.test(lastName);
+    });
+};
+```
+
+#### Filter by position
+
+Once filtered by name the list can be filtered by position.
+The array `filter` method is used again returning a subset of the original list.
+
+```js
+export const filterByPosition = (
+    list: ApplicantType[],
+    positionFilter: string | null
+) => {
+    if (!positionFilter || list.length < 1) return list;
+
+    return list.filter(({ position }) =>
+        position.match(new RegExp(positionFilter, "i"))
+    );
+};
+```
+
+#### Filter by status
+
+This is slightly longer in that a check is performed for the keyword `all`.
+If that is in the status filter the entire list should be returned.
+If not we filter the list again, this time looking at the `statusOfApplication` property.
+
+```js
+export const filterByStatus = (
+    list: ApplicantType[],
+    statusFilter: string | null
+) => {
+    if (!statusFilter || list.length < 1 || /all/i.test(statusFilter))
+        return list;
+
+    return list.filter(({ statusOfApplication }) => {
+        return statusOfApplication.match(new RegExp(statusFilter, "i"));
+    });
+};
+```
+
+---
+
+The web app is live at <a href="http://applicantlist.mytoori.com/" target="_blank">applicantlist.mytoori.com</a> while the code can be found on [GitHub](https://github.com/Giwan/candidatesList)

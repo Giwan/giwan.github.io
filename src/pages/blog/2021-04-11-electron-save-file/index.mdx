@@ -1,0 +1,198 @@
+---
+description: After setting up a basic ElectronJS, this article discusses the preload.js script. It's used to communicate between the main electron process and the unsafe renderer process. The latter is not allowed to access the fs API for security reasons.
+
+title: "Electron's main and renderer process communication"
+
+createdDate: "2021-04-18"
+published: "2021-04-18"
+pubDate: "2021-04-18"
+readTime: 1
+layout: "../../../layouts/BlogArticle.astro"
+---
+
+In [Electron Basics](https://blog.mytoori.com/blog/2021-04-11-electron-basics) a simple react based Electron project is created.
+In this follow-up article, content from the browser render process is sent to the main process where it can be saved.
+
+## `Preload.js` (For security)
+
+At the moment, the contents of the `.jsx` file only renders some basic text.
+The goal is to have a **save button** and a `textarea`.
+
+Saving to the user's computer is an action that the browser will not allow.
+It's has security implications.
+It's possible to disable. Don't do it though.
+It might expose the computer to security vulnerabilities.
+
+### `Preload.js` allows for secure communication
+
+The renderer process instead send any data that needs to be saved to the main electron process.
+This article focusses on sending text from the untrustable renderer process to the main process.
+
+<a href="https://www.electronjs.org/docs/tutorial/security" target="_blank">
+    The security concerns and mitigation strategies are well documented on{" "}
+    <code>ElectronJS.org</code>
+</a>
+
+Add a textarea and button to the `index.jsx` file.
+
+```jsx
+// index.jsx
+
+import React from "react";
+import { render } from "react-dom";
+import styles from "./app.module.css"; // optional
+
+const App = () => (
+    <div className={styles.appContainer}>
+        <div className={styles.app}>
+            <textarea placeholder="Enter text which should be sent to the main process"></textarea>
+            <button>save</button>
+        </div>
+    </div>
+);
+
+render(<App />, document.getElementById("root"));
+```
+
+The imported styling is optional and can be found in the git repository.
+
+### Saving
+
+Click the save button and the contents of the textarea should be sent to the main process.
+There the filesystem can be safely accessed to save the content.
+
+Start by adding an `onClick` to the save button.
+
+```jsx
+// index.jsx
+
+import React from "react";
+import { render } from "react-dom";
+import styles from "./app.module.css";
+
+const App = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log("rendere process: saving file");
+        window?.electron?.save(e.target.userinput.value);
+    };
+    return (
+        <form onSubmit={handleSubmit} className={styles.appContainer}>
+            <div className={styles.app}>
+                <textarea
+                    name="userinput"
+                    placeholder="Enter text which should be sent to the main process"
+                ></textarea>
+                <button>save</button>
+            </div>
+        </form>
+    );
+};
+
+render(<App />, document.getElementById("root"));
+```
+
+When pressed the save button fires `handleSubmit`.
+The first console log will show up in the dev-console. Open it with OPTION+CMD+i or from the menu.
+
+`window?.electron?.save()` won't do anything yet. The window object does not have an `electron` property, yet.
+
+## preload basic start
+
+In `preload.js` add the following function to create the `electron` object on the global object (in the renderer process).
+This file was created in the previous section of this article. If it doesn't exist, create it in the root directory.
+
+```js
+// /preload.js
+
+const { contextBridge } = require("electron");
+
+contextBridge.exposeInMainWorld("electron", {
+    save: (val) => {
+        console.log(`preload process: ${val}`);
+    },
+});
+```
+
+When the electron process is started it will run `preload.js`.
+Eventually that comes to `contextBridge.exposeInMainWorld`. That is called with the string "electron" resulting
+in an object being created in render process. `window.electron`.
+
+Next the object is provided. In this case there is a property `save` which is a function.
+From the render process, that function can now be called.
+
+Restart the application and open the dev tools.
+Type something in the text area and press **save**.
+Two console log statements are printed.
+
+---
+
+So far the renderer process, remember unsafe (browser) process, is able to send a message to the `preload.js` script.
+The script itself is not able to do anything but relay the message to the electron process.
+
+## Relay message from render process to main electron process
+
+In the next step `ipcRenderer` is imported from `electron` to handle the next step of the communication.
+Update `preload.js` with the following.
+
+```js
+// /preload.js
+
+const { contextBridge, ipcRenderer } = require("electron");
+
+contextBridge.exposeInMainWorld("electron", {
+    save: (val) => {
+        console.log(`preload process: ${val}`);
+
+        ipcRenderer.send("SAVE", val);
+    },
+});
+```
+
+The imported `ipcRenderer` fires off a message to the main process.
+There is no listener on the main process yet however though.
+Let's add that next.
+
+Add this to the `/main.js` file.
+
+```js
+// /main.js
+
+const { BrowserWindow, app, ipcMain } = require("electron");
+const path = require("path");
+
+function createWindow() {
+    const win = new BrowserWindow({
+        width: 800,
+        height: 600,
+        title: "Editoory",
+        webPreferences: {
+            contextIsolation: true,
+            preload: path.join(__dirname, "preload.js"),
+        },
+    });
+
+    process.env.NODE_ENV === "production"
+        ? win.loadFile("./build/index.html")
+        : win.loadURL("http://localhost:8080");
+}
+
+ipcMain.on("SAVE", (e, text) => {
+    console.log(`MAIN process: ${text}`);
+});
+
+app.whenReady().then(createWindow);
+```
+
+Here `ipcMain` is imported from `electron`.
+With that component it's possible to listen for messages from the `ipcRenderer` that sent the "SAVE" message from `preload.js`.
+
+On line 177 the listener is added:
+
+```js
+ipcMain.on("SAVE", (e, text) => {
+    console.log(`MAIN process: ${text}`);
+});
+```
+
+Now that the message text is available in the main process the <a href="https://www.electronjs.org/docs/api/dialog" target="_blank">Dialog API</a> can be used to save the text to disk.

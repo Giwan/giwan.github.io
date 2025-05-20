@@ -1,0 +1,209 @@
+---
+description: Not having worked very much with VueJS, this is a simple app that goes through the basics. It covers architecture and the way information is shared between components.
+
+title: "VueJS introduction: Solar system"
+
+createdDate: "2021-03-06"
+published: "2021-03-06"
+pubDate: "2021-03-06"
+readTime: 1
+layout: "../../../layouts/BlogArticle.astro"
+---
+
+## Why VueJS
+
+I was sort of forced to use <a href="https://vuejs.org" target="_blank" rel="noopener">VueJS</a> so it seemed like a good time to dive into it a bit.
+It is often mentioned as an alternative for React.
+
+## Vue component structure
+
+A typical Vue component consists of a `<template>` section, followed by a `<script>` section and then closing with a `<style>` section.
+These three areas can be seen here in a list component. Note that the filename is `ItemsList.vue`.
+
+```js
+
+// src/components/ItemsList.vue
+
+<template>
+    <main>
+        <section v-for="planet in planets" :key="planet.name">
+            <header @click="selectPlanet(planet)">
+                <img :src="planet.image" width="100" :alt="planet.name" />
+                <h1>{{ planet.name }}</h1>
+            </header>
+        </section>
+    </main>
+</template>
+
+<script>
+export default {
+    name: "ItemsList",
+    props: {
+        msg: String,
+        planets: Array,
+        selectPlanet: Function
+    }
+};
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+main {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    color: white;
+}
+
+h3 {
+    margin: 40px 0 0;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+li {
+    display: inline-block;
+    margin: 0 10px;
+}
+a {
+    color: #42b983;
+}
+</style>
+
+
+```
+
+It receives an array of planets to be listed via `props`.
+The `App` component in the root of the folder,
+loads the planet data and then passes it to the list component.
+
+```js
+
+// src/App.vue
+
+<template>
+    <div>
+        <ItemsList
+            msg="message from parent"
+            :planets="planets"
+            :selectPlanet="this.selectPlanet"
+        />
+        <PlanetDetail
+            v-if="selectedPlanet"
+            :selectedPlanet="this.selectedPlanet"
+            :close="this.selectPlanet"
+        />
+    </div>
+</template>
+
+<script>
+import ItemsList from "./components/ItemsList";
+import PlanetDetail from "./components/PlanetDetail";
+import { loadData } from "./data/data";
+
+export default {
+    name: "App",
+    components: {
+        ItemsList,
+        PlanetDetail
+    },
+    created() {
+        this.loadData();
+    },
+    methods: {
+        loadData,
+        selectPlanet: function(planet) {
+            this.selectedPlanet = planet;
+        }
+    },
+    data: function() {
+        return {
+            planets: [],
+            selectedPlanet: undefined
+        };
+    }
+};
+</script>
+
+<style>
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
+}
+
+body {
+    background-color: black;
+}
+</style>
+
+
+```
+
+The `script -> methods` section defines the `loadData` method inside the component.
+It is imported on line 19 with `import { loadData } from "./data/data";`
+That however **does not execute** the method. Execution happens in the `created` section.
+
+```js
+
+
+created() {
+    this.loadData();
+}
+```
+
+When loadData is called, it retrieves the data from `/data.json`.
+`this.planets` gets updated directly in that export which is not great.
+Still as this is a demo I'll leave it at that.
+
+```js
+export const loadData = async function () {
+    const resp = await fetch("/data.json");
+
+    if (!resp.ok) {
+        throw new Error("failed to get json data");
+    }
+
+    this.planets = await resp.json();
+};
+```
+
+In a future update, I'd return the data and then set `this.planets` in the component where this method was called.
+That avoids confusing any future devs as to the context of `this`.
+
+## ItemsList
+
+The `App.vue` component loads two custom components.
+The `ItemList` component is passed the planets data.
+With that data it shows a list of the planets.
+
+```js
+
+<ItemsList
+    msg="message from parent"
+    :planets="planets"
+    :selectPlanet="this.selectPlanet"
+/>
+
+```
+
+The planets is passed to the `ItemsList` child component with this.
+`:planets="planets"` In this case the planets value that seems to be between strings is actually read as code in Vue.
+
+With `:selectPlanet="this.selectPlanet"` the child component can call the method `this.selectPlanet` which exists in the parent.
+Line 32.
+
+## Source
+
+The full project can be found here:
+
+<a
+    href="https://github.com/Giwan/vue-solar-system"
+    target="_blank"
+    rel="noopener"
+>
+    GitHub.com/Giwan/vue-solar-system
+</a>

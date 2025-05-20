@@ -1,0 +1,340 @@
+---
+description: NextJS is great for blogging. MDX adds more power to that by allowing JSX components to be directly rendered in the blog. This post will discuss setup and show examples.
+
+title: "NextJS blogging with MDX"
+
+createdDate: "2021-01-23"
+published: "2021-01-23"
+pubDate: "2021-01-23"
+readTime: 1
+layout: "../../../layouts/BlogArticle.astro"
+---
+
+## Moving from Gatsby to NextJS
+
+I started using MDX to make <a href="https://en.wikipedia.org/wiki/Markdown" target="_blank">Markdown</a> pages with JS components in them.
+This should allow the combination of both worlds. Markdown texts alongside active JSX components.
+This post is about moving away from Gatsby which uses GraphQL under the hood.
+It's very much overkill for a blog like this.
+
+This setup is based on the awesome article from <a href="https://www.smashingmagazine.com/2020/09/build-blog-nextjs-mdx/" target="_blank">Ibrahima Ndaw on Smashing Magazine</a>.
+
+## Create a new React project
+
+```bash
+# Create a new project
+npx create-next-app
+```
+
+## Add the MDX loaders
+
+The blog articles will be written in MDX.
+The following loaders will read and parse `MDX` files to `HTML`.
+
+```bash
+# Install loaders
+npm i @mdx-js/loader @next/mdx
+```
+
+Now that loaders have been installed, they need to be configured.
+
+## Configure `next.config.js` to pick up the MDX files
+
+In `next.config.js` the following configuration ensures that the `MDX` files are read from the pages directory.
+Note that other file extensions will also be read.
+
+```js
+// next.config.js
+
+const withMDX = require("@next/mdx")({
+    extension: /\.mdx?$/,
+    options: {
+        remarkPlugins: [],
+        rehypePlugins: [],
+    },
+});
+
+module.exports = {
+    ...withMDX({
+        pageExtensions: ["js", "jsx", "md", "mdx"],
+    }),
+    target: "serverless",
+};
+```
+
+Create the page `test.mdx` in the pages directory. It's now possible to navigate to `http://localhost:3000/test`.
+That route should now exist.
+
+## Read `/pages/blog/[]/index.mdx` as blog post
+
+All of the blogs will reside in `/pages/blog/`. There a folder is created with an `index.mdx`.
+Any other files relevant to the post can also be added there.
+
+In the root of the project create `getAllPosts.js`.
+
+```js
+// getAllPosts.js
+
+/**
+ * For each file in the directory, get the filename
+ * and remove the string "index.mdx"
+ * @param {*} r
+ */
+function importAll(r) {
+    return r.keys().map((fileName) => ({
+        link: fileName.substr(1).replace(/\/index\.mdx$/, ""),
+        module: r(fileName),
+    }));
+}
+
+export const posts = importAll(
+    require.context("./pages/blog/", true, /\.mdx$/)
+);
+```
+
+It loops over the folders in the `/pages/blog` folder and uses those to register them as pages.
+That makes `http://localhost:3000/blog/article-name` available.
+
+## A Layout component
+
+All the content will be wrapped by the following `Layout` component.
+It renders the meta header tags with `next/head`.
+The website `header` and it's `main` content follows that.
+
+```js
+// /components/Layout.js
+
+import Head from "next/head";
+import Header from "./Header/Header";
+import styles from "./main.module.css";
+
+const Layout = ({ children, pageTitle, description }) => (
+    <>
+        <Head>
+            <meta
+                name="viewport"
+                content="width=device-width, initial-scale=1"
+            />
+            <meta charSet="utf-8" />
+            <meta name="Description" content={description}></meta>
+            <title>{pageTitle}</title>
+        </Head>
+        <Header />
+        <main className={styles.mainContent}>{children}</main>
+    </>
+);
+
+export default Layout;
+```
+
+## The article preview in `Post.js` component
+
+The next component required is `ArticleItem.js`.
+It will render the article's preview on the listing page.
+The component receives a `post` object which contains a `link` property and
+a `module` property which contains the post's meta data.
+
+```js
+// /components/ArticleItem.js
+
+import Link from "next/link";
+import ArticleHeader from "./Article/ArticleHeader";
+
+const ArticleItem = ({
+    post: {
+        link,
+        module: { meta },
+    },
+}) => (
+    <article>
+        <ArticleHeader meta={meta} />
+        <Link href={"/blog" + link}>
+            <a>Read more →</a>
+        </Link>
+    </article>
+);
+
+export default ArticleItem;
+```
+
+## The entire article in `Article.js`
+
+The entire article is displayed with `Article.js` in `/components/Article`.
+It also receives the post data which contains the `children` and `meta`.
+
+```js
+// /components/Article/Article.js
+
+import ArticleHeader from "./ArticleHeader";
+import styles from "./article.module.css";
+
+const Article = ({ children, meta }) => (
+    <div className={styles.article}>
+        <ArticleHeader meta={meta} isBlogPost />
+        <article>{children}</article>
+    </div>
+);
+
+export default Article;
+```
+
+## Write a blog post in MDX
+
+Add an article in `/pages/blog/`. In this example it's called `example`.
+
+```js
+
+// /pages/blog/example/index.mdx
+
+---
+description: `some long description
+with multiple lines
+`
+
+    title: "example title",
+
+    createDate: "01-01-2021",
+    publishedDate: "01-01-2021",
+    readTime: 2
+layout: "../../../layouts/BlogArticle.astro",
+---
+
+
+
+## Example secondary title
+Some text in the article
+```
+
+## Show posts list on the index page
+
+The following code lists all of the posts that it finds in the `blog` folder.
+These can then be shown on the listing page.
+
+```js
+// pages/index.js
+
+import ArticleItem from "../components/ArticleItem/ArticleItem";
+import { posts } from "../getAllPosts";
+import styles from "./index.module.css";
+
+const publishedPosts = (posts = []) =>
+    posts.filter((p) => !!p.module.meta.published);
+
+export default function IndexPage() {
+    return (
+        <div className={styles.articleListContainer}>
+            {publishedPosts(posts).map((post) => (
+                <ArticleItem key={post.link} post={post} />
+            ))}
+        </div>
+    );
+}
+```
+
+The `ArticleItem` component is used to render the posts data based on what has been received from `getAllPosts`.
+
+## use \_app.js to wrap the content
+
+Create `/pages/_app.js`. The `_` tells `NextJS` that this file should **not** be a route.
+`NextJS` also recognises `app.js` as an initializer. Here global imports, like `global.css` can be imported.
+
+```js
+// /pages/_app.js
+
+import Layout from "../components/Layout";
+import "../node_modules/prismjs/themes/prism-okaidia.css";
+import "../styles/globals.css";
+
+export default function App({ Component, pageProps }) {
+    return (
+        <Layout pageTitle="Mytoori Blog" description="Mytoori Blog">
+            <Component {...pageProps} />
+        </Layout>
+    );
+}
+```
+
+## MDX code styling (Installation & configuration)
+
+The code should be properly styled for readability. That allows the reader to quickly scan and find the info that is right for her.
+
+```js
+// code styling example: JS keywords are coloured
+
+const exampleFunctionToDemonstrateCodeStyling = () => {
+    const thisIsADemoValue = 1 + 1;
+    return thisIsADemoValue;
+};
+```
+
+For the styling to work, essentially the code text block is split into HTML nodes. Those nodes can now have a colour applied to them individually.
+
+### Install the Rehype-prism package
+
+Styling the code is done by [rehype-prism](https://github.com/mapbox/rehype-prism).
+It's a plugin for [Rehype](https://github.com/rehypejs/rehype) and performs the highlighting.
+
+```bash
+# Install @mapbox/rehype-prism.
+npm i @mapbox/rehype-prism
+```
+
+### Configure `next.config.js` to use rehype-prism
+
+`next.config.js` exports a configuration object that is read by Next. In that configuration file the plugin is added to `next/mdx`.
+
+```js
+// import the rehype-prism
+const rehypePrism = require("@mapbox/rehype-prism");
+
+// Add the imported component to rehype
+const withMDX = require("@next/mdx")({
+    extension: /\.mdx?$/,
+    options: {
+        remarkPlugins: [],
+        rehypePlugins: [rehypePrism],
+    },
+});
+
+// Export a configuration object (which is used by next)
+module.exports = {
+    ...withMDX({
+        pageExtensions: ["js", "jsx", "md", "mdx"],
+    }),
+    target: "serverless",
+};
+```
+
+Any `code` component in the MDX file will now be wrapped in an HTML element. That allows CSS styling to be applied.
+to do that the following styles are imported.
+
+## Code styles from Prism
+
+In `_app.js` the CSS styles are imported from the prism package. The previously installed `prism-okaidia.css` has prism as a dependency.
+The CSS files in that package can be directly imported into the project.
+
+Note: other styles are also possible.
+
+```js
+// /pages/_app.js
+
+import "../node_modules/prismjs/themes/prism-okaidia.css";
+```
+
+## Development
+
+Start the development server with the following.
+
+```bash
+# Start the dev server
+npm run dev
+```
+
+# Sources
+
+-   <a
+        href="https://www.netlify.com/blog/2020/11/30/how-to-deploy-next.js-sites-to-netlify/"
+        target="_blank"
+    >
+        netlify.com/blog/2020/11/30/how-to-deploy-next.js-sites-to-netlify/
+    </a>

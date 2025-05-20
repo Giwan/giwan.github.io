@@ -1,0 +1,43 @@
+:root {
+    --color-background: #111827;
+    /* --color-background-light: #1e1e24; */
+    --color-background-dark: #0d131f;
+    --color-background-light: #1f2937;
+    --color-background-highlight: #232e3e;
+
+    --color-primary: #d2d7d3;
+    --color-secondary: #aeb1b2; /* #b5bab6; /* #717472; */
+    /* --color-text-dim: #3C3C3C; */
+
+    --color-foreground: #4a4a59;
+    --color-accent: red;
+    --color-accent: #354b7a;
+
+    --unit: 1rem;
+    --unit-sm: 0.5rem;
+    --unit-2x: 2rem;
+    --unit-3x: 3rem;
+
+    /* fonts */
+    --font-family-default: "Merriweather", serif;
+    --font-family-heading: "Inter", sans-serif;
+
+    --font-size-large: 2rem;
+    --font-size-small: 1rem;
+    --font-size-small-x: 0.8rem;
+}
+
+body {
+    background-color: var(--color-background);
+    color: var(--color-primary);
+    font-family: var(--font-family-default);
+}
+
+a {
+    color: var(--color-primary);
+}
+
+/* .astro-code {
+  margin: var(--unit-lg) 0;
+  border: 1px solid red;
+} */

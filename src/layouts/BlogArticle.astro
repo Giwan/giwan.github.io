@@ -1,0 +1,30 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import BlogArticleContent from "./BlogArticleContent.astro";
+const {
+  content: { title, description, pubDate, updatedDate },
+} = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <BaseHead {...{title, description}} />
+  </head>
+  <body class="p-4 text-2xl">
+    <main>
+      <Header />
+      <BlogArticleContent title={title}>
+        <slot />
+      </BlogArticleContent>
+    </main>
+    <Footer />
+    <style>
+      main {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+    </style>
+  </body>
+</html>

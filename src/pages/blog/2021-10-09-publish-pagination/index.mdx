@@ -1,0 +1,285 @@
+---
+description: The pagination component created in another post will be published on NPM. It allows others to use the component in their React projects.
+
+title: "The basics of publishing on NPM"
+
+createdDate: "2021-10-09"
+published: "2021-10-14"
+pubDate: "2021-10-14"
+readTime: 1
+layout: "../../../layouts/BlogArticle.astro"
+---
+
+Rollup [rollupjs.org](https://rollupjs.org) makes it easy to bundle the library code into different bundle types.
+
+## Why different bundles?
+
+The code will be packaged as:
+
+-   [CommonJS (CJS)](https://en.wikipedia.org/wiki/CommonJS)
+-   [ECMA Script Modules (ESM)](https://github.com/umdjs/umd)
+-   [Universal Module Definition (UMD)](https://github.com/umdjs/umd)
+
+These each have different use cases depending on the developer looking to use this library.
+
+### Common JS
+
+CommonJS is typically used on the server, think NodeJS App using the `require()` syntax.
+
+### ECMA Script modules
+
+These are often imported in a client side app. Example: a ReactJS app created with for example `create-react-app`.
+The library can easily be imported using the `import test from "test"` syntax.
+
+### Universal Module definition
+
+Here the typical usecase is a plain website that uses the `<script src="test"></script>` syntax.
+Bundling for UMD typically also needs a name value. The library is accessible through a global object.
+Example: `window.test` if "test" was the name provided when bundling.
+
+# Getting started
+
+Create a new empty folder where the project will live. Inside it create the folders **src** and **dist**.
+Raw dev code is stored in **src** while the compiled bundles live in **dist**.
+
+### NPM init
+
+Initialise the project with the following:
+
+```shell
+# initialise the npm project
+npm init -y
+```
+
+The `y` flag forces the default answer to all the NPM questions.
+The name property will use the name of the project folder.
+I'll use "test-component" for mine.
+
+### Installing Rollup
+
+Rollup is a development dependency. It isn't bundled with the production code.
+
+```sh
+# Install Rollup as a development dependency
+npm i -D rollup
+```
+
+The following configuration file helps us to specify where the bundles will be stored.
+For the UMD bundle a `name` property is required.
+In this case `react` and `react-dom` are listed as dependencies.
+These will be used in a follow-up article where the component is converted into a ReactJS component.
+
+```js
+// rollup.config.js
+
+import resolve from "@rollup/plugin-node-resolve";
+import { babel } from "@rollup/plugin-babel";
+import autoprefixer from "autoprefixer";
+import postcss from "rollup-plugin-postcss";
+
+const dist = "dist"; // output folder
+
+export default {
+    input: "src/main.js",
+    external: ["react", "react-dom"], // specify external dependencies
+
+    // Define the output bundles that will be created.
+    // Each array entry is a bundle.
+    output: [
+        {
+            file: `${dist}/bundle.cjs.js`,
+            format: "cjs", // CommonJS
+            exports: "auto", // How to handle exports (details below)
+        },
+        {
+            file: `${dist}/bundle.umd.js`,
+            format: "umd", // Universal Module Definition
+            name: "reactRollup", // The name that will be used to attach it to the global object
+            exports: "auto",
+            globals: {
+                react: "React",
+            },
+        },
+        {
+            file: `${dist}/bundle.esm.js`, // ECMAScript Module
+            format: "esm",
+            exports: "auto",
+        },
+    ],
+    plugins: [
+        resolve(), // find in node_modules
+        babel({ exclude: "node_modules/**", babelHelpers: "bundled" }), // convert new JS syntax to ES5.
+        postcss({
+            plugins: [autoprefixer()],
+            extract: false,
+            modules: true,
+        }),
+    ],
+    external: ["react", "react-dom"], // Specify external dependencies.
+};
+```
+
+### Link the generated bundles in the `package.json`
+
+Modify the `package.json` and add these three properties.
+
+```json
+// /package.json
+{
+    ...,
+    "main": "dist/bundle.cjs.js",
+    "browser": "dist/bundle.esm.js",
+    "module": "dist/bundle.umd.js",
+}
+
+```
+
+NPM always requires the main property. It is pointing to the location of the generated `CommonJS` file.
+The `browser` property indicates where the ECMAScript module can be found.
+Last is the `module` pointing to it's corresponding file.
+This will allow anyone to use our library from https://unpkg.com/
+
+At the beginning of the configuration file certain packages are imported.
+Those need to be installed, along with a few other supporting packages.
+Run the following command to install them as development dependencies.
+
+```sh
+# run in root directory
+
+npm i -D @rollup/plugin-node-resolve @rollup/plugin-babel autoprefixer rollup-plugin-postcss @babel/core postcss
+```
+
+`exports: "auto"` controls how the export statement in a module is handled.
+More information on `exports: "auto"` here: https://www.npmjs.com/package/@rollup/plugin-commonjs
+
+### Create a simple `main.js` file
+
+Testing the setup requires a few more steps. First a `main.js` file is need.
+A simple one will do for now.
+
+```js
+// src/main.js
+
+const testFunction = function () {
+    console.log("this is a simple test function");
+};
+
+export default testFunction;
+```
+
+Add the following script to the `package.json`
+
+```js
+// package.json
+
+"scripts": {
+    "build": "rollup -c",
+}
+
+```
+
+With the `package.json` saved, execute the script.
+
+```sh
+# run build
+npm run build
+
+```
+
+This creates the three bundles in the dist directory.
+Open each of them to the code that was generated there.
+
+---
+
+## Testing the component
+
+Since the function is very simple, only a simple test setup will be done for now.
+Create an example folder in the root directory and add the file `server.js`.
+
+```shell
+# Create an examples folder
+mkdir -p examples/server
+
+# Create a file in it called server.js
+touch examples/server/server.js
+```
+
+Using NodeJS we can execute `server.js`.
+It will import and use our library component thereby proving that it's working as expected.
+This example/server directory is effectively a project within our parent project.
+
+We'll need to init npm here to.
+
+```shell
+# initialise NPM in the example/server folder
+
+cd examples/server # move into the examples/server older
+npm init -y
+
+```
+
+That will provide a new `package.json` file.
+In it add the start script:
+
+```json
+
+// examples/server/package.json
+
+{
+    ...,
+    "scripts": {
+        "start": "node ./server.js",
+    },
+    ...
+}
+```
+
+Running the script now will not do anything since there is nothing in the `server.js` file.
+Let's add a simple `console.log` statement to ensure all is well.
+
+```js
+// examples/server/server.js
+
+console.log("This is the server.js file saying hello");
+```
+
+While still in the examples/server/ folder, save the file and run it.
+
+```sh
+# examples/server/
+# Save the changes to the server.js file and start it
+
+npm start
+```
+
+The log statement shows up directly in the console.
+Now we'll need to import our library component.
+
+## Importing our library component
+
+While still in `/examples/server` install the following:
+
+```sh
+# /examples/server/
+
+npm i ../../../test-component # The name of the directory that the root project is in
+```
+
+Now that the component has been installed, it can be imported in `server.js` and used.
+
+```js
+// /examples/server/server.js
+
+const testFunction = require("test-component");
+testFunction();
+console.log("This is the server.js file saying hello");
+```
+
+Run the start command again in the examples folder.
+
+```shell
+# /examples/server
+npm start
+```
+
+There should be two console log statements in the terminal.

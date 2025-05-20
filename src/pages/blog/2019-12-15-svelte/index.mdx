@@ -1,0 +1,124 @@
+---
+description: A small demo project to work on Svelte. Svelte is a UI Framework, like ReactJS or ViewJS. However it takes a different approach by acting as a compiler.
+
+title: "Svelte Introduction"
+
+createdDate: "2019-12-15"
+published: "2019-12-15"
+pubDate: "2019-12-15"
+readTime: 2
+layout: "../../../layouts/BlogArticle.astro"
+---
+
+Svelte is a UI Framework, like ReactJS or VueJS. However it takes a different approach by acting as a compiler. This means that unlike react and view there is no react code or view code that needs to be present. Instead only the JS that is written by the developer is part of the application. Therefore less JS is sent to the browser.
+This article shows how a small app, created in Svelte, can be embedded into this very post.
+
+# Intro
+
+Start a new Svelte app and then install it.
+
+```bash
+# create a new Svelte app from template
+
+npx degit sveltejs/template <entereyourappnamehere>
+cd <entereyourappnamehere>
+npm i
+```
+
+`npm run` shows the commands available.
+`npm run dev` starts the project in develop mode showing a "Hello World" app on `http://localhost:5000`.
+
+# The Svelte Template
+
+The template consists of a src directory containing a `main.js` and `App.svelte`. This post will focus only how to edit this template to get to the app that we want. The details of how Svelte does what it does will be in a different post.
+
+`main.js` is where the root app is created.
+
+**Task**
+Change the name property to bookTitle. Then set the value to "De Vliegende Hollander".
+The app reloads but now says "Hello undefined". That's because we changed the name of the props.
+
+In `App.svelte` change `export let name` to `export let bookTitle`.
+now the title just shows "Hello". Below in `App.svelte` the `name` variable is still referenced. That should be changed to `bookTitle` too. In the same line, change "Hello" to "Book Title:".
+It now shows "BOOK TITLE DE VLIEGENDE HOLLANDER".
+
+## Styling
+
+Styling is part of the component as it's effectively an HTML component. In `App.svelte` move "Book Title" into a `label`. Under the styling for the H1, add the style for the label:
+
+```html
+<style>
+    h1 label {
+        color: black;
+        font-size: 0.5em;
+    }
+</style>
+```
+
+This applies separate styling for the label tag inside the H1 tag.
+
+## image
+
+Replace the p tag with an image tag to show the book cover.
+
+```html
+<img
+    src="https://res.cloudinary.com/mytoori/image/upload/c_scale,w_250/v1558464997/mytoori/covers/devliegendehollander.jpg"
+/>
+```
+
+With just this code, there is a warning in the editor that the ALT tag is missing. It's important for accessibility so let's add it.
+
+```html
+<img
+    src="https://res.cloudinary.com/mytoori/image/upload/c_scale,w_250/v1558464997/mytoori/covers/devliegendehollander.jpg"
+    alt="Ghost ship on high seas"
+/>
+```
+
+# View Source
+
+Viewing the source (`OPTION + CMD + u`) at this point shows that there is a bundle file but it doesn't need to import any special rendering framework.
+Can this be embedded here?
+
+Before that, there is one thing that needs to be fixed. In `main.js` we see that the app is rendered on `document.body`.
+
+```js
+import App from "./App.svelte";
+
+const app = new App({
+    target: document.body,
+    props: {
+        bookTitle: "De Vliegende Hollander",
+    },
+});
+
+export default app;
+```
+
+Importing that now would replace our entire body. So let's fix that.
+
+In `public/index.html` insert a div into the body and give it the id "root".
+
+```html
+<body>
+    <div id="root"></div>
+</body>
+```
+
+In `main.js` replace `document.body` with `document.getElementById("root")`.
+
+```js
+import App from "./App.svelte";
+
+const app = new App({
+    target: document.getElementById("root"),
+    props: {
+        bookTitle: "De Vliegende Hollander",
+    },
+});
+
+export default app;
+```
+
+The entire app renders on a div with the id "root".

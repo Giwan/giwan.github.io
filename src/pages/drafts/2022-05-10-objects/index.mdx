@@ -1,0 +1,30 @@
+---
+description: Let's dive into JavaScript objects and how they work under the hood.
+
+title: "JavaScript Objects"
+
+createdDate: "2022-05-10"
+// published: "2022-05-10"
+status: "draft"
+readTime: 2
+layout: "../../../layouts/BlogArticle.astro"
+---
+
+Everything in JavaScript is a an object. Functions are a special kind of object for example.
+They are special properties which allows them to be treated as functions, meaning they can be executed.
+However, it's possible to still treat functions as an object.
+
+```js
+function test() {
+    console.log("this function does not do much");
+}
+
+// We can now add a property!!
+
+test.someRandomProperty = 3;
+
+test(); // output: "this function does not do much"
+test.someRandomProperty; // output: 3.
+```
+
+This helps solidify the knowledge that everything in JavaScript is an object.

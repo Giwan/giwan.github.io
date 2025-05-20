@@ -1,0 +1,31 @@
+---
+import HeaderLink from "../HeaderLink.astro";
+import links from "./headerLinks.json";
+import HeaderNavMobile from "./HeaderNav"; // jsx component
+---
+
+<nav class="menu-large">
+    {
+        links.map(({ href, label }) => (
+            <HeaderLink {...{ href }}>{label}</HeaderLink>
+        ))
+    }
+</nav>
+
+<HeaderNavMobile client:media="(max-width: 500px)" />
+
+<style>
+    span {
+        display: none;
+    }
+
+    @media (max-width: 500px) {
+        nav.menu-large {
+            display: none;
+        }
+
+        span {
+            display: initial;
+        }
+    }
+</style>

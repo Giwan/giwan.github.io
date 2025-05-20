@@ -1,0 +1,72 @@
+.pageButtonContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100px;
+    min-width: 220px;
+    justify-content: space-between;
+    margin: var(--unit);
+    /* background-color: red; */
+}
+
+.basicPaginationContainer {
+    background-color: var(--color-foreground);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    border-radius: calc(var(--unit) * 2);
+}
+
+.button {
+    /* background-color: var(--color-background); */
+    /* background-color: green; */
+    color: var(--color-primary-light);
+    text-transform: capitalize;
+    font-size: 18px;
+    border: none;
+    padding: calc(var(--unit) / 2);
+    transition: transform 0.15s;
+    cursor: pointer;
+    width: 4ch;
+    box-sizing: border-box;
+    align-self: center;
+}
+
+.button:last-child {
+    margin-right: 0;
+}
+
+.button:active {
+    transform: scale(0.97);
+    box-shadow: 0 0 1px;
+}
+
+.pageNumberStyle {
+    color: snow;
+    font-size: 18px;
+    border-radius: calc(var(--unit) / 2);
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+    width: 4ch;
+    display: inline-block;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    place-items: center;
+}
+
+.pageButtonNumbers {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: calc(var(--unit) / 4);
+    /* background-color: pink; */
+    place-items: center;
+}
+
+@media (max-width: 600px) {
+    .button,
+    .pageNumberStyle {
+        font-size: 14px;
+    }
+}

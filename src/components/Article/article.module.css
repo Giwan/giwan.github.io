@@ -1,0 +1,36 @@
+.article {
+    max-width: 900px;
+    margin: 0 auto;
+    font-family: var(--font-family-text-2);
+    width: calc(100vw - (var(--unit) * 4));
+}
+
+.article p {
+    line-height: 1.33em;
+}
+
+.article pre[class*="language-"] {
+    background-color: var(--color-primary);
+    font-size: var(--font-size-small);
+    font-family: "Courier New", Courier, monospace;
+}
+
+.article a {
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.article a[target="_blank"]::after {
+    content: "↗";
+    display: inline-block;
+    color: var(--color-accent);
+    margin-left: calc(var(--unit) / 2);
+}
+
+.article h1,
+.article h2,
+.article h3,
+.article h4 {
+    font-weight: 600;
+    font-family: var(--font-family-header);
+}

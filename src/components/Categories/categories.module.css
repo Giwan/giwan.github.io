@@ -1,0 +1,29 @@
+.categoriesNav {
+    max-width: 100vw;
+}
+
+.categoriesListStyle {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 1rem 0;
+}
+
+.categoriesListItemStyle {
+    margin-right: var(--unit-sm);
+    margin-bottom: var(--unit-sm);
+    padding: var(--unit-sm);
+    background-color: var(--color-background-light);
+    border-radius: var(--unit-sm);
+    text-transform: capitalize;
+    font-family: var(--font-family-heading);
+    cursor: pointer;
+    display: inline-block;
+}
+
+.categoriesListItemStyle:hover {
+    background-color: var(--color-background-highlight);
+}
+
+.categoriesListItemStyle[data-is-selected="true"] {
+    background-color: var(--color-accent);
+}

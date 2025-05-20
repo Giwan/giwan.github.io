@@ -1,0 +1,40 @@
+.header {
+    width: 100vw;
+    height: var(--header-height);
+    overflow: hidden;
+    padding: 0 calc(var(--unit) * 2);
+    display: grid;
+    grid-template-columns: 1fr minmax(200px, 2fr);
+    align-items: center;
+    background-color: transparent;
+    box-shadow: 0 1px 1px var(--color-secondary-light);
+}
+
+.headerLogo {
+    border-bottom: 1px solid transparent;
+    transition: scale 0.2s;
+    cursor: pointer;
+}
+
+.headerLogo:hover {
+    border-bottom-color: var(--color-primary-dark);
+}
+
+.headerLogo:active {
+    transform: scale(0.95);
+}
+
+@media (max-width: 500px) {
+    .headerLogo {
+        position: relative;
+        width: 50%;
+        min-width: 50px;
+        top: -30%;
+    }
+}
+
+@media (max-width: 500px) {
+    .header {
+        font-size: .75em;
+    }
+}

@@ -1,0 +1,393 @@
+---
+description: Let's build a pagination component. It should adhere to some basic UI interaction requirements. The goal is deliver an extra light component.
+
+title: "Pagination component in React"
+
+createdDate: "2021-08-07"
+published: "2021-08-18"
+pubDate: "2021-08-18"
+readTime: 1
+layout: "../../../layouts/BlogArticle.astro"
+---
+
+import BasicPagination from "../../../components/Pagination/BasicPagination";
+import PageContainer from "../../../components/Pagination/PageContainer";
+
+I needed to build a pagination component recently. The one added from NPM was 3.8 MB.
+This component is lighter.
+
+It shows always shows five page buttons. There are buttons to move by one page.
+In addition buttons for the first and last pages.
+
+<BasicPagination client:visible />
+
+```js
+// BasicPagination.js
+
+import React from "react";
+import { button } from "./Pagination.module.css";
+
+const buttons = ["first", "previous", "1", "2", "3", "4", "5", "next", "last"];
+
+const Pagination = function () {
+    return buttons.map((label) => <button className={button}>{label}</button>);
+};
+
+export default Pagination;
+```
+
+With a total number of 10 pages, the component should only show 5 at _any_ given time. The selected page is centered if possible.
+At the end or beginning of the list, there needs to be either 4 pages to the left or right of the selected page.
+
+<PageContainer totalPages={10} startPage={1} client:visible />
+
+Let's break this down in the next section
+
+## Page container
+
+Create a page container which also contains a page component.
+The page component takes a page number prop which is then prominently displayed.
+
+```js
+import React, { useState } from "react";
+import Pagination from "./Pagination";
+import { pageStyle, pageContainerStyle } from "./PageContainer.module.css";
+
+// Page component showing the selected pageNumber
+const Page = ({ pageNumber }) => (
+    <article className={pageStyle}>Page {pageNumber}</article>
+);
+
+/**
+ * Keeps track of the current page number
+ * And wraps the Page component.
+ */
+const PageContainer = ({ totalPages, startPage }) => {
+    const [pageNumber, setPage] = useState(startPage);
+
+    return (
+        <div className={pageContainerStyle}>
+            <div>
+                Page {pageNumber} of {totalPages}
+            </div>
+            <Page pageNumber={pageNumber} />
+        </div>
+    );
+};
+
+export default PageContainer;
+```
+
+## Add Pagination buttons
+
+Next buttons are needed to change the page number.
+This is where thing really get interesting.
+
+The pagination component will require a few helper functions to navigate to the first, last, previous and next pages.
+These can be added to the `PageContainer` component as follows.
+
+```js
+// PageContainer component
+
+// ...
+const PageContainer = ({ totalPages, startPage }) => {
+    const [pageNumber, setPage] = useState(startPage);
+
+    const firstPage = () => setPage(1);
+    const lastPage = () => setPage(totalPages);
+
+    const prevPage = () => pageNumber > 1 && setPage(pageNumber - 1);
+    const nextPage = () =>
+        pageNumber < totalPages && setPage(pageNumber + 1);
+
+// ... rest of the component
+
+```
+
+The first and last page functions change the `pageNumber` to either extremes.
+The previous and next page functions simply add or subtract one.
+These do require a check to make sure we don't exceed our boundaries.
+
+### The button labels
+
+The four extra buttons that are not pages need to have a label.
+These are defined as follows.
+
+```js
+// PageContainer.js
+
+const PageContainer = ({ totalPages, startPage }) => {
+    // ...
+
+    const prevButtons = [
+        {
+            label: "&laquo",
+            action: firstPage,
+        },
+        {
+            label: "&lsaquo;",
+            action: prevPage,
+        },
+    ];
+    const nextButtons = [
+        {
+            label: "&rsaquo;",
+            action: nextPage,
+        },
+        {
+            label: "&raquo;",
+            action: lastPage,
+        },
+    ];
+
+```
+
+These are defined inside the component as the functions defined in the previous section are required.
+
+## Completing the Page Container
+
+With the functions and buttons defined, the `Pagination` component can be added to the `PageContainer` component.
+
+```js
+// PageContainer.js
+
+import React, { useState } from "react";
+import Pagination from "./Pagination";
+import { pageStyle, pageContainerStyle } from "./PageContainer.module.css";
+
+const Page = ({ pageNumber }) => (
+    <article className={pageStyle} data-highlight={pageNumber % 2}>
+        Page {pageNumber}
+    </article>
+);
+
+const PageContainer = ({ totalPages, startPage }) => {
+    const [pageNumber, setPage] = useState(startPage);
+
+    const firstPage = () => setPage(1);
+    const lastPage = () => setPage(totalPages);
+
+    const prevPage = () => pageNumber > 1 && setPage(pageNumber - 1);
+    const nextPage = () => pageNumber < totalPages && setPage(pageNumber + 1);
+
+    const prevButtons = [
+        {
+            label: "&laquo",
+            action: firstPage,
+        },
+        {
+            label: "&lsaquo;",
+            action: prevPage,
+        },
+    ];
+    const nextButtons = [
+        {
+            label: "&rsaquo;",
+            action: nextPage,
+        },
+        {
+            label: "&raquo;",
+            action: lastPage,
+        },
+    ];
+
+    return (
+        <div className={pageContainerStyle}>
+            <div>
+                Page {pageNumber} of {totalPages}
+            </div>
+            <Page pageNumber={pageNumber} />
+            <div>
+                <Pagination
+                    {...{
+                        pageNumber,
+                        prevButtons,
+                        nextButtons,
+                        setPage,
+                        totalPages,
+                    }}
+                />
+            </div>
+        </div>
+    );
+};
+
+export default PageContainer;
+```
+
+This shows the complete `PageContainer` component.
+Much of the work is being done in the `Pagination` component.
+This is defined in the next section.
+
+## Pagination
+
+This component has been broken up into several functions.
+Here is the component as it's returned to the `PageContainer`.
+
+```js
+const Pagination = function ({
+    pageNumber,
+    prevButtons,
+    nextButtons,
+    setPage,
+    totalPages,
+}) {
+    return (
+        <div className={pageButtonContainer}>
+            {/* The previous and first buttons */}
+            <PageButtons {...{ buttons: prevButtons }} />
+
+            {/* The buttons before the current page */}
+            <PageButtons
+                buttons={createButtons(
+                    [-4, -3, -2, -1],
+                    setPage,
+                    pageNumber,
+                    totalPages
+                )}
+            />
+
+            {/* The current page. This is not a button. The user is already on this page */}
+            <span className={pageNumberStyle}>{pageNumber}</span>
+
+            {/* The buttons after the current page */}
+            <PageButtons
+                buttons={createButtons(
+                    [1, 2, 3, 4],
+                    setPage,
+                    pageNumber,
+                    totalPages
+                )}
+            />
+
+            {/* The next and last buttons */}
+            <PageButtons {...{ buttons: nextButtons }} />
+        </div>
+    );
+};
+
+export default Pagination;
+```
+
+This references the `PageButtons` component to create the different buttons we need.
+It takes an array of buttons.
+In this `Pagination` component the buttons are different depending on their position.
+
+### Pagination Page Buttons
+
+The `PageButtons` component takes a buttons array and creates the HTML buttons for that.
+
+```js
+// PageButtons.js
+
+/**
+ * Create a button element based on the provided array of buttons.
+ */
+const PageButtons = ({ buttons }) =>
+    buttons.map((b) => {
+        if (!b) return null;
+        const { label, action } = b;
+
+        return (
+            <button key={label} onClick={action} className={button}>
+                {convertLabel(label)}
+            </button>
+        );
+    });
+```
+
+The `convertLabel` function helps to convert the HTML icon entities like « for **first** and » for **last**.
+Here is the function. It checks if the label provided is a number. If it's not a number then it's stored as HTML.
+
+```js
+/**
+ * Helper function to use the HTML icons
+ * Used for the previous and next buttons.
+ */
+const convertLabel = (label) =>
+    typeof label === "number" ? (
+        label
+    ) : (
+        <span dangerouslySetInnerHTML={{ __html: label }} />
+    );
+```
+
+#### dangerouslySetInnerHTML
+
+Why is it OK to use `dangerouslySetInnerHTML` in this case?
+The values that will arrive in the `label` variable are hard coded in this case.
+Therefore it's known which values will be converted to HTML. There are no unsafe values being passed in this case.
+
+That being said, when _does_ this become a security issue?
+If the `label` value is being provided by the end user in anyway!
+A malicious user could insert script into label value which would get executed. That would compromise the front-end.
+
+### Creating the buttons
+
+Depending on the current page value, several buttons are created or _not_ created.
+If the current page is page one, then no buttons are created before it.
+However, there are now **four** buttons after it. 2,3,4 and 5.
+
+If the user is at the end of the list then it's the exact opposite.
+The current page is 10. The last page. Four buttons are created before it. 6, 7, 8 and 9. No buttons are created after it.
+
+If the current page is somewhere in the middle of the list then only two buttons are before and after it.
+
+This function can be cleaned up to make it use less lines of code.
+I found this to be much more readable.
+
+```js
+// createButtons function
+
+/* @param {Array} values
+ * @param {Function} setPage
+ * @param {Number} pageNumber
+ * @param {Number} totalPages
+ * @returns Object
+ */
+export const createButtons = function (
+    values = [],
+    setPage,
+    pageNumber,
+    totalPages
+) {
+    // if the `val` is a valid value then return the
+    // object with it's label and action (to go to that page)
+    return values.map(
+        (val) =>
+            isValid(val, pageNumber, totalPages) && {
+                label: pageNumber + val,
+                action: () => setPage(pageNumber + val),
+            }
+    );
+};
+```
+
+When creating the buttons the `isValid` method determines if a button should actually be created, or not.
+
+```js
+/**
+ * Check if `val` is a valid value.
+ * If it violates any of the rules then `undefined` is returned.
+ * That signals that `val` is not a valid number
+ * @param {Number} val
+ * @returns Boolean
+ */
+export function isValid(val, pageNumber, totalPages, limit = 5) {
+    const nextPage = pageNumber + val;
+    const remainingPages = totalPages - pageNumber;
+
+    if (nextPage < 1 || nextPage >= totalPages + 1) return;
+
+    if (nextPage < pageNumber - 2 && totalPages - pageNumber >= 2) return;
+    if ([1, 2].includes(remainingPages) && remainingPages - limit === val)
+        return;
+
+    if (nextPage > pageNumber + 2 && pageNumber > 2) return;
+    if (pageNumber === 2 && val === 4) return;
+
+    return true;
+}
+```
+
+This `isValid` method can be written more elegantly. However, for now, it gets the job done.

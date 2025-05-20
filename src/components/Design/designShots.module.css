@@ -1,0 +1,34 @@
+.designPage {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--unit);
+}
+
+.designImage {
+    width: 75%;
+    border: 1px solid var(--color-primary-dark);
+    transition: border-color 0.5s;
+    position: relative;
+    display: inline-block;
+}
+
+.designPage a {
+    position: relative;
+}
+
+.designPage a::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    width: 75%;
+    height: 0;
+    top: 0;
+    left: 0;
+    background-color: var(--color-accent);
+    transition: height 0.3s;
+}
+
+.designPage a:hover::after {
+    border-color: var(--color-accent);
+    height: var(--unit);
+}

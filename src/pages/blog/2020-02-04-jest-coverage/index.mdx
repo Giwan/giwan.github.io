@@ -1,0 +1,73 @@
+---
+description: "Configure Jest coverage in Create React App. Coverage indicates how much of the code is tested. A higher than 80% coverage is a decent indicator that the code is working as expected. "
+title: "Jest coverage in Create React App"
+
+createdDate: "2019-12-13"
+published: "2019-12-13"
+pubDate: "2019-12-13"
+readTime: 1
+layout: "../../../layouts/BlogArticle.astro"
+---
+
+Create a project with <a href="https://create-react-app.dev/" target="_blank">Create-React-App</a> and <a href="https://jestjs.io/" target="_blank">jest</a> is already included.
+Coverage however, which indicates how much of the code has been **covered** by tests, is not on by default.
+Ideally each part of code is covered by tests. Coverage ensures that.
+Completely bug free software is not possible even with 100% test coverage.
+The tests themselves can have bugs after all. Full test coverage does provide a higher level of confidence in the code.
+
+## New project with default JestJS setup
+
+Create a new project using Create-React-App.
+Navigate into the folder and run the test.
+
+```shell
+npx create-react-app my-test-project
+cd my-test-project
+
+# run tests with out coverage
+npm run test
+```
+
+## Coverage
+
+With the default tests passing, the next step is to check how much of the code was covered.
+Add the following to `package.json`.
+
+```json
+// package.json
+"scripts": {
+  "test": "react-scripts test",
+  "test:coverage": "CI=true npm test -- --coverage --color"
+}
+```
+
+### Continuous integration
+
+By setting CI to true, the test is prevented from going into watch mode.
+
+### NPM test
+
+Since the test script has already been defined, it's reused in the `test:coverage` script.
+The `--coverage --color` flag shows the coverage report in colour.
+
+# Bonus: Bitbucket pipeline
+
+If the project is using BitBucket pipelines, this is how it can be configured to run the test before the deployment.
+
+```yaml
+# build pipeline
+
+image: node:13.7.0
+
+pipelines:
+    branches:
+        master:
+            - step:
+                  name: Build and test
+                  script:
+                      - CI=true npm cit
+```
+
+## `NPM cit`
+
+This cleans the `node_modules` folder, installs the dependencies and runs the test.

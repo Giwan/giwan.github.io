@@ -1,0 +1,505 @@
+---
+description: CSS grid makes it a pleasure to create layouts. Here we'll create a resume using CSS grid. Only HTML and CSS will be used. No JavaScript required. Another goal is to keep it all in one file to make it easy to distribute and fast.
+
+title: "CSS grid"
+
+createdDate: "2019-12-13"
+published: "2019-12-13"
+pubDate: "2019-12-13"
+readTime: 2
+layout: "../../../layouts/BlogArticle.astro"
+---
+
+CSS grid makes it a pleasure to create layouts. Here we'll create a resume using CSS grid.
+Only HTML and CSS will be used. No JavaScript required. Another goal is to keep it all in one file to make it easy to distribute and fast.
+
+# Intro
+
+Lets start by creating a simple `index.html` page in a newly created project folder.
+
+```bash
+mkdir resume-css-grid
+cd resume-css-grid
+touch `index.html`
+```
+
+## Setting up `index.html`
+
+Enter the following template in `index.html` to setup a basic HTML document.
+
+```html
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta content="giwan, persaud, resume, not" name="keywords" />
+        <meta
+            content="The online resume of Giwan Persaud."
+            name="description"
+        />
+        <meta content="Resume / CV Giwan Persaud" name="title" />
+        <title>Resume / CV Giwan Persaud</title>
+    </head>
+
+    <body></body>
+</html>
+```
+
+## Styling
+
+To keep things simple, styling will be added directly in the HTML document in a `<style></style>` tag. There we'll also setup some default CSS Properties to be used throughout the document.
+
+```html
+<style>
+    :root {
+        --unit: 16px;
+        --color-primary: #1a1a1a;
+        --color-secondary: #797979;
+        --color-gray: #e5e5e5;
+    }
+</style>
+```
+
+# Resume header
+
+Let's create the header first with the relevant information. The phone number sections will be hidden but for now fake information is added.
+Replace the body tag with the following:
+
+```html
+<body>
+    <div class="page">
+        <header>
+            <h1>Sr. Front-end Developer</h1>
+            <h2>Giwan Persaud</h2>
+            <address>
+                <a href="mailto:giwan.persaud@gmail.com"
+                    >giwan.persaud@gmail.com</a
+                >
+                <a
+                    href="tel:+3100000000"
+                    alt="duplicate even # to get correct telephone number"
+                    >+31 6<span class="marker">00000000</span></a
+                >
+                <p>
+                    <span class="marker">Xxxxxstraat 1, 1111 XX</span>
+                    Amsterdam, The Netherlands
+                </p>
+            </address>
+            <p>
+                Dutch national born October 10th 1980, <br />Living in Amsterdam
+            </p>
+        </header>
+        <aside>
+            <img
+                src="https://res.cloudinary.com/mytoori/image/upload/c_scale,w_200/v1554037030/42a2d7fd327e612d11d085837069adfc_400x400.jpg"
+                alt="giwan profile image"
+            />
+        </aside>
+    </div>
+</body>
+```
+
+In the normal HTMl flow the `header` and `aside` elements are placed below each other. We address that by
+changing display property of container `page` to `grid`.
+12 columns are created with `grid-template-columns: repeat(12, 1fr)` The header content will be split over these in 8 by 4 columns.
+By setting the `max-width` and the `margin` we ensure the page does not get too wide on large screens and remains centered.
+
+```html
+<!-- page class styling -->
+<style>
+    .page {
+        display: grid;
+        max-width: calc(var(--unit) * 50);
+        margin: 0 auto;
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-rows: 300px 1fr 300px;
+    }
+</style>
+```
+
+Add the following styles to complete the header.
+
+```html
+<style>
+    :root {
+        --unit: 16px;
+        --color-primary: #1a1a1a;
+        --color-secondary: #797979;
+        --color-gray: #e5e5e5;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        font-family: "Roboto Condensed", "Roboto", "sans-serif";
+        margin: 0;
+        padding: 0;
+    }
+
+    .page {
+        border: var(--unit) solid transparent;
+        border-top: 0;
+        max-width: calc(var(--unit) * 50);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-rows: 300px 1fr 300px;
+    }
+
+    .page > header {
+        grid-column: 1 / span 8;
+        padding-top: var(--unit);
+    }
+
+    .page > header + aside {
+        grid-column: span 4 / -1;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    address,
+    a {
+        text-decoration: none;
+        color: var(--color-primary);
+        font-style: normal;
+    }
+
+    address p {
+        line-height: 1.75em;
+    }
+
+    .marker {
+        background-color: var(--color-gray);
+        color: var(--color-gray);
+    }
+
+    h2 + address {
+        margin-top: var(--unit);
+    }
+
+    h2 + address + p {
+        color: var(--color-secondary);
+    }
+</style>
+```
+
+# The Main content
+
+The main content consists of a column for experience and a column for skills.
+
+```html
+<main class="experience">
+    <h4>Experience</h4>
+    <section>
+        <header>
+            <h2>Senior Front-end developer</h2>
+            <h3>
+                <a
+                    target="_blank"
+                    href="https://weeronline.nl"
+                    alt="weeronline weather site"
+                >
+                    Weeronline.nl
+                </a>
+                | Amsterdam, The Netherlands Oct 2019 - present
+            </h3>
+        </header>
+        <article>
+            Support main site, A/B test new features to improve ad revenue.
+            Investigate loading performance & suggest optimizations
+        </article>
+        <aside>
+            <ul>
+                <li>ReactJS & NodeJS</li>
+                <li>Page speed investigation</li>
+                <li>Server Side Rendering</li>
+            </ul>
+        </aside>
+    </section>
+    <section>
+        <header>
+            <h2>Lead Front-end developer</h2>
+            <h3>
+                <a
+                    target="_blank"
+                    href="https://edia.nl"
+                    alt="bilingual books app"
+                >
+                    EDIA.nl</a
+                >
+                | Amsterdam, The Netherlands Sep 2015 - Jul 2019
+            </h3>
+        </header>
+        <article>
+            Architect & develop newsreader for language learners. Coach juniors.
+            Liase with backend, AI and DevOps teams. Proud achievement:
+            papyrus.edia.nl (It also shows off my landing page design)
+        </article>
+        <aside>
+            <ul>
+                <li>ReactJS & NodeJS</li>
+                <li>Chrome extension (react)</li>
+                <li>Docker & Kubernetes</li>
+                <li>Scrum, Jira & Coaching</li>
+                <li>Progressive Web App</li>
+            </ul>
+        </aside>
+    </section>
+    <section>
+        <header>
+            <h2>Founder - Fullstack developer</h2>
+            <h3>
+                <a
+                    target="_blank"
+                    href="https://mytoori.com"
+                    alt="bilingual books app"
+                    >Mytoori.com</a
+                >
+                | Amsterdam, The Netherlands Sep 2014 - present
+            </h3>
+        </header>
+        <article>
+            Develop iOS app (Objective-C), Build book management system using
+            React, NodeJS & MongoDB. Coordinate Product marketing. Liase with
+            investors. Explore marketing and advertising opportunities.
+        </article>
+        <aside>
+            <ul>
+                <li>ReactJS & NodeJS</li>
+                <li>MongoDB & Mongoose</li>
+                <li>Progressive Web App</li>
+                <li>Trello Product Management</li>
+                <li>Hosting, Email & DNS</li>
+            </ul>
+        </aside>
+    </section>
+    <hr />
+    <section>
+        <header>
+            <h2>Developer</h2>
+            <h3>Bureau BlauwGeel | Utrecht, Feb 2014 - Aug 2014</h3>
+        </header>
+    </section>
+    <section>
+        <header>
+            <h2>CoFounder - Developer</h2>
+            <h3>Questionise | Amsterdam, 2012 - 2014</h3>
+        </header>
+    </section>
+    <section>
+        <header>
+            <h2>SAP Technical Consultant</h2>
+            <h3>Accenture | Various Euro countries 2004 - 2012</h3>
+        </header>
+    </section>
+</main>
+```
+
+By simply adding the following style, the content is spread over 8 columns. This shorthand for: start at column 1 and spread over 8 columns.
+Many other options are possible which I won't go into detail here. The links at the bottom of the article offer more details.
+
+```html
+<style>
+    .experience {
+        grid-column: 1 / span 8;
+    }
+</style>
+```
+
+## The sidebar to the main content
+
+The right column shows the list of skills. Add this below the `<main></main>` tag.
+
+```html
+<aside class="page-aside">
+    <section>
+        <h4>Tech skills</h4>
+        <ul class="skills">
+            <li>ReactJS</li>
+            <li>Redux</li>
+            <li>NodeJS</li>
+            <li>PWA</li>
+            <li>Jest</li>
+            <li>Sass</li>
+            <li>HTML5</li>
+            <li>CSS</li>
+            <li>ExpressJS</li>
+            <li>Docker</li>
+            <li>MongoDB</li>
+            <li>git</li>
+            <li>GatsbyJS</li>
+        </ul>
+
+        <ul class="skills-2">
+            <li>Objective-c</li>
+            <li>Google apps for business</li>
+            <li>Hosting (Heroku, Zeit, Netlify)</li>
+            <li>DNS Management</li>
+            <li>git (Bitbuket, Github, Gitlab)</li>
+        </ul>
+    </section>
+
+    <section class="language">
+        <h4>Language skills</h4>
+        <ul>
+            <li>English & Dutch, fluent.</li>
+            <li>French, intermediate.</li>
+        </ul>
+    </section>
+    <section class="education">
+        <h4>Education</h4>
+        <section>
+            <h1>MSc. Web Marketing and Project management 2011</h1>
+            <h2>SKEMA Business school - Sophia Antipolis, France</h2>
+            <ul>
+                <li>Project management</li>
+                <li>Planning</li>
+                <li>Stakeholder management</li>
+                <li>PMI Certification</li>
+                <li>Search engine marketing</li>
+                <li>Social media</li>
+            </ul>
+        </section>
+        <section>
+            <h1>Bachelor Information Engineering 2004</h1>
+            <h2>Hogeschool van Amsterdam - Amsterdam, The Netherlands</h2>
+            <ul>
+                <li>Project management</li>
+                <li>Java</li>
+                <li>UML</li>
+                <li>Communication</li>
+                <li>Object Oriented Design</li>
+                <li>Relational Databases</li>
+            </ul>
+        </section>
+    </section>
+</aside>
+```
+
+By spanning the 4 columns from the end we ensure that the aside element is now placed in the last 4 columns.
+
+```html
+<style>
+    .experience + aside {
+        grid-column: span 4 / -1;
+    }
+</style>
+```
+
+Next each `<section>` in the `experience` class is turned into another grid.
+
+```html
+<style>
+    .experience > section {
+        margin-bottom: calc(var(--unit) * 3);
+        padding: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: calc(var(--unit) * 4) 1fr;
+    }
+</style>
+```
+
+With that in place we can add some basic CSS to clean up the rest of the styling.
+
+```html
+<style>
+    <style > :root {
+        --unit: 16px;
+        --color-primary: #1a1a1a;
+        --color-secondary: #797979;
+        --color-gray: #e5e5e5;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        font-family: "Roboto Condensed", "Roboto", "sans-serif";
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        font-size: 2rem;
+        font-weight: 800;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+    }
+
+    h3 {
+        color: var(--color-secondary);
+    }
+
+    h4 {
+        text-transform: uppercase;
+        margin-bottom: calc(var(--unit) / 2);
+        color: var(--color-secondary);
+        font-weight: 300;
+        display: inline-block;
+        border-bottom: 1px solid var(--color-secondary);
+    }
+
+    .page {
+        border: var(--unit) solid transparent;
+        border-top: 0;
+        max-width: calc(var(--unit) * 50);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-rows: 300px 1fr 300px;
+    }
+
+    .experience {
+        grid-column: 1 / span 8;
+    }
+
+    main.experience + aside {
+        grid-column: span 4 / -1;
+    }
+
+    .experience header h3 {
+        font-size: 1rem;
+        font-weight: 300;
+    }
+
+    .experience > section {
+        margin-bottom: calc(var(--unit) * 3);
+        padding: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: calc(var(--unit) * 4) 1fr;
+    }
+
+    .experience > section header {
+        grid-column: span 2;
+    }
+
+    section ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    .experience section ul li {
+        margin: 0;
+        padding: 0;
+    }
+
+    .experience section aside {
+        color: var(--color-secondary);
+        font-family: "Roboto Condensed";
+        margin-left: var(--unit);
+    }
+</style>
+```
+
+The final result can be seen at https://giwan.mytoori.com. Open the dev tools of your browser to see the full style.
+
+# Links
+
+-   https://css-tricks.com/snippets/css/complete-guide-grid/

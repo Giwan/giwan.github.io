@@ -1,0 +1,50 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../../config";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+        <style>
+            main {
+                min-height: calc(100vh - (56px + 8rem));
+                display: flex;
+                place-content: center;
+                place-items: center;
+            }
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+            }
+
+            input[type="search"] {
+                height: 100px;
+                background-color: var(--color-background-light);
+                min-width: 300px;
+                border-radius: var(--unit-sm);
+                margin-right: var(--unit);
+                padding: var(--unit);
+                font-size: 1.2rem;
+            }
+
+            button {
+                background-color: var(--color-foreground);
+                color: var(--color-background-light);
+                width: 140px;
+                height: 60px;
+                border-radius: var(--unit-sm);
+                font-family: var(--font-family-heading);
+            }
+        </style>
+    </head>
+
+    <body class="p-4">
+        <Header />
+        <main></main>
+        <Footer />
+    </body>
+</html>

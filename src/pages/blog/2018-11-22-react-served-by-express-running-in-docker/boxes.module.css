@@ -1,0 +1,12 @@
+.boxesContainer {
+    text-align: center;
+}
+
+.box {
+    display: inline-block;
+    padding: var(--unit, 16px);
+    border-radius: calc(var(--unit, 16px) / 2);
+    border: 1px solid var(--color-primary-dark);
+    margin-right: var(--unit, 16px);
+    font-size: var(--font-size-small, 22px);
+}
