@@ -8,4 +8,6 @@ import react from "@astrojs/react";
 export default defineConfig({
     site: "https://giwan.github.io",
     integrations: [mdx(), tailwind(), react()],
+    output: "static",
+    outDir: "./docs",
 });

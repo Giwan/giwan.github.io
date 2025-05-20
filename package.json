@@ -15,7 +15,7 @@
         "predeploy": "npm run build",
         "deploy:prod": "npm run build && cd dist && deployctl deploy",
         "test": "jest",
-        "clean": "rm -rf dist/*"
+        "clean": "rm -rf docs/*"
     },
     "dependencies": {
         "@astrojs/mdx": "^2.0.4",
