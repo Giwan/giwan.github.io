@@ -4,7 +4,7 @@
     margin-right: calc(var(--unit) /1);
     color: var(--color-primary);
     padding: 0;
-    font-family: var(--font-family-meta);
+    font-family: var(--font-family-heading);
     text-transform: capitalize;
     cursor: pointer;
     font-size: var(--font-size-small-x);

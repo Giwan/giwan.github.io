@@ -51,7 +51,7 @@ const SearchQuery = function ({ handleSearch }) {
                     <input
                         type="search"
                         name="q"
-                        className="w-full pl-12 pr-24 py-4 font-serif text-lg bg-paper border border-border rounded-sm outline-none focus:border-accent placeholder-muted"
+                        className="w-full pl-12 pr-24 py-4 font-sans text-lg bg-paper border border-border rounded-sm outline-none focus:border-accent placeholder-muted"
                         placeholder="Search articles..."
                         defaultValue={queryValue}
                         ref={inputRef}
@@ -68,7 +68,7 @@ const SearchQuery = function ({ handleSearch }) {
                     
                     {/* Search Button */}
                     <button 
-                        className="absolute right-0 top-0 bottom-0 w-20 bg-primary text-paper font-medium px-4 rounded-r-sm hover:bg-accent focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors duration-200"
+                        className="absolute right-0 top-0 bottom-0 w-20 bg-primary text-paper font-medium px-4 rounded-r-sm hover:bg-accent focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors duration-200 font-sans"
                         type="submit"
                         aria-label="Search"
                     >

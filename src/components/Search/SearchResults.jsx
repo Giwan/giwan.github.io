@@ -4,7 +4,7 @@ const SearchResults = function ({ searchData }) {
     if (!searchData?.keyword) {
         return (
             <div className="text-center py-8">
-                <p className="font-serif text-muted italic text-base">
+                <p className="font-sans text-muted text-base">
                     Enter a search term to find articles
                 </p>
             </div>
