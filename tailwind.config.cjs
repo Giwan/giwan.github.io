@@ -14,20 +14,20 @@ module.exports = {
       colors: {
         // Monokai-inspired color palette
         primary: '#f8f8f2', // Monokai foreground 
-        secondary: '#a6a6a6', // Muted text
+        secondary: '#75715e', // Muted text
         accent: '#ae81ff', // Monokai purple
-        
+
         // Text colors
         heading: '#f8f8f2', // Light for headings on dark background
         body: '#f8f8f2', // Light text for dark background
         muted: '#a6a6a6', // Muted text
-        
+
         // UI colors - dark mode
         paper: '#272822', // Monokai background
         paperDark: '#1e1f1c', // Darker paper
         highlight: '#3e3d32', // Highlight color
         border: '#3e3d32', // Border color
-        
+
         // Monokai syntax colors
         monokai: {
           background: '#272822',

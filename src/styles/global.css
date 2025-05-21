@@ -1,21 +1,21 @@
 :root {
-    /* Monokai-inspired dark theme */
-    --color-background: #272822;
-    --color-background-dark: #1e1f1c;
-    --color-background-light: #35362e;
-    --color-background-highlight: #3e3d32;
+    /* One Dark theme */
+    --color-background: #282c34;
+    --color-background-dark: #21252b;
+    --color-background-light: #2c313c;
+    --color-background-highlight: #3b4048;
     
     /* Text colors */
-    --color-primary: #f8f8f2;
-    --color-secondary: #a6a6a6;
+    --color-primary: #abb2bf;
+    --color-secondary: #5c6370;
     
-    /* Monokai accent colors */
-    --color-accent-yellow: #e6db74;
-    --color-accent-orange: #fd971f;
-    --color-accent-red: #f92672;
-    --color-accent-purple: #ae81ff;
-    --color-accent-blue: #66d9ef;
-    --color-accent-green: #a6e22e;
+    /* One Dark accent colors */
+    --color-accent-yellow: #e5c07b;
+    --color-accent-orange: #d19a66;
+    --color-accent-red: #e06c75;
+    --color-accent-purple: #c678dd;
+    --color-accent-blue: #61afef;
+    --color-accent-green: #98c379;
     
     /* Main accent color */
     --color-accent: var(--color-accent-purple);
@@ -62,12 +62,16 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
     color: var(--color-accent-blue);
+    font-weight: 600;
+    letter-spacing: -0.5px;
 }
 
 h2 {
-    color: var(--color-accent-green);
+    color: var(--color-accent-blue);
     border-bottom: 1px solid var(--color-background-highlight);
     padding-bottom: 0.3rem;
+    font-weight: 600;
+    letter-spacing: -0.3px;
 }
 
 code {
@@ -84,7 +88,8 @@ pre {
     border-radius: 5px;
     overflow-x: auto;
     margin: 1.5rem 0;
-    border-left: 3px solid var(--color-accent-orange);
+    border-left: 3px solid var(--color-accent-blue);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 pre code {
@@ -130,7 +135,7 @@ hr {
     margin: 2rem 0;
 }
 
-/* Code syntax highlighting override for Monokai theme */
+/* Code syntax highlighting override for One Dark Pro theme */
 .astro-code {
     font-family: var(--font-family-code);
     padding: 1.25rem;

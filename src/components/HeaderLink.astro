@@ -1,7 +1,8 @@
 ---
 export interface Props extends astroHTML.JSX.AnchorHTMLAttributes {}
 
-const { href = "", class: className, ...props } = Astro.props;
+const { href: rawHref, class: className, ...props } = Astro.props;
+const href = String(rawHref ?? "");
 
 const path =
     Astro.url.pathname.length > 1
@@ -30,11 +31,11 @@ const isActive = href === path || (path.indexOf(href) > -1 && href !== "/");
     }
 
     a:hover:not(.active) {
-        background-color: rgba(174, 129, 255, 0.2); /* Monokai purple with opacity */
+        background-color: rgba(198, 120, 221, 0.2); /* One Dark Pro purple with opacity */
     }
     
     a.active {
-        background-color: rgba(166, 226, 46, 0.2); /* Monokai green with opacity */
+        background-color: rgba(152, 195, 121, 0.2); /* One Dark Pro green with opacity */
         font-weight: 600;
     }
 </style>
