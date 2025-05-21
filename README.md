@@ -24,45 +24,37 @@ There is a [tools page]("/tools") that allows the user to see the listed tools. 
 ## Islands architecture 
 
 # Deploy
-The blog is deployed at [deno.land](https://dash.deno.com/projects/mytoori-blog) now. Previously it was deployed on [Netlify](https://app.netlify.com/sites/giwan-astro-blog/overview). 
-This allows for easily [tracking analytics](https://dash.deno.com/projects/mytoori-blog/analytics/24h) for the site. 
-It might not be very reliable but it's better than nothing. Plus it means there is little dependencies to add. 
+The blog is deployed on [GitHub Pages](https://giwan.github.io) now. Previously it was deployed on [Netlify](https://app.netlify.com/sites/giwan-astro-blog/overview) and [Deno Deploy](https://dash.deno.com/projects/mytoori-blog).
 
-## Server side rendering (not required after all)
-On [Netlify](https://app.netlify.com/sites/giwan-astro-blog/overview) the site was hosted as a static site. 
-dash.deno.com does not offer static hosting [according to the guide on astro.build](https://docs.astro.build/en/guides/deploy/deno/#project-configuration). The site **has** to be server rendered it said but that turned out to not be the case. 
+## Static hosting on GitHub Pages
 
-## Static hosting on deno deploy
+The project is configured to build to the `docs` directory, which is a supported publishing source for GitHub Pages. In the `astro.config.mjs` file, you'll find:
 
-> In the deno docs I found [static hosting](https://docs.deno.com/deploy/tutorials/static-site). 
-
-Avoid SSR by removing `output: 'server'` from `astro.config.mjs`. The `build` will build for static hosting. 
-
-### deployctl CLI tool from Deno 
-The `deployctl` tool facilitates CLI deployment. See [official docs]( config used differ from the config found in '/Users/giwan/Projects/gear/d) for details. 
-
-#### Install deployctl
-
-```sh
-deno install --allow-read --allow-write --allow-env --allow-net --allow-run --no-check -r -f https://deno.land/x/deploy/deployctl.ts
-
-# make sure to add it to path as described by the script comment. 
+```js
+output: "static",
+outDir: "./docs",
 ```
 
-#### Deploy with parameters
-If there is a [`deno.json`](deno.json) file present `deployctl` will use the config. However it's possible to overwrite it by passing the values in the command line a well. 
+This configuration tells Astro to build the site as static assets in the `docs` folder.
+
+### GitHub Pages Configuration
+
+To deploy the site:
+
+1. Push your changes to the main branch of your repository
+2. Ensure your repository settings have GitHub Pages enabled and set to use the `docs` folder from the main branch
+3. GitHub will automatically build and deploy your site when changes are pushed
+
+No additional build step or deployment CLI is required, as GitHub Pages handles this automatically when changes are detected in the repository.
+
+### Running Locally
+
+To test the site locally:
 
 ```sh
-# example
-
-deployctl deploy --project=blog.mytoori.com --entrypoint=https://deno.land/std@0.211.0/http/file_server.ts 
-
+npm run dev     # Start development server
+npm run build   # Build the site
+npm run preview # Preview the built site
 ```
 
-According to the documentation it's possible to use `--include=./dist` to indicate that only the `dist` folder should be upoaded. However it seems that for static deployments it **always** uploads the entire folder where the script is executed from. 
-
-To solve that, enter in the `dist` folder with `cd dist` and run the script from there. 
-With that the script has been added to `package.json#scripts.deploy:deno`. That performs a fresh build. Moves into the `dist` folder and deploys the content. 
-
-A confirmation will be required. It will not deploy to production immediately. Instead a preview url is generated. 
-That preview can be promoted to production in the UI. 
+The `build` script also runs the `populateSearchData` script to ensure the search index is up to date.
