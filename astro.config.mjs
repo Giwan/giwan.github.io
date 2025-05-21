@@ -10,4 +10,10 @@ export default defineConfig({
     integrations: [mdx(), tailwind(), react()],
     output: "static",
     outDir: "./docs",
+    markdown: {
+        shikiConfig: {
+            theme: 'monokai',
+            wrap: true
+        }
+    }
 });

@@ -1,26 +1,56 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SearchQuery from "./SearchQuery";
 import SearchResults from "./SearchResults";
-import { searchAndResultsContainer } from "./search.module.css";
 import { posts } from "../../../cache/searchData";
 import { filterMatchingPosts } from "./search.helper";
 
-const Search = function () {
+const SearchContainer = function () {
     const [searchData, setSearchData] = useState({});
+    const [isSearching, setIsSearching] = useState(false);
 
     const handleSearch = function (keyword) {
-        setSearchData({
-            keyword,
-            results: filterMatchingPosts(posts)(keyword),
-        });
+        if (!keyword || keyword.trim() === '') {
+            setSearchData({});
+            return;
+        }
+        
+        setIsSearching(true);
+        
+        // Simulate a slight delay for better UX with a loading state
+        setTimeout(() => {
+            setSearchData({
+                keyword,
+                results: filterMatchingPosts(posts)(keyword),
+            });
+            setIsSearching(false);
+        }, 300);
     };
 
     return (
-        <div className={searchAndResultsContainer}>
-            <SearchQuery {...{ handleSearch }} />
-            <SearchResults {...{ searchData }} />
+        <div className="max-w-3xl mx-auto">
+            <div className="mb-8 text-center">
+                <h2 className="font-heading text-headline text-heading mb-3">Search Articles</h2>
+                <p className="text-body text-lg font-serif">Find stories, interviews, and insights from our archives</p>
+            </div>
+            
+            <div className="mb-8">
+                <SearchQuery handleSearch={handleSearch} />
+            </div>
+            
+            <div className="min-h-[200px]">
+                {isSearching ? (
+                    <div className="flex justify-center items-center py-12">
+                        <div className="animate-pulse flex flex-col items-center">
+                            <div className="h-8 w-8 border-t-2 border-b-2 border-primary rounded-full animate-spin mb-3"></div>
+                            <p className="text-muted font-serif italic">Searching archives...</p>
+                        </div>
+                    </div>
+                ) : (
+                    <SearchResults searchData={searchData} />
+                )}
+            </div>
         </div>
     );
 };
 
-export default Search;
+export default SearchContainer;

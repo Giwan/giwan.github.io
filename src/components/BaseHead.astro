@@ -2,6 +2,7 @@
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
 import "../styles/global.css";
+import "../styles/newspaper.css";
 
 export interface Props {
     title: string;
@@ -10,7 +11,7 @@ export interface Props {
 }
 
 const { title, description, image = "/placeholder-social.jpg" } = Astro.props;
-const fontUrl = "https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Merriweather&display=swap";
+const fontUrl = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&family=Fira+Code:wght@400;500;600&display=swap";
 ---
 
 <!-- Global Metadata -->
@@ -62,3 +63,6 @@ const fontUrl = "https://fonts.googleapis.com/css2?family=Inter:wght@400;700&fam
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={Astro.url + image} />
+
+<!-- Tailwind Typography plugin with Monokai dark theme -->
+<meta name="theme-color" content="#272822" />

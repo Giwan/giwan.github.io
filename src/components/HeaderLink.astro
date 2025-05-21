@@ -13,26 +13,28 @@ const isActive = href === path || (path.indexOf(href) > -1 && href !== "/");
 
 <a
     href={href}
-    class:list={[className, { active: isActive }, "mx-0.5"]}
+    class:list={[className, { active: isActive }]}
     {...props}
 >
     <slot />
 </a>
 <style>
     a {
-        text-decoration: underline;
-        font-family: var(--font-family-heading);
-        font-size: 1.25rem;
-        color: var(--color-secondary);
-        transition: color 0.25s;
+        display: inline-block;
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 500;
+        padding: 0.25rem 0.75rem;
+        border-radius: 0.25rem;
+        transition: all 0.2s ease;
     }
 
     a:hover:not(.active) {
-        color: var(--color-primary);
+        background-color: rgba(174, 129, 255, 0.2); /* Monokai purple with opacity */
     }
+    
     a.active {
-        text-decoration: none;
-        cursor: default;
-        color: var(--color-secondary);
+        background-color: rgba(166, 226, 46, 0.2); /* Monokai green with opacity */
+        font-weight: 600;
     }
 </style>

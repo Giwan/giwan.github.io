@@ -2,6 +2,40 @@
 const today = new Date();
 ---
 
-<footer class="h-min text-center col-span-full text-gray-500 mt-8">
-  &copy; {today.getFullYear()} Mytoori. All rights reserved.
+<footer class="mt-12 pt-8 pb-12">
+  <div class="max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+      <div class="text-left">
+        <h3 class="font-heading text-xl text-monokai-blue mb-4">Tech Times</h3>
+        <p class="font-serif text-monokai-foreground mb-4">Exploring code, culture, and technology - delivered with clarity and insight.</p>
+        <p class="text-sm text-monokai-comment font-sans">&copy; {today.getFullYear()} Tech Times. All rights reserved.</p>
+      </div>
+      
+      <div class="text-left">
+        <h3 class="font-heading text-lg text-monokai-green mb-4">Categories</h3>
+        <ul class="space-y-2 font-serif">
+          <li><a href="/articles" class="text-monokai-foreground hover:text-monokai-blue transition-colors">Articles</a></li>
+          <li><a href="/tech" class="text-monokai-foreground hover:text-monokai-blue transition-colors">Technology</a></li>
+          <li><a href="/dev" class="text-monokai-foreground hover:text-monokai-blue transition-colors">Development</a></li>
+          <li><a href="/tools" class="text-monokai-foreground hover:text-monokai-blue transition-colors">Tools</a></li>
+        </ul>
+      </div>
+      
+      <div class="text-left">
+        <h3 class="font-heading text-lg text-monokai-green mb-4">Connect</h3>
+        <ul class="space-y-2 font-serif">
+          <li><a href="/about" class="text-monokai-foreground hover:text-monokai-blue transition-colors">About Us</a></li>
+          <li><a href="/contact" class="text-monokai-foreground hover:text-monokai-blue transition-colors">Contact</a></li>
+          <li><a href="/rss.xml" class="text-monokai-foreground hover:text-monokai-blue transition-colors">RSS Feed</a></li>
+          <li><a href="https://github.com" class="text-monokai-foreground hover:text-monokai-blue transition-colors">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="text-center pt-6 border-t border-monokai-background-highlight">
+      <p class="text-sm text-monokai-comment font-sans">
+        Designed with a dark mode Monokai aesthetic for the modern tech enthusiast.
+      </p>
+    </div>
+  </div>
 </footer>

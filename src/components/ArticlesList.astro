@@ -24,7 +24,7 @@ const posts = allPosts
                         <h2>{post.frontmatter.title}</h2>
                     </a>
                     <p class="date mb-2">{formatArticlePublishedDate(post)}</p>
-                    <p class="text-slate-200 leading-7 description">
+                    <p class="text-monokai-foreground leading-7 description">
                         {post.frontmatter.description}
                     </p>
                 </li>
@@ -49,6 +49,7 @@ const posts = allPosts
         height: 420px;
         overflow: hidden;
         transition: background-color 0.2s, border-color 0.35s;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     }
 
     li:hover {
@@ -72,6 +73,7 @@ const posts = allPosts
         margin-bottom: 0.25rem;
         font-family: var(--font-family-heading);
         font-weight: 800;
+        color: var(--color-accent-blue);
     }
 
     .date {
@@ -83,7 +85,5 @@ const posts = allPosts
     .description {
         font-size: 1.15rem;
         line-height: 1.7rem;
-        grid-column-start: 2;
-        color: var(--color-secondary);
     }
 </style>

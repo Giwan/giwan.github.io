@@ -1,0 +1,221 @@
+/* Newspaper-inspired styling - Dark Mode with Monokai Theme */
+
+/* Typography */
+.font-heading {
+    font-family: "Inter", sans-serif;
+}
+
+/* Typographic layouts */
+.article-headline {
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 2.5rem;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: #66d9ef; /* Monokai blue */
+}
+
+.article-subheading {
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 1.75rem;
+    line-height: 1.3;
+    color: #a6e22e; /* Monokai green */
+}
+
+.article-lead {
+    font-family: "Merriweather", Georgia, serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: #f8f8f2; /* Monokai foreground */
+    border-left: 3px solid #fd971f; /* Monokai orange */
+    padding-left: 1rem;
+    margin: 2rem 0;
+}
+
+.article-body {
+    font-family: "Merriweather", Georgia, serif;
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: #f8f8f2; /* Monokai foreground */
+}
+
+.article-metadata {
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: 0.875rem;
+    color: #75715e; /* Monokai comment */
+}
+
+/* Drop cap styling for first paragraph */
+.article-first-paragraph::first-letter {
+    font-family: "Inter", sans-serif;
+    float: left;
+    font-size: 4rem;
+    line-height: 0.8;
+    padding-right: 0.5rem;
+    color: #ae81ff; /* Monokai purple */
+}
+
+/* Tags, categories & metadata */
+.article-tag {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background-color: #3e3d32; /* Monokai highlight */
+    color: #fd971f; /* Monokai orange */
+    border-radius: 0.25rem;
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Blockquote styling */
+blockquote {
+    font-family: "Inter", sans-serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    line-height: 1.7;
+    color: #a6a6a6; /* Monokai secondary */
+    border-left: 3px solid #fd971f; /* Monokai orange */
+    padding-left: 1rem;
+    margin: 2rem 0;
+}
+
+/* Code blocks */
+pre,
+code {
+    font-family:
+        "JetBrains Mono", "Fira Code", "SFMono-Regular", Menlo, Monaco,
+        Consolas, monospace;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+code {
+    color: #fd971f; /* Monokai orange */
+    background-color: #1e1f1c; /* Monokai darker */
+    padding: 0.2em 0.4em;
+}
+
+pre {
+    background-color: #1e1f1c; /* Monokai darker */
+    color: #f8f8f2; /* Monokai foreground */
+    padding: 1rem;
+    overflow-x: auto;
+    border-left: 3px solid #fd971f; /* Monokai orange */
+}
+
+pre code {
+    background: transparent;
+    padding: 0;
+}
+
+/* Table styling */
+table {
+    font-family: "Inter", system-ui, sans-serif;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+}
+
+th {
+    background-color: #3e3d32; /* Monokai highlight */
+    color: #66d9ef; /* Monokai blue */
+    font-weight: 700;
+    text-align: left;
+    padding: 0.75rem;
+    border-bottom: 2px solid #75715e; /* Monokai comment */
+}
+
+td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #3e3d32; /* Monokai highlight */
+    color: #f8f8f2; /* Monokai foreground */
+}
+
+tr:nth-child(even) {
+    background-color: #1e1f1c; /* Monokai darker */
+}
+
+/* Focus styles for accessibility */
+a:focus,
+button:focus,
+input:focus {
+    outline: 3px solid #ae81ff; /* Monokai purple */
+    outline-offset: 2px;
+}
+
+/* Add newspaper fold effect */
+.newspaper-fold {
+    position: relative;
+    overflow: hidden;
+}
+
+.newspaper-fold::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 5px;
+    background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 0.15)
+    );
+    box-shadow: -1px 0 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Multi-column layout for articles */
+@media (min-width: 768px) {
+    .newspaper-columns-2 {
+        column-count: 2;
+        column-gap: 2.5rem;
+    }
+
+    .newspaper-columns-3 {
+        column-count: 3;
+        column-gap: 2.5rem;
+    }
+}
+
+/* Syntax highlighting classes */
+.syntax-keyword {
+    color: #f92672;
+} /* Monokai red */
+.syntax-string {
+    color: #e6db74;
+} /* Monokai yellow */
+.syntax-number {
+    color: #fd971f;
+} /* Monokai orange */
+.syntax-comment {
+    color: #75715e;
+} /* Monokai comment */
+.syntax-function {
+    color: #a6e22e;
+} /* Monokai green */
+.syntax-class {
+    color: #a6e22e;
+} /* Monokai green */
+.syntax-type {
+    color: #66d9ef;
+} /* Monokai blue */
+.syntax-variable {
+    color: #f8f8f2;
+} /* Monokai foreground */
+.syntax-operator {
+    color: #f92672;
+} /* Monokai red */
+.syntax-punctuation {
+    color: #f8f8f2;
+} /* Monokai foreground */
+.syntax-property {
+    color: #66d9ef;
+} /* Monokai blue */
+.syntax-constant {
+    color: #ae81ff;
+} /* Monokai purple */

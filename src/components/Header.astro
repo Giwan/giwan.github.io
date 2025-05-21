@@ -1,22 +1,35 @@
 ---
 import HeaderNav from "./HeaderNav/HeaderNav.astro";
-// import HeaderNav from "./HeaderNav/HeaderNav";
-import HeaderLogo from "./Header/HeaderLogo";
+import Logo from "./Header/HeaderLogo";
+import { formatDateWithOptions } from "../utils/helpers.ts";
+const currentDate = formatDateWithOptions(new Date().toString());
 ---
 
-<header class="mb-4">
-    <HeaderLogo />
-    <HeaderNav />
+<header class="">
+    <div class="grid grid-cols-2">
+        <div class="col-span-1">
+            <Logo />
+        </div>
+        <div class="col-span-1 flex justify-end items-center sm:flex-row">
+            <HeaderNav />
+        </div>
+        <div class="col-span-2 w-full flex justify-between border-t border-secondary py-1">
+            <p class="font-serif text-xs md:text-sm italic text-secondary">
+                {currentDate} —{" "}
+                <span class="hidden sm:inline">
+                    Exploring code & technology
+                </span>
+            </p>
+            <p class="font-serif text-xs md:text-sm font-bold text-secondary">
+                VOL. 23 • ISSUE 42
+            </p>
+        </div>
+    </div>
 </header>
 
 <style>
     header {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    header p {
-        color: var(--color-secondary);
-        font-size: 1rem;
+        display: block;
+        width: 100%;
     }
 </style>

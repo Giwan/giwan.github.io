@@ -1,9 +1,10 @@
 {
     "extends": "astro/tsconfigs/strict",
     "compilerOptions": {
+        "jsx": "react",
         "esModuleInterop": true,
         "module": "ESNext",
         "moduleResolution": "Node",
-        "outDir": "./dist/**"
+        "outDir": "./docs/**"
     }
 }

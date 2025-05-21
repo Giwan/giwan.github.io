@@ -18,23 +18,29 @@ const {
 } = Astro.props;
 ---
 
-<html lang="en">
+<html lang="en" class="dark">
     <head>
         <BaseHead title={title} description={description} />
-        <style>
-            article {
-                min-height: calc(100vh - (56px + 8rem));
-            }
-        </style>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     </head>
 
-    <body class="p-4">
-        <Header />
-        <main>
-            <article>
-                <slot />
-            </article>
-        </main>
-        <Footer />
+    <body class="bg-monokai-background min-h-screen font-serif text-monokai-foreground">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <Header />
+            <main class="mt-6 mb-12">
+                <article class="min-h-[calc(100vh-16rem)] prose prose-invert mx-auto 
+                    prose-headings:font-heading prose-headings:text-monokai-foreground 
+                    prose-p:text-monokai-foreground prose-p:leading-relaxed 
+                    prose-a:text-monokai-blue prose-a:no-underline hover:prose-a:underline
+                    prose-code:text-monokai-orange prose-code:bg-monokai-background
+                    prose-strong:text-monokai-green prose-em:text-monokai-yellow
+                    prose-pre:bg-paperDark prose-pre:border-l-4 prose-pre:border-monokai-orange">
+                    <slot />
+                </article>
+            </main>
+            <Footer />
+        </div>
     </body>
 </html>
