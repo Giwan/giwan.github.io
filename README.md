@@ -24,7 +24,7 @@ There is a [tools page]("/tools") that allows the user to see the listed tools. 
 ## Islands architecture 
 
 # Deploy
-The blog is deployed on [GitHub Pages](https://giwan.github.io) now. Previously it was deployed on [Netlify](https://app.netlify.com/sites/giwan-astro-blog/overview) and [Deno Deploy](https://dash.deno.com/projects/mytoori-blog).
+The blog is deployed on [GitHub Pages](https://giwan.github.io) now. 
 
 ## Static hosting on GitHub Pages
 
@@ -58,3 +58,46 @@ npm run preview # Preview the built site
 ```
 
 The `build` script also runs the `populateSearchData` script to ensure the search index is up to date.
+
+# Styling
+The project uses a combination of styling approaches:
+
+## Tailwind CSS
+Tailwind CSS is integrated through the Astro Tailwind integration. The configuration can be found in `tailwind.config.cjs`, where custom colors, fonts, and theme extensions are defined. Tailwind classes can be used directly in component templates:
+
+```sh
+<div class="p-4 h-screen w-screen">
+```
+
+## CSS Variables
+Global CSS variables are defined in `src/styles/global.css` for consistent theming across the site:
+
+```css
+:root {
+    --color-background: #111827;
+    --color-primary: #d2d7d3;
+    --font-family-default: "Merriweather", serif;
+    /* More variables... */
+}
+```
+
+These variables are used throughout the project to maintain a consistent design system.
+
+## Component-Scoped CSS
+Astro components can include scoped styles directly within the component file:
+
+```astro
+<style>
+    header {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+```
+
+These styles are automatically scoped to the component to prevent global style conflicts.
+
+## CSS Modules
+For more complex styling needs, CSS modules are used (e.g., `tools.module.css`). These provide local class name scoping to avoid conflicts between components.
+
+This hybrid approach allows for both the utility-based rapid development that Tailwind provides, while still supporting component-specific styling when needed.
