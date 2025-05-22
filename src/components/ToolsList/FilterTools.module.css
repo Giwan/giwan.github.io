@@ -16,6 +16,6 @@
 }
 
 .button[data-active="true"] {
-    border-bottom: 2px solid var(--color-accent);
+    border-bottom: 2px solid var(--color-primary);
     color: var(--color-primary);
 }

@@ -6,12 +6,11 @@
     display: flex;
     flex-wrap: wrap;
     margin: 1rem 0;
+    gap: var(--unit-sm);
 }
 
 .categoriesListItemStyle {
-    margin-right: var(--unit-sm);
-    margin-bottom: var(--unit-sm);
-    padding: var(--unit-sm);
+    
     background-color: var(--color-background-light);
     border-radius: var(--unit-sm);
     text-transform: capitalize;
@@ -25,5 +24,21 @@
 }
 
 .categoriesListItemStyle[data-is-selected="true"] {
-    background-color: var(--color-accent);
+    background-color: var(--color-background-dark);
+}
+
+.linkElement {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: var(--unit-sm);
+    border-radius: var(--unit-sm);
+}
+
+.linkElement:hover {
+    color: var(--color-text-primary);
+}
+
+.categoriesListItemStyle[data-is-selected="true"] .linkElement {
+    color: var(--color-text-primary);
 }

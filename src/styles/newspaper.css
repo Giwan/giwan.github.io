@@ -144,7 +144,7 @@ tr:nth-child(even) {
 a:focus,
 button:focus,
 input:focus {
-    outline: 3px solid #ae81ff; /* Monokai purple */
+    outline: 3px solid #66d9ef; /* Monokai blue for better contrast */
     outline-offset: 2px;
 }
 

@@ -1,3 +1,4 @@
+import React from "react";
 import style from "./categories.module.css";
 import { isCategorySelected } from "../../utils/helpers/isCategorySelected";
 
@@ -12,7 +13,7 @@ const CategoryItem = ({ c, selectedCategory }: TProps) => (
         className={style.categoriesListItemStyle}
         data-is-selected={isCategorySelected(c, selectedCategory)}
     >
-        <a href={`/tools/${c}`}>{c}</a>
+        <a className={style.linkElement} href={`/tools/${c}`}>{c}</a>
     </li>
 );
 

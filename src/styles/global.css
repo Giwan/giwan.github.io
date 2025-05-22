@@ -8,6 +8,8 @@
     /* Text colors */
     --color-primary: #abb2bf;
     --color-secondary: #5c6370;
+    --color-text-primary: var(--color-primary);
+    --color-text-secondary: var(--color-secondary);
     
     /* One Dark accent colors */
     --color-accent-yellow: #e5c07b;
@@ -18,7 +20,7 @@
     --color-accent-green: #98c379;
     
     /* Main accent color */
-    --color-accent: var(--color-accent-purple);
+    --color-accent: var(--color-accent-green);
     
     /* Spacing */
     --unit: 1rem;
