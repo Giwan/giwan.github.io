@@ -1,4 +1,8 @@
-# blog.mytoori.com
+# giwan.github.io
+
+[![Deploy to GitHub Pages](https://github.com/owner/repo/actions/workflows/deploy.yml/badge.svg)](https://github.com/owner/repo/actions/workflows/deploy.yml)
+
+This project is automatically deployed to GitHub Pages whenever changes are pushed to the `main` branch via a GitHub Action.
 
 This is a blog built with astro. The original [readme is in the docs folder]("./docs/Astro-README.md"). 
 One of the main benefits for using Astro is the **islands architecture**. Most of the site is static. Only those areas that need some interactivity (islands) are given that with a **small** bundle of JavaScript. 
