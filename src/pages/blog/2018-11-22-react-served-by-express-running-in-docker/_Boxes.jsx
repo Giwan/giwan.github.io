@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./boxes.module.css";
+import styles from "./_boxes.module.css";
 
 const boxesData = [
     {
