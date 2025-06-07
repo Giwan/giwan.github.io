@@ -19,18 +19,28 @@ const footerData = [
 ];
 
 const Footer = () => (
-    <footer className={styles.footer}>
-        <ul>
-            {footerData.map((fd) => (
-                <li key={fd.label}>
-                    <a href={fd.url} alt={fd.alt}>
-                        {fd.label}
-                    </a>
-                </li>
-            ))}
-        </ul>
-        <div className={styles.copyright}>
-            &copy; Amsterdam, {new Date().getUTCFullYear()} - Mytoori.com
+    <footer className="bg-background-light border-t border-border mt-16 py-8 px-6">
+        <div className="max-w-4xl mx-auto">
+            <div className="flex flex-col md:flex-row justify-between items-center">
+                <nav className="mb-4 md:mb-0">
+                    <ul className="flex space-x-6">
+                        {footerData.map((fd) => (
+                            <li key={fd.label}>
+                                <a 
+                                    href={fd.url} 
+                                    alt={fd.alt}
+                                    className="text-text-secondary hover:text-accent transition-colors duration-200 font-medium"
+                                >
+                                    {fd.label}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
+                <div className="text-text-secondary text-sm">
+                    &copy; Amsterdam, {new Date().getUTCFullYear()} - Mytoori.com
+                </div>
+            </div>
         </div>
     </footer>
 );

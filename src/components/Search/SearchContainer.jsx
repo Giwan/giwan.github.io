@@ -27,10 +27,10 @@ const SearchContainer = function () {
     };
 
     return (
-        <div className="max-w-3xl mx-auto">
-            <div className="mb-8 text-center">
-                <h2 className="font-heading text-headline text-heading mb-3">Search Articles</h2>
-                <p className="text-body text-lg font-serif">Find stories, interviews, and insights from our archives</p>
+        <div className="max-w-3xl mx-auto p-6">
+            <div className="mb-8 text-center bg-background-light rounded-lg p-6 border border-border shadow-lg">
+                <h2 className="font-heading text-headline text-text-primary mb-3">Search Articles</h2>
+                <p className="text-text-secondary text-lg font-serif">Find stories, interviews, and insights from our archives</p>
             </div>
             
             <div className="mb-8">
@@ -40,9 +40,9 @@ const SearchContainer = function () {
             <div className="min-h-[200px]">
                 {isSearching ? (
                     <div className="flex justify-center items-center py-12">
-                        <div className="animate-pulse flex flex-col items-center">
-                            <div className="h-8 w-8 border-t-2 border-b-2 border-primary rounded-full animate-spin mb-3"></div>
-                            <p className="text-muted font-serif italic">Searching archives...</p>
+                        <div className="flex flex-col items-center bg-background-light rounded-lg p-8 border border-border">
+                            <div className="h-8 w-8 border-t-2 border-b-2 border-syntax-purple rounded-full animate-spin mb-3"></div>
+                            <p className="text-text-secondary font-serif italic">Searching archives...</p>
                         </div>
                     </div>
                 ) : (

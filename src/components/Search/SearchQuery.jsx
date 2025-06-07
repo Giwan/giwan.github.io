@@ -51,7 +51,7 @@ const SearchQuery = function ({ handleSearch }) {
                     <input
                         type="search"
                         name="q"
-                        className="w-full pl-12 pr-24 py-4 font-sans text-lg bg-paper border border-border rounded-sm outline-none focus:border-accent placeholder-muted"
+                        className="w-full pl-12 pr-24 py-4 font-sans text-lg bg-background-light border border-border rounded-lg outline-none focus:border-syntax-purple focus:ring-2 focus:ring-syntax-purple/30 placeholder-text-secondary text-text-primary transition-all duration-200"
                         placeholder="Search articles..."
                         defaultValue={queryValue}
                         ref={inputRef}
@@ -61,14 +61,14 @@ const SearchQuery = function ({ handleSearch }) {
                     />
                     
                     {/* Keyboard Shortcut Hint */}
-                    <div className="absolute right-24 top-1/2 transform -translate-y-1/2 hidden md:flex items-center text-sm text-muted">
-                        <span className="px-1 py-0.5 border border-muted rounded-sm mr-1 font-mono">⌘</span>
-                        <span className="px-1 py-0.5 border border-muted rounded-sm font-mono">K</span>
+                    <div className="absolute right-24 top-1/2 transform -translate-y-1/2 hidden md:flex items-center text-sm text-text-secondary">
+                        <span className="px-1.5 py-0.5 border border-border rounded mr-1 font-mono bg-background-highlight">⌘</span>
+                        <span className="px-1.5 py-0.5 border border-border rounded font-mono bg-background-highlight">K</span>
                     </div>
                     
                     {/* Search Button */}
                     <button 
-                        className="absolute right-0 top-0 bottom-0 w-20 bg-primary text-paper font-medium px-4 rounded-r-sm hover:bg-accent focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors duration-200 font-sans"
+                        className="absolute right-0 top-0 bottom-0 w-20 bg-primary text-background font-medium px-4 rounded-r-lg hover:bg-accent focus:ring-2 focus:ring-offset-2 focus:ring-syntax-purple transition-all duration-200 font-sans shadow-lg hover:shadow-xl"
                         type="submit"
                         aria-label="Search"
                     >

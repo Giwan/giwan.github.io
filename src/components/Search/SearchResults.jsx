@@ -16,15 +16,15 @@ const SearchResults = function ({ searchData }) {
     
     if (resultCount === 0) {
         return (
-            <div className="bg-paperDark p-6 rounded-sm shadow-inner-sm">
+            <div className="bg-background-light p-6 rounded-lg border border-border shadow-lg">
                 <div className="text-center py-4">
-                    <h3 className="font-heading text-xl text-heading mb-2 font-semibold">No results found</h3>
-                    <p className="font-serif text-body text-base mb-4">
-                        We couldn't find any articles matching "<span className="font-bold">{keyword}</span>"
+                    <h3 className="font-heading text-xl text-text-primary mb-2 font-semibold">No results found</h3>
+                    <p className="font-serif text-text-secondary text-base mb-4">
+                        We couldn't find any articles matching "<span className="font-bold text-syntax-yellow">{keyword}</span>"
                     </p>
                     <div className="mt-4 border-t border-border pt-4">
-                        <h4 className="font-heading text-lg mb-2 font-semibold">Suggestions:</h4>
-                        <ul className="text-body text-left list-disc pl-8 text-base">
+                        <h4 className="font-heading text-lg mb-2 font-semibold text-text-primary">Suggestions:</h4>
+                        <ul className="text-text-secondary text-left list-disc pl-8 text-base space-y-1">
                             <li>Check your spelling</li>
                             <li>Try using more general keywords</li>
                             <li>Try searching for related topics</li>
@@ -37,28 +37,28 @@ const SearchResults = function ({ searchData }) {
     
     return (
         <div>
-            <div className="border-b-3 border-primary pb-2 mb-6">
-                <p className="font-heading text-lg font-semibold" aria-live="polite">
-                    <span className="font-bold">{resultCount}</span> {resultCount === 1 ? 'result' : 'results'} for: 
-                    <span className="bg-highlight px-2 ml-2 font-serif italic">"{keyword}"</span>
+            <div className="border-b-2 border-syntax-purple pb-3 mb-6 bg-background-light rounded-t-lg px-4 py-3">
+                <p className="font-heading text-lg font-semibold text-text-primary" aria-live="polite">
+                    <span className="font-bold text-syntax-green">{resultCount}</span> {resultCount === 1 ? 'result' : 'results'} for: 
+                    <span className="bg-background-highlight px-2 py-1 ml-2 font-serif italic rounded text-syntax-yellow">"{keyword}"</span>
                 </p>
             </div>
             
-            <ul className="space-y-6">
+            <ul className="space-y-4">
                 {results?.map((result) => (
-                    <li key={result.id} className="pb-6 border-b border-border last:border-b-0">
+                    <li key={result.id} className="bg-background-light rounded-lg border border-border shadow-md hover:shadow-lg transition-all duration-200">
                         <a 
                             href={`/blog/${result.id}`} 
-                            className="block transition-colors duration-200 hover:bg-paperDark p-4 -m-4 rounded-sm"
+                            className="block p-6 hover:bg-background-highlight rounded-lg transition-all duration-200 group"
                         >
-                            <h3 className="font-heading text-xl text-heading mb-2 hover:text-accent font-semibold">
+                            <h3 className="font-heading text-xl text-text-primary mb-3 group-hover:text-accent font-semibold">
                                 {result.title}
                             </h3>
                             <div className="flex justify-between items-center">
-                                <p className="font-serif text-muted text-base">
+                                <p className="font-serif text-text-secondary text-base">
                                     {result.date}
                                 </p>
-                                <span className="text-accent text-base font-semibold">Read article →</span>
+                                <span className="text-accent text-base font-semibold group-hover:text-syntax-purple transition-colors duration-200">Read article →</span>
                             </div>
                         </a>
                     </li>

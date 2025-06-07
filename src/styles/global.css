@@ -1,26 +1,26 @@
 :root {
-    /* One Dark theme */
-    --color-background: #282c34;
-    --color-background-dark: #21252b;
-    --color-background-light: #2c313c;
-    --color-background-highlight: #3b4048;
+    /* Unified Monokai theme */
+    --color-background: #272822;
+    --color-background-dark: #1e1f1c;
+    --color-background-light: #3e3d32;
+    --color-background-highlight: #49483e;
     
     /* Text colors */
-    --color-primary: #abb2bf;
-    --color-secondary: #5c6370;
+    --color-primary: #f8f8f2;
+    --color-secondary: #75715e;
     --color-text-primary: var(--color-primary);
     --color-text-secondary: var(--color-secondary);
     
-    /* One Dark accent colors */
-    --color-accent-yellow: #e5c07b;
-    --color-accent-orange: #d19a66;
-    --color-accent-red: #e06c75;
-    --color-accent-purple: #c678dd;
-    --color-accent-blue: #61afef;
-    --color-accent-green: #98c379;
+    /* Monokai accent colors */
+    --color-accent-yellow: #e6db74;
+    --color-accent-orange: #fd971f;
+    --color-accent-red: #f92672;
+    --color-accent-purple: #ae81ff;
+    --color-accent-blue: #66d9ef;
+    --color-accent-green: #a6e22e;
     
     /* Main accent color */
-    --color-accent: var(--color-accent-green);
+    --color-accent: var(--color-accent-blue);
     
     /* Spacing */
     --unit: 1rem;
@@ -32,6 +32,10 @@
     --font-family-default: "Merriweather", serif;
     --font-family-heading: "Inter", sans-serif;
     --font-family-code: "JetBrains Mono", "Fira Code", monospace;
+    
+    /* Fix missing font variables */
+    --font-family-text-2: var(--font-family-default);
+    --font-family-header: var(--font-family-heading);
 
     --font-size-large: 2rem;
     --font-size-small: 1rem;
