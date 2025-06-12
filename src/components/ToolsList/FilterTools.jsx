@@ -1,5 +1,5 @@
 import { subCategories } from "../../data/categories";
-import { button } from "./FilterTools.module.css";
+import { Button } from "@/components/ui/button";
 
 /**
  * Shows a list of buttons that the user can use to filter on.
@@ -16,20 +16,25 @@ const FilterTools = function ({ setCategory, category }) {
     const clearFilters = () => setCategory(undefined);
 
     const filterButtons = Object.keys(subCategories).map((label) => (
-        <button
+        <Button
             onClick={handleClick}
             key={label}
             value={subCategories[label]}
-            className={button}
-            data-active={category === subCategories[label]}
+            variant={category === subCategories[label] ? "default" : "outline"}
+            size="sm"
         >
             {subCategories[label]?.toLowerCase()}
-        </button>
+        </Button>
     ));
     const allButton = (
-        <button key="all-button" onClick={clearFilters} className={button} data-active={!category}>
+        <Button 
+            key="all-button" 
+            onClick={clearFilters} 
+            variant={!category ? "default" : "outline"}
+            size="sm"
+        >
             All
-        </button>
+        </Button>
     );
     return [allButton, ...filterButtons];
 };

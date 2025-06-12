@@ -1,12 +1,8 @@
-/**
- * Tis header post is being used in two places
- * The post item on the listing page.
- * The detail page showing the blog article
- *
- * The description for example is not required
- * on the detail page
- */
-import styles, { readButton } from "./articleHeader.module.css";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const dateOptions = {
     year: "numeric",
@@ -23,58 +19,63 @@ const ArticleHeader = ({ meta, isBlogPost }) => {
     const articleDate = meta.published || meta.createdDate;
 
     return (
-        <div className={styles.articleItem}>
-            <ArticleTitle {...{ isBlogPost, meta }} />
-            <div className={styles.articleHeaderMetaDetails}>
-                <span>{meta.readTime + " minutes"}</span>
-                <span>
-                    {new Date(articleDate).toLocaleDateString(
-                        "en-GB",
-                        dateOptionsFiltered
-                    )}
-                </span>
-                <OpenArrow {...{ isBlogPost }} />
-            </div>
-            <div className={styles.articleHeaderSummary}>
-                {isBlogPost ? null : <p>{meta.description}</p>}
-            </div>
-        </div>
+        <Card className={cn("border-border bg-card hover:bg-muted/20 transition-colors", !isBlogPost && "cursor-pointer")}>
+            <CardHeader>
+                <ArticleTitle {...{ isBlogPost, meta }} />
+                <div className="flex items-center gap-4 text-xs text-muted-foreground uppercase">
+                    <span>{meta.readTime} minutes</span>
+                    <span>
+                        {new Date(articleDate).toLocaleDateString(
+                            "en-GB",
+                            dateOptionsFiltered
+                        )}
+                    </span>
+                    <OpenArrow {...{ isBlogPost }} />
+                </div>
+            </CardHeader>
+            {!isBlogPost && meta.description && (
+                <CardContent className="pt-0">
+                    <p className="text-sm text-muted-foreground leading-relaxed opacity-85 hover:opacity-100 transition-opacity">
+                        {meta.description}
+                    </p>
+                </CardContent>
+            )}
+        </Card>
     );
 };
 
 export default ArticleHeader;
 
-const DraftText = () => <span className={styles.draft}>DRAFT</span>
+const DraftText = () => (
+    <Badge variant="secondary" className="ml-2 text-xs">
+        DRAFT
+    </Badge>
+);
 
 const isDraft = (published) => published ? "" : <DraftText />;
 
 const ArticleTitle = ({ isBlogPost, meta: { title, published } }) => (
-        <header className={styles.articleHeader} data-draft={!published}>
-            {isBlogPost ? (
-                <h1 className={styles.articleHeaderh1}>{title}{isDraft(published)}</h1>
-            ) : (
-                <h2 className={styles.articleItemHeader}>{title}{isDraft(published)}</h2>
-            )}
-        </header>
-    );
+    <div className={cn("space-y-1", !published && "opacity-75")}>
+        {isBlogPost ? (
+            <h1 className="text-2xl font-bold font-heading text-foreground leading-tight tracking-tight">
+                {title}
+                {isDraft(published)}
+            </h1>
+        ) : (
+            <h2 className="text-xl font-semibold font-heading text-foreground leading-tight tracking-tight hover:text-accent transition-colors">
+                {title}
+                {isDraft(published)}
+            </h2>
+        )}
+    </div>
+);
 
 const OpenArrow = ({ isBlogPost }) => {
     if (isBlogPost) return null;
 
     return (
-        <button className={readButton}>
-            <svg
-                width="8"
-                height="12"
-                viewBox="0 0 8 12"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-            >
-                <path
-                    d="M1.41 0L0 1.41L4.58 6L0 10.59L1.41 12L7.41 6L1.41 0Z"
-                    fill="#828282"
-                />
-            </svg>
-        </button>
+        <Button variant="ghost" size="icon" className="ml-auto h-8 w-8 opacity-60 hover:opacity-100 hover:text-accent transition-all">
+            <ChevronRight className="h-4 w-4" />
+        </Button>
     );
 };

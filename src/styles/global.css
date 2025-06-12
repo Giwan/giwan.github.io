@@ -1,4 +1,25 @@
 :root {
+    /* shadcn/ui design tokens */
+    --background: 215 12% 11%; /* #272822 in HSL */
+    --foreground: 60 9% 98%; /* #f8f8f2 in HSL */
+    --card: 215 12% 11%;
+    --card-foreground: 60 9% 98%;
+    --popover: 215 12% 11%;
+    --popover-foreground: 60 9% 98%;
+    --primary: 240 100% 78%; /* #ae81ff in HSL */
+    --primary-foreground: 215 12% 11%;
+    --secondary: 0 0% 67%; /* #ababab in HSL */
+    --secondary-foreground: 60 9% 98%;
+    --muted: 60 5% 15%; /* #3e3d32 in HSL */
+    --muted-foreground: 40 10% 45%; /* #75715e in HSL */
+    --accent: 191 81% 69%; /* #66d9ef in HSL */
+    --accent-foreground: 215 12% 11%;
+    --destructive: 339 100% 67%; /* #f92672 in HSL */
+    --destructive-foreground: 60 9% 98%;
+    --border: 60 5% 23%; /* #49483e in HSL */
+    --input: 60 5% 23%;
+    --ring: 240 100% 78%;
+
     /* Unified Monokai theme */
     --color-background: #272822;
     --color-background-dark: #1e1f1c;
@@ -7,7 +28,7 @@
     
     /* Text colors */
     --color-primary: #f8f8f2;
-    --color-secondary: #75715e;
+    --color-secondary: #ababab;
     --color-text-primary: var(--color-primary);
     --color-text-secondary: var(--color-secondary);
     

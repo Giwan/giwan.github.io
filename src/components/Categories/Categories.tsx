@@ -1,5 +1,4 @@
 import { categoriesList } from "../../data/categories";
-import style from "./categories.module.css";
 import CategoryItem from "./CategoryItem";
 
 export type TCategoryProps = {
@@ -10,8 +9,8 @@ export type TCategoryProps = {
  * List the categories that the user can filter on
  */
 const Categories = ({ category }: TCategoryProps) => (
-    <nav className={style.categoriesNav}>
-        <ul className={style.categoriesListStyle}>
+    <nav className="mb-8">
+        <ul className="flex flex-wrap gap-2">
             {categoriesList.map((c) => (
                 <CategoryItem
                     {...{

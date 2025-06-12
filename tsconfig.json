@@ -5,6 +5,10 @@
         "esModuleInterop": true,
         "module": "ESNext",
         "moduleResolution": "Node",
-        "outDir": "./docs/**"
+        "outDir": "./docs/**",
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./src/*"]
+        }
     }
 }

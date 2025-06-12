@@ -1,5 +1,3 @@
-import styles from "./footer.module.css";
-
 const footerData = [
     {
         label: "About",
@@ -19,7 +17,7 @@ const footerData = [
 ];
 
 const Footer = () => (
-    <footer className="bg-background-light border-t border-border mt-16 py-8 px-6">
+    <footer className="bg-muted border-t border-border mt-16 py-8 px-6">
         <div className="max-w-4xl mx-auto">
             <div className="flex flex-col md:flex-row justify-between items-center">
                 <nav className="mb-4 md:mb-0">
@@ -29,7 +27,7 @@ const Footer = () => (
                                 <a 
                                     href={fd.url} 
                                     alt={fd.alt}
-                                    className="text-text-secondary hover:text-accent transition-colors duration-200 font-medium"
+                                    className="text-muted-foreground hover:text-accent transition-colors duration-200 font-medium"
                                 >
                                     {fd.label}
                                 </a>
@@ -37,7 +35,7 @@ const Footer = () => (
                         ))}
                     </ul>
                 </nav>
-                <div className="text-text-secondary text-sm">
+                <div className="text-muted-foreground text-sm">
                     &copy; Amsterdam, {new Date().getUTCFullYear()} - Mytoori.com
                 </div>
             </div>

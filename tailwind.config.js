@@ -1,5 +1,7 @@
+import typography from '@tailwindcss/typography';
+
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
   darkMode: 'class',
   theme: {
@@ -12,30 +14,49 @@ module.exports = {
         mono: ['JetBrains Mono', 'Fira Code', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
       },
       colors: {
-        // Unified Monokai color system
-        // Background colors
-        background: {
-          DEFAULT: '#272822', // Main background
-          dark: '#1e1f1c',    // Darker areas
-          light: '#3e3d32',   // Lighter areas
-          highlight: '#49483e' // Highlighted elements
+        // shadcn/ui colors
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
         },
-        
-        // Text colors
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+
+        // Legacy Monokai colors for existing components
         text: {
           primary: '#f8f8f2',   // Main text (Monokai foreground)
           secondary: '#75715e', // Muted/comment text
           muted: '#a6a6a6',     // Very muted text
           inverse: '#272822'    // Dark text on light backgrounds
         },
-
-        // Border and surface colors
-        border: {
-          DEFAULT: '#3e3d32',
-          light: '#49483e',
-          dark: '#2c2d23'
-        },
-
+        
         // Monokai syntax colors for semantic use
         syntax: {
           yellow: '#e6db74',   // Strings, highlights
@@ -46,22 +67,16 @@ module.exports = {
           green: '#a6e22e'     // Classes, success
         },
 
-        // Semantic colors mapped to Monokai
-        primary: '#ae81ff',     // Purple - main brand color
-        secondary: '#75715e',   // Comment gray
-        accent: '#66d9ef',      // Blue - secondary accent
-        success: '#a6e22e',     // Green
-        warning: '#fd971f',     // Orange
-        error: '#f92672',       // Red
-        info: '#66d9ef',        // Blue
-
         // Legacy color mappings for gradual migration
         paper: '#272822',
         paperDark: '#1e1f1c',
         highlight: '#3e3d32',
         heading: '#f8f8f2',
         body: '#f8f8f2',
-        muted: '#75715e'
+        success: '#a6e22e',     // Green
+        warning: '#fd971f',     // Orange
+        error: '#f92672',       // Red
+        info: '#66d9ef',        // Blue
       },
       typography: {
         DEFAULT: {
@@ -91,6 +106,6 @@ module.exports = {
     },
   },
   plugins: [
-    require('@tailwindcss/typography'),
+    typography,
   ],
 }

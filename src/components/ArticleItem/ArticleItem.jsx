@@ -1,5 +1,4 @@
 import ArticleHeader from "../Article/ArticleHeader";
-import styles from "./articleItem.module.css";
 
 const ArticleItem = ({
     post: {
@@ -7,11 +6,9 @@ const ArticleItem = ({
         module: { meta },
     },
 }) => (
-    <article className={styles.articleItem}>
-        <a href={`/blog/${link}`} prefetch={false}>
-            <a alt={meta.title} className={styles.articleItemLink}>
-                <ArticleHeader meta={meta} />
-            </a>
+    <article className="mb-6">
+        <a href={`/blog/${link}`} prefetch={false} className="block hover:no-underline">
+            <ArticleHeader meta={meta} />
         </a>
     </article>
 );

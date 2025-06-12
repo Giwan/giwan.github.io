@@ -1,24 +1,25 @@
 import { designPages } from "../../data/designPagesData";
-import styles from "./designShots.module.css";
+import { Card } from "@/components/ui/card";
 const cloudinaryPrefix = "https://res.cloudinary.com/mytoori/image/upload";
 
 const DesignShots = () => (
-    <section className={styles.designPage}>
+    <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {designPages.map((page) => (
-            <div key={page.url}>
+            <Card key={page.url} className="overflow-hidden hover:shadow-lg transition-shadow">
                 <a
                     href={page.url}
                     target="_blank"
                     rel="norel noreferrer"
                     alt={page.description}
+                    className="block"
                 >
                     <img
-                        className={styles.designImage}
+                        className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
                         alt={`${page.url} landing page - ${page.description}`}
                         src={`${cloudinaryPrefix}${page.imgName}`}
                     />
                 </a>
-            </div>
+            </Card>
         ))}
     </section>
 );

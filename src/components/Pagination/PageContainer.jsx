@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import Pagination from "./Pagination";
-import { pageStyle, pageContainerStyle } from "./PageContainer.module.css";
+import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 const Page = ({ pageNumber }) => (
-    <article className={pageStyle} data-highlight={pageNumber % 2}>Page {pageNumber}</article>
+    <Card className={cn("p-8 text-center", pageNumber % 2 === 0 && "bg-muted/50")}>
+        <CardContent>
+            Page {pageNumber}
+        </CardContent>
+    </Card>
 );
 
 const PageContainer = ({ totalPages, startPage }) => {
@@ -38,8 +43,8 @@ const PageContainer = ({ totalPages, startPage }) => {
     ];
 
     return (
-        <div className={pageContainerStyle}>
-            <div>
+        <div className="space-y-6 max-w-2xl mx-auto p-6">
+            <div className="text-center text-muted-foreground">
                 Page {pageNumber} of {totalPages}
             </div>
             <Page pageNumber={pageNumber} />
