@@ -6,7 +6,7 @@ const buttons = ["<<", "<", ">", ">>"];
 
 const Pagination = function () {
     return (
-        <div className="bg-card rounded-lg p-6 border border-border shadow-lg">
+        <div className="bg-card rounded-lg p-6 border border-border">
             <div className="flex flex-col items-center space-y-4">
                 <div className="flex space-x-2">
                     {numberButtons.map((label) => (

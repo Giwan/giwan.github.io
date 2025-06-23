@@ -48,35 +48,6 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-
-        // Legacy Monokai colors for existing components
-        text: {
-          primary: '#f8f8f2',   // Main text (Monokai foreground)
-          secondary: '#75715e', // Muted/comment text
-          muted: '#a6a6a6',     // Very muted text
-          inverse: '#272822'    // Dark text on light backgrounds
-        },
-        
-        // Monokai syntax colors for semantic use
-        syntax: {
-          yellow: '#e6db74',   // Strings, highlights
-          orange: '#fd971f',   // Numbers, warnings
-          red: '#f92672',      // Keywords, errors
-          purple: '#ae81ff',   // Functions, primary accent
-          blue: '#66d9ef',     // Types, info
-          green: '#a6e22e'     // Classes, success
-        },
-
-        // Legacy color mappings for gradual migration
-        paper: '#272822',
-        paperDark: '#1e1f1c',
-        highlight: '#3e3d32',
-        heading: '#f8f8f2',
-        body: '#f8f8f2',
-        success: '#a6e22e',     // Green
-        warning: '#fd971f',     // Orange
-        error: '#f92672',       // Red
-        info: '#66d9ef',        // Blue
       },
       typography: {
         DEFAULT: {
@@ -85,11 +56,6 @@ export default {
             lineHeight: '1.625',
           },
         },
-      },
-      boxShadow: {
-        'inner-sm': 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-        'paper': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-        'paper-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
       },
       spacing: {
         '18': '4.5rem',

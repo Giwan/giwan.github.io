@@ -4,31 +4,27 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
 ---
 
 <PageLayout content={{ title: SITE_TITLE, description: SITE_DESCRIPTION }}>
-    <div class="flex justify-center items-center min-h-[60vh]">
-        <div class="max-w-2xl">
-            <h1 class="text-4xl font-heading font-bold text-accent-blue mb-8">Hi,</h1>
-            <div class="space-y-6 text-lg leading-relaxed font-sans">
-                <p>
-                    I'm a former consultant, iOS developer, now fully focussing
-                    on Frontend web development. <strong class="text-accent-green font-semibold"
-                        >I primarily use ReactJS</strong
-                    > but have built tools with SvelteKit, VueJS, etc.
-                </p>
-                <p>
-                    Occasionally I will dive into the backend with some NodeJS
-                    as necessary.
-                </p>
-                <p>
-                    If you'd like to reach out, I'm shying away from twitter and
-                    instead you can find me on <a
-                        href="https://mastodon.social/@giwan"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="text-accent-blue hover:underline transition-all duration-200"
-                        >mastodon.social/@giwan</a
-                    >
-                </p>
-            </div>
+    <div class="flex justify-center items-center py-16">
+        <div class="prose prose-lg max-w-prose">
+            <h1>Hi,</h1>
+            <p>
+                I'm a former consultant, iOS developer, now fully focussing
+                on Frontend web development. I primarily use ReactJS but
+                have built tools with SvelteKit, VueJS, etc.
+            </p>
+            <p>
+                Occasionally I will dive into the backend with some NodeJS
+                as necessary.
+            </p>
+            <p>
+                If you'd like to reach out, I'm shying away from twitter and
+                instead you can find me on <a
+                    href="https://mastodon.social/@giwan"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-primary hover:text-primary/80 underline"
+                    >mastodon.social/@giwan</a>
+            </p>
         </div>
     </div>
 </PageLayout>

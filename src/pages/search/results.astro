@@ -9,42 +9,25 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../../config";
 <html lang="en">
     <head>
         <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-        <style>
-            main {
-                min-height: calc(100vh - (56px + 8rem));
-                display: flex;
-                place-content: center;
-                place-items: center;
-            }
-            h1 {
-                font-size: 2rem;
-                margin-bottom: 1rem;
-            }
-
-            input[type="search"] {
-                height: 100px;
-                background-color: var(--color-background-light);
-                min-width: 300px;
-                border-radius: var(--unit-sm);
-                margin-right: var(--unit);
-                padding: var(--unit);
-                font-size: 1.2rem;
-            }
-
-            button {
-                background-color: var(--color-foreground);
-                color: var(--color-background-light);
-                width: 140px;
-                height: 60px;
-                border-radius: var(--unit-sm);
-                font-family: var(--font-family-heading);
-            }
-        </style>
     </head>
 
     <body class="p-4">
         <Header />
-        <main></main>
+        <main class="min-h-[calc(100vh-14rem)] flex justify-center items-center">
+            <div class="text-center">
+                <h1 class="text-2xl mb-4 font-heading">Search Results</h1>
+                <div class="flex items-center gap-4">
+                    <input 
+                        type="search" 
+                        class="h-24 bg-muted min-w-[300px] rounded-sm p-4 text-lg border border-input focus:ring-2 focus:ring-ring"
+                        placeholder="Search articles..."
+                    />
+                    <button class="bg-primary text-primary-foreground w-36 h-16 rounded-sm font-heading hover:bg-primary/90 transition-colors">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </main>
         <Footer />
     </body>
 </html>

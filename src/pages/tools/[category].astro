@@ -6,6 +6,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../../config";
 import Categories from "../../components/Categories/Categories";
 import ToolsList from "../../components/ToolsList/ToolsList";
 import { categoriesList as categories } from "../../data/categories";
+import PageLayout from "../../layouts/PageLayout.astro";
 
 // list the category pages for static rendering
 export function getStaticPaths() {
@@ -20,18 +21,14 @@ let { category } = Astro.params;
 category = String(category || categories[0]);
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-    </head>
+<PageLayout content={{ title: SITE_TITLE, description: SITE_DESCRIPTION }}>
+    <div class="space-y-8">
+        <header>
+            <h1 class="text-3xl font-bold tracking-tight mb-4 capitalize">{category} Tools</h1>
+            <p class="text-muted-foreground text-lg">Discover {category.toLowerCase()} tools to enhance your workflow.</p>
+        </header>
+        <Categories {...{ category }} />
+        <ToolsList {...{ category }} />
+    </div>
+</PageLayout>
 
-    <body class="p-4">
-        <Header />
-        <main>
-            <Categories {...{ category }} />
-            <ToolsList {...{ category }} />
-        </main>
-        <Footer />
-    </body>
-</html>

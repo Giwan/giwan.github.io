@@ -6,12 +6,12 @@ import HeaderNavMobile from "./HeaderNav"; // jsx component
 
 <nav aria-label="Main navigation">
     <!-- Desktop Navigation -->
-    <div class="hidden sm:flex justify-end items-center bg-monokai-background-dark text-monokai-foreground rounded-sm gap-1">
+    <div class="hidden sm:flex justify-end items-center bg-secondary text-secondary-foreground rounded-sm gap-1">
         {
             links.map(({ href, label }) => (
                 <HeaderLink 
                     href={href} 
-                    class="font-sans font-medium text-monokai-foreground hover:bg-monokai-background-highlight focus:bg-monokai-background-highlight focus:outline-none focus:ring-2 focus:ring-monokai-purple focus:ring-offset-2 focus:ring-offset-monokai-background-dark transition-colors duration-200 rounded-sm text-base"
+                    class="font-medium text-secondary-foreground hover:bg-accent focus:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-secondary transition-colors duration-200 rounded-sm text-base"
                     aria-label={`Navigate to ${label}`}
                 >
                     {label}

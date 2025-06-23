@@ -16,73 +16,19 @@ const posts = allPosts
 ---
 
 <main class="col-span-full">
-    <ul>
+    <ul class="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-8 mt-12 w-full [&>li:first-child]:md:col-span-2">
         {
             posts.map((post) => (
-                <li>
-                    <a href={post.url}>
-                        <h2>{post.frontmatter.title}</h2>
+                <li class="border border-border p-4 rounded-lg bg-card h-[420px] overflow-hidden transition-colors hover:bg-muted/50 group">
+                    <a href={post.url} class="block h-full">
+                        <h2 class="text-2xl leading-9 mb-1 font-heading font-extrabold text-primary group-hover:underline">{post.frontmatter.title}</h2>
+                        <p class="text-muted-foreground mb-4 font-heading text-sm">{formatArticlePublishedDate(post)}</p>
+                        <p class="text-foreground leading-7 text-lg">
+                            {post.frontmatter.description}
+                        </p>
                     </a>
-                    <p class="date mb-2">{formatArticlePublishedDate(post)}</p>
-                    <p class="text-oneDarkPro-foreground leading-7 description">
-                        {post.frontmatter.description}
-                    </p>
                 </li>
             ))
         }
     </ul>
 </main>
-
-<style>
-    ul {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-        gap: 2rem;
-        margin-top: 3rem;
-        width: 100%;
-    }
-    li {
-        border: 1rem solid var(--color-background-light);
-        padding: 1rem;
-        border-radius: 1rem;
-        background-color: var(--color-background-light);
-        height: 420px;
-        overflow: hidden;
-        transition: background-color border-color 0.2s;
-    }
-
-    li:hover {
-        background-color: var(--color-background-highlight);
-        border-color: var(--color-background-highlight);
-    }
-
-    li:hover h2 {
-        text-decoration: underline;
-    }
-
-    @media (min-width: 708px) {
-        li:first-child {
-            /* border: 1px solid red; */
-            grid-column: 1 / span 2;
-        }
-    }
-    h2 {
-        font-size: 1.75rem;
-        line-height: 2.25rem;
-        margin-bottom: 0.25rem;
-        font-family: var(--font-family-heading);
-        font-weight: 800;
-        color: var(--color-accent-blue);
-    }
-
-    .date {
-        color: var(--color-secondary);
-        margin-bottom: 1rem;
-        font-family: var(--font-family-heading);
-    }
-
-    .description {
-        font-size: 1.15rem;
-        line-height: 1.7rem;
-    }
-</style>

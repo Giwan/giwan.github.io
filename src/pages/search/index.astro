@@ -1,37 +1,16 @@
 ---
-import BaseHead from "../../components/BaseHead.astro";
-import Header from "../../components/Header.astro";
-import Footer from "../../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../config";
 import SearchContainer from "../../components/Search/SearchContainer";
+import PageLayout from "../../layouts/PageLayout.astro";
 ---
 
-<!doctype html>
-<html lang="en">
-    <head>
-        <BaseHead
-            title={`Search - ${SITE_TITLE}`}
-            description={SITE_DESCRIPTION}
-        />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@500;600;700&display=swap"
-            rel="stylesheet"
-        />
-    </head>
-
-    <body class="bg-paper min-h-screen font-serif text-body">
-        <div class="mx-auto max-w-8xl px-4 sm:px-6 lg:px-8">
-            <Header />
-
-            <main class="my-12">
-                <div class="bg-paperDark rounded-sm shadow-paper p-8">
-                    <SearchContainer client:load />
-                </div>
-            </main>
-
-            <Footer />
+<PageLayout content={{ title: `Search - ${SITE_TITLE}`, description: SITE_DESCRIPTION }}>
+    <main class="my-12">
+        <div class="bg-paperDark rounded-sm shadow-paper p-8">
+            <SearchContainer client:load />
         </div>
-    </body>
-</html>
+    </main>
+</PageLayout>
+
+
+
