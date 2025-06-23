@@ -1,6 +1,7 @@
 import React from "react";
-import style from "./categories.module.css";
+import { Button } from "@/components/ui/button";
 import { isCategorySelected } from "../../utils/helpers/isCategorySelected";
+import { cn } from "@/lib/utils";
 
 type TProps = {
     selectedCategory?: string;
@@ -8,12 +9,14 @@ type TProps = {
 };
 
 const CategoryItem = ({ c, selectedCategory }: TProps) => (
-    <li
-        key={c}
-        className={style.categoriesListItemStyle}
-        data-is-selected={isCategorySelected(c, selectedCategory)}
-    >
-        <a className={style.linkElement} href={`/tools/${c}`}>{c}</a>
+    <li key={c}>
+        <Button 
+            variant={isCategorySelected(c, selectedCategory) ? "default" : "outline"}
+            size="sm"
+            asChild
+        >
+            <a href={`/tools/${c}`}>{c}</a>
+        </Button>
     </li>
 );
 

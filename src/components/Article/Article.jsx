@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import ArticleHeader from "./ArticleHeader";
-import { article } from "./article.module.css";
 
 const Article = ({ children, meta }) => {
 
@@ -14,9 +13,11 @@ const Article = ({ children, meta }) => {
     
     useEffect(handleUseEffect, []); 
     return (
-        <article className={article} ref={myArticle}>
+        <article className="max-w-4xl mx-auto px-4 py-8 prose prose-lg prose-invert" ref={myArticle}>
             <ArticleHeader meta={meta} isBlogPost />
-            {children}
+            <div className="mt-8">
+                {children}
+            </div>
         </article>
     );
 }

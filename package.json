@@ -23,11 +23,16 @@
         "@astrojs/rss": "^4.0.2",
         "@astrojs/tailwind": "^5.1.5",
         "@giwan/is-valid-page-number": "^0.0.4",
+        "@radix-ui/react-slot": "^1.2.3",
         "@types/react": "^18.2.31",
         "@types/react-dom": "^18.2.14",
         "astro": "^5.8.0",
+        "class-variance-authority": "^0.7.1",
+        "clsx": "^2.1.1",
+        "lucide-react": "^0.513.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
+        "tailwind-merge": "^3.3.0",
         "tailwindcss": "^3.3.3"
     },
     "devDependencies": {

@@ -5,7 +5,7 @@ import { formatDateWithOptions } from "../utils/helpers.ts";
 const currentDate = formatDateWithOptions(new Date().toString());
 ---
 
-<header class="">
+<header class="block w-full">
     <div class="grid grid-cols-2">
         <div class="col-span-1">
             <Logo />
@@ -13,7 +13,7 @@ const currentDate = formatDateWithOptions(new Date().toString());
         <div class="col-span-1 flex justify-end items-center sm:flex-row">
             <HeaderNav />
         </div>
-        <div class="col-span-2 w-full flex justify-between border-t border-secondary py-1 font-sans font-bold text-sm text-secondary">
+        <div class="col-span-2 w-full flex justify-between border-t border-border py-1 font-sans font-bold text-sm text-muted-foreground">
             <p>
                 {currentDate} —{" "}
                 <span class="hidden sm:inline">
@@ -26,10 +26,3 @@ const currentDate = formatDateWithOptions(new Date().toString());
         </div>
     </div>
 </header>
-
-<style>
-    header {
-        display: block;
-        width: 100%;
-    }
-</style>

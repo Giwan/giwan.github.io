@@ -14,28 +14,13 @@ const isActive = href === path || (path.indexOf(href) > -1 && href !== "/");
 
 <a
     href={href}
-    class:list={[className, { active: isActive }]}
+    class:list={[
+        "inline-block no-underline text-sm font-medium px-3 py-1 rounded transition-all duration-200",
+        "hover:bg-muted/20",
+        { "bg-accent/20 font-semibold": isActive },
+        className
+    ]}
     {...props}
 >
     <slot />
 </a>
-<style>
-    a {
-        display: inline-block;
-        text-decoration: none;
-        font-size: 0.95rem;
-        font-weight: 500;
-        padding: 0.25rem 0.75rem;
-        border-radius: 0.25rem;
-        transition: all 0.2s ease;
-    }
-
-    a:hover:not(.active) {
-        background-color: rgba(198, 120, 221, 0.2); /* One Dark Pro purple with opacity */
-    }
-    
-    a.active {
-        background-color: rgba(152, 195, 121, 0.2); /* One Dark Pro green with opacity */
-        font-weight: 600;
-    }
-</style>

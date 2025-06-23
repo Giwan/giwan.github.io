@@ -1,4 +1,4 @@
-import styles from "./repos.module.css";
+import { Card, CardContent } from "@/components/ui/card";
 
 const repoData = [
     {
@@ -16,16 +16,18 @@ const repoData = [
 ];
 
 const Repos = () => (
-    <ul className={styles.repoContainer}>
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {repoData.map((rd) => (
-            <li key={rd.name}>
-                <a href={rd.url} alt={rd.name} target="_blank" rel="noreferrer">
-                    <h2>{rd.name}</h2>
-                    <div>{rd.url.replace(/https?:\/\//, "")}</div>
-                </a>
-            </li>
+            <Card key={rd.name} className="hover:bg-muted/50 transition-colors">
+                <CardContent className="p-4">
+                    <a href={rd.url} alt={rd.name} target="_blank" rel="noreferrer" className="block hover:no-underline">
+                        <h2 className="text-lg font-semibold text-foreground hover:text-accent transition-colors mb-2 capitalize">{rd.name}</h2>
+                        <div className="text-sm text-muted-foreground">{rd.url.replace(/https?:\/\//, "")}</div>
+                    </a>
+                </CardContent>
+            </Card>
         ))}
-    </ul>
+    </div>
 );
 
 export default Repos;

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import styles from "./_boxes.module.css";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 const boxesData = [
     {
@@ -30,13 +31,22 @@ const Box = ({
     handleClick,
     isDetail = false,
 }) => (
-    <button
-        onClick={() => handleClick({ label, description })}
-        className={styles.box}
-    >
-        {label} {!isDetail && arrow}
-        {isDetail && <div>{description}</div>}
-    </button>
+    <Card className="cursor-pointer hover:bg-muted/50 transition-colors">
+        <CardContent className="p-4">
+            <Button
+                onClick={() => handleClick({ label, description })}
+                variant="ghost"
+                className="w-full h-auto p-0 justify-start text-left"
+            >
+                <div className="w-full">
+                    <div className="font-semibold">
+                        {label} {!isDetail && <span className="text-accent ml-2">{arrow}</span>}
+                    </div>
+                    {isDetail && <div className="text-sm text-muted-foreground mt-2">{description}</div>}
+                </div>
+            </Button>
+        </CardContent>
+    </Card>
 );
 
 const Boxes = () => {
@@ -47,14 +57,16 @@ const Boxes = () => {
 
     if (currentBox) {
         return (
-            <Box handleClick={reset} isDetail={true}>
-                {currentBox}
-            </Box>
+            <div className="max-w-2xl mx-auto">
+                <Box handleClick={reset} isDetail={true}>
+                    {currentBox}
+                </Box>
+            </div>
         );
     }
 
     return (
-        <div className={styles.boxesContainer}>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {boxesData.map((item) => (
                 <Box key={item.label} handleClick={handleClick}>
                     {item}

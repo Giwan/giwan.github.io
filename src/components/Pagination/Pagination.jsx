@@ -1,10 +1,6 @@
 import React from "react";
-import {
-    button,
-    pageButtonContainer,
-    pageNumberStyle,
-    pageButtonNumbers
-} from "./Pagination.module.css";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { createButtons } from "./paginationHelpers";
 
 const Pagination = function ({
@@ -15,8 +11,8 @@ const Pagination = function ({
     totalPages,
 }) {
     return (
-        <div className={pageButtonContainer}>
-            <div className={pageButtonNumbers}>
+        <div className="flex flex-col items-center space-y-4">
+            <div className="flex items-center space-x-2">
                 <PageButtons
                     buttons={createButtons(
                         [-4, -3, -2, -1],
@@ -25,7 +21,9 @@ const Pagination = function ({
                         totalPages
                     )}
                 />
-                <span className={pageNumberStyle}>{pageNumber}</span>
+                <Badge variant="secondary" className="px-3 py-1">
+                    {pageNumber}
+                </Badge>
                 <PageButtons
                     buttons={createButtons(
                         [1, 2, 3, 4],
@@ -35,7 +33,7 @@ const Pagination = function ({
                     )}
                 />
             </div>
-            <div>
+            <div className="flex space-x-2">
                 <PageButtons {...{ buttons: prevButtons }} />
                 <PageButtons {...{ buttons: nextButtons }} />
             </div>
@@ -56,9 +54,9 @@ const PageButtons = ({ buttons }) =>
         const { label, action } = b;
 
         return (
-            <button key={label} onClick={action} className={button}>
+            <Button key={label} onClick={action} variant="outline" size="sm">
                 {convertLabel(label)}
-            </button>
+            </Button>
         );
     });
 
