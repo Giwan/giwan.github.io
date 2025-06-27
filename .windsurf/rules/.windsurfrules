@@ -1,0 +1,291 @@
+# Astro Development Rules
+
+Expert in Astro, ReactJS, TypeScript, TailwindCSS. Think step-by-step,
+prioritize static generation and performance.
+
+## Astro File Structure
+
+### Pages & Routing
+
+- Pages: `src/pages/index.astro`, `[slug].astro`, `[...path].astro`
+- Components: `src/components/Component.astro` (static), `Component.tsx`
+  (interactive)
+- Layouts: `src/layouts/Layout.astro` with slots
+- Content: `src/content/` with schema validation
+
+### Component Islands
+
+- Static by default, add interactivity only when needed
+- `client:load` - immediate hydration
+- `client:idle` - when browser idle
+- `client:visible` - when in viewport
+- `client:media="(min-width: 768px)"` - media queries
+
+```astro
+<!-- Static -->
+<Hero title="Welcome" />
+
+<!-- Interactive when needed -->
+<SearchBox client:visible />
+<Counter client:load />
+```
+
+## Content Collections
+
+### Schema Definition
+
+```typescript
+// src/content/config.ts
+import { defineCollection, z } from "astro:content";
+
+const blog = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    publishDate: z.date(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { blog };
+```
+
+### Usage Patterns
+
+- `getCollection('blog')` for multiple entries
+- `getEntry('blog', slug)` for single entry
+- Filter drafts: `getCollection('blog', ({ data }) => !data.draft)`
+- Always use schema validation
+
+## TypeScript Rules
+
+### Astro Components
+
+```typescript
+interface Props {
+  title: string;
+  description?: string;
+  class?: string;
+}
+
+const { title, description, class: className } = Astro.props;
+```
+
+### Framework Components
+
+- Export named components: `export const SearchInput = () => {}`
+- Type all props with interfaces
+- Use strict TypeScript configuration
+
+## Data Fetching
+
+### Static Generation
+
+- Fetch in frontmatter during build
+- Use top-level await
+- Handle errors gracefully
+
+```astro
+---
+let posts = [];
+try {
+  const response = await fetch('https://api.example.com/posts');
+  posts = await response.json();
+} catch (error) {
+  console.error('Failed to fetch posts:', error);
+}
+---
+
+{posts.length > 0 ? (
+  posts.map(post => <PostCard post={post} />)
+) : (
+  <div>No posts available</div>
+)}
+```
+
+### Dynamic Routes
+
+```astro
+---
+// [slug].astro
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post }
+  }));
+}
+---
+```
+
+## Performance Optimization
+
+### Image Handling
+
+```astro
+---
+import { Image } from 'astro:assets';
+import heroImg from '../assets/hero.jpg';
+---
+
+<Image
+  src={heroImg}
+  alt="Description"
+  width={800}
+  height={600}
+  format="webp"
+  loading="lazy"
+/>
+```
+
+### Bundle Optimization
+
+- Minimize client-side JavaScript
+- Use dynamic imports for heavy libraries
+- Leverage static generation
+- Use `astro:assets` for optimization
+
+## SEO & Meta Management
+
+### Head Tags
+
+```astro
+---
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<head>
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalURL} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+</head>
+```
+
+## Styling Guidelines
+
+### TailwindCSS
+
+- Use Tailwind utilities exclusively
+- Mobile-first responsive design
+- Apply styles in class attributes only
+
+```astro
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-6">
+  <article class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+    <!-- content -->
+  </article>
+</div>
+```
+
+### Scoped Styles
+
+- Use for component-specific CSS when Tailwind insufficient
+- Prefer CSS variables for design tokens
+
+```astro
+<style>
+  .hero {
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+  }
+</style>
+```
+
+## Error Handling
+
+### 404 Pages
+
+```astro
+---
+// src/pages/404.astro
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Page Not Found">
+  <div class="text-center py-16">
+    <h1 class="text-4xl font-bold">404 - Page Not Found</h1>
+    <a href="/" class="bg-blue-600 text-white px-6 py-3 rounded">Go Home</a>
+  </div>
+</Layout>
+```
+
+### Error Boundaries
+
+- Handle async errors in frontmatter
+- Provide fallback UI
+- Log errors for debugging
+
+## Accessibility
+
+### Semantic HTML
+
+- Use proper heading hierarchy (h1 → h6)
+- Use semantic elements: `<nav>`, `<main>`, `<article>`
+- Provide alt text for images
+- Implement skip links
+
+```astro
+<nav>
+  <a href="#main-content" class="sr-only focus:not-sr-only">Skip to content</a>
+  <!-- navigation -->
+</nav>
+
+<main id="main-content">
+  <!-- content -->
+</main>
+```
+
+## Configuration
+
+### Astro Config
+
+```javascript
+// astro.config.mjs
+import { defineConfig } from "astro/config";
+import tailwind from "@astrojs/tailwind";
+import react from "@astrojs/react";
+
+export default defineConfig({
+  site: "https://example.com",
+  integrations: [tailwind(), react()],
+  output: "static",
+});
+```
+
+### Environment Variables
+
+- Use `import.meta.env` for env vars
+- Prefix public vars with `PUBLIC_`
+- Validate required variables
+
+## Naming Conventions
+
+### Files
+
+- Pages: `kebab-case.astro`
+- Components: `PascalCase.astro`, `PascalCase.tsx`
+- Layouts: `PascalCase.astro`
+- Utils: `camelCase.ts`
+
+### Variables
+
+- Components: `const ComponentName = () => {}`
+- Handlers: `handleSubmit`, `handleClick`
+- Booleans: `isLoading`, `hasError`, `canEdit`
+- Use descriptive names with auxiliary verbs
+
+## Communication Rules
+
+- Follow requirements precisely
+- Plan in pseudocode before coding
+- Write complete, functional code
+- Include all imports and proper file structure
+- Prioritize static generation over client-side rendering
+- Admit uncertainty rather than guessing
