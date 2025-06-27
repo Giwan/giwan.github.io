@@ -1,6 +1,7 @@
 ---
 import HeaderNav from "./HeaderNav/HeaderNav.astro";
 import Logo from "./Header/HeaderLogo";
+import { ThemeSwitcher } from "./ThemeSwitcher";
 import { formatDateWithOptions } from "../utils/helpers.ts";
 const currentDate = formatDateWithOptions(new Date().toString());
 ---
@@ -11,6 +12,7 @@ const currentDate = formatDateWithOptions(new Date().toString());
             <Logo />
         </div>
         <div class="col-span-1 flex justify-end items-center sm:flex-row">
+            <ThemeSwitcher client:load />
             <HeaderNav />
         </div>
         <div class="col-span-2 w-full flex justify-between border-t border-border py-1 font-sans font-bold text-sm text-muted-foreground">
