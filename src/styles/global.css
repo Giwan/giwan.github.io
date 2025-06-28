@@ -21,6 +21,29 @@
     --ring: 240 5.9% 10%;
 }
 
+.dark {
+    /* Dark mode design tokens */
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+}
+
 body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
@@ -122,12 +145,47 @@ hr {
     margin: 2rem 0;
 }
 
-/* Code syntax highlighting */
+/* Code syntax highlighting - Force readable colors */
 .astro-code {
-    font-family: "JetBrains Mono", "Fira Code", monospace;
-    padding: 1.25rem;
-    border-radius: 5px;
-    border: 1px solid hsl(var(--border));
+    font-family: "JetBrains Mono", "Fira Code", monospace !important;
+    padding: 1.25rem !important;
+    border-radius: 5px !important;
+    border: 1px solid hsl(var(--border)) !important;
+    margin: 1.5rem 0 !important;
+    background-color: hsl(var(--muted)) !important;
+    color: hsl(var(--foreground)) !important;
+    overflow-x: auto !important;
+}
+
+/* Override all nested Shiki colors with our theme colors */
+.astro-code * {
+    color: hsl(var(--foreground)) !important;
+}
+
+/* Style different code elements with theme-aware colors */
+.astro-code .token.comment,
+.astro-code .token.prolog,
+.astro-code .token.doctype,
+.astro-code .token.cdata {
+    color: hsl(var(--muted-foreground)) !important;
+}
+
+.astro-code .token.string,
+.astro-code .token.attr-value {
+    color: hsl(var(--primary)) !important;
+}
+
+.astro-code .token.keyword,
+.astro-code .token.operator {
+    color: hsl(var(--accent-foreground)) !important;
+}
+
+/* Ensure prose doesn't interfere */
+.prose pre.astro-code {
+    background-color: hsl(var(--muted)) !important;
+    color: hsl(var(--foreground)) !important;
+    border: 1px solid hsl(var(--border)) !important;
+    padding: 1.25rem !important;
 }
 
 /* Make scrollbars match theme */

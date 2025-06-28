@@ -15,12 +15,41 @@ const {
 } = Astro.props;
 ---
 
-<html lang="en" class="dark" data-theme="dark">
+<html lang="en">
     <head>
         <BaseHead title={title} description={description} />
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+        <script>
+          (function() {
+            function getInitialTheme() {
+              const persistedTheme = localStorage.getItem('theme');
+              const hasPersistedTheme = typeof persistedTheme === 'string';
+              
+              if (hasPersistedTheme) {
+                if (persistedTheme === 'system') {
+                  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                }
+                return persistedTheme;
+              }
+              
+              // Default to system preference
+              return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+
+            const theme = getInitialTheme();
+            const root = document.documentElement;
+            
+            if (theme === 'dark') {
+              root.classList.add('dark');
+              root.setAttribute('data-theme', 'dark');
+            } else {
+              root.classList.remove('dark');
+              root.setAttribute('data-theme', 'light');
+            }
+          })();
+        </script>
     </head>
 
     <body class="bg-background min-h-screen font-sans text-foreground leading-relaxed">
