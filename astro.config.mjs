@@ -12,7 +12,7 @@ export default defineConfig({
     outDir: "./docs",
     markdown: {
         shikiConfig: {
-            theme: 'github-dark',
+            theme: 'monokai',
             wrap: true
         }
     }
