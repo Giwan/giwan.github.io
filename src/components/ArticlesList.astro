@@ -5,7 +5,9 @@ import type { IPost } from "../types/post";
 const getPubDate = (post: string | any) =>
     new Date(post.frontmatter.pubDate || post.frontmatter.published).valueOf();
 
-const allPosts = (await Astro.glob("/src/pages/blog/**/*.{md,mdx}")) as IPost[];
+const allPosts = await Promise.all(Object.values(import.meta.glob("/src/pages/blog/**/*.{md,mdx}"))
+    .map(async (item) => await item())
+) as IPost[];
 
 const filterFn = (post: IPost): boolean =>
     Boolean(post.frontmatter.pubDate || post.frontmatter.published);
