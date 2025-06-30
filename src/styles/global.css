@@ -1,5 +1,9 @@
-:root {
-    /* Light mode - default Tailwind design tokens */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
@@ -10,7 +14,7 @@
     --primary-foreground: 0 0% 98%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
-    /* --muted: 240 4.8% 95.9%; */
+    --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
     --accent: 240 4.8% 95.9%;
     --accent-foreground: 240 5.9% 10%;
@@ -19,10 +23,9 @@
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
-}
+  }
 
-.dark {
-    /* Dark mode design tokens */
+  .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
     --card: 240 10% 3.9%;
@@ -42,134 +45,10 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
-}
+  }
 
-body {
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
-    font-family: "Merriweather", serif;
-    line-height: 1.6;
-}
-
-a {
-    color: hsl(var(--primary));
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
-
-a:hover {
-    color: hsl(var(--accent-foreground));
-}
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: "Inter", sans-serif;
-    color: hsl(var(--foreground));
-    font-weight: 700;
-}
-
-h1 {
-    color: hsl(var(--primary));
-    font-weight: 600;
-    letter-spacing: -0.5px;
-}
-
-h2 {
-    color: hsl(var(--primary));
-    border-bottom: 1px solid hsl(var(--border));
-    padding-bottom: 0.3rem;
-    font-weight: 600;
-    letter-spacing: -0.3px;
-}
-
-code {
-    font-family: "JetBrains Mono", "Fira Code", monospace;
-    color: hsl(var(--muted-foreground));
-    padding: 0.2em 0.4em;
-    border-radius: 3px;
-    font-size: 0.9em;
-}
-
-pre:not(.astro-code) {
-    background-color: hsl(var(--muted)) ;
-    padding: 1rem;
-    border-radius: 5px;
-    overflow-x: auto;
-    margin: 1.5rem 0;
-    border-left: 3px solid hsl(var(--primary));
-    border: 1px solid hsl(var(--border));
-}
-
-pre code {
-    padding: 0;
-    font-size: 0.9em;
-    line-height: 1.5;
-}
-
-blockquote {
-    border-left: 4px solid hsl(var(--accent-foreground));
-    margin-left: 0;
-    padding-left: 1rem;
-    color: hsl(var(--muted-foreground));
-}
-
-table {
-    border-collapse: collapse;
-    width: 100%;
-    margin: 1rem 0;
-    border: 1px solid hsl(var(--border));
-}
-
-table th {
-    background-color: hsl(var(--muted));
-    color: hsl(var(--primary));
-    text-align: left;
-    padding: 0.75rem;
-    border-bottom: 1px solid hsl(var(--border));
-}
-
-table td {
-    padding: 0.5rem 0.75rem;
-    border-bottom: 1px solid hsl(var(--border));
-}
-
-table tr:nth-child(even) {
-    background-color: hsl(var(--muted) / 0.5);
-}
-
-hr {
-    border: none;
-    height: 1px;
-    background-color: hsl(var(--border));
-    margin: 2rem 0;
-}
-
-/* Code syntax highlighting - Force readable colors */
-.astro-code {
-    font-family: "JetBrains Mono", "Fira Code", monospace ;
-    padding: 1.25rem ;
-    border-radius: 5px ;
-    border: 1px solid hsl(var(--border)) ;
-    margin: 1.5rem 0 ;
-    background-color: hsl(var(--muted));
-    color: hsl(var(--foreground)) ;
-    overflow-x: auto ;
-}
-
-/* Make scrollbars match theme */
-::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
-}
-
-::-webkit-scrollbar-track {
-    background: hsl(var(--background));
-}
-
-::-webkit-scrollbar-thumb {
-    background: hsl(var(--muted));
-    border-radius: 6px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--muted-foreground));
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
 }

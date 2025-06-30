@@ -57,12 +57,12 @@ const formattedUpdatedDate = updatedDate
       )}
       
       <!-- Title -->
-      <h1 class="text-4xl font-bold text-foreground mb-4">
+      <h1 class="text-6xl font-bold text-foreground mb-4">
         {title}
       </h1>
       
       <!-- Metadata Row -->
-      <div class="flex flex-wrap items-center justify-end text-sm text-muted-foreground">
+      <div class="flex flex-wrap items-center text-sm text-muted-foreground">
         <span class="mr-3">{formattedDate}</span>
         {formattedUpdatedDate && (
           <span class="mr-3">
@@ -84,7 +84,7 @@ const formattedUpdatedDate = updatedDate
     )}
     
     <!-- Article Content -->
-    <div class="prose prose-lg max-w-none prose-headings:text-foreground prose-headings:font-semibold prose-p:text-foreground prose-a:text-primary prose-a:underline prose-strong:text-foreground prose-ul:text-foreground prose-ol:text-foreground prose-li:text-foreground prose-li:marker:text-muted-foreground prose-code:bg-muted prose-code:text-muted-foreground prose-code:px-1 prose-code:py-0.5 prose-code:rounded-sm prose-blockquote:border-l-border prose-blockquote:text-muted-foreground prose-th:text-foreground prose-td:text-foreground">
+    <div class="prose prose-xl max-w-none dark:prose-invert">
       <slot />
     </div>
     
