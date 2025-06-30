@@ -15,6 +15,13 @@ const posts = allPosts
     .sort((a, b) => getPubDate(b) - getPubDate(a));
 
 const postsPerPage = 10;
+
+const clientPosts = posts.map((post) => ({
+    url: post.url,
+    title: post.frontmatter.title,
+    description: post.frontmatter.description,
+    formattedDate: formatArticlePublishedDate(post),
+}));
 ---
 
 <main class="col-span-full">
@@ -42,25 +49,26 @@ const postsPerPage = 10;
     )}
 </main>
 
-<script define:vars={{ posts, postsPerPage, formatArticlePublishedDate }}>
+<script define:vars={{ posts: clientPosts, postsPerPage }}>
     let visiblePosts = postsPerPage;
     const articlesList = document.getElementById('articles-list');
     const loadMoreButton = document.getElementById('load-more-button');
 
     if (loadMoreButton) {
         loadMoreButton.addEventListener('click', () => {
+            const currentPosts = visiblePosts;
             visiblePosts += postsPerPage;
-            const nextPosts = posts.slice(visiblePosts - postsPerPage, visiblePosts);
+            const nextPosts = posts.slice(currentPosts, visiblePosts);
 
             nextPosts.forEach(post => {
                 const listItem = document.createElement('li');
                 listItem.className = 'border border-border p-4 rounded-lg bg-card h-[420px] overflow-hidden transition-colors hover:bg-muted/50 group article-item';
                 listItem.innerHTML = `
                     <a href="${post.url}" class="block h-full">
-                        <h2 class="text-2xl leading-9 mb-1 font-heading font-extrabold text-primary group-hover:underline">${post.frontmatter.title}</h2>
-                        <p class="text-muted-foreground mb-4 font-heading text-sm">${formatArticlePublishedDate(post)}</p>
+                        <h2 class="text-2xl leading-9 mb-1 font-heading font-extrabold text-primary group-hover:underline">${post.title}</h2>
+                        <p class="text-muted-foreground mb-4 font-heading text-sm">${post.formattedDate}</p>
                         <p class="text-foreground leading-7 text-lg">
-                            ${post.frontmatter.description}
+                            ${post.description}
                         </p>
                     </a>
                 `;
