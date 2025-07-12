@@ -7,8 +7,6 @@ improvements to make it an even better blog:
 
 ### RSS Feed Enhancement
 
-- **RSS Feed Migration**: RSS feed (`src/pages/rss.xml.js:4`) uses outdated
-  Astro v2 syntax - should migrate to `export async function GET()`
 - **Structured Data**: Add structured data (JSON-LD) for better search engine
   understanding
 - **Category RSS**: Implement category/tag-based RSS feeds for specialized
@@ -99,10 +97,8 @@ improvements to make it an even better blog:
 
 ### High Priority
 
-1. RSS feed migration to modern Astro syntax
 2. Image optimization with `astro:assets`
-3. Accessibility improvements (skip links, ARIA)
-4. Related posts functionality
+3. Related posts functionality
 
 ### Medium Priority
 
