@@ -84,7 +84,6 @@ improvements to make it an even better blog:
 
 ### Modern Features
 
-- **View Transitions**: View Transitions API for smooth page navigation
 - **Internationalization**: Internationalization (i18n) support if targeting
   multiple languages
 - **Theme Persistence**: Dark/light mode preference persistence improvements
