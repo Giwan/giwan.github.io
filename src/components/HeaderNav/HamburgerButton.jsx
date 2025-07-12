@@ -5,9 +5,11 @@ const HamburgerButton = ({ isOpen, onClick }) => (
     onClick={onClick}
     className={`menu-button mb-1 bg-primary text-background rounded-sm 
       flex flex-col items-center justify-center space-y-1.5 w-12 h-12 
-      focus:outline-none focus:ring-2 focus:ring-syntax-purple 
+      focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2
       transition-all duration-200`}
-    aria-label="Toggle menu"
+    aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+    aria-expanded={isOpen}
+    aria-controls="mobile-navigation"
   >
     <span className={`${stripeBaseStyle} ${isOpen ? 'translate-y-2 rotate-45' : ''}`} />
     <span className={`${stripeBaseStyle} ${isOpen ? 'opacity-0' : 'opacity-100'}`} />

@@ -53,9 +53,16 @@ const {
     </head>
 
     <body class="bg-background min-h-screen font-sans text-foreground leading-relaxed">
+        <!-- Skip Navigation Link -->
+        <a href="#main-content" class="skip-link">
+            Skip to main content
+        </a>
+        
         <div class="mx-auto max-w-8xl p-4 sm:p-6 lg:p-8">
             <Header />
-            <slot />
+            <main id="main-content" role="main">
+                <slot />
+            </main>
             <Footer />
         </div>
     </body>

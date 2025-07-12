@@ -42,7 +42,7 @@ const formattedUpdatedDate = updatedDate
 ---
 
 <PageLayout content={{ title, description }}>
-  <div class="max-w-4xl my-12">
+  <article class="max-w-4xl my-12">
     <!-- Article Header -->
     <header class="mb-8 pb-6">
       <!-- Categories -->
@@ -84,9 +84,9 @@ const formattedUpdatedDate = updatedDate
     )}
     
     <!-- Article Content -->
-    <div class="prose prose-xl max-w-none dark:prose-invert">
+    <section class="prose prose-xl max-w-none dark:prose-invert">
       <slot />
-    </div>
+    </section>
     
     <!-- Article Footer -->
     <footer class="mt-12 pt-6 border-t border-border">
@@ -108,30 +108,29 @@ const formattedUpdatedDate = updatedDate
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center">
         <div class="mb-4 sm:mb-0">
           <h3 class="text-sm uppercase tracking-wider text-muted-foreground mb-2">Share this article</h3>
-          <div class="flex space-x-3">
-            <a href="https://mastodon.social/@giwan" class="text-muted-foreground hover:text-primary transition-colors" rel="me">
-              <span class="sr-only">Mastodon</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+          <div class="flex space-x-3" role="list">
+            <a href="https://mastodon.social/@giwan" class="text-muted-foreground hover:text-primary focus:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-sm p-1" rel="me" role="listitem">
+              <span class="sr-only">Follow on Mastodon</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M23.268 5.313c-.35-2.578-2.617-4.61-5.304-5.004C17.51.242 15.792 0 11.813 0h-.03c-3.98 0-4.835.242-5.288.309C3.882.692 1.496 2.518.917 5.127.64 6.412.61 7.837.661 9.143c.074 1.874.088 3.745.26 5.611.118 1.24.325 2.47.62 3.68.55 2.237 2.777 4.098 4.96 4.857 2.336.792 4.849.923 7.256.38.265-.061.527-.132.786-.213.585-.184 1.27-.39 1.774-.753a.057.057 0 0 0 .023-.043v-1.809a.052.052 0 0 0-.02-.041.053.053 0 0 0-.046-.01 20.282 20.282 0 0 1-4.709.545c-2.73 0-3.463-1.284-3.674-1.818a5.593 5.593 0 0 1-.319-1.433.053.053 0 0 1 .066-.054c1.517.363 3.072.546 4.632.546.376 0 .75 0 1.125-.01 1.57-.044 3.224-.124 4.768-.422.038-.008.077-.015.11-.024 2.435-.464 4.753-1.92 4.989-5.604.008-.145.03-1.52.03-1.67.002-.512.167-3.63-.024-5.545z"/>
               </svg>
             </a>
-            <a href="mailto:giwan@giwan.id" class="text-muted-foreground hover:text-primary transition-colors">
-              <span class="sr-only">Email</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <a href="mailto:giwan@mytoori.com" class="text-muted-foreground hover:text-primary focus:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-sm p-1" role="listitem">
+              <span class="sr-only">Send email</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
             </a>
-            <a href="https://www.linkedin.com/in/giwan/" class="text-muted-foreground hover:text-primary transition-colors">
-              <span class="sr-only">LinkedIn</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+            <a href="https://www.linkedin.com/in/giwan/" class="text-muted-foreground hover:text-primary focus:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-sm p-1" rel="noopener noreferrer" target="_blank" role="listitem">
+              <span class="sr-only">Connect on LinkedIn (opens in new tab)</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/>
               </svg>
             </a>
-
           </div>
         </div>
         
-        <a href="/articles" class="inline-flex items-center font-semibold text-foreground hover:text-primary transition-colors">
+        <a href="/" class="inline-flex items-center font-semibold text-foreground hover:text-primary transition-colors">
           <span>More articles</span>
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -139,6 +138,6 @@ const formattedUpdatedDate = updatedDate
         </a>
       </div>
     </footer>
-  </div>
+  </article>
 </PageLayout>
 
