@@ -28,13 +28,22 @@ export const useTheme = () => {
 
       setResolvedTheme(effectiveTheme);
 
-      // Update DOM
-      if (effectiveTheme === 'dark') {
-        root.classList.add('dark');
-        root.setAttribute('data-theme', 'dark');
+      // Update DOM with view transition support
+      const updateDOMWithTransition = () => {
+        if (effectiveTheme === 'dark') {
+          root.classList.add('dark');
+          root.setAttribute('data-theme', 'dark');
+        } else {
+          root.classList.remove('dark');
+          root.setAttribute('data-theme', 'light');
+        }
+      };
+
+      // Use view transition API if available and supported
+      if (typeof document !== 'undefined' && 'startViewTransition' in document) {
+        (document as any).startViewTransition(() => updateDOMWithTransition());
       } else {
-        root.classList.remove('dark');
-        root.setAttribute('data-theme', 'light');
+        updateDOMWithTransition();
       }
 
       // Store in localStorage
