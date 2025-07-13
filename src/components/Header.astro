@@ -3,6 +3,7 @@ import HeaderNav from "./HeaderNav/HeaderNav.astro";
 import Logo from "./Header/HeaderLogo";
 import { ThemeToggle } from "./ThemeToggle";
 import { formatDateWithOptions } from "../utils/helpers.ts";
+import { SITE_DESCRIPTION, SITE_DATE } from "../config";
 const currentDate = formatDateWithOptions(new Date().toString());
 ---
 
@@ -19,11 +20,11 @@ const currentDate = formatDateWithOptions(new Date().toString());
             <p>
                 {currentDate} —{" "}
                 <span class="hidden sm:inline">
-                    Exploring code & technology
+                    {SITE_DESCRIPTION}
                 </span>
             </p>
             <p>
-                VOL. 23 • ISSUE 42
+                {SITE_DATE} • ISSUE 42
             </p>
         </div>
     </div>
