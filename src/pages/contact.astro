@@ -1,0 +1,14 @@
+---
+import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
+import PageLayout from "../layouts/PageLayout.astro";
+---
+
+<PageLayout content={{ title: SITE_TITLE, description: SITE_DESCRIPTION }}>
+
+    <p class="h-12 my-12">For any inquiries, please reach out to me at <a
+        href="https://mastodon.social/@giwan"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-primary hover:text-primary/80 underline"
+        >mastodon.social/@giwan</a></p>
+</PageLayout>
