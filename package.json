@@ -9,11 +9,9 @@
         "prebuild": "npm run populateSearchData",
         "build": "astro build",
         "preview": "astro preview",
-        "preview:deno": "deno run --allow-net --allow-read --allow-env ./dist/server/entry.mjs",
         "astro": "astro",
         "populateSearchData": "node populateSearchData.js",
         "predeploy": "npm run build",
-        "deploy:prod": "npm run build && cd dist && deployctl deploy",
         "test": "jest",
         "clean": "rm -rf docs/*"
     },
