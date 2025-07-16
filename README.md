@@ -83,6 +83,194 @@ npm run preview # Preview the built site
 The `build` script also runs the `populateSearchData` script to ensure the
 search index is up to date.
 
+# Progressive Web App (PWA)
+
+This blog is implemented as a fully-featured Progressive Web App (PWA) that meets all modern PWA standards. Users can install the app on their devices and access content offline.
+
+## PWA Features
+
+### Installation
+- **App Installation**: Users can install the blog as an app on their devices through browser prompts
+- **Standalone Mode**: The installed app runs in standalone mode without browser UI
+- **App Icons**: Comprehensive icon set for all platforms (iOS, Android, Windows)
+- **Splash Screen**: Custom splash screen with gray background (#808080) and app branding
+
+### Offline Functionality
+- **Service Worker**: Automatically caches visited pages and static assets
+- **Offline Fallback**: Custom offline page when uncached content is accessed
+- **Cache Strategy**: Stale-while-revalidate caching for optimal performance
+- **Blog Post Caching**: Last 3 visited articles are cached for offline reading
+- **Asset Caching**: Images, fonts, and static assets cached for 1 month
+
+### Performance
+- **Fast Loading**: Critical resources are precached for instant loading
+- **Background Updates**: Content updates automatically in the background
+- **Update Notifications**: Non-intrusive notifications when new content is available
+
+## PWA Configuration
+
+### Manifest Configuration
+The web app manifest is located at `public/manifest.webmanifest` and includes:
+
+```json
+{
+  "name": "Giwan Blog",
+  "short_name": "G1",
+  "theme_color": "#272822",
+  "background_color": "#808080",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/"
+}
+```
+
+### Service Worker Configuration
+PWA functionality is configured in `astro.config.mjs` using VitePWA:
+
+```javascript
+VitePWA({
+  scope: '/',
+  registerType: 'autoUpdate',
+  workbox: {
+    navigateFallback: '/offline.html',
+    runtimeCaching: [
+      // Blog posts - stale while revalidate
+      {
+        urlPattern: /\/blog\/.*/,
+        handler: 'StaleWhileRevalidate',
+        options: {
+          cacheName: 'blog-posts',
+          expiration: {
+            maxEntries: 50,
+            maxAgeSeconds: 30 * 24 * 60 * 60 // 30 days
+          }
+        }
+      }
+    ]
+  }
+})
+```
+
+## Updating PWA Assets
+
+### Updating Icons
+1. Replace icon files in `public/icons/` directory
+2. Ensure all required sizes are included (16x16 to 1024x1024)
+3. Include maskable icons for Android adaptive icons
+4. Update `public/manifest.webmanifest` if icon filenames change
+5. Test installation on different platforms
+
+### Updating Manifest
+1. Edit `public/manifest.webmanifest` for basic properties
+2. Modify VitePWA configuration in `astro.config.mjs` for advanced settings
+3. Test changes with Lighthouse PWA audit
+4. Verify installation behavior after changes
+
+### Updating Caching Strategies
+1. Modify `workbox.runtimeCaching` in `astro.config.mjs`
+2. Adjust cache expiration times and entry limits
+3. Test offline functionality after changes
+4. Monitor cache storage usage
+
+## Testing PWA Functionality
+
+### Local Testing
+```bash
+# Build the site with PWA features
+npm run build
+
+# Serve the built site locally
+npm run preview
+
+# Test PWA features at http://localhost:4321
+```
+
+### PWA Testing Checklist
+- [ ] Install prompt appears in supported browsers
+- [ ] App installs correctly on desktop and mobile
+- [ ] Standalone mode works without browser UI
+- [ ] Offline pages load from cache
+- [ ] Offline fallback displays for uncached content
+- [ ] Service worker updates work correctly
+- [ ] Icons and splash screen display properly
+
+### Lighthouse Audit
+Run Lighthouse PWA audit to verify compliance:
+1. Open Chrome DevTools
+2. Go to Lighthouse tab
+3. Select "Progressive Web App" category
+4. Run audit and aim for 100/100 score
+
+### Browser Testing
+- **Chrome**: Full PWA support including installation
+- **Safari**: iOS PWA features and home screen installation
+- **Edge**: Windows PWA installation and features
+- **Firefox**: Basic PWA functionality
+
+## Troubleshooting PWA Issues
+
+### Installation Issues
+**Problem**: Install prompt doesn't appear
+- **Solution**: Ensure HTTPS is enabled and manifest is valid
+- **Check**: Verify all required manifest fields are present
+- **Test**: Use Chrome DevTools Application tab to inspect manifest
+
+**Problem**: App doesn't install on iOS
+- **Solution**: Verify Apple-specific meta tags in BaseHead component
+- **Check**: Ensure `apple-mobile-web-app-capable` meta tag is present
+- **Test**: Use Safari on iOS device or simulator
+
+### Offline Issues
+**Problem**: Pages don't load offline
+- **Solution**: Check if pages were visited while online first
+- **Check**: Inspect service worker cache in DevTools
+- **Debug**: Look for service worker errors in console
+
+**Problem**: Offline fallback not showing
+- **Solution**: Verify `/offline.html` exists and is accessible
+- **Check**: Ensure `navigateFallback` is configured in workbox
+- **Test**: Disable network in DevTools and navigate to uncached page
+
+### Caching Issues
+**Problem**: Content doesn't update
+- **Solution**: Check if service worker is updating properly
+- **Check**: Look for update notifications or force refresh
+- **Debug**: Clear cache and reload, or unregister service worker
+
+**Problem**: Cache storage full
+- **Solution**: Reduce cache limits in workbox configuration
+- **Check**: Monitor cache usage in DevTools Application tab
+- **Fix**: Implement cache cleanup strategies
+
+### Service Worker Issues
+**Problem**: Service worker fails to register
+- **Solution**: Check console for registration errors
+- **Check**: Verify service worker file is accessible
+- **Debug**: Ensure HTTPS is enabled (required for service workers)
+
+**Problem**: Service worker not updating
+- **Solution**: Check `registerType` configuration in VitePWA
+- **Check**: Verify build process generates new service worker
+- **Fix**: Clear browser cache and hard refresh
+
+### Performance Issues
+**Problem**: Slow loading after PWA installation
+- **Solution**: Review caching strategies and precache critical resources
+- **Check**: Use Lighthouse performance audit
+- **Optimize**: Reduce bundle sizes and optimize images
+
+### Debugging Tools
+- **Chrome DevTools**: Application tab for PWA inspection
+- **Lighthouse**: PWA audit and performance testing
+- **Workbox**: Service worker debugging and cache inspection
+- **PWA Builder**: Microsoft's PWA validation tool
+
+### Common Fixes
+1. **Clear all caches**: DevTools > Application > Storage > Clear storage
+2. **Unregister service worker**: DevTools > Application > Service Workers > Unregister
+3. **Hard refresh**: Ctrl+Shift+R (Cmd+Shift+R on Mac)
+4. **Incognito testing**: Test PWA features in private browsing mode
+
 # Styling
 
 The project uses a combination of styling approaches:

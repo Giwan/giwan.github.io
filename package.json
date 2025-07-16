@@ -8,10 +8,19 @@
         "start": "astro dev",
         "prebuild": "npm run populateSearchData",
         "build": "astro build",
+        "postbuild": "npm run optimize-build",
         "preview": "astro preview",
         "astro": "astro",
         "populateSearchData": "node populateSearchData.js",
-        "predeploy": "npm run build",
+        "optimize-build": "node scripts/optimize-build.js",
+        "validate-pwa": "node scripts/validate-pwa-build.js",
+        "validate-pwa-final": "node scripts/validate-pwa-final.js",
+        "test-pwa-functionality": "node scripts/test-pwa-functionality.js",
+        "lighthouse-audit": "node scripts/lighthouse-audit.js",
+        "build:pwa": "npm run build && npm run validate-pwa",
+        "test:pwa": "npm run validate-pwa-final && npm run test-pwa-functionality",
+        "audit:pwa": "npm run lighthouse-audit",
+        "predeploy": "npm run build:pwa",
         "test": "jest",
         "clean": "rm -rf docs/*"
     },
@@ -37,8 +46,10 @@
     "devDependencies": {
         "@tailwindcss/typography": "^0.5.16",
         "@vite-pwa/astro": "^1.1.0",
+        "http-server": "^14.1.1",
         "jest": "^29.7.0",
         "jest-environment-jsdom": "^29.7.0",
+        "puppeteer": "^22.0.0",
         "ts-jest": "^29.4.0"
     }
 }
