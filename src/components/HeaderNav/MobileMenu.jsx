@@ -1,10 +1,14 @@
+import { useStore } from "@nanostores/react";
+import { $isMobileMenuOpen } from "../../stores/mobileMenuStore";
 import headerNavData from "./headerLinks.json";
 
-const MobileMenu = ({ isOpen, onClose }) => {
+const MobileMenu = ({ onClose }) => {
+  const isOpen = useStore($isMobileMenuOpen);
+  
   if (!isOpen) return null;
 
   return (
-    <div className="mobile-menu-container fixed inset-0 z-50 bg-background border-r border-border">
+    <div className="mobile-menu-container fixed inset-0 bg-background border-r border-border" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999 }}>
       <div className="p-4 bg-muted text-foreground flex justify-between items-center border-b border-border">
         <h2 className="font-heading text-2xl text-primary">Menu</h2>
         <button 

@@ -4,6 +4,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import ServiceWorkerUpdateManager from "../components/ServiceWorkerUpdateManager";
 import PWAErrorBoundary from "../components/PWAErrorBoundary";
+import ConditionalContent from "../components/ConditionalContent";
 import { ViewTransitions } from "astro:transitions";
 
 export interface Props {
@@ -22,56 +23,76 @@ const {
     <head>
         <BaseHead title={title} description={description} />
         <ViewTransitions />
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap"
+            rel="stylesheet"
+        />
         <script>
-          (function() {
-            function getInitialTheme() {
-              const persistedTheme = localStorage.getItem('theme');
-              const hasPersistedTheme = typeof persistedTheme === 'string';
-              
-              if (hasPersistedTheme) {
-                if (persistedTheme === 'system') {
-                  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                }
-                return persistedTheme;
-              }
-              
-              // Default to system preference
-              return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            }
+            (function () {
+                function getInitialTheme() {
+                    const persistedTheme = localStorage.getItem("theme");
+                    const hasPersistedTheme =
+                        typeof persistedTheme === "string";
 
-            const theme = getInitialTheme();
-            const root = document.documentElement;
-            
-            if (theme === 'dark') {
-              root.classList.add('dark');
-              root.setAttribute('data-theme', 'dark');
-            } else {
-              root.classList.remove('dark');
-              root.setAttribute('data-theme', 'light');
-            }
-          })();
+                    if (hasPersistedTheme) {
+                        if (persistedTheme === "system") {
+                            return window.matchMedia(
+                                "(prefers-color-scheme: dark)",
+                            ).matches
+                                ? "dark"
+                                : "light";
+                        }
+                        return persistedTheme;
+                    }
+
+                    // Default to system preference
+                    return window.matchMedia("(prefers-color-scheme: dark)")
+                        .matches
+                        ? "dark"
+                        : "light";
+                }
+
+                const theme = getInitialTheme();
+                const root = document.documentElement;
+
+                if (theme === "dark") {
+                    root.classList.add("dark");
+                    root.setAttribute("data-theme", "dark");
+                } else {
+                    root.classList.remove("dark");
+                    root.setAttribute("data-theme", "light");
+                }
+            })();
         </script>
     </head>
 
-    <body class="bg-background min-h-screen font-sans text-foreground leading-relaxed">
+    <body
+        class="bg-background min-h-screen font-sans text-foreground leading-relaxed"
+    >
         <!-- Skip Navigation Link -->
-        <a href="#main-content" class="skip-link">
-            Skip to main content
-        </a>
-        
+        <a href="#main-content" class="skip-link"> Skip to main content </a>
+
         <PWAErrorBoundary client:load>
-            <div class="mx-auto max-w-8xl p-4 sm:p-6 lg:p-8">
+            <div
+                class="mx-auto max-w-8xl p-4 sm:p-6 lg:p-8"
+                style="padding-top: calc(var(--sat) + 1rem);"
+            >
                 <Header />
-                <main id="main-content" role="main" transition:name="main-content">
-                    <slot />
-                </main>
-                <Footer />
+                <ConditionalContent client:load>
+                    <main
+                        id="main-content"
+                        role="main"
+                        transition:name="main-content"
+                    >
+                        <slot />
+                    </main>
+                    <Footer />
+                </ConditionalContent>
             </div>
         </PWAErrorBoundary>
-        
+
         <!-- Service Worker Update Notification -->
         <ServiceWorkerUpdateManager client:load />
     </body>

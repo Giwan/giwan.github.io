@@ -1,20 +1,21 @@
-import { useState } from "react";
+import { useStore } from "@nanostores/react";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { useBodyOverflow } from "../../hooks/useBodyOverflow";
+import { $isMobileMenuOpen, closeMobileMenu, toggleMobileMenu } from "../../stores/mobileMenuStore";
 import HamburgerButton from "./HamburgerButton";
 import MobileMenu from "./MobileMenu";
 
 const HeaderNav = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const isOpen = useStore($isMobileMenuOpen);
   
-  const handleClose = () => setIsOpen(false);
-  const handleToggle = () => setIsOpen(!isOpen);
+  const handleClose = () => closeMobileMenu();
+  const handleToggle = () => toggleMobileMenu();
   
   useClickOutside(isOpen, handleClose, [".mobile-menu-container", ".menu-button"]);
   useBodyOverflow(isOpen);
   
   return (
-    <div className="relative">
+    <div className="">
       <HamburgerButton isOpen={isOpen} onClick={handleToggle} />
       <MobileMenu isOpen={isOpen} onClose={handleClose} />
     </div>

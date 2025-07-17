@@ -1,7 +1,7 @@
 {
   "name": "Giwan Blog",
   "short_name": "G1",
-  "description": "Personal technical blog by Giwan – built with Astro.",
+  "description": "Personal technical blog by Giwan – built with AstroJS, ShadCN and TailwindCSS.",
   "lang": "en",
   "dir": "ltr",
   "icons": [
@@ -83,6 +83,10 @@
   "orientation": "portrait-primary",
   "theme_color": "#272822",
   "background_color": "#808080",
-  "categories": ["blog", "technology", "development"],
+  "categories": [
+    "blog",
+    "technology",
+    "development"
+  ],
   "prefer_related_applications": false
 }
