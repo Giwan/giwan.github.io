@@ -8,7 +8,7 @@
   - _Requirements: 2.1, 2.2, 7.1, 7.2_
 
 - [x] 2. Update web app manifest configuration
-  - Modify public/manifest.webmanifest to use gray background color (#808080) for splash screen
+  - Modify public/manifest.json to use gray background color (#808080) for splash screen
   - Ensure all required PWA manifest fields are properly configured
   - Validate icon references match existing icon files in public/icons/
   - _Requirements: 1.2, 1.4, 4.2_

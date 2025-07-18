@@ -106,7 +106,7 @@ class PWABuildValidator {
   validateManifest() {
     this.log('\n📱 Validating Web App Manifest...');
     
-    const manifestPath = path.join(DOCS_DIR, 'manifest.webmanifest');
+    const manifestPath = path.join(DOCS_DIR, 'manifest.json');
     if (!this.validateFileExists(manifestPath, 'Web App Manifest')) {
       return;
     }
@@ -290,7 +290,7 @@ class PWABuildValidator {
     const requiredFiles = [
       'index.html',
       'sw.js',
-      'manifest.webmanifest',
+      'manifest.json',
       'registerSW.js',
       'favicon.svg',
       'robots.txt'

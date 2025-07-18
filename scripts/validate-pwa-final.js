@@ -35,9 +35,9 @@ class PWAValidator {
     validateManifest() {
         this.log('Validating Web App Manifest...');
         
-        const manifestPath = path.join(docsDir, 'manifest.webmanifest');
+        const manifestPath = path.join(docsDir, 'manifest.json');
         if (!fs.existsSync(manifestPath)) {
-            this.log('manifest.webmanifest not found in docs directory', 'error');
+            this.log('manifest.json not found in docs directory', 'error');
             return;
         }
 
@@ -259,7 +259,7 @@ class PWAValidator {
 
         const requiredFiles = [
             'index.html',
-            'manifest.webmanifest',
+            'manifest.json',
             'sw.js'
         ];
 

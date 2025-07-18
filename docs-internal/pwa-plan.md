@@ -59,12 +59,12 @@ Prompt: "Add @astrojs/pwa to the project and configure it in astro.config.mjs."
 
 **Goal:** Provide metadata for installability.
 
-- [ ] Add `public/manifest.webmanifest` with name, short_name, theme colors, and **icons (192×192, 512×512, and 512×512 maskable)**.
+- [ ] Add `public/manifest.json` with name, short_name, theme colors, and **icons (192×192, 512×512, and 512×512 maskable)**.
 - [ ] Set `start_url` and `scope` to `"/<REPO>/"` to match GitHub Pages base path.
 - [ ] Reference the manifest in the `<head>` of every page (Astro `src/layouts/*` or a global `src/components/Head.astro`).
 
 ```
-Prompt: "Generate a minimal manifest.webmanifest for the blog with name, short_name, start_url, theme_color, background_color, display, and icons (192px & 512px)."
+Prompt: "Generate a minimal manifest.json for the blog with name, short_name, start_url, theme_color, background_color, display, and icons (192px & 512px)."
 ```
 
 ---

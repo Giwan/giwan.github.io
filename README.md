@@ -110,7 +110,7 @@ This blog is implemented as a fully-featured Progressive Web App (PWA) that meet
 ## PWA Configuration
 
 ### Manifest Configuration
-The web app manifest is located at `public/manifest.webmanifest` and includes:
+The web app manifest is located at `public/manifest.json` and includes:
 
 ```json
 {
@@ -157,11 +157,11 @@ VitePWA({
 1. Replace icon files in `public/icons/` directory
 2. Ensure all required sizes are included (16x16 to 1024x1024)
 3. Include maskable icons for Android adaptive icons
-4. Update `public/manifest.webmanifest` if icon filenames change
+4. Update `public/manifest.json` if icon filenames change
 5. Test installation on different platforms
 
 ### Updating Manifest
-1. Edit `public/manifest.webmanifest` for basic properties
+1. Edit `public/manifest.json` for basic properties
 2. Modify VitePWA configuration in `astro.config.mjs` for advanced settings
 3. Test changes with Lighthouse PWA audit
 4. Verify installation behavior after changes

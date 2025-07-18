@@ -70,14 +70,14 @@ VitePWA({
     globPatterns: ['**/*.{js,css,html,ico,png,svg,webp}']
   },
   manifest: {
-    // Will be generated from public/manifest.webmanifest
+    // Will be generated from public/manifest.json
   }
 })
 ```
 
 ### 2. Web App Manifest
 
-**Location**: `public/manifest.webmanifest`
+**Location**: `public/manifest.json`
 
 **Key Properties**:
 - `name`: "Giwan Blog"

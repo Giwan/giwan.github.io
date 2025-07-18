@@ -37,7 +37,7 @@ This document outlines the requirements for a personal technology blog. The proj
 
 ### 4.3. Technical Features
 *   **Static Site Generation (SSG):** The entire site is pre-built into static HTML, CSS, and JavaScript for maximum performance and security.
-*   **PWA (Progressive Web App):** The site is installable and provides a basic offline experience through a service worker. Includes a `manifest.webmanifest` and necessary icons.
+*   **PWA (Progressive Web App):** The site is installable and provides a basic offline experience through a service worker. Includes a `manifest.json` and necessary icons.
 *   **SEO:** The site is optimized for search engines with proper meta tags, a `robots.txt` file, and a sitemap (implicitly via RSS).
 
 ## 5. Non-Functional Requirements

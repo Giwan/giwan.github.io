@@ -81,7 +81,7 @@ self.addEventListener('fetch', (event) => {
     optimizeManifest() {
         this.log('Optimizing Web App Manifest...');
         
-        const manifestPath = path.join(docsDir, 'manifest.webmanifest');
+        const manifestPath = path.join(docsDir, 'manifest.json');
         if (!fs.existsSync(manifestPath)) {
             this.log('Manifest not found', 'error');
             return;
@@ -134,7 +134,7 @@ self.addEventListener('fetch', (event) => {
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   
-/manifest.webmanifest
+/manifest.json
   Content-Type: application/manifest+json
   Cache-Control: public, max-age=86400
   

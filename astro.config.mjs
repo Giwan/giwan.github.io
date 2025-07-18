@@ -11,6 +11,7 @@ export default defineConfig({
     integrations: [mdx(), tailwind(), react(), VitePWA({
             scope: '/',
             registerType: 'prompt',
+            manifestFilename: 'manifest.json',
             manifest: {
                 name: "Giwan Blog",
                 short_name: "G1",
