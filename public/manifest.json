@@ -1,6 +1,6 @@
 {
   "name": "Giwan Blog",
-  "short_name": "G1",
+  "short_name": "G10",
   "description": "Personal technical blog by Giwan – built with AstroJS, ShadCN and TailwindCSS.",
   "lang": "en",
   "dir": "ltr",
