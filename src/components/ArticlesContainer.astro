@@ -1,0 +1,124 @@
+---
+import ArticlesListWrapper from "./ArticlesListWrapper";
+import { formatArticlePublishedDate } from "../utils/helpers";
+import type { IPost } from "../types/post";
+
+// Server-side article fetching (similar to current implementation)
+const getPubDate = (post: string | any) =>
+    new Date(post.frontmatter.pubDate || post.frontmatter.published).valueOf();
+
+const allPosts = (await Promise.all(
+    Object.values(import.meta.glob("/src/pages/blog/**/*.{md,mdx}")).map(
+        async (item) => await item(),
+    ),
+)) as IPost[];
+
+const filterFn = (post: IPost): boolean =>
+    Boolean(post.frontmatter.pubDate || post.frontmatter.published);
+
+const posts = allPosts
+    .filter(filterFn)
+    .sort((a, b) => getPubDate(b) - getPubDate(a));
+
+const postsPerPage = 10;
+
+// Format articles for both SSR and client hydration
+const initialArticles = posts.slice(0, postsPerPage).map((post) => ({
+    url: post.url,
+    title: post.frontmatter.title,
+    description: post.frontmatter.description,
+    formattedDate: formatArticlePublishedDate(post),
+}));
+
+const hasMoreArticles = posts.length > postsPerPage;
+const totalArticles = posts.length;
+
+// Format all articles for client-side use
+const clientArticles = posts.map((post) => ({
+    url: post.url,
+    title: post.frontmatter.title,
+    description: post.frontmatter.description,
+    formattedDate: formatArticlePublishedDate(post),
+}));
+---
+
+<!---
+- Server-rendered initial articles ---->
+<main class="col-span-full">
+    <ul
+        id="articles-list"
+        class="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-8 mt-12 w-full [&>li:first-child]:md:col-span-2"
+    >
+        {
+            initialArticles.map((article) => (
+                <li class="border border-border p-4 rounded-lg bg-card md:h-[420px] overflow-hidden transition-colors hover:bg-muted/50 group">
+                    <a href={article.url} class="block h-full">
+                        <h2 class="text-4xl md:text-5xl mb-1 font-heading font-extrabold text-primary group-hover:underline">
+                            {article.title}
+                        </h2>
+                        <p class="text-muted-foreground mb-4 font-heading text-sm">
+                            {article.formattedDate}
+                        </p>
+                        <p class="text-foreground leading-7 text-lg">
+                            {article.description}
+                        </p>
+                    </a>
+                </li>
+            ))
+        }
+    </ul>
+</main><!-- 
+Client-side reactive component for "load more" functionality -->
+<ArticlesListWrapper
+    client:load
+    initialArticles={initialArticles}
+    hasMore={hasMoreArticles}
+    totalArticles={totalArticles}
+    allArticles={clientArticles}
+/>
+
+<script>
+import { articleDataHandler, isBlogPage, isLessThanFiveMinutes, restoreToScrollPosition } from "./articleDataHandler.mts";
+
+    // Handle Astro view transitions
+    document.addEventListener("astro:before-preparation", (event) => {
+        // Store the current scroll position and article state in sessionStorage
+        // when navigating away from the blog page
+        if (!isBlogPage()) return;
+
+        const articleState = {
+            scrollPosition: window.scrollY,
+            articleData: articleDataHandler().get(),
+            timestamp: Date.now(),
+        };
+        sessionStorage.setItem("articleState", JSON.stringify(articleState));
+    });
+
+    
+
+    document.addEventListener("astro:page-load", () => {
+        // Restore the article state when navigating back to the blog page
+        if (!isBlogPage()) return;
+
+        try {
+            const storedState = sessionStorage.getItem("articleState");
+            if (!storedState) return;
+
+            const articleState = JSON.parse(storedState);
+
+            // Only restore if the state is less than 5 minutes old
+
+            if (isLessThanFiveMinutes(articleState.timestamp)) {
+                // Restore the article data
+                articleDataHandler().set(articleState.articleData);
+                restoreToScrollPosition(articleState.scrollPosition);
+            } else {
+                // Clear the stored state if it's too old
+                sessionStorage.removeItem("articleState");
+            }
+        } catch (error) {
+            console.error("Error restoring article state:", error);
+            sessionStorage.removeItem("articleState");
+        }
+    });
+</script>
