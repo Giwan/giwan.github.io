@@ -1,0 +1,168 @@
+---
+/**
+ * Astro component for integrating mobile and PWA transition optimizations
+ * This should be included in the main layout to enable all optimizations
+ */
+---
+
+<script>
+  // Import and initialize mobile transition optimizations
+  import { mobileTransitionInitializer } from './mobileTransitionInit';
+  
+  // Initialize optimizations when the script loads
+  if (typeof window !== 'undefined') {
+    // Wait for DOM to be ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', async () => {
+        try {
+          await mobileTransitionInitializer.initialize();
+          console.log('Mobile transition optimizations ready');
+        } catch (error) {
+          console.warn('Failed to initialize mobile transitions:', error);
+        }
+      });
+    } else {
+      // DOM is already ready
+      mobileTransitionInitializer.initialize().then(() => {
+        console.log('Mobile transition optimizations ready');
+      }).catch((error) => {
+        console.warn('Failed to initialize mobile transitions:', error);
+      });
+    }
+  }
+  
+  // Set up network condition monitoring
+  if ('connection' in navigator) {
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    
+    if (connection) {
+      // Apply initial network state
+      document.documentElement.setAttribute('data-connection', connection.effectiveType || 'unknown');
+      document.documentElement.setAttribute('data-save-data', connection.saveData?.toString() || 'false');
+      
+      // Listen for network changes
+      connection.addEventListener('change', () => {
+        document.documentElement.setAttribute('data-connection', connection.effectiveType || 'unknown');
+        document.documentElement.setAttribute('data-save-data', connection.saveData?.toString() || 'false');
+      });
+    }
+  }
+  
+  // Set up orientation monitoring
+  function updateOrientation() {
+    const orientation = window.innerHeight > window.innerWidth ? 'portrait' : 'landscape';
+    document.documentElement.setAttribute('data-orientation', orientation);
+  }
+  
+  // Initial orientation
+  updateOrientation();
+  
+  // Listen for orientation changes
+  window.addEventListener('orientationchange', updateOrientation);
+  window.addEventListener('resize', updateOrientation);
+  
+  // Set up PWA detection
+  function updatePWAState() {
+    const isPWA = window.matchMedia('(display-mode: standalone)').matches || 
+                  navigator.standalone === true;
+    document.documentElement.setAttribute('data-pwa', isPWA.toString());
+  }
+  
+  // Initial PWA state
+  updatePWAState();
+  
+  // Listen for display mode changes
+  window.matchMedia('(display-mode: standalone)').addEventListener('change', updatePWAState);
+  
+  // Set up device type detection
+  function updateDeviceType() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+    const isTablet = /ipad|android(?!.*mobile)/i.test(userAgent);
+    
+    if (isMobile && !isTablet) {
+      document.documentElement.setAttribute('data-device-type', 'mobile');
+    } else if (isTablet) {
+      document.documentElement.setAttribute('data-device-type', 'tablet');
+    } else {
+      document.documentElement.setAttribute('data-device-type', 'desktop');
+    }
+  }
+  
+  // Initial device type
+  updateDeviceType();
+  
+  // Set up battery monitoring
+  if ('getBattery' in navigator) {
+    navigator.getBattery().then((battery) => {
+      function updateBatteryState() {
+        const isLowBattery = battery.level < 0.2 || (battery.charging === false && battery.level < 0.3);
+        document.documentElement.setAttribute('data-battery-low', isLowBattery.toString());
+        document.documentElement.setAttribute('data-battery-level', Math.round(battery.level * 100).toString());
+      }
+      
+      // Initial battery state
+      updateBatteryState();
+      
+      // Listen for battery changes
+      battery.addEventListener('levelchange', updateBatteryState);
+      battery.addEventListener('chargingchange', updateBatteryState);
+    }).catch((error) => {
+      console.warn('Battery API not available:', error);
+    });
+  }
+  
+  // Set up reduced motion detection
+  function updateReducedMotion() {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.documentElement.setAttribute('data-reduced-motion', prefersReducedMotion.toString());
+  }
+  
+  // Initial reduced motion state
+  updateReducedMotion();
+  
+  // Listen for reduced motion preference changes
+  window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', updateReducedMotion);
+  
+  // Set up online/offline detection
+  function updateNetworkState() {
+    document.documentElement.setAttribute('data-network-state', navigator.onLine ? 'online' : 'offline');
+  }
+  
+  // Initial network state
+  updateNetworkState();
+  
+  // Listen for network state changes
+  window.addEventListener('online', updateNetworkState);
+  window.addEventListener('offline', updateNetworkState);
+  
+  // Set up app state monitoring
+  function updateAppState() {
+    const isBackground = document.visibilityState === 'hidden';
+    document.documentElement.setAttribute('data-app-state', isBackground ? 'background' : 'foreground');
+  }
+  
+  // Initial app state
+  updateAppState();
+  
+  // Listen for visibility changes
+  document.addEventListener('visibilitychange', updateAppState);
+</script>
+
+<style>
+  /* Ensure hardware acceleration is enabled for transitions */
+  ::view-transition-old(main-content),
+  ::view-transition-new(main-content) {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+  }
+  
+  /* Optimize for mobile touch interactions */
+  @media (max-width: 768px) {
+    ::view-transition-old(main-content),
+    ::view-transition-new(main-content) {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+  }
+</style>

@@ -4,17 +4,19 @@ import links from "./headerLinks.json";
 import HeaderNavMobile from "./HeaderNavMobile"; // jsx component
 ---
 
-<nav aria-label="Main navigation">
+<nav id="navigation" aria-label="Main navigation" transition:name="navigation">
     <!-- Desktop Navigation -->
     <div
         class="hidden sm:flex justify-end items-center bg-secondary text-secondary-foreground rounded-sm gap-1"
+        transition:name="desktop-navigation"
     >
         {
-            links.map(({ href, label }) => (
+            links.map(({ href, label }, index) => (
                 <HeaderLink
                     href={href}
                     class="font-medium text-secondary-foreground hover:bg-accent focus:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-secondary transition-colors duration-200 rounded-sm text-base"
                     aria-label={`Navigate to ${label}`}
+                    style={`view-transition-name: nav-link-${label.toLowerCase().replace(/\s+/g, '-')};`}
                 >
                     {label}
                 </HeaderLink>
@@ -23,7 +25,7 @@ import HeaderNavMobile from "./HeaderNavMobile"; // jsx component
     </div>
 
     <!-- Mobile Navigation -->
-    <div class="sm:hidden">
+    <div class="sm:hidden" transition:name="mobile-navigation">
         <HeaderNavMobile client:load />
     </div>
 </nav>

@@ -7,23 +7,23 @@ import { SITE_DESCRIPTION, SITE_DATE } from "../config";
 const currentDate = formatDateWithOptions(new Date().toString());
 ---
 
-<header class="block w-full" role="banner" transition:name="header">
+<header id="header" class="block w-full" role="banner" transition:name="header">
     <div class="grid grid-cols-2 gap-4">
-        <div class="col-span-1">
+        <div class="col-span-1" transition:name="header-logo">
             <Logo />
         </div>
-        <div class="col-span-1 flex justify-end items-center gap-2 sm:flex-row">
+        <div class="col-span-1 flex justify-end items-center gap-2 sm:flex-row" transition:name="header-controls">
             <ThemeToggle client:load />
             <HeaderNav />
         </div>
-        <div class="col-span-2 w-full flex justify-between border-t border-border py-1 font-sans font-bold text-sm text-muted-foreground">
-            <p>
+        <div class="col-span-2 w-full flex justify-between border-t border-border py-1 font-sans font-bold text-sm text-muted-foreground" transition:name="header-meta">
+            <p transition:name="header-date">
                 {currentDate} —{" "}
                 <span class="hidden sm:inline">
                     {SITE_DESCRIPTION}
                 </span>
             </p>
-            <p>
+            <p transition:name="header-issue">
                 {SITE_DATE} • ISSUE 42
             </p>
         </div>

@@ -1,6 +1,9 @@
 /**
  * PWA utility functions with comprehensive error handling
+ * Enhanced with mobile transition optimizations
  */
+
+import { mobileTransitionInitializer } from './mobileTransitionInit';
 
 // Types for error handling
 export interface PWAError {
@@ -63,6 +66,14 @@ export const registerServiceWorker = async (): Promise<ServiceWorkerRegistration
     
     // Set up error recovery mechanisms
     setupServiceWorkerErrorRecovery(registration);
+    
+    // Initialize mobile transition optimizations
+    try {
+      await mobileTransitionInitializer.initialize();
+      console.log('Mobile transition optimizations initialized');
+    } catch (error) {
+      console.warn('Failed to initialize mobile transition optimizations:', error);
+    }
     
     return registration;
   } catch (error) {

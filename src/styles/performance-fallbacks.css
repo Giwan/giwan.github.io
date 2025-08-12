@@ -1,0 +1,311 @@
+/**
+ * Performance Fallbacks CSS - Automatic transition simplification
+ * 
+ * This file provides CSS media queries and selectors for automatic
+ * transition simplification based on device capabilities and user preferences.
+ */
+
+/* Base performance optimization variables */
+:root {
+  --transition-duration-multiplier: 1;
+  --transition-scale-factor: 1;
+  --transition-opacity-factor: 1;
+  --fallback-transition-duration: 150ms;
+  --fallback-transition-easing: ease-out;
+}
+
+/* Transition intensity levels */
+[data-transition-intensity="minimal"] {
+  --transition-duration-multiplier: 0;
+  --transition-scale-factor: 0;
+  --transition-opacity-factor: 1;
+}
+
+[data-transition-intensity="reduced"] {
+  --transition-duration-multiplier: 0.5;
+  --transition-scale-factor: 0.5;
+  --transition-opacity-factor: 0.8;
+}
+
+[data-transition-intensity="normal"] {
+  --transition-duration-multiplier: 1;
+  --transition-scale-factor: 1;
+  --transition-opacity-factor: 1;
+}
+
+[data-transition-intensity="enhanced"] {
+  --transition-duration-multiplier: 1.2;
+  --transition-scale-factor: 1.2;
+  --transition-opacity-factor: 1;
+}
+
+/* Apply multipliers to transition durations */
+::view-transition-old(main-content),
+::view-transition-new(main-content) {
+  animation-duration: calc(var(--transition-duration-normal) * var(--transition-duration-multiplier));
+}
+
+/* Performance-based fallbacks */
+[data-performance-mode="low"] ::view-transition-old(main-content),
+[data-performance-mode="low"] ::view-transition-new(main-content) {
+  animation: fade-out var(--fallback-transition-duration) var(--fallback-transition-easing),
+             fade-in var(--fallback-transition-duration) var(--fallback-transition-easing) !important;
+}
+
+/* Transition fallback mode */
+[data-transition-fallback="true"] ::view-transition-old(main-content),
+[data-transition-fallback="true"] ::view-transition-new(main-content) {
+  animation: simple-fade-out var(--fallback-transition-duration) linear,
+             simple-fade-in var(--fallback-transition-duration) linear !important;
+}
+
+/* Simple fallback animations */
+@keyframes simple-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes simple-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}/* Devi
+ce capability-based optimizations */
+
+/* Low-end mobile devices */
+@media (max-width: 480px) and (max-device-pixel-ratio: 1.5) {
+  :root {
+    --transition-duration-multiplier: 0.7;
+    --transition-scale-factor: 0.8;
+  }
+  
+  ::view-transition-old(main-content),
+  ::view-transition-new(main-content) {
+    animation-timing-function: var(--fallback-transition-easing) !important;
+  }
+}
+
+/* Very low memory devices (approximation) */
+@media (max-width: 768px) and (max-height: 1024px) and (orientation: portrait) {
+  [data-low-memory="true"] ::view-transition-old(main-content),
+  [data-low-memory="true"] ::view-transition-new(main-content) {
+    animation: simple-fade-out var(--fallback-transition-duration) linear,
+               simple-fade-in var(--fallback-transition-duration) linear !important;
+  }
+}
+
+/* Slow network connections */
+@media (prefers-reduced-data: reduce) {
+  :root {
+    --transition-duration-multiplier: 0.6;
+    --transition-scale-factor: 0.7;
+  }
+  
+  ::view-transition-old(main-content),
+  ::view-transition-new(main-content) {
+    animation-timing-function: linear !important;
+  }
+}
+
+/* Battery optimization */
+[data-battery-low="true"] {
+  --transition-duration-multiplier: 0.5;
+  --transition-scale-factor: 0.5;
+}
+
+[data-battery-low="true"] ::view-transition-old(main-content),
+[data-battery-low="true"] ::view-transition-new(main-content) {
+  animation: simple-fade-out calc(var(--fallback-transition-duration) * 0.8) linear,
+             simple-fade-in calc(var(--fallback-transition-duration) * 0.8) linear !important;
+}
+
+/* CPU-based optimizations */
+[data-cpu-cores="1"],
+[data-cpu-cores="2"] {
+  --transition-duration-multiplier: 0.6;
+  --transition-scale-factor: 0.7;
+}
+
+[data-cpu-cores="1"] ::view-transition-old(main-content),
+[data-cpu-cores="1"] ::view-transition-new(main-content) {
+  animation: simple-fade-out var(--fallback-transition-duration) linear,
+             simple-fade-in var(--fallback-transition-duration) linear !important;
+}
+
+/* Network type optimizations */
+[data-network-type="slow-2g"],
+[data-network-type="2g"] {
+  --transition-duration-multiplier: 0.4;
+  --transition-scale-factor: 0.3;
+}
+
+[data-network-type="slow-2g"] ::view-transition-old(main-content),
+[data-network-type="slow-2g"] ::view-transition-new(main-content),
+[data-network-type="2g"] ::view-transition-old(main-content),
+[data-network-type="2g"] ::view-transition-new(main-content) {
+  animation: simple-fade-out 100ms linear,
+             simple-fade-in 100ms linear !important;
+}
+
+[data-network-type="3g"] {
+  --transition-duration-multiplier: 0.7;
+  --transition-scale-factor: 0.8;
+}
+
+/* Save data mode */
+[data-network-save-data="true"] {
+  --transition-duration-multiplier: 0.5;
+  --transition-scale-factor: 0.6;
+}
+
+[data-network-save-data="true"] ::view-transition-old(main-content),
+[data-network-save-data="true"] ::view-transition-new(main-content) {
+  animation-timing-function: linear !important;
+}
+
+/* Orientation change handling */
+[data-orientation-changing="true"] ::view-transition-old(main-content),
+[data-orientation-changing="true"] ::view-transition-new(main-content) {
+  animation: none !important;
+}
+
+/* App state optimizations */
+[data-app-state="background"] ::view-transition-old(main-content),
+[data-app-state="background"] ::view-transition-new(main-content) {
+  animation-play-state: paused !important;
+}
+
+/* Explicitly paused transitions */
+[data-transitions-paused="true"] ::view-transition-old(main-content),
+[data-transitions-paused="true"] ::view-transition-new(main-content) {
+  animation: none !important;
+}
+
+/* High contrast mode optimizations */
+@media (prefers-contrast: high) {
+  ::view-transition-old(main-content),
+  ::view-transition-new(main-content) {
+    animation-duration: calc(var(--transition-duration-normal) * var(--transition-duration-multiplier) * 1.2);
+    animation-timing-function: var(--transition-easing-decelerate);
+  }
+}
+
+/* Forced colors mode */
+@media (forced-colors: active) {
+  ::view-transition-old(main-content),
+  ::view-transition-new(main-content) {
+    animation: simple-fade-out var(--fallback-transition-duration) linear,
+               simple-fade-in var(--fallback-transition-duration) linear !important;
+  }
+}
+
+/* Debug mode styling */
+[data-debug-transitions="true"] ::view-transition-old(main-content),
+[data-debug-transitions="true"] ::view-transition-new(main-content) {
+  animation-duration: calc(var(--transition-duration-normal) * 3) !important;
+  border: 2px dashed #ff0000;
+  background: rgba(255, 0, 0, 0.1);
+}
+
+[data-debug-transitions="true"]::before {
+  content: "DEBUG: Transition Active";
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: #ff0000;
+  color: white;
+  padding: 4px 8px;
+  font-size: 12px;
+  z-index: 9999;
+  border-radius: 4px;
+}
+
+/* Custom duration override */
+[data-transition-intensity="normal"][style*="--transition-duration-custom"] ::view-transition-old(main-content),
+[data-transition-intensity="normal"][style*="--transition-duration-custom"] ::view-transition-new(main-content) {
+  animation-duration: var(--transition-duration-custom) !important;
+}
+
+/* Sound effects and haptic feedback indicators */
+[data-sound-effects="true"][data-transition-active="true"]::after {
+  content: "🔊";
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  font-size: 16px;
+  z-index: 9998;
+  animation: sound-indicator 0.3s ease-out;
+}
+
+[data-haptic-feedback="true"][data-transition-active="true"]::after {
+  content: "📳";
+  position: fixed;
+  top: 10px;
+  left: 40px;
+  font-size: 16px;
+  z-index: 9998;
+  animation: haptic-indicator 0.3s ease-out;
+}
+
+@keyframes sound-indicator {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes haptic-indicator {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Performance monitoring visual feedback */
+[data-performance-monitoring="true"]::before {
+  content: "FPS: " attr(data-current-fps);
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-family: monospace;
+  z-index: 9999;
+  border-radius: 4px;
+}
+
+[data-performance-mode="low"]::before {
+  background: rgba(255, 0, 0, 0.8);
+}
+
+[data-performance-mode="high"]::before {
+  background: rgba(0, 255, 0, 0.8);
+}
+
+/* Accessibility enhancements for transitions */
+@media (prefers-reduced-motion: reduce) {
+  /* Override all transition settings for reduced motion */
+  ::view-transition-old(main-content),
+  ::view-transition-new(main-content) {
+    animation: none !important;
+  }
+  
+  /* Provide instant feedback instead */
+  ::view-transition-new(main-content) {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Focus management during transitions */
+[data-transition-focus="true"] ::view-transition-new(main-content) {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Scroll restoration optimization */
+[data-transition-context="scroll-restore"] {
+  scroll-behavior: smooth;
+}
+
+[data-transition-context="scroll-restore"] ::view-transition-old(main-content),
+[data-transition-context="scroll-restore"] ::view-transition-new(main-content) {
+  animation-duration: calc(var(--transition-duration-fast) * var(--transition-duration-multiplier));
+}

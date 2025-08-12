@@ -2,6 +2,7 @@
 import ArticlesListWrapper from "./ArticlesListWrapper";
 import { formatArticlePublishedDate } from "../utils/helpers";
 import type { IPost } from "../types/post";
+import { STORAGE_KEYS, TRANSITION_ATTRIBUTES, TRANSITION_CONTEXTS, TIME_CONSTANTS } from "../constants/storage";
 
 // Server-side article fetching (similar to current implementation)
 const getPubDate = (post: string | any) =>
@@ -44,14 +45,18 @@ const clientArticles = posts.map((post) => ({
 
 <!---
 - Server-rendered initial articles ---->
-<main class="col-span-full">
+<main class="col-span-full" data-transition-context={TRANSITION_CONTEXTS.ARTICLE_LOADING}>
     <ul
         id="articles-list"
         class="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-8 mt-12 w-full [&>li:first-child]:md:col-span-2"
     >
         {
-            initialArticles.map((article) => (
-                <li class="border border-border p-4 rounded-lg bg-card md:h-[420px] overflow-hidden transition-colors hover:bg-muted/50 group">
+            initialArticles.map((article, index) => (
+                <li 
+                    class="border border-border p-4 rounded-lg bg-card md:h-[420px] overflow-hidden transition-colors hover:bg-muted/50 group article-item"
+                    transition:name={`article-${article.url.replace(/\//g, '-')}`}
+                    style={`animation-delay: ${index * 50}ms`}
+                >
                     <a href={article.url} class="block h-full">
                         <h2 class="text-4xl md:text-5xl mb-1 font-heading font-extrabold text-primary group-hover:underline">
                             {article.title}
@@ -78,6 +83,10 @@ Client-side reactive component for "load more" functionality -->
 />
 
 <script>
+import { STORAGE_KEYS } from "@/constants/storage";
+import { TRANSITION_ATTRIBUTES } from "@/constants/storage";
+import { TRANSITION_CONTEXTS } from "@/constants/storage";
+import { TIME_CONSTANTS } from "@/constants/storage";
 import { articleDataHandler, isBlogPage, isLessThanFiveMinutes, restoreToScrollPosition } from "./articleDataHandler.mts";
 
     // Handle Astro view transitions
@@ -91,7 +100,7 @@ import { articleDataHandler, isBlogPage, isLessThanFiveMinutes, restoreToScrollP
             articleData: articleDataHandler().get(),
             timestamp: Date.now(),
         };
-        sessionStorage.setItem("articleState", JSON.stringify(articleState));
+        sessionStorage.setItem(STORAGE_KEYS.ARTICLE_STATE, JSON.stringify(articleState));
     });
 
     
@@ -101,24 +110,33 @@ import { articleDataHandler, isBlogPage, isLessThanFiveMinutes, restoreToScrollP
         if (!isBlogPage()) return;
 
         try {
-            const storedState = sessionStorage.getItem("articleState");
+            const storedState = sessionStorage.getItem(STORAGE_KEYS.ARTICLE_STATE);
             if (!storedState) return;
 
             const articleState = JSON.parse(storedState);
 
             // Only restore if the state is less than 5 minutes old
-
             if (isLessThanFiveMinutes(articleState.timestamp)) {
                 // Restore the article data
                 articleDataHandler().set(articleState.articleData);
+                
+                // Add transition context for smooth restoration
+                document.body.setAttribute(TRANSITION_ATTRIBUTES.CONTEXT, TRANSITION_CONTEXTS.SCROLL_RESTORE);
+                
+                // Restore scroll position with smooth transition
                 restoreToScrollPosition(articleState.scrollPosition);
+                
+                // Remove transition context after restoration
+                setTimeout(() => {
+                    document.body.removeAttribute(TRANSITION_ATTRIBUTES.CONTEXT);
+                }, TIME_CONSTANTS.TRANSITION_CLEANUP_DELAY_MS);
             } else {
                 // Clear the stored state if it's too old
-                sessionStorage.removeItem("articleState");
+                sessionStorage.removeItem(STORAGE_KEYS.ARTICLE_STATE);
             }
         } catch (error) {
             console.error("Error restoring article state:", error);
-            sessionStorage.removeItem("articleState");
+            sessionStorage.removeItem(STORAGE_KEYS.ARTICLE_STATE);
         }
     });
 </script>

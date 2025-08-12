@@ -1,9 +1,11 @@
 import { Sun, Moon, Monitor } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/hooks/useTheme';
+import { useEffect, useRef } from 'react';
 
 export const ThemeToggle = () => {
   const { theme, resolvedTheme, toggleTheme } = useTheme();
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const getIcon = () => {
     switch (theme) {
@@ -31,13 +33,40 @@ export const ThemeToggle = () => {
     }
   };
 
+  // Enhanced theme toggle that coordinates with page transitions
+  const handleThemeToggle = () => {
+    // Check if a page transition is in progress
+    const isTransitioning = document.documentElement.hasAttribute('data-transition-direction');
+    
+    if (isTransitioning) {
+      // Queue the theme change to happen after the page transition
+      const handleTransitionEnd = () => {
+        toggleTheme();
+        document.removeEventListener('astro:after-swap', handleTransitionEnd);
+      };
+      document.addEventListener('astro:after-swap', handleTransitionEnd);
+    } else {
+      // No page transition in progress, change theme immediately
+      toggleTheme();
+    }
+  };
+
+  // Add transition:name for visual continuity
+  useEffect(() => {
+    if (buttonRef.current) {
+      buttonRef.current.style.viewTransitionName = 'theme-toggle';
+    }
+  }, []);
+
   return (
     <Button
+      ref={buttonRef}
       variant="ghost"
       size="icon"
-      onClick={toggleTheme}
+      onClick={handleThemeToggle}
       title={getTitle()}
       className="h-9 w-9"
+      style={{ viewTransitionName: 'theme-toggle' }}
     >
       {getIcon()}
       <span className="sr-only">{getTitle()}</span>

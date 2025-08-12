@@ -42,7 +42,10 @@ const formattedUpdatedDate = updatedDate
 ---
 
 <PageLayout content={{ title, description }}>
-  <article class="max-w-4xl my-12">
+  <article 
+    class="max-w-4xl my-12"
+    transition:name={`article-${Astro.url.pathname.replace(/\//g, '-')}`}
+  >
     <!-- Article Header -->
     <header class="mb-8 pb-6">
       <!-- Categories -->

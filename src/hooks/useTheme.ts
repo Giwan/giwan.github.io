@@ -2,6 +2,14 @@ import { useState, useEffect } from 'react';
 
 export type Theme = 'light' | 'dark' | 'system';
 
+// Import transition controller for coordination
+let transitionController: any = null;
+if (typeof window !== 'undefined') {
+  import('../utils/transitionController').then(module => {
+    transitionController = module.transitionController;
+  });
+}
+
 export const useTheme = () => {
   const [theme, setTheme] = useState<Theme>('system');
   const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('light');
@@ -39,9 +47,21 @@ export const useTheme = () => {
         }
       };
 
-      // Use view transition API if available and supported
-      if (typeof document !== 'undefined' && 'startViewTransition' in document) {
-        (document as any).startViewTransition(() => updateDOMWithTransition());
+      // Check if a page transition is in progress
+      const isPageTransitioning = document.documentElement.hasAttribute('data-transition-direction');
+      
+      // Use view transition API if available and supported, but coordinate with page transitions
+      if (typeof document !== 'undefined' && 'startViewTransition' in document && !isPageTransitioning) {
+        try {
+          (document as any).startViewTransition(() => updateDOMWithTransition());
+        } catch (error) {
+          console.warn('View transition failed, using fallback:', error);
+          updateDOMWithTransition();
+        }
+      } else if (isPageTransitioning) {
+        // If page transition is in progress, apply theme change without view transition
+        // to avoid conflicts
+        updateDOMWithTransition();
       } else {
         updateDOMWithTransition();
       }

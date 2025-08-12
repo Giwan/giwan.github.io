@@ -1,0 +1,243 @@
+/**
+ * Enhanced View Transitions CSS - Advanced Features
+ * 
+ * This file provides additional advanced transition features that complement
+ * the base transitions in global.css. Import this file for enhanced functionality.
+ * 
+ * Usage: Import this file in your layout or component for advanced transitions.
+ */
+
+/* Advanced transition effects for specific use cases */
+
+/* Staggered article loading animations */
+.article-item {
+  animation: article-stagger-in var(--transition-duration-normal) var(--transition-easing-decelerate);
+  animation-fill-mode: both;
+  opacity: 0;
+}
+
+/* Initial page load staggered animation */
+[data-transition-context="article-loading"] .article-item,
+.article-item {
+  animation-name: article-stagger-in;
+}
+
+/* Load more articles staggered animation */
+[data-transition-context="load-more"] .article-item {
+  animation: article-load-more-in var(--transition-duration-normal) var(--transition-easing-decelerate);
+  animation-fill-mode: both;
+}
+
+@keyframes article-stagger-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes article-load-more-in {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Article to detail page transition */
+::view-transition-old(article-item),
+::view-transition-new(article-item) {
+  animation-duration: var(--transition-duration-normal);
+  animation-timing-function: var(--transition-easing-standard);
+}
+
+::view-transition-old(article-item) {
+  animation-name: article-to-detail-out;
+}
+
+::view-transition-new(article-item) {
+  animation-name: article-to-detail-in;
+}
+
+@keyframes article-to-detail-out {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.05) translateY(-10px);
+  }
+}
+
+@keyframes article-to-detail-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Search result transitions */
+[data-transition-context="search-results"] .search-result {
+  animation: search-result-in var(--transition-duration-fast) var(--transition-easing-standard);
+  animation-fill-mode: both;
+}
+
+[data-transition-context="search-results"] .search-result:nth-child(odd) {
+  animation-delay: 0ms;
+}
+
+[data-transition-context="search-results"] .search-result:nth-child(even) {
+  animation-delay: 25ms;
+}
+
+@keyframes search-result-in {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Tool category switching */
+[data-transition-context="tool-category"] ::view-transition-old(main-content) {
+  animation: tool-category-out var(--transition-duration-normal) var(--transition-easing-standard);
+}
+
+[data-transition-context="tool-category"] ::view-transition-new(main-content) {
+  animation: tool-category-in var(--transition-duration-normal) var(--transition-easing-standard);
+}
+
+@keyframes tool-category-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-15px) scale(0.98);
+  }
+}
+
+@keyframes tool-category-in {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* PWA-specific transitions */
+[data-pwa-mode="true"] ::view-transition-old(main-content),
+[data-pwa-mode="true"] ::view-transition-new(main-content) {
+  animation-duration: calc(var(--transition-duration-normal) * 0.8);
+}
+
+/* Network-aware transitions */
+[data-connection="slow"] ::view-transition-old(main-content),
+[data-connection="slow"] ::view-transition-new(main-content) {
+  animation-duration: calc(var(--transition-duration-normal) * 0.6);
+}
+
+[data-connection="fast"] ::view-transition-old(main-content),
+[data-connection="fast"] ::view-transition-new(main-content) {
+  animation-duration: var(--transition-duration-normal);
+}
+
+/* Theme transition coordination */
+[data-theme-transitioning="true"] ::view-transition-old(main-content),
+[data-theme-transitioning="true"] ::view-transition-new(main-content) {
+  animation-delay: 100ms; /* Wait for theme transition to start */
+}
+
+/* Advanced accessibility features */
+[data-high-contrast="true"] ::view-transition-old(main-content),
+[data-high-contrast="true"] ::view-transition-new(main-content) {
+  animation-duration: calc(var(--transition-duration-normal) * 1.2);
+  animation-timing-function: var(--transition-easing-decelerate);
+}
+
+/* Focus management during transitions */
+[data-transition-focus="true"] ::view-transition-new(main-content) {
+  animation-name: focus-aware-in;
+}
+
+@keyframes focus-aware-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    outline: 2px solid transparent;
+  }
+  50% {
+    opacity: 0.5;
+    transform: translateY(5px);
+    outline: 2px solid var(--ring);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    outline: 2px solid transparent;
+  }
+}
+
+/* Scroll restoration transitions */
+[data-transition-context="scroll-restore"] {
+  scroll-behavior: smooth;
+}
+
+[data-transition-context="scroll-restore"] .article-item {
+  animation: article-restore-fade-in var(--transition-duration-fast) var(--transition-easing-decelerate);
+  animation-fill-mode: both;
+}
+
+@keyframes article-restore-fade-in {
+  from {
+    opacity: 0.7;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Debug mode transitions */
+[data-debug-transitions="true"] ::view-transition-old(main-content),
+[data-debug-transitions="true"] ::view-transition-new(main-content) {
+  animation-duration: calc(var(--transition-duration-normal) * 3);
+  border: 2px dashed red;
+}
+
+/* Performance monitoring helpers */
+[data-performance-mode="high"] ::view-transition-old(main-content),
+[data-performance-mode="high"] ::view-transition-new(main-content) {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+[data-performance-mode="low"] ::view-transition-old(main-content),
+[data-performance-mode="low"] ::view-transition-new(main-content) {
+  animation-duration: calc(var(--transition-duration-normal) * 0.5);
+  animation-timing-function: linear;
+}

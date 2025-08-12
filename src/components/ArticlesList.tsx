@@ -21,8 +21,15 @@ export function ArticlesList(): JSX.Element | null {
 
   return (
     <ul className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-8 w-full">
-      {clientSideArticles.map((article: Article) => (
-        <li key={article.url} className="border border-border p-4 rounded-lg bg-card md:h-[420px] overflow-hidden transition-colors hover:bg-muted/50 group article-item">
+      {clientSideArticles.map((article: Article, index: number) => (
+        <li 
+          key={article.url} 
+          className="border border-border p-4 rounded-lg bg-card md:h-[420px] overflow-hidden transition-colors hover:bg-muted/50 group article-item"
+          style={{ 
+            viewTransitionName: `article-${article.url.replace(/\//g, '-')}`,
+            animationDelay: `${(initialArticleCount + index) * 50}ms`
+          }}
+        >
           <a href={article.url} className="block h-full">
             <h2 className="text-4xl md:text-5xl mb-1 font-heading font-extrabold text-primary group-hover:underline">{article.title}</h2>
             <p className="text-muted-foreground mb-4 font-heading text-sm">{article.formattedDate}</p>

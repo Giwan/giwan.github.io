@@ -5,6 +5,7 @@ import Footer from "../components/Footer.astro";
 import ServiceWorkerUpdateManager from "../components/ServiceWorkerUpdateManager";
 import PWAErrorBoundary from "../components/PWAErrorBoundary";
 import ConditionalContent from "../components/ConditionalContent";
+import { AccessibilityControls } from "../components/AccessibilityControls";
 import { ViewTransitions } from "astro:transitions";
 
 export interface Props {
@@ -71,29 +72,117 @@ const {
     <body
         class="bg-background min-h-screen font-sans text-foreground leading-relaxed"
     >
-        <!-- Skip Navigation Link -->
-        <a href="#main-content" class="skip-link"> Skip to main content </a>
+        <!-- Skip Navigation Links -->
+        <div class="skip-links" role="navigation" aria-label="Skip navigation">
+            <a href="#main-content" class="skip-link" style="view-transition-name: skip-link-main;">
+                Skip to main content
+            </a>
+            <a href="#navigation" class="skip-link" style="view-transition-name: skip-link-nav;">
+                Skip to navigation
+            </a>
+            <a href="#footer" class="skip-link" style="view-transition-name: skip-link-footer;">
+                Skip to footer
+            </a>
+        </div>
 
         <PWAErrorBoundary client:load>
             <div
                 class="mx-auto max-w-8xl p-4 sm:p-6 lg:p-8"
                 style="padding-top: calc(var(--sat) + 1rem);"
+                transition:name="page-container"
             >
-                <Header />
+                <Header transition:name="header" />
                 <ConditionalContent client:load>
                     <main
                         id="main-content"
                         role="main"
                         transition:name="main-content"
+                        transition:animate="slide"
                     >
                         <slot />
                     </main>
-                    <Footer />
+                    <Footer transition:name="footer" />
                 </ConditionalContent>
             </div>
         </PWAErrorBoundary>
 
         <!-- Service Worker Update Notification -->
         <ServiceWorkerUpdateManager client:load />
+        
+        <!-- Accessibility Controls -->
+        <AccessibilityControls client:load />
+        
+        <!-- Initialize Accessibility Manager -->
+        <script>
+            import { accessibilityManager } from '../utils/accessibilityManager';
+            
+            // Initialize accessibility manager when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => {
+                    // Initialize the accessibility manager instance
+                    accessibilityManager.getInstance();
+                    console.log('Accessibility manager initialized');
+                });
+            } else {
+                // DOM is already ready
+                accessibilityManager.getInstance();
+                console.log('Accessibility manager initialized');
+            }
+        </script>
+
+        <!-- Initialize Transition System -->
+        <script>
+            import { transitionController } from '../utils/transitionController';
+            import { transitionRegistry } from '../utils/transitionRegistry';
+            import { transitionIntegration } from '../utils/transitionIntegration';
+            import { transitionPreloader } from '../utils/transitionPreloader';
+            import { transitionOptimizer } from '../utils/transitionOptimizer';
+            
+            // Initialize transition system when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => {
+                    // The TransitionController is automatically initialized in its constructor
+                    // The TransitionIntegration is automatically initialized when imported
+                    // The TransitionPreloader is automatically initialized when imported
+                    
+                    // Register current page type with the registry
+                    const currentPath = window.location.pathname;
+                    const pageType = transitionRegistry.getPageType(currentPath);
+                    
+                    console.log('Enhanced transition system with preloading and optimization initialized for page type:', pageType);
+                    
+                    // Log system statistics after a short delay
+                    setTimeout(() => {
+                        const stats = transitionPreloader.getPreloadStats();
+                        const deviceCapabilities = transitionOptimizer.getDeviceCapabilities();
+                        const optimizationRecommendations = transitionOptimizer.getOptimizationRecommendations();
+                        
+                        console.log('Transition system stats:', {
+                            preloadStats: stats,
+                            deviceCapabilities,
+                            optimizationRecommendations
+                        });
+                    }, 2000);
+                });
+            } else {
+                // DOM is already ready
+                const currentPath = window.location.pathname;
+                const pageType = transitionRegistry.getPageType(currentPath);
+                console.log('Enhanced transition system with preloading and optimization initialized for page type:', pageType);
+                
+                // Log system statistics after a short delay
+                setTimeout(() => {
+                    const stats = transitionPreloader.getPreloadStats();
+                    const deviceCapabilities = transitionOptimizer.getDeviceCapabilities();
+                    const optimizationRecommendations = transitionOptimizer.getOptimizationRecommendations();
+                    
+                    console.log('Transition system stats:', {
+                        preloadStats: stats,
+                        deviceCapabilities,
+                        optimizationRecommendations
+                    });
+                }, 2000);
+            }
+        </script>
     </body>
 </html>

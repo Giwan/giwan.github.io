@@ -1,0 +1,354 @@
+/**
+ * Transition Fallbacks - CSS for graceful degradation and error handling
+ * 
+ * This stylesheet provides:
+ * - Fallback animations when View Transition API is unsupported
+ * - Error state styling
+ * - Debug mode indicators
+ * - Astro built-in transition enhancements
+ */
+
+/* ==========================================================================
+   Fallback Mode Styles
+   ========================================================================== */
+
+/* When View Transition API is not supported */
+[data-view-transition-disabled="true"] {
+  /* Disable all view-transition-name properties */
+  --disable-view-transitions: 1;
+}
+
+[data-view-transition-disabled="true"] * {
+  view-transition-name: none !important;
+}
+
+/* Fallback animations using CSS transitions */
+[data-transition-fallback="true"] .main-content {
+  transition: opacity 300ms ease-out, transform 300ms ease-out;
+}
+
+[data-transition-fallback="true"] .main-content.transitioning-out {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+[data-transition-fallback="true"] .main-content.transitioning-in {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fallback-fade-in 300ms ease-out forwards;
+}
+
+@keyframes fallback-fade-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   Astro Built-in Transition Enhancements
+   ========================================================================== */
+
+/* When using Astro's built-in transitions only */
+[data-astro-transitions-only="true"] {
+  /* Enhance Astro's default transitions */
+  --astro-transition-duration: 200ms;
+  --astro-transition-easing: ease-out;
+}
+
+[data-view-transition-fallback="astro"] .main-content {
+  /* Smooth transitions for Astro's system */
+  transition: opacity var(--astro-transition-duration, 200ms) var(--astro-transition-easing, ease-out);
+}
+
+/* ==========================================================================
+   Error State Styling
+   ========================================================================== */
+
+/* General error state */
+[data-transition-error="true"] {
+  /* Visual indicator of error state */
+  position: relative;
+}
+
+[data-transition-error="true"]::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(239, 68, 68, 0.5) 25%, 
+    rgba(239, 68, 68, 0.8) 50%, 
+    rgba(239, 68, 68, 0.5) 75%, 
+    transparent 100%
+  );
+  z-index: 9999;
+  animation: error-pulse 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes error-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* Specific error type indicators */
+[data-transition-error-type="api-unsupported"]::before {
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(251, 191, 36, 0.5) 25%, 
+    rgba(251, 191, 36, 0.8) 50%, 
+    rgba(251, 191, 36, 0.5) 75%, 
+    transparent 100%
+  );
+}
+
+[data-transition-error-type="timeout"]::before {
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(249, 115, 22, 0.5) 25%, 
+    rgba(249, 115, 22, 0.8) 50%, 
+    rgba(249, 115, 22, 0.5) 75%, 
+    transparent 100%
+  );
+}
+
+/* ==========================================================================
+   Debug Mode Styling
+   ========================================================================== */
+
+/* Debug mode indicators */
+[data-transition-debug="true"] {
+  /* Add debug border */
+  position: relative;
+}
+
+[data-transition-debug="true"]::after {
+  content: 'DEBUG';
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: rgba(147, 51, 234, 0.9);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 10px;
+  font-weight: bold;
+  z-index: 9998;
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+}
+
+/* Debug transition indicators */
+[data-transition-debug="true"] [style*="view-transition-name"] {
+  position: relative;
+  outline: 1px dashed rgba(147, 51, 234, 0.5);
+}
+
+[data-transition-debug="true"] [style*="view-transition-name"]::before {
+  content: attr(style);
+  position: absolute;
+  top: -20px;
+  left: 0;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 2px 4px;
+  border-radius: 2px;
+  font-family: monospace;
+  font-size: 8px;
+  white-space: nowrap;
+  z-index: 1000;
+  pointer-events: none;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ==========================================================================
+   Performance-based Fallbacks
+   ========================================================================== */
+
+/* Low performance mode */
+[data-performance-mode="low"] {
+  /* Disable complex animations */
+  --transition-duration: 150ms;
+  --transition-easing: ease-out;
+}
+
+[data-performance-mode="low"] * {
+  /* Simplify all transitions */
+  transition-duration: var(--transition-duration) !important;
+  transition-timing-function: var(--transition-easing) !important;
+  animation-duration: var(--transition-duration) !important;
+  animation-timing-function: var(--transition-easing) !important;
+}
+
+[data-performance-mode="low"] [style*="view-transition-name"] {
+  /* Remove complex view transition names in low performance mode */
+  view-transition-name: none !important;
+}
+
+/* High performance mode */
+[data-performance-mode="high"] {
+  /* Enable enhanced animations */
+  --transition-duration: 400ms;
+  --transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   Reduced Motion Support
+   ========================================================================== */
+
+/* Respect user's reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  [data-transition-fallback="true"] .main-content,
+  [data-view-transition-fallback="astro"] .main-content {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+  
+  [data-transition-error="true"]::before {
+    animation: none;
+    opacity: 0.5;
+  }
+}
+
+/* ==========================================================================
+   Mobile Optimizations
+   ========================================================================== */
+
+/* Mobile-specific fallbacks */
+@media (max-width: 768px) {
+  [data-transition-fallback="true"] .main-content {
+    /* Faster transitions on mobile */
+    transition-duration: 200ms;
+  }
+  
+  [data-view-transition-fallback="astro"] .main-content {
+    transition-duration: 150ms;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  [data-transition-fallback="true"],
+  [data-view-transition-fallback="astro"] {
+    /* Optimize for touch interactions */
+    --transition-duration: 200ms;
+    --transition-easing: ease-out;
+  }
+}
+
+/* ==========================================================================
+   Battery and Connection Optimizations
+   ========================================================================== */
+
+/* Low battery mode */
+[data-battery-low="true"] {
+  --transition-duration: 100ms;
+  --transition-easing: ease-out;
+}
+
+[data-battery-low="true"] * {
+  transition-duration: var(--transition-duration) !important;
+  animation-duration: var(--transition-duration) !important;
+}
+
+/* Slow connection fallbacks */
+[data-network-type="slow-2g"],
+[data-network-type="2g"] {
+  --transition-duration: 100ms;
+}
+
+[data-network-save-data="true"] {
+  /* Minimal animations when data saver is on */
+  --transition-duration: 50ms;
+}
+
+[data-network-save-data="true"] * {
+  transition-duration: var(--transition-duration) !important;
+  animation-duration: var(--transition-duration) !important;
+}
+
+/* ==========================================================================
+   Accessibility Enhancements
+   ========================================================================== */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  [data-transition-error="true"]::before {
+    background: #ff0000;
+    opacity: 1;
+  }
+  
+  [data-transition-debug="true"]::after {
+    background: #000000;
+    border: 1px solid #ffffff;
+  }
+}
+
+/* Focus management during transitions */
+[data-transition-fallback="true"] :focus,
+[data-view-transition-fallback="astro"] :focus {
+  /* Ensure focus remains visible during fallback transitions */
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Print Styles
+   ========================================================================== */
+
+@media print {
+  /* Hide debug and error indicators in print */
+  [data-transition-debug="true"]::after,
+  [data-transition-error="true"]::before {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   Utility Classes
+   ========================================================================== */
+
+/* Force disable transitions */
+.no-transitions,
+.no-transitions * {
+  transition: none !important;
+  animation: none !important;
+  view-transition-name: none !important;
+}
+
+/* Force enable fallback mode */
+.force-fallback {
+  --disable-view-transitions: 1;
+}
+
+.force-fallback * {
+  view-transition-name: none !important;
+}
+
+/* Debug helpers */
+.debug-transitions [style*="view-transition-name"] {
+  outline: 1px dashed red;
+}
+
+.debug-transitions [style*="view-transition-name"]::after {
+  content: '🔄';
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: red;
+  color: white;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  z-index: 1000;
+}
