@@ -1,6 +1,10 @@
 import type { ArticleData } from '../types/article';
 import { TIME_CONSTANTS } from '../constants/storage';
 
+function supportsSmoothScroll(): boolean {
+  return 'scrollBehavior' in document.documentElement.style;
+}
+
 export function articleDataHandler() {
   return {
     get(): ArticleData | undefined {
@@ -13,36 +17,35 @@ export function articleDataHandler() {
 }
 
 export function isBlogPage(): boolean {
-  return !!window.location.pathname.includes("/blog");
+  return !!window.location.pathname.startsWith("/blog");
 }
 
 export function isLessThanFiveMinutes(timestamp: number): boolean {
   return !!(Date.now() - timestamp < TIME_CONSTANTS.FIVE_MINUTES_MS);
 }
 
-export function restoreToScrollPosition(scrollPosition: number) {
+export function windowScrollTo(scrollPosition = 0) {
+  window.scrollTo({
+    top: scrollPosition ?? 0,
+    behavior: 'smooth'
+  })
+}
+
+export function legacyBrowserWindowScroll(scrollPosition = 0) {
+  window.scrollTo(0, scrollPosition);
+}
+
+const getScrollAction = () => supportsSmoothScroll() ? windowScrollTo : legacyBrowserWindowScroll;
+
+export function restoreToScrollPosition(scrollPosition: number, delay = 150) {
   // Restore the scroll position with smooth transition
-  setTimeout(() => {
-    // Use smooth scrolling if supported
-    if ('scrollBehavior' in document.documentElement.style) {
-      window.scrollTo({
-        top: scrollPosition,
-        behavior: 'smooth'
-      });
-    } else {
-      // Fallback for browsers that don't support smooth scrolling
-      window.scrollTo(0, scrollPosition);
-    }
-  }, 150); // Slightly longer delay to allow for page transition to complete
+  setTimeout(() => getScrollAction()(scrollPosition), delay); // Slightly longer delay to allow for page transition to complete
 }
 
 export function smoothScrollToTop() {
-  if ('scrollBehavior' in document.documentElement.style) {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  } else {
-    window.scrollTo(0, 0);
-  }
+  getScrollAction()();
+}
+
+export function scrollToTopOfShell() {
+  smoothScrollToTop();
 }
