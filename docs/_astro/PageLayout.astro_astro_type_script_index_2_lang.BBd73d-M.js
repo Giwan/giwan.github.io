@@ -1,0 +1,1 @@
+import{a as i}from"./accessibilityManager.DfHAflE0.js";function e(){i.getInstance(),console.log("Accessibility manager initialized")}function n(){document.readyState==="loading"?document.addEventListener("DOMContentLoaded",e):e()}n();

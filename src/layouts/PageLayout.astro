@@ -6,7 +6,6 @@ import ServiceWorkerUpdateManager from "../components/ServiceWorkerUpdateManager
 import PWAErrorBoundary from "../components/PWAErrorBoundary";
 import ConditionalContent from "../components/ConditionalContent";
 import { AccessibilityControls } from "../components/AccessibilityControls";
-import { ViewTransitions } from "astro:transitions";
 
 export interface Props {
     content: {
@@ -20,60 +19,23 @@ const {
 } = Astro.props;
 ---
 
-<html lang="en">
+<html lang="en" transition:animate="fade">
     <head>
         <BaseHead title={title} description={description} />
-        <ViewTransitions />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap"
             rel="stylesheet"
         />
-        <script>
-            (function () {
-                function getInitialTheme() {
-                    const persistedTheme = localStorage.getItem("theme");
-                    const hasPersistedTheme =
-                        typeof persistedTheme === "string";
-
-                    if (hasPersistedTheme) {
-                        if (persistedTheme === "system") {
-                            return window.matchMedia(
-                                "(prefers-color-scheme: dark)",
-                            ).matches
-                                ? "dark"
-                                : "light";
-                        }
-                        return persistedTheme;
-                    }
-
-                    // Default to system preference
-                    return window.matchMedia("(prefers-color-scheme: dark)")
-                        .matches
-                        ? "dark"
-                        : "light";
-                }
-
-                const theme = getInitialTheme();
-                const root = document.documentElement;
-
-                if (theme === "dark") {
-                    root.classList.add("dark");
-                    root.setAttribute("data-theme", "dark");
-                } else {
-                    root.classList.remove("dark");
-                    root.setAttribute("data-theme", "light");
-                }
-            })();
-        </script>
+        <script src="../scripts/themeInitializer.ts"></script>
     </head>
 
     <body
         class="bg-background min-h-screen font-sans text-foreground leading-relaxed"
     >
         <!-- Skip Navigation Links -->
-        <div class="skip-links" role="navigation" aria-label="Skip navigation">
+        <nav class="skip-links" aria-label="Skip navigation">
             <a href="#main-content" class="skip-link" style="view-transition-name: skip-link-main;">
                 Skip to main content
             </a>
@@ -83,22 +45,17 @@ const {
             <a href="#footer" class="skip-link" style="view-transition-name: skip-link-footer;">
                 Skip to footer
             </a>
-        </div>
+        </nav>
 
         <PWAErrorBoundary client:load>
-            <div
-                class="mx-auto max-w-8xl p-4 sm:p-6 lg:p-8"
-                style="padding-top: calc(var(--sat) + 1rem);"
+            <div 
+                class="mx-auto max-w-8xl p-4 sm:p-6 lg:p-8" 
+                style="padding-top: calc(var(--sat) + 1rem);" 
                 transition:name="page-container"
             >
                 <Header transition:name="header" />
                 <ConditionalContent client:load>
-                    <main
-                        id="main-content"
-                        role="main"
-                        transition:name="main-content"
-                        transition:animate="slide"
-                    >
+                    <main id="main-content" transition:name="main-content" transition:animate="slide">
                         <slot />
                     </main>
                     <Footer transition:name="footer" />
@@ -106,83 +63,11 @@ const {
             </div>
         </PWAErrorBoundary>
 
-        <!-- Service Worker Update Notification -->
         <ServiceWorkerUpdateManager client:load />
-        
-        <!-- Accessibility Controls -->
         <AccessibilityControls client:load />
         
-        <!-- Initialize Accessibility Manager -->
-        <script>
-            import { accessibilityManager } from '../utils/accessibilityManager';
-            
-            // Initialize accessibility manager when DOM is ready
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', () => {
-                    // Initialize the accessibility manager instance
-                    accessibilityManager.getInstance();
-                    console.log('Accessibility manager initialized');
-                });
-            } else {
-                // DOM is already ready
-                accessibilityManager.getInstance();
-                console.log('Accessibility manager initialized');
-            }
-        </script>
-
-        <!-- Initialize Transition System -->
-        <script>
-            import { transitionController } from '../utils/transitionController';
-            import { transitionRegistry } from '../utils/transitionRegistry';
-            import { transitionIntegration } from '../utils/transitionIntegration';
-            import { transitionPreloader } from '../utils/transitionPreloader';
-            import { transitionOptimizer } from '../utils/transitionOptimizer';
-            
-            // Initialize transition system when DOM is ready
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', () => {
-                    // The TransitionController is automatically initialized in its constructor
-                    // The TransitionIntegration is automatically initialized when imported
-                    // The TransitionPreloader is automatically initialized when imported
-                    
-                    // Register current page type with the registry
-                    const currentPath = window.location.pathname;
-                    const pageType = transitionRegistry.getPageType(currentPath);
-                    
-                    console.log('Enhanced transition system with preloading and optimization initialized for page type:', pageType);
-                    
-                    // Log system statistics after a short delay
-                    setTimeout(() => {
-                        const stats = transitionPreloader.getPreloadStats();
-                        const deviceCapabilities = transitionOptimizer.getDeviceCapabilities();
-                        const optimizationRecommendations = transitionOptimizer.getOptimizationRecommendations();
-                        
-                        console.log('Transition system stats:', {
-                            preloadStats: stats,
-                            deviceCapabilities,
-                            optimizationRecommendations
-                        });
-                    }, 2000);
-                });
-            } else {
-                // DOM is already ready
-                const currentPath = window.location.pathname;
-                const pageType = transitionRegistry.getPageType(currentPath);
-                console.log('Enhanced transition system with preloading and optimization initialized for page type:', pageType);
-                
-                // Log system statistics after a short delay
-                setTimeout(() => {
-                    const stats = transitionPreloader.getPreloadStats();
-                    const deviceCapabilities = transitionOptimizer.getDeviceCapabilities();
-                    const optimizationRecommendations = transitionOptimizer.getOptimizationRecommendations();
-                    
-                    console.log('Transition system stats:', {
-                        preloadStats: stats,
-                        deviceCapabilities,
-                        optimizationRecommendations
-                    });
-                }, 2000);
-            }
-        </script>
+        <script src="../scripts/accessibilityInitializer.ts"></script>
+        <script src="../scripts/navigationHandler.ts"></script>
+        <script src="../scripts/transitionInitializer.ts"></script>
     </body>
 </html>
