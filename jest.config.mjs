@@ -152,7 +152,9 @@ export default {
   testEnvironment: "jsdom",
 
   // Options that will be passed to the testEnvironment
-  // testEnvironmentOptions: {},
+  testEnvironmentOptions: {
+    url: "http://localhost/"
+  },
 
   // Adds a location field to test results
   // testLocationInResults: false,
