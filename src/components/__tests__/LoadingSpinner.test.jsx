@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { LoadingSpinner } from '../LoadingSpinner';
+import { UI_TEXT } from '@/constants/uiTexts';
 
 describe('LoadingSpinner', () => {
   it('should render with default props', () => {
@@ -41,6 +42,6 @@ describe('LoadingSpinner', () => {
     // Should have a screen reader only text
     const srOnly = container.querySelector('.sr-only');
     expect(srOnly).toBeInTheDocument();
-    expect(srOnly.textContent).toBe('Loading...');
+    expect(srOnly.textContent).toBe(UI_TEXT.loading);
   });
 });

@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { ArticlesList } from '../ArticlesList';
 import { useStore } from '@nanostores/react';
+import { UI_TEXT } from '@/constants/uiTexts';
 
 // Mock the nanostores/react module
 jest.mock('@nanostores/react');
@@ -68,6 +69,6 @@ describe('ArticlesList', () => {
     render(<ArticlesList />);
     
     // The component should render the loading state
-    expect(screen.getByText('Loading more articles...')).toBeInTheDocument();
+    expect(screen.getByText(UI_TEXT.loadingMoreArticles)).toBeInTheDocument();
   });
 });

@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { ArticlesLoadMore } from '../ArticlesLoadMore';
 import { useStore } from '@nanostores/react';
+import { UI_TEXT } from '@/constants/uiTexts';
 
 // Mock the nanostores/react module
 jest.mock('@nanostores/react');
@@ -37,14 +38,14 @@ describe('ArticlesLoadMore', () => {
     render(<ArticlesLoadMore />);
     
     // The component should render the load more button
-    expect(screen.getByRole('button', { name: /load more articles/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: new RegExp(UI_TEXT.loadMoreArticles, "i") })).toBeInTheDocument();
   });
 
   it('should call loadMoreArticles when the button is clicked', () => {
     render(<ArticlesLoadMore />);
     
     // Click the load more button
-    fireEvent.click(screen.getByRole('button', { name: /load more articles/i }));
+    fireEvent.click(screen.getByRole('button', { name: new RegExp(UI_TEXT.loadMoreArticles, "i") }));
     
     // The loadMoreArticles function should be called
     expect(loadMoreArticles).toHaveBeenCalled();
@@ -66,10 +67,10 @@ describe('ArticlesLoadMore', () => {
     render(<ArticlesLoadMore />);
     
     // The component should render the loading state
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    expect(screen.getByText(UI_TEXT.loading)).toBeInTheDocument();
     
     // The button should be disabled
-    expect(screen.getByRole('button', { name: /load more articles/i })).toBeDisabled();
+    expect(screen.getByRole('button', { name: new RegExp(UI_TEXT.loadMoreArticles, "i") })).toBeDisabled();
   });
 
   it('should render error state', () => {
@@ -82,14 +83,14 @@ describe('ArticlesLoadMore', () => {
       page: 1,
       hasMore: true,
       isLoading: false,
-      error: 'Failed to load more articles'
+      error: UI_TEXT.failedToLoadMoreArticles
     });
     
     render(<ArticlesLoadMore />);
     
     // The component should render the error state
-    expect(screen.getByText('Failed to load more articles')).toBeInTheDocument();
-    expect(screen.getByText('Try again')).toBeInTheDocument();
+    expect(screen.getByText(UI_TEXT.failedToLoadMoreArticles)).toBeInTheDocument();
+    expect(screen.getByText(UI_TEXT.tryAgain)).toBeInTheDocument();
   });
 
   it('should call retryLoadingArticles when the try again button is clicked', () => {
@@ -102,13 +103,13 @@ describe('ArticlesLoadMore', () => {
       page: 1,
       hasMore: true,
       isLoading: false,
-      error: 'Failed to load more articles'
+      error: UI_TEXT.failedToLoadMoreArticles
     });
     
     render(<ArticlesLoadMore />);
     
     // Click the try again button
-    fireEvent.click(screen.getByText('Try again'));
+    fireEvent.click(screen.getByText(UI_TEXT.tryAgain));
     
     // The retryLoadingArticles function should be called
     expect(retryLoadingArticles).toHaveBeenCalled();
@@ -130,9 +131,9 @@ describe('ArticlesLoadMore', () => {
     render(<ArticlesLoadMore />);
     
     // The component should render the end message
-    expect(screen.getByText("You've reached the end of the articles.")).toBeInTheDocument();
+    expect(screen.getByText(UI_TEXT.endOfArticles)).toBeInTheDocument();
     
     // The load more button should not be rendered
-    expect(screen.queryByRole('button', { name: /load more articles/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: new RegExp(UI_TEXT.loadMoreArticles, "i") })).not.toBeInTheDocument();
   });
 });

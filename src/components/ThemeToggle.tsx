@@ -3,6 +3,7 @@ import { Sun, Moon, Monitor } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/hooks/useTheme';
 import { useEffect, useRef, useState } from 'react';
+import { UI_TEXT } from "@/constants/uiTexts";
 
 const getThemeIcon = (theme: "light" | "dark" | "system" = "light"): React.JSX.Element => {
   const classNameForIcon = "h-4 w-4";
@@ -72,7 +73,7 @@ export const ThemeToggle = () => {
         style={{ viewTransitionName: 'theme-toggle' }}
       >
         <Sun className="h-4 w-4" />
-        <span className="sr-only">Loading theme toggle</span>
+        <span className="sr-only">{UI_TEXT.loadingThemeToggle}</span>
       </Button>
     );
   }

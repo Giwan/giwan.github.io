@@ -3,6 +3,7 @@ import { useStore } from '@nanostores/react';
 import { $articleStore } from '../stores/articleStore';
 import { loadMoreArticles, retryLoadingArticles } from '../services/articleService';
 import { LoadingSpinner } from './LoadingSpinner';
+import { UI_TEXT } from '@/constants/uiTexts';
 import type { JSX } from 'astro/jsx-runtime';
 
 /**
@@ -25,7 +26,7 @@ export function ArticlesLoadMore(): JSX.Element | null {
             className="underline font-medium hover:text-red-700"
             aria-label="Try loading articles again"
           >
-            Try again
+            {UI_TEXT.tryAgain}
           </button>
         </div>
       )}
@@ -40,14 +41,14 @@ export function ArticlesLoadMore(): JSX.Element | null {
           {isLoading ? (
             <LoadingSpinner size="small" color="secondary" />
           ) : (
-            'Load More Articles'
+            UI_TEXT.loadMoreArticles
           )}
         </button>
       )}
       
       {!hasMore && articles.length > 0 && !error && (
         <p className="text-muted-foreground mt-4">
-          You've reached the end of the articles.
+          {UI_TEXT.endOfArticles}
         </p>
       )}
     </div>
