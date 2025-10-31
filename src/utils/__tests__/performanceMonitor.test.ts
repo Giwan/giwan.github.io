@@ -48,11 +48,7 @@ Object.defineProperty(window, 'navigator', {
   configurable: true
 });
 
-Object.defineProperty(window, 'matchMedia', {
-  value: mockMatchMedia,
-  writable: true,
-  configurable: true
-});
+// matchMedia is already mocked globally in setupTests.js
 
 Object.defineProperty(window, 'requestAnimationFrame', {
   value: mockRequestAnimationFrame,
@@ -212,7 +208,7 @@ describe('PerformanceMonitor', () => {
     });
 
     it('should respect reduced motion preference', () => {
-      mockMatchMedia.mockReturnValue({
+      window.matchMedia = jest.fn().mockReturnValue({
         matches: true,
         addEventListener: jest.fn(),
         removeEventListener: jest.fn()
@@ -229,7 +225,7 @@ describe('PerformanceMonitor', () => {
 
   describe('performance recommendations', () => {
     it('should recommend minimal intensity for reduced motion', () => {
-      mockMatchMedia.mockReturnValue({
+      window.matchMedia = jest.fn().mockReturnValue({
         matches: true,
         addEventListener: jest.fn(),
         removeEventListener: jest.fn()
@@ -243,8 +239,8 @@ describe('PerformanceMonitor', () => {
     });
 
     it('should recommend reduced intensity for low-end devices', () => {
-      // Reset mockMatchMedia to not match reduced motion
-      mockMatchMedia.mockReturnValue({
+      // Reset matchMedia to not match reduced motion
+      window.matchMedia = jest.fn().mockReturnValue({
         matches: false,
         addEventListener: jest.fn(),
         removeEventListener: jest.fn()
@@ -267,8 +263,8 @@ describe('PerformanceMonitor', () => {
     });
 
     it('should recommend enhanced intensity for high-end devices', () => {
-      // Reset mockMatchMedia to not match reduced motion
-      mockMatchMedia.mockReturnValue({
+      // Reset matchMedia to not match reduced motion
+      window.matchMedia = jest.fn().mockReturnValue({
         matches: false,
         addEventListener: jest.fn(),
         removeEventListener: jest.fn()
@@ -300,8 +296,8 @@ describe('PerformanceMonitor', () => {
     });
 
     it('should recommend normal intensity for average performance', () => {
-      // Reset mockMatchMedia to not match reduced motion
-      mockMatchMedia.mockReturnValue({
+      // Reset matchMedia to not match reduced motion
+      window.matchMedia = jest.fn().mockReturnValue({
         matches: false,
         addEventListener: jest.fn(),
         removeEventListener: jest.fn()

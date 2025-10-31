@@ -16,11 +16,6 @@ mockMatchMedia.mockReturnValue({
 });
 
 // Mock properties on the existing window and document objects
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  configurable: true,
-  value: mockMatchMedia,
-});
 window.addEventListener = jest.fn();
 window.removeEventListener = jest.fn();
 
@@ -165,7 +160,7 @@ describe('TransitionController - Navigation Context Detection', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    mockMatchMedia.mockReturnValue({ 
+    window.matchMedia = jest.fn().mockReturnValue({ 
       matches: false,
       addEventListener: jest.fn(),
       removeEventListener: jest.fn()
@@ -400,7 +395,7 @@ describe('TransitionController - Integration Tests', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    mockMatchMedia.mockReturnValue({ 
+    window.matchMedia = jest.fn().mockReturnValue({ 
       matches: false,
       addEventListener: jest.fn(),
       removeEventListener: jest.fn()
