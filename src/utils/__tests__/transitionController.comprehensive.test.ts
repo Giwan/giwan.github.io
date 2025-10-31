@@ -15,41 +15,31 @@ mockMatchMedia.mockReturnValue({
   removeEventListener: jest.fn()
 });
 
-Object.defineProperty(global, 'window', {
-  value: {
-    matchMedia: mockMatchMedia,
-    addEventListener: jest.fn(),
-    removeEventListener: jest.fn(),
-    location: { pathname: '/' },
-    innerWidth: 1024,
-    innerHeight: 768,
-    navigator: {
-      userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
-      hardwareConcurrency: 8,
-      connection: { effectiveType: '4g' }
-    }
-  },
-  writable: true
+// Mock properties on the existing window and document objects
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  configurable: true,
+  value: mockMatchMedia,
+});
+window.addEventListener = jest.fn();
+window.removeEventListener = jest.fn();
+
+
+Object.defineProperty(window, 'innerWidth', {
+  writable: true,
+  configurable: true,
+  value: 1024,
 });
 
-Object.defineProperty(global, 'document', {
-  value: {
-    addEventListener: mockAddEventListener,
-    removeEventListener: mockRemoveEventListener,
-    referrer: '',
-    documentElement: {
-      setAttribute: jest.fn(),
-      removeAttribute: jest.fn(),
-      style: {
-        setProperty: jest.fn(),
-        removeProperty: jest.fn()
-      }
-    }
-  },
-  writable: true
+Object.defineProperty(window, 'innerHeight', {
+  writable: true,
+  configurable: true,
+  value: 768,
 });
 
-Object.defineProperty(global, 'navigator', {
+Object.defineProperty(window, 'navigator', {
+  writable: true,
+  configurable: true,
   value: {
     userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
     hardwareConcurrency: 8,
@@ -59,10 +49,33 @@ Object.defineProperty(global, 'navigator', {
       removeEventListener: jest.fn()
     }
   },
-  writable: true
 });
 
-Object.defineProperty(global, 'performance', {
+document.addEventListener = mockAddEventListener;
+document.removeEventListener = mockRemoveEventListener;
+
+Object.defineProperty(document, 'referrer', {
+  writable: true,
+  configurable: true,
+  value: ''
+});
+
+Object.defineProperty(document, 'documentElement', {
+  writable: true,
+  configurable: true,
+  value: {
+    setAttribute: jest.fn(),
+    removeAttribute: jest.fn(),
+    style: {
+      setProperty: jest.fn(),
+      removeProperty: jest.fn()
+    }
+  },
+});
+
+Object.defineProperty(window, 'performance', {
+  writable: true,
+  configurable: true,
   value: {
     now: jest.fn(() => Date.now()),
     memory: {
@@ -70,7 +83,6 @@ Object.defineProperty(global, 'performance', {
       jsHeapSizeLimit: 100000000
     }
   },
-  writable: true
 });
 
 // Mock the dependencies

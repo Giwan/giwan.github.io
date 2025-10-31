@@ -36,31 +36,47 @@ const mockRequestAnimationFrame = jest.fn((callback: FrameRequestCallback) => {
 });
 
 // Setup global mocks
-Object.defineProperty(global, 'performance', {
+Object.defineProperty(window, 'performance', {
   value: mockPerformance,
-  writable: true
+  writable: true,
+  configurable: true
 });
 
-Object.defineProperty(global, 'navigator', {
+Object.defineProperty(window, 'navigator', {
   value: mockNavigator,
-  writable: true
+  writable: true,
+  configurable: true
 });
 
-Object.defineProperty(global, 'window', {
-  value: {
-    matchMedia: mockMatchMedia,
-    requestAnimationFrame: mockRequestAnimationFrame,
-    AudioContext: jest.fn(),
-    webkitAudioContext: jest.fn()
-  },
-  writable: true
+Object.defineProperty(window, 'matchMedia', {
+  value: mockMatchMedia,
+  writable: true,
+  configurable: true
 });
 
-Object.defineProperty(global, 'document', {
-  value: {
-    addEventListener: jest.fn(),
-    removeEventListener: jest.fn(),
-    documentElement: {
+Object.defineProperty(window, 'requestAnimationFrame', {
+  value: mockRequestAnimationFrame,
+  writable: true,
+  configurable: true
+});
+
+Object.defineProperty(window, 'AudioContext', {
+  value: jest.fn(),
+  writable: true,
+  configurable: true
+});
+
+Object.defineProperty(window, 'webkitAudioContext', {
+  value: jest.fn(),
+  writable: true,
+  configurable: true
+});
+
+document.addEventListener = jest.fn();
+document.removeEventListener = jest.fn();
+document.dispatchEvent = jest.fn();
+Object.defineProperty(document, 'documentElement', {
+    value: {
       setAttribute: jest.fn(),
       removeAttribute: jest.fn(),
       style: {
@@ -68,9 +84,8 @@ Object.defineProperty(global, 'document', {
         removeProperty: jest.fn()
       }
     },
-    dispatchEvent: jest.fn()
-  },
-  writable: true
+    writable: true,
+    configurable: true
 });
 
 describe('PerformanceMonitor', () => {
