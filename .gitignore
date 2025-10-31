@@ -23,3 +23,6 @@ pnpm-debug.log*
 
 # Astro
 .astro
+
+# The docs file contents should be ignored as it's generated
+/docs

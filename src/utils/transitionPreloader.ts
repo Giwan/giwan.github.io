@@ -373,12 +373,9 @@ export class TransitionPreloader {
    * Find critical CSS for a page
    */
   private async findCriticalCSS(path: string): Promise<string[]> {
-    // This would typically analyze the page to find critical CSS
-    // For now, return common CSS files
-    return [
-      '/src/styles/global.css',
-      '/src/styles/advanced-transitions.css'
-    ];
+    // CSS is already bundled and loaded by Astro, no need to preload
+    // Return empty array to avoid 404 errors on source paths
+    return [];
   }
 
   /**
@@ -394,11 +391,9 @@ export class TransitionPreloader {
    * Find critical fonts for a page
    */
   private async findCriticalFonts(path: string): Promise<string[]> {
-    // Return common fonts used across the site
-    return [
-      'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2',
-      'https://fonts.gstatic.com/s/jetbrainsmono/v13/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxjPVmUsaaDhw.woff2'
-    ];
+    // Fonts are already preloaded by BaseHead component, no need to duplicate
+    // Return empty array to avoid duplicate preloading
+    return [];
   }
 
   /**

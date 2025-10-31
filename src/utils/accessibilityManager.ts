@@ -652,33 +652,7 @@ export class AccessibilityManager {
 }
 
 // Create and export a singleton instance
-let accessibilityManagerInstance: AccessibilityManager | null = null;
+export const accessibilityManager = new AccessibilityManager();
 
-export const accessibilityManager = {
-  getInstance(): AccessibilityManager {
-    if (!accessibilityManagerInstance) {
-      accessibilityManagerInstance = new AccessibilityManager();
-    }
-    return accessibilityManagerInstance;
-  },
-  
-  // Delegate methods to the instance
-  getPreferences() {
-    return this.getInstance().getPreferences();
-  },
-  
-  updatePreferences(preferences: Partial<AccessibilityPreferences>) {
-    return this.getInstance().updatePreferences(preferences);
-  },
-  
-  announce(announcement: NavigationAnnouncement) {
-    return this.getInstance().announce(announcement);
-  },
-  
-  destroy() {
-    if (accessibilityManagerInstance) {
-      accessibilityManagerInstance.destroy();
-      accessibilityManagerInstance = null;
-    }
-  }
-};
+// Re-export types for better compatibility
+export type { AccessibilityPreferences, NavigationAnnouncement };

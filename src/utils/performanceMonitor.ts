@@ -50,6 +50,7 @@ export class PerformanceMonitor {
     private frameRateObserver: any = null;
     private performanceObserver: PerformanceObserver | null = null;
     private isMonitoring: boolean = false;
+    private performanceChangeCallbacks: ((metrics: PerformanceMetrics) => void)[] = [];
 
     // Performance thresholds
     private readonly FRAME_RATE_THRESHOLD = 30; // FPS below which we consider performance poor
@@ -113,6 +114,12 @@ export class PerformanceMonitor {
                 this.frameRateHistory.push(currentFrameRate);
                 if (this.frameRateHistory.length > 100) {
                     this.frameRateHistory.shift();
+                }
+
+                // Notify performance change callbacks every 30 frames
+                if (frameCount % 30 === 0 && this.performanceChangeCallbacks.length > 0) {
+                    const metrics = this.getCurrentMetrics();
+                    this.notifyPerformanceChange(metrics);
                 }
             }
 
@@ -494,6 +501,36 @@ export class PerformanceMonitor {
     }
 
     /**
+     * Register callback for performance changes
+     */
+    public onPerformanceChange(callback: (metrics: PerformanceMetrics) => void): void {
+        this.performanceChangeCallbacks.push(callback);
+    }
+
+    /**
+     * Remove performance change callback
+     */
+    public offPerformanceChange(callback: (metrics: PerformanceMetrics) => void): void {
+        const index = this.performanceChangeCallbacks.indexOf(callback);
+        if (index > -1) {
+            this.performanceChangeCallbacks.splice(index, 1);
+        }
+    }
+
+    /**
+     * Notify performance change callbacks
+     */
+    private notifyPerformanceChange(metrics: PerformanceMetrics): void {
+        this.performanceChangeCallbacks.forEach(callback => {
+            try {
+                callback(metrics);
+            } catch (error) {
+                console.error('Error in performance change callback:', error);
+            }
+        });
+    }
+
+    /**
      * Cleanup resources
      */
     public destroy(): void {
@@ -504,6 +541,9 @@ export class PerformanceMonitor {
             this.performanceObserver = null;
         }
 
+        // Clear callbacks
+        this.performanceChangeCallbacks = [];
+
         // Remove event listeners
         document.removeEventListener('astro:before-preparation', this.handleTransitionStart.bind(this));
         document.removeEventListener('astro:after-swap', this.handleTransitionEnd.bind(this));
@@ -513,6 +553,9 @@ export class PerformanceMonitor {
 
 // Create and export singleton instance
 export const performanceMonitor = new PerformanceMonitor();
+
+// Re-export types for better compatibility
+export type { PerformanceMetrics, TransitionPerformanceData, DeviceCapabilities, TransitionIntensity };
 
 // Export for testing and advanced usage
 export default PerformanceMonitor;
