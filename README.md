@@ -1,12 +1,11 @@
 # giwan.github.io
 
-[![Deploy to GitHub Pages](https://github.com/owner/repo/actions/workflows/deploy.yml/badge.svg)](https://github.com/owner/repo/actions/workflows/deploy.yml)
+[![Deploy to GitHub Pages](https://github.com/Giwan/giwan.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/Giwan/giwan.github.io/actions/workflows/deploy.yml)
 
 This project is automatically deployed to GitHub Pages whenever changes are
 pushed to the `main` branch via a GitHub Action.
 
-This is a blog built with astro. The original
-[readme is in the docs folder]("./docs/Astro-README.md"). One of the main
+This is a blog built with Astro. One of the main
 benefits for using Astro is the **islands architecture**. Most of the site is
 static. Only those areas that need some interactivity (islands) are given that
 with a **small** bundle of JavaScript.
@@ -43,32 +42,28 @@ They can be subfiltered by category.
 
 # Deploy
 
-The blog is deployed on [GitHub Pages](https://giwan.github.io) now.
+The blog is deployed on [GitHub Pages](https://giwan.github.io).
 
-## Static hosting on GitHub Pages
+## Automated Deployment
 
-The project is configured to build to the `docs` directory, which is a supported
-publishing source for GitHub Pages. In the `astro.config.mjs` file, you'll find:
+Deployment is handled automatically via GitHub Actions. The workflow is defined in [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).
+
+When you push changes to the `main` branch:
+1.  The **Deploy** workflow is triggered.
+2.  It installs dependencies and builds the project (`npm run build` and `npm run build:pwa`).
+3.  It runs tests (`npm test`).
+4.  It deploys the contents of the `docs` output directory to GitHub Pages using the `peaceiris/actions-gh-pages` action.
+
+## Configuration
+
+The project is configured to build to the `docs` directory in `astro.config.mjs`:
 
 ```js
 output: "static",
 outDir: "./docs",
 ```
 
-This configuration tells Astro to build the site as static assets in the `docs`
-folder.
-
-### GitHub Pages Configuration
-
-To deploy the site:
-
-1. Push your changes to the main branch of your repository
-2. Ensure your repository settings have GitHub Pages enabled and set to use the
-   `docs` folder from the main branch
-3. GitHub will automatically build and deploy your site when changes are pushed
-
-No additional build step or deployment CLI is required, as GitHub Pages handles
-this automatically when changes are detected in the repository.
+This aligns with the deployment workflow which publishes the `docs` directory.
 
 ### Running Locally
 
