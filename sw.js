@@ -1,23 +1,1167 @@
+/**
+ * Copyright 2018 Google Inc. All Rights Reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-// PWA Performance Optimizations
-self.addEventListener('install', (event) => {
-    console.log('Service Worker installing...');
-    self.skipWaiting();
-});
+// If the loader is already loaded, just stop.
+if (!self.define) {
+  let registry = {};
 
-self.addEventListener('activate', (event) => {
-    console.log('Service Worker activating...');
-    event.waitUntil(self.clients.claim());
-});
+  // Used for `eval` and `importScripts` where we can't get script URL by other means.
+  // In both cases, it's safe to use a global var because those functions are synchronous.
+  let nextDefineUri;
 
-// Network-first strategy for API calls
-self.addEventListener('fetch', (event) => {
-    if (event.request.url.includes('/api/')) {
-        event.respondWith(
-            fetch(event.request)
-                .catch(() => caches.match(event.request))
-        );
+  const singleRequire = (uri, parentUri) => {
+    uri = new URL(uri + ".js", parentUri).href;
+    return registry[uri] || (
+      
+        new Promise(resolve => {
+          if ("document" in self) {
+            const script = document.createElement("script");
+            script.src = uri;
+            script.onload = resolve;
+            document.head.appendChild(script);
+          } else {
+            nextDefineUri = uri;
+            importScripts(uri);
+            resolve();
+          }
+        })
+      
+      .then(() => {
+        let promise = registry[uri];
+        if (!promise) {
+          throw new Error(`Module ${uri} didn’t register its module`);
+        }
+        return promise;
+      })
+    );
+  };
+
+  self.define = (depsNames, factory) => {
+    const uri = nextDefineUri || ("document" in self ? document.currentScript.src : "") || location.href;
+    if (registry[uri]) {
+      // Module is already loading or loaded.
+      return;
     }
-});
+    let exports = {};
+    const require = depUri => singleRequire(depUri, uri);
+    const specialDeps = {
+      module: { uri },
+      exports,
+      require
+    };
+    registry[uri] = Promise.all(depsNames.map(
+      depName => specialDeps[depName] || require(depName)
+    )).then(deps => {
+      factory(...deps);
+      return exports;
+    });
+  };
+}
+define(['./workbox-40c1b53b'], (function (workbox) { 'use strict';
 
-if(!self.define){let e,i={};const o=(o,a)=>(o=new URL(o+".js",a).href,i[o]||new Promise(i=>{if("document"in self){const e=document.createElement("script");e.src=o,e.onload=i,document.head.appendChild(e)}else e=o,importScripts(o),i()}).then(()=>{let e=i[o];if(!e)throw new Error(`Module ${o} didn’t register its module`);return e}));self.define=(a,r)=>{const n=e||("document"in self?document.currentScript.src:"")||location.href;if(i[n])return;let s={};const c=e=>o(e,n),l={module:{uri:n},exports:s,require:c};i[n]=Promise.all(a.map(e=>l[e]||c(e))).then(e=>(r(...e),s))}}define(["./workbox-7e6ebd6d"],function(e){"use strict";self.skipWaiting(),e.clientsClaim(),e.precacheAndRoute([{url:"_astro/about.CGs9SSKD.css",revision:null},{url:"_astro/AccessibilityControls.Cgg-lbgK.js",revision:null},{url:"_astro/BasicPagination.CVYp79M4.js",revision:null},{url:"_astro/button.CKqbtVu8.js",revision:null},{url:"_astro/client.D2WMwoKK.js",revision:null},{url:"_astro/ConditionalContent.C1r7Ik8R.js",revision:null},{url:"_astro/createLucideIcon.DCnupLqN.js",revision:null},{url:"_astro/HeaderNavMobile.I3pN8IOE.js",revision:null},{url:"_astro/image-1.CVihJDoD_Z1e3Xns.webp",revision:null},{url:"_astro/index.RH_Wq4ov.js",revision:null},{url:"_astro/index.RH7uU4VQ.css",revision:null},{url:"_astro/jsx-runtime.D_zvdyIk.js",revision:null},{url:"_astro/mobileMenuStore.C0S3vVzd.js",revision:null},{url:"_astro/PageContainer.BAGGQq7t.js",revision:null},{url:"_astro/PageLayout.astro_astro_type_script_index_0_lang.Bq2IckCh.js",revision:null},{url:"_astro/pwa.CwpNiZrk.js",revision:null},{url:"_astro/PWAErrorBoundary.DQPtZxkZ.js",revision:null},{url:"_astro/SearchContainer.BjZWIUJd.js",revision:null},{url:"_astro/ServiceWorkerUpdateManager.DqTCSZMH.js",revision:null},{url:"_astro/ThemeToggle.DupCVJxH.js",revision:null},{url:"_astro/transitionController.CW2NVXhh.js",revision:null},{url:"404",revision:"775f6824bfa1ec3297dc7fd07843329c"},{url:"about",revision:"f31b65bdef7882eec241b2cc321e6a24"},{url:"blog/2018-01-05-vscode-debugging",revision:"3894e5822d4e06d2b1d8238469a3ad8f"},{url:"blog/2018-11-11-react-instead-of-jsp",revision:"a13fa80c49fdf38c0621a56ebaed8af0"},{url:"blog/2018-11-11-ssr-with-react",revision:"3ebfb94d8a58ad2aa115896fb14df55a"},{url:"blog/2018-11-22-react-served-by-express-running-in-docker",revision:"428d1c5a5ff0a07b1748d29d26dc1816"},{url:"blog/2018-12-29-free-static-site",revision:"90bfb218f8dbe7271e07b1611dc1f75c"},{url:"blog/2019-12-13-browser-tools",revision:"2d7ed592f976516af1426456587ff927"},{url:"blog/2019-12-15-svelte",revision:"e826c65e3bbc027d0011069a05a9c74e"},{url:"blog/2020-02-04-jest-coverage",revision:"c3103ce03e83d399ef1c78fef932faa4"},{url:"blog/2020-05-19-ssr-with-react-redux",revision:"8dad8030ff6d6d67c65438b413ebc87a"},{url:"blog/2020-09-24-javascript-uncanny-valley",revision:"add44c8d88dcf90f71cd5fa85e2a9cd6"},{url:"blog/2020-09-29-uuid-as-apassword",revision:"45558fe4848a5421b90c352dc6e80742"},{url:"blog/2020-1-16-css-grid",revision:"70dc6120f20de64dc9ea409e53321bcd"},{url:"blog/2020-10-05-serverless-functions-on-netlify",revision:"fb2c39b0a7278b3e5b8f82ad1d41eb54"},{url:"blog/2020-10-06-deploy-serverless-function-on-netlify",revision:"de5ebbae307c08643f3979d59f7fb394"},{url:"blog/2020-10-15-browser-debugging-with-breakpoints",revision:"03704b424d1ff8e60670efdc7a15b514"},{url:"blog/2020-10-18-loop-vs-function",revision:"0ba9ac5b012ba1809ebd1f952bdc2c7a"},{url:"blog/2020-12-03-jsonresume",revision:"b79e63525d00fb5c6fef675d23788099"},{url:"blog/2020-12-23-animation",revision:"62cc4f59a31e56dad0682970f25e16b5"},{url:"blog/2021-01-12-whatsapp-by-facebook",revision:"a69ed28eb770ddb62aca61e95a8b1391"},{url:"blog/2021-01-23-next-js-blog",revision:"06fdf993e24271f90d378fb65da15736"},{url:"blog/2021-03-06-vue-js-solar",revision:"2d928f54330b30be77147e0645b53137"},{url:"blog/2021-04-11-electron-basics",revision:"6a5632368755fc5f7c24285fde59b777"},{url:"blog/2021-04-11-electron-save-file",revision:"9f234035d274859b3aedcc623ace1755"},{url:"blog/2021-08-07-pagination",revision:"5a72e0f6422d3acf7dc4cd34bf3b1b99"},{url:"blog/2021-10-09-publish-pagination",revision:"faeeba5838e30cb38ba31268e183feaa"},{url:"blog/2022-01-10-recursive-function",revision:"eb74db3c66f0ecb4cffde09ff2a6f468"},{url:"blog/2022-05-02-tools",revision:"f01cc6950c242dc6939c7dc561cdfff2"},{url:"blog/2022-09-19-applicant-list",revision:"6934ee1fc468d7b272ca1299bab1746e"},{url:"blog/2024-01-21-deploy-astro-static-on-deno-deploy",revision:"7e82f4811cc3f87a13c054bf78167ba4"},{url:"blog/2025-05-31-prompt-engineering-do-dont",revision:"3846834709fdde35b220e4ef1edbac6a"},{url:"blog/2025-06-14-claude-code-feature-output",revision:"fb7478d616e5616f20df08f882ed8c73"},{url:"blog/2025-08-20-intl-segmenter",revision:"5be8a2fd226cbd9a73e1d52ead3b51de"},{url:"blog/2025-08-27-best-note-taking-tools",revision:"16df03518f53d53e5c5c9e35d192ceb4"},{url:"blog/2025-10-29-top-10-sites-blocking-openai-bot",revision:"546270e7435d90d8e170758e065d5cd9"},{url:"blog/2025-11-24-building-basic-pomo-with-antigravity",revision:"225fc64e1ad972572eb1cd0df241cc21"},{url:"contact",revision:"2f9c98cf1743fecb24f11a96d43afce6"},{url:"drafts/2018-11-30-advanced-search-on-the-web",revision:"ff968c9b8c0ef3b285a00ac387ee8ce1"},{url:"drafts/2018-12-01-browser-extension-with-react",revision:"e7822500b50d4115a5d3308c5611e8d3"},{url:"drafts/2020-02-04-svelte-hn",revision:"554080d70646c0158e29aa860803008e"},{url:"drafts/2020-02-05-web-performance",revision:"b69dd7e2cc77c2f6d25c104e0a90f2ca"},{url:"drafts/2020-02-12-socket-io",revision:"c1721fe237cab7baaf337619cc42bdbe"},{url:"drafts/2020-03-10-django",revision:"136ca9c531a840e7b89af77c02767d79"},{url:"drafts/2020-11-21-deploy-nexjs-static",revision:"415840bdd7a6e99ba2c3cc34bc3b770e"},{url:"drafts/2022-05-10-objects",revision:"5ad0e8c7e791fb03b8900574ac705d37"},{url:"drafts/2023-03-05-module-federation",revision:"6441dc409825d89bde027614295a34d4"},{url:"drafts/2025-06-08-is-ai-the-new-plastic",revision:"7b66a2ed17f01428f9191cf2eac5ed3a"},{url:"favicon.svg",revision:"b2d181e81ac7bc91332a6da2a262d9df"},{url:"icons/100.png",revision:"7c6da90297ef3d461ff068e2c67cc03c"},{url:"icons/1024.png",revision:"a7fdfb5a51393af2757c5d3306c8a3e6"},{url:"icons/114.png",revision:"a616ecb4159a0b27cac56a4d432d34c7"},{url:"icons/120.png",revision:"cecde137825dbc5ecbc41f7437ac7d1f"},{url:"icons/128.png",revision:"5f064081bb992fd08d34201b265d4150"},{url:"icons/144.png",revision:"52414bd5f99df6cc0b16f897087c332e"},{url:"icons/152.png",revision:"03eb838a8ebe6edf49fcd2c58af13890"},{url:"icons/16.png",revision:"b9ac1097b27a608bbf613875e350c595"},{url:"icons/167.png",revision:"cdb6bd9529bfd0a1a2b3ff33f4735c88"},{url:"icons/180.png",revision:"d77c5bc24130db488b5ba59abfb8adba"},{url:"icons/192.png",revision:"554a2738429ee266b92831f16023b1f6"},{url:"icons/20.png",revision:"810022127945d43fd43f8e4ff3ddb00e"},{url:"icons/256.png",revision:"983dc3475e72ea001a26528463029df4"},{url:"icons/29.png",revision:"91150be5cb912553e5d8263de6f48795"},{url:"icons/32.png",revision:"23e8d1250762430ea795e23c7537115d"},{url:"icons/40.png",revision:"6045c13b2a86da74f44af1f5ec1c12e5"},{url:"icons/50.png",revision:"043c084fe379bd63f0763437c64d0819"},{url:"icons/512-maskable.png",revision:"ac348e6e5d0b3ad5d5faaaaec70b4a1a"},{url:"icons/512.png",revision:"ac348e6e5d0b3ad5d5faaaaec70b4a1a"},{url:"icons/57.png",revision:"6ffe272fc72e5a2d59032d7a9814e306"},{url:"icons/58.png",revision:"f609803e7c3ba685d1707c55818d5a36"},{url:"icons/60.png",revision:"1243748a0d8e15e09ab767668dc65e11"},{url:"icons/64.png",revision:"5474312b35532a72ccf6eae60fdd62f8"},{url:"icons/72.png",revision:"d69f98f6be229a95d276feef17e42dc7"},{url:"icons/76.png",revision:"047fdfcda594f0d744bf627c1ad5cec2"},{url:"icons/80.png",revision:"4a881b1175b894e8ae718d060f521f99"},{url:"icons/87.png",revision:"0edf413502948f229d25727dab806c9f"},{url:"icons/android-launchericon-144-144.png",revision:"52414bd5f99df6cc0b16f897087c332e"},{url:"icons/android-launchericon-192-192.png",revision:"554a2738429ee266b92831f16023b1f6"},{url:"icons/android-launchericon-48-48.png",revision:"86cf506ebe5f964eff79b1d7b07ec184"},{url:"icons/android-launchericon-512-512.png",revision:"ac348e6e5d0b3ad5d5faaaaec70b4a1a"},{url:"icons/android-launchericon-72-72.png",revision:"d69f98f6be229a95d276feef17e42dc7"},{url:"icons/android-launchericon-96-96.png",revision:"7aa64e78b34d82148201044e8253ab28"},{url:"icons/LargeTile.scale-100.png",revision:"4fa7aad6afec1397a3ad3bbef5960813"},{url:"icons/LargeTile.scale-125.png",revision:"91d56af8ebc1d65d755d54d832d305ab"},{url:"icons/LargeTile.scale-150.png",revision:"53661fbea960e23d53f92a41c0b3a392"},{url:"icons/LargeTile.scale-200.png",revision:"4a721f86065b71c11008ce1d0a890707"},{url:"icons/LargeTile.scale-400.png",revision:"e1a4aed2f04e4785fd3c5c8a9b5bdfb2"},{url:"icons/SmallTile.scale-100.png",revision:"48424c73a852b99fd4ba6f678cac3f70"},{url:"icons/SmallTile.scale-125.png",revision:"6c10ca6011d0bd92ad27d570d2a13d7c"},{url:"icons/SmallTile.scale-150.png",revision:"4a3cc8205e3787427be8732e17434564"},{url:"icons/SmallTile.scale-200.png",revision:"af42ad0fe403533d70cc3541dc18feb0"},{url:"icons/SmallTile.scale-400.png",revision:"ff73e1316b674d5f2b21574a5b95f745"},{url:"icons/SplashScreen.scale-100.png",revision:"965df17a9e06acdd0f3be5a7d9684cf4"},{url:"icons/SplashScreen.scale-125.png",revision:"d1447278a2daaba6138f7c83676dd825"},{url:"icons/SplashScreen.scale-150.png",revision:"6482756a65166e3676a0eab117382bee"},{url:"icons/SplashScreen.scale-200.png",revision:"62164517066a52d961e02b90f7c1bcd3"},{url:"icons/SplashScreen.scale-400.png",revision:"58825827610178b9dc79fb6c24d4fac5"},{url:"icons/Square150x150Logo.scale-100.png",revision:"c44de5c2989a8491076f29bbe9b503fb"},{url:"icons/Square150x150Logo.scale-125.png",revision:"0926fb9bcc21412f7c97e8c486f53791"},{url:"icons/Square150x150Logo.scale-150.png",revision:"3a9c32b511c997882877945e36ba3c68"},{url:"icons/Square150x150Logo.scale-200.png",revision:"3be7ba6c9c9420c9c046bd72dc7d763d"},{url:"icons/Square150x150Logo.scale-400.png",revision:"b51c6250dd3a5a699b598c713d8b3c94"},{url:"icons/Square44x44Logo.altform-lightunplated_targetsize-16.png",revision:"b9ac1097b27a608bbf613875e350c595"},{url:"icons/Square44x44Logo.altform-lightunplated_targetsize-20.png",revision:"810022127945d43fd43f8e4ff3ddb00e"},{url:"icons/Square44x44Logo.altform-lightunplated_targetsize-24.png",revision:"61c53a7e1641a268084427d3daf6fec1"},{url:"icons/Square44x44Logo.altform-lightunplated_targetsize-256.png",revision:"983dc3475e72ea001a26528463029df4"},{url:"icons/Square44x44Logo.altform-lightunplated_targetsize-30.png",revision:"abba5be62ae56d374b6d0177958d718f"},{url:"icons/Square44x44Logo.altform-lightunplated_targetsize-32.png",revision:"23e8d1250762430ea795e23c7537115d"},{url:"icons/Square44x44Logo.altform-lightunplated_targetsize-36.png",revision:"6d66bcc8a0c493426338c04d07b13410"},{url:"icons/Square44x44Logo.altform-lightunplated_targetsize-40.png",revision:"6045c13b2a86da74f44af1f5ec1c12e5"},{url:"icons/Square44x44Logo.altform-lightunplated_targetsize-44.png",revision:"343b9dc48a5db9eb7fc39820080649e7"},{url:"icons/Square44x44Logo.altform-lightunplated_targetsize-48.png",revision:"86cf506ebe5f964eff79b1d7b07ec184"},{url:"icons/Square44x44Logo.altform-lightunplated_targetsize-60.png",revision:"1243748a0d8e15e09ab767668dc65e11"},{url:"icons/Square44x44Logo.altform-lightunplated_targetsize-64.png",revision:"5474312b35532a72ccf6eae60fdd62f8"},{url:"icons/Square44x44Logo.altform-lightunplated_targetsize-72.png",revision:"d69f98f6be229a95d276feef17e42dc7"},{url:"icons/Square44x44Logo.altform-lightunplated_targetsize-80.png",revision:"4a881b1175b894e8ae718d060f521f99"},{url:"icons/Square44x44Logo.altform-lightunplated_targetsize-96.png",revision:"7aa64e78b34d82148201044e8253ab28"},{url:"icons/Square44x44Logo.altform-unplated_targetsize-16.png",revision:"b9ac1097b27a608bbf613875e350c595"},{url:"icons/Square44x44Logo.altform-unplated_targetsize-20.png",revision:"810022127945d43fd43f8e4ff3ddb00e"},{url:"icons/Square44x44Logo.altform-unplated_targetsize-24.png",revision:"61c53a7e1641a268084427d3daf6fec1"},{url:"icons/Square44x44Logo.altform-unplated_targetsize-256.png",revision:"983dc3475e72ea001a26528463029df4"},{url:"icons/Square44x44Logo.altform-unplated_targetsize-30.png",revision:"abba5be62ae56d374b6d0177958d718f"},{url:"icons/Square44x44Logo.altform-unplated_targetsize-32.png",revision:"23e8d1250762430ea795e23c7537115d"},{url:"icons/Square44x44Logo.altform-unplated_targetsize-36.png",revision:"6d66bcc8a0c493426338c04d07b13410"},{url:"icons/Square44x44Logo.altform-unplated_targetsize-40.png",revision:"6045c13b2a86da74f44af1f5ec1c12e5"},{url:"icons/Square44x44Logo.altform-unplated_targetsize-44.png",revision:"343b9dc48a5db9eb7fc39820080649e7"},{url:"icons/Square44x44Logo.altform-unplated_targetsize-48.png",revision:"86cf506ebe5f964eff79b1d7b07ec184"},{url:"icons/Square44x44Logo.altform-unplated_targetsize-60.png",revision:"1243748a0d8e15e09ab767668dc65e11"},{url:"icons/Square44x44Logo.altform-unplated_targetsize-64.png",revision:"5474312b35532a72ccf6eae60fdd62f8"},{url:"icons/Square44x44Logo.altform-unplated_targetsize-72.png",revision:"d69f98f6be229a95d276feef17e42dc7"},{url:"icons/Square44x44Logo.altform-unplated_targetsize-80.png",revision:"4a881b1175b894e8ae718d060f521f99"},{url:"icons/Square44x44Logo.altform-unplated_targetsize-96.png",revision:"7aa64e78b34d82148201044e8253ab28"},{url:"icons/Square44x44Logo.scale-100.png",revision:"343b9dc48a5db9eb7fc39820080649e7"},{url:"icons/Square44x44Logo.scale-125.png",revision:"fe1eedde3cd7b7650a02854497bf786d"},{url:"icons/Square44x44Logo.scale-150.png",revision:"6c0e04953e7513801df88a8c9708f97e"},{url:"icons/Square44x44Logo.scale-200.png",revision:"da3ee41b9bf49b25bbf144e99fac98f5"},{url:"icons/Square44x44Logo.scale-400.png",revision:"f4faf733e14b677046ff00dc11dfaeea"},{url:"icons/Square44x44Logo.targetsize-16.png",revision:"b9ac1097b27a608bbf613875e350c595"},{url:"icons/Square44x44Logo.targetsize-20.png",revision:"810022127945d43fd43f8e4ff3ddb00e"},{url:"icons/Square44x44Logo.targetsize-24.png",revision:"61c53a7e1641a268084427d3daf6fec1"},{url:"icons/Square44x44Logo.targetsize-256.png",revision:"983dc3475e72ea001a26528463029df4"},{url:"icons/Square44x44Logo.targetsize-30.png",revision:"abba5be62ae56d374b6d0177958d718f"},{url:"icons/Square44x44Logo.targetsize-32.png",revision:"23e8d1250762430ea795e23c7537115d"},{url:"icons/Square44x44Logo.targetsize-36.png",revision:"6d66bcc8a0c493426338c04d07b13410"},{url:"icons/Square44x44Logo.targetsize-40.png",revision:"6045c13b2a86da74f44af1f5ec1c12e5"},{url:"icons/Square44x44Logo.targetsize-44.png",revision:"343b9dc48a5db9eb7fc39820080649e7"},{url:"icons/Square44x44Logo.targetsize-48.png",revision:"86cf506ebe5f964eff79b1d7b07ec184"},{url:"icons/Square44x44Logo.targetsize-60.png",revision:"1243748a0d8e15e09ab767668dc65e11"},{url:"icons/Square44x44Logo.targetsize-64.png",revision:"5474312b35532a72ccf6eae60fdd62f8"},{url:"icons/Square44x44Logo.targetsize-72.png",revision:"d69f98f6be229a95d276feef17e42dc7"},{url:"icons/Square44x44Logo.targetsize-80.png",revision:"4a881b1175b894e8ae718d060f521f99"},{url:"icons/Square44x44Logo.targetsize-96.png",revision:"7aa64e78b34d82148201044e8253ab28"},{url:"icons/StoreLogo.scale-100.png",revision:"6aaf5d95f1367d24ff08542bbdc346aa"},{url:"icons/StoreLogo.scale-125.png",revision:"53d8aa22975a3947a7b8a81f225768b9"},{url:"icons/StoreLogo.scale-150.png",revision:"09cbc56ebe0b3f597c8d11deb732a6fe"},{url:"icons/StoreLogo.scale-200.png",revision:"555e850b1ed2b6c2afa88ad717ef2c27"},{url:"icons/StoreLogo.scale-400.png",revision:"ee28c5571f56b0d172e4d22705549186"},{url:"icons/Wide310x150Logo.scale-100.png",revision:"70f6c0326602653bd98d55e2ec7ffa36"},{url:"icons/Wide310x150Logo.scale-125.png",revision:"a7fd6a05b0c7a049118f0b60afef32cb"},{url:"icons/Wide310x150Logo.scale-150.png",revision:"9756111f2df8b064b3e2b1f167f60bdc"},{url:"icons/Wide310x150Logo.scale-200.png",revision:"965df17a9e06acdd0f3be5a7d9684cf4"},{url:"icons/Wide310x150Logo.scale-400.png",revision:"62164517066a52d961e02b90f7c1bcd3"},{url:"/",revision:"62e462ab4b020adf1e438f9ca94f674e"},{url:"offline",revision:"96f8310c2998a1849e27e11f96bb8540"},{url:"registerSW.js",revision:"1872c500de691dce40960bb85481de07"},{url:"search",revision:"701fbf4dcf89ffb409d860b9b7435577"},{url:"search/results",revision:"5a22b2aa653983e4b4cf85a949b45f93"},{url:"tools/all",revision:"f4a22c9ff5990d8e4f800e9a64295d51"},{url:"tools/Data",revision:"369a1211d45a299184b82ebb025c657b"},{url:"tools/Design",revision:"0ad93f34df7470a7bec15bf304471fec"},{url:"tools/Developer",revision:"ac00dd079dbc430d428d06f696fa63a1"},{url:"tools",revision:"770329c8f74b2e93edd57441bd865ace"},{url:"tools/Project",revision:"8d226ebe6b73c06ea3ceb85dcfa39408"},{url:"tools/Reading",revision:"9967491f570631122b267da1f5a4c66b"},{url:"tools/search",revision:"0b8251d2963c575c373b70b61d9d1737"},{url:"tools/Social",revision:"8d78d006d268634fccb531183d3d6249"},{url:"tools/software",revision:"e9ed6f8a936f62f3a6e36e90c243f033"},{url:"tools/Wireframe",revision:"37e095ac2bca9912a23a9118a3dbfd34"},{url:"tools/Writing",revision:"cda1b21b897b110c9a3b3f1e0f0ebbf4"},{url:"manifest.json",revision:"470d1881a30be6623d3d838b8a847364"}],{directoryIndex:"index.html"}),e.cleanupOutdatedCaches(),e.registerRoute(new e.NavigationRoute(e.createHandlerBoundToURL("/offline.html"))),e.registerRoute(/\/blog\/.*/,new e.StaleWhileRevalidate({cacheName:"blog-posts",plugins:[new e.ExpirationPlugin({maxEntries:3,maxAgeSeconds:2592e3})]}),"GET"),e.registerRoute(/\.(?:png|jpg|jpeg|svg|gif|webp|ico)$/,new e.CacheFirst({cacheName:"images",plugins:[new e.ExpirationPlugin({maxEntries:50,maxAgeSeconds:2592e3})]}),"GET"),e.registerRoute(/\.(?:js|css|woff|woff2|ttf|eot)$/,new e.CacheFirst({cacheName:"static-assets",plugins:[new e.ExpirationPlugin({maxEntries:30,maxAgeSeconds:2592e3})]}),"GET"),e.registerRoute(/^https:\/\/fonts\.googleapis\.com\/.*/i,new e.StaleWhileRevalidate({cacheName:"google-fonts-stylesheets",plugins:[new e.ExpirationPlugin({maxEntries:10,maxAgeSeconds:604800})]}),"GET"),e.registerRoute(/^https:\/\/fonts\.gstatic\.com\/.*/i,new e.CacheFirst({cacheName:"google-fonts-webfonts",plugins:[new e.ExpirationPlugin({maxEntries:20,maxAgeSeconds:31536e3})]}),"GET")});
+  self.skipWaiting();
+  workbox.clientsClaim();
+
+  /**
+   * The precacheAndRoute() method efficiently caches and responds to
+   * requests for URLs in the manifest.
+   * See https://goo.gl/S9QRab
+   */
+  workbox.precacheAndRoute([{
+    "url": "_astro/about.CGs9SSKD.css",
+    "revision": null
+  }, {
+    "url": "_astro/AccessibilityControls.DfoW8SZN.js",
+    "revision": null
+  }, {
+    "url": "_astro/BasicPagination.CVYp79M4.js",
+    "revision": null
+  }, {
+    "url": "_astro/button.CKqbtVu8.js",
+    "revision": null
+  }, {
+    "url": "_astro/client.D2WMwoKK.js",
+    "revision": null
+  }, {
+    "url": "_astro/ConditionalContent.C1r7Ik8R.js",
+    "revision": null
+  }, {
+    "url": "_astro/createLucideIcon.DCnupLqN.js",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-cyrillic-400-normal.dc1q3VD7.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-cyrillic-400-normal.UC0NFL4U.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-cyrillic-500-normal.Bu7VCL72.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-cyrillic-500-normal.CX35h3Mg.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-cyrillic-600-normal.BD56RyRT.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-cyrillic-600-normal.CPRdbepc.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-cyrillic-ext-400-normal.Buh61xzB.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-cyrillic-ext-400-normal.txZ9Fk_1.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-cyrillic-ext-500-normal.CwtLmSFD.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-cyrillic-ext-500-normal.CYRspHgm.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-cyrillic-ext-600-normal.B9wE0zmr.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-cyrillic-ext-600-normal.DldcyWhZ.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-greek-400-normal.B2Gh_Y8s.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-greek-400-normal.DobhaxvF.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-greek-500-normal.CVO0IRNt.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-greek-500-normal.DEXIWiey.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-greek-600-normal.D_h3X2X5.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-greek-600-normal.Dxp52_By.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-greek-ext-400-normal.DR7mBgIM.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-greek-ext-400-normal.DSPUheWg.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-greek-ext-500-normal.BO3iq16n.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-greek-ext-500-normal.CMiNLXER.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-greek-ext-600-normal.C-cQDoOk.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-greek-ext-600-normal.DtBpFRLc.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-latin-400-normal.C-QZfXAs.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-latin-400-normal.DGosTW8U.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-latin-500-normal.aMLC2AMm.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-latin-500-normal.B6gioGu8.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-latin-600-normal.BmSSHshu.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-latin-600-normal.CvYZpPHg.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-latin-ext-400-normal.DG73JjOf.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-latin-ext-400-normal.KSMg0QLl.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-latin-ext-500-normal.CaANqXjI.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-latin-ext-500-normal.Crd9e_oI.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-latin-ext-600-normal.0PFQL1eg.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-latin-ext-600-normal.Cb7jxoAi.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-symbols2-400-normal._QEZCEwe.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-symbols2-500-normal.DwsgbIjQ.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-symbols2-600-normal.Dvq6IQE5.woff",
+    "revision": null
+  }, {
+    "url": "_astro/HeaderNavMobile.I3pN8IOE.js",
+    "revision": null
+  }, {
+    "url": "_astro/image-1.CVihJDoD_Z1e3Xns.webp",
+    "revision": null
+  }, {
+    "url": "_astro/index.Bg1A19Ts.css",
+    "revision": null
+  }, {
+    "url": "_astro/index.RH_Wq4ov.js",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-400-normal.HOLc17fK.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-400-normal.obahsSVq.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-500-normal.BasfLYem.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-500-normal.CxZf_p3X.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-600-normal.4D_pXhcN.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-600-normal.CWCymEST.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-700-normal.CjBOestx.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-700-normal.DrXBdSj3.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-ext-400-normal.BQZuk6qB.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-ext-400-normal.DQukG94-.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-ext-500-normal.B0yAr1jD.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-ext-500-normal.BmqWE9Dz.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-ext-600-normal.Bcila6Z-.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-ext-600-normal.Dfes3d0z.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-ext-700-normal.BjwYoWNd.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-ext-700-normal.LO58E6JB.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-400-normal.B4URO6DV.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-400-normal.q2sYcFCs.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-500-normal.BIZE56-Y.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-500-normal.Xzm54t5V.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-600-normal.BZpKdvQh.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-600-normal.plRanbMR.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-700-normal.BUv2fZ6O.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-700-normal.C3JjAnD8.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-ext-400-normal.DGGRlc-M.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-ext-400-normal.KugGGMne.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-ext-500-normal.2j5mBUwD.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-ext-500-normal.C4iEst2y.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-ext-600-normal.B8X0CLgF.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-ext-600-normal.DRtmH8MT.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-ext-700-normal.BoQ6DsYi.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-ext-700-normal.qfdV9bQt.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-latin-400-normal.C38fXH4l.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-latin-400-normal.CyCys3Eg.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-latin-500-normal.BL9OpVg8.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-latin-500-normal.Cerq10X2.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-latin-600-normal.CiBQ2DWP.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-latin-600-normal.LgqL8muc.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-latin-700-normal.BLAVimhd.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-latin-700-normal.Yt3aPRUw.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-latin-ext-400-normal.77YHD8bZ.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-latin-ext-400-normal.C1nco2VV.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-latin-ext-500-normal.BxGbmqWO.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-latin-ext-500-normal.CV4jyFjo.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-latin-ext-600-normal.CIVaiw4L.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-latin-ext-600-normal.D2bJ5OIk.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-latin-ext-700-normal.Ca8adRJv.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-latin-ext-700-normal.TidjK2hL.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-vietnamese-400-normal.Bbgyi5SW.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-vietnamese-400-normal.DMkecbls.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-vietnamese-500-normal.DOriooB6.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-vietnamese-500-normal.mJboJaSs.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-vietnamese-600-normal.BuLX-rYi.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-vietnamese-600-normal.Cc8MFFhd.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-vietnamese-700-normal.BZaoP0fm.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-vietnamese-700-normal.DlLaEgI2.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/jetbrains-mono-cyrillic-400-normal.BEIGL1Tu.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/jetbrains-mono-cyrillic-400-normal.ugxPyKxw.woff",
+    "revision": null
+  }, {
+    "url": "_astro/jetbrains-mono-cyrillic-600-normal.8K4wrrwR.woff",
+    "revision": null
+  }, {
+    "url": "_astro/jetbrains-mono-cyrillic-600-normal.EVf6-Yzo.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/jetbrains-mono-greek-400-normal.B9oWc5Lo.woff",
+    "revision": null
+  }, {
+    "url": "_astro/jetbrains-mono-greek-400-normal.C190GLew.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/jetbrains-mono-greek-600-normal.H7WoG9Et.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/jetbrains-mono-greek-600-normal.mc2nkWzM.woff",
+    "revision": null
+  }, {
+    "url": "_astro/jetbrains-mono-latin-400-normal.6-qcROiO.woff",
+    "revision": null
+  }, {
+    "url": "_astro/jetbrains-mono-latin-400-normal.V6pRDFza.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/jetbrains-mono-latin-600-normal.BfsvjouI.woff",
+    "revision": null
+  }, {
+    "url": "_astro/jetbrains-mono-latin-600-normal.C8RAYTDA.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/jetbrains-mono-latin-ext-400-normal.Bc8Ftmh3.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/jetbrains-mono-latin-ext-400-normal.fXTG6kC5.woff",
+    "revision": null
+  }, {
+    "url": "_astro/jetbrains-mono-latin-ext-600-normal.BfB_LPfz.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/jetbrains-mono-latin-ext-600-normal.DObL3zCW.woff",
+    "revision": null
+  }, {
+    "url": "_astro/jetbrains-mono-vietnamese-400-normal.CqNFfHCs.woff",
+    "revision": null
+  }, {
+    "url": "_astro/jetbrains-mono-vietnamese-600-normal.OWROknRo.woff",
+    "revision": null
+  }, {
+    "url": "_astro/jsx-runtime.D_zvdyIk.js",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-cyrillic-400-italic._pNjnltw.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-cyrillic-400-italic.B7k1f10R.woff",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-cyrillic-400-normal.AvfsDsMQ.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-cyrillic-400-normal.DAcQ8g-H.woff",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-cyrillic-700-normal.CHCcU-4a.woff",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-cyrillic-700-normal.wbY04GlL.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-cyrillic-ext-400-italic.BzaozJoX.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-cyrillic-ext-400-italic.jx_hxLZ6.woff",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-cyrillic-ext-400-normal.D9NYhYTq.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-cyrillic-ext-400-normal.Di6yW_eE.woff",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-cyrillic-ext-700-normal.Bk1p9YoV.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-cyrillic-ext-700-normal.DoooT6Vg.woff",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-latin-400-italic.Cq-nJhum.woff",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-latin-400-italic.CuD3zK4B.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-latin-400-normal.CvqO63Ah.woff",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-latin-400-normal.G4kZaoXi.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-latin-700-normal.D4-nzrAh.woff",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-latin-700-normal.DoUP8Ce-.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-latin-ext-400-italic.Cdckp9Zh.woff",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-latin-ext-400-italic.menzxlp4.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-latin-ext-400-normal.CLqijLtt.woff",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-latin-ext-400-normal.CWVzVQq3.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-latin-ext-700-normal.CaBzXGOk.woff",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-latin-ext-700-normal.jHnxg2Kc.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-vietnamese-400-italic.CpoqsQFt.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-vietnamese-400-italic.O1h-65_z.woff",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-vietnamese-400-normal.Dh8WVvgZ.woff",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-vietnamese-400-normal.hNacsVs_.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-vietnamese-700-normal.Bp6kWjW5.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/merriweather-vietnamese-700-normal.C7_HxHBa.woff",
+    "revision": null
+  }, {
+    "url": "_astro/mobileMenuStore.C0S3vVzd.js",
+    "revision": null
+  }, {
+    "url": "_astro/PageContainer.BAGGQq7t.js",
+    "revision": null
+  }, {
+    "url": "_astro/PageLayout.astro_astro_type_script_index_0_lang.Bq2IckCh.js",
+    "revision": null
+  }, {
+    "url": "_astro/pwa.CVZs07lH.js",
+    "revision": null
+  }, {
+    "url": "_astro/PWAErrorBoundary.Whuoj_7R.js",
+    "revision": null
+  }, {
+    "url": "_astro/SearchContainer.BjZWIUJd.js",
+    "revision": null
+  }, {
+    "url": "_astro/ServiceWorkerUpdateManager.C601wTBy.js",
+    "revision": null
+  }, {
+    "url": "_astro/ThemeToggle.DOzcfVhz.js",
+    "revision": null
+  }, {
+    "url": "_astro/transitionController.CxYAGZHG.js",
+    "revision": null
+  }, {
+    "url": "404",
+    "revision": "4dd95f28af0dd394e23834b81981d59e"
+  }, {
+    "url": "about",
+    "revision": "517e809583cd810edcf53803684da5d9"
+  }, {
+    "url": "blog/2018-01-05-vscode-debugging",
+    "revision": "428697563847480540e32e2218c350ab"
+  }, {
+    "url": "blog/2018-11-11-react-instead-of-jsp",
+    "revision": "622f10e8082263710c35bd42857576c6"
+  }, {
+    "url": "blog/2018-11-11-ssr-with-react",
+    "revision": "8040d66d01acf4e3b16a0ef1370ead07"
+  }, {
+    "url": "blog/2018-11-22-react-served-by-express-running-in-docker",
+    "revision": "ffef4c10fe1f66a19c9a7ed4fca23bd1"
+  }, {
+    "url": "blog/2018-12-29-free-static-site",
+    "revision": "c57b8ffa8f6e67a999e24b7cbb382988"
+  }, {
+    "url": "blog/2019-12-13-browser-tools",
+    "revision": "0c6fc0bf9b1fd583a506022d0ebf79c1"
+  }, {
+    "url": "blog/2019-12-15-svelte",
+    "revision": "f286618486aa892e473f837298fe76ed"
+  }, {
+    "url": "blog/2020-02-04-jest-coverage",
+    "revision": "9bea401108b8817d7ed7a635f1178251"
+  }, {
+    "url": "blog/2020-05-19-ssr-with-react-redux",
+    "revision": "474bb899f82882195a4fb4a955588ff7"
+  }, {
+    "url": "blog/2020-09-24-javascript-uncanny-valley",
+    "revision": "910a67203ab3e604f43986ada23d974b"
+  }, {
+    "url": "blog/2020-09-29-uuid-as-apassword",
+    "revision": "6da220c2720d13a9ef0ea912a9b73a5e"
+  }, {
+    "url": "blog/2020-1-16-css-grid",
+    "revision": "974684d1fedeaef63e6d741ed9db4648"
+  }, {
+    "url": "blog/2020-10-05-serverless-functions-on-netlify",
+    "revision": "662623672941aa890bd8811015037692"
+  }, {
+    "url": "blog/2020-10-06-deploy-serverless-function-on-netlify",
+    "revision": "9fb74ef6d2928b56545ef936d1dca6af"
+  }, {
+    "url": "blog/2020-10-15-browser-debugging-with-breakpoints",
+    "revision": "1b3ab118d2e456c66f7a9d93a1bab9e1"
+  }, {
+    "url": "blog/2020-10-18-loop-vs-function",
+    "revision": "b2b694b2542afe3af886b85b5d397e95"
+  }, {
+    "url": "blog/2020-12-03-jsonresume",
+    "revision": "b3db06986ed6bbe6750fb1366b96f57c"
+  }, {
+    "url": "blog/2020-12-23-animation",
+    "revision": "49a6f7bf3bb236e89df8a3dca68c5559"
+  }, {
+    "url": "blog/2021-01-12-whatsapp-by-facebook",
+    "revision": "a226587f60f8ca5052e65e89e051e8be"
+  }, {
+    "url": "blog/2021-01-23-next-js-blog",
+    "revision": "975c204340ea269aed20d8183bb8e0d8"
+  }, {
+    "url": "blog/2021-03-06-vue-js-solar",
+    "revision": "4c3bd1bde040dbef6904fa4dfa16e1ae"
+  }, {
+    "url": "blog/2021-04-11-electron-basics",
+    "revision": "2bcd3395f2568ead64a894372f47f7e4"
+  }, {
+    "url": "blog/2021-04-11-electron-save-file",
+    "revision": "350fd30d360f3fe394c0da07a1e880a7"
+  }, {
+    "url": "blog/2021-08-07-pagination",
+    "revision": "950cc1e2bb31cdc6d245b8937220734f"
+  }, {
+    "url": "blog/2021-10-09-publish-pagination",
+    "revision": "37f2642d265944e0db709aa9f860239c"
+  }, {
+    "url": "blog/2022-01-10-recursive-function",
+    "revision": "84bbe2d961f36f560cf88e1f1d103de2"
+  }, {
+    "url": "blog/2022-05-02-tools",
+    "revision": "bde489837c298ec572f3e206dbd54a1e"
+  }, {
+    "url": "blog/2022-09-19-applicant-list",
+    "revision": "72ac73b909e2e3c6b6f9d22f00c577c7"
+  }, {
+    "url": "blog/2024-01-21-deploy-astro-static-on-deno-deploy",
+    "revision": "8953e331df99a8ef1c0484ccf171323f"
+  }, {
+    "url": "blog/2025-05-31-prompt-engineering-do-dont",
+    "revision": "879abcf94ea905a50c4ad936d82a7c02"
+  }, {
+    "url": "blog/2025-06-14-claude-code-feature-output",
+    "revision": "fa4a2c523d5a7e363139101fcee0b34d"
+  }, {
+    "url": "blog/2025-08-20-intl-segmenter",
+    "revision": "4fec7552ab2c2fb6a971ecdf4ff3bcab"
+  }, {
+    "url": "blog/2025-08-27-best-note-taking-tools",
+    "revision": "7c0dd7d810236db442c7fe3416eae68e"
+  }, {
+    "url": "blog/2025-10-29-top-10-sites-blocking-openai-bot",
+    "revision": "1d6ac316430628d13bbfa53147a8fa9a"
+  }, {
+    "url": "blog/2025-11-24-building-basic-pomo-with-antigravity",
+    "revision": "ffc3fd87fbc93ad8b70d1b5d4a3af5a8"
+  }, {
+    "url": "contact",
+    "revision": "4ec9f8b32fb70aec1ab21766b9a6db71"
+  }, {
+    "url": "drafts/2018-11-30-advanced-search-on-the-web",
+    "revision": "fb2bb9a637d561c79c5b5064a1a51dbc"
+  }, {
+    "url": "drafts/2018-12-01-browser-extension-with-react",
+    "revision": "3e08b50efa8ada7cad01e193623dbc43"
+  }, {
+    "url": "drafts/2020-02-04-svelte-hn",
+    "revision": "9a3b3fd5f8ad64f7547b04e2cc2496c7"
+  }, {
+    "url": "drafts/2020-02-05-web-performance",
+    "revision": "b69dd7e2cc77c2f6d25c104e0a90f2ca"
+  }, {
+    "url": "drafts/2020-02-12-socket-io",
+    "revision": "c1721fe237cab7baaf337619cc42bdbe"
+  }, {
+    "url": "drafts/2020-03-10-django",
+    "revision": "0b6189af65a23f7529d41021c4c1262c"
+  }, {
+    "url": "drafts/2020-11-21-deploy-nexjs-static",
+    "revision": "415840bdd7a6e99ba2c3cc34bc3b770e"
+  }, {
+    "url": "drafts/2022-05-10-objects",
+    "revision": "ec4916919c72fe74fa949b8482350d90"
+  }, {
+    "url": "drafts/2023-03-05-module-federation",
+    "revision": "265bcd8cd040f3dbe4975cd0681f465b"
+  }, {
+    "url": "drafts/2025-06-08-is-ai-the-new-plastic",
+    "revision": "ce48ab29f7f7e3373b3f7de7dde024c0"
+  }, {
+    "url": "favicon.svg",
+    "revision": "b2d181e81ac7bc91332a6da2a262d9df"
+  }, {
+    "url": "icons/100.png",
+    "revision": "7c6da90297ef3d461ff068e2c67cc03c"
+  }, {
+    "url": "icons/1024.png",
+    "revision": "a7fdfb5a51393af2757c5d3306c8a3e6"
+  }, {
+    "url": "icons/114.png",
+    "revision": "a616ecb4159a0b27cac56a4d432d34c7"
+  }, {
+    "url": "icons/120.png",
+    "revision": "cecde137825dbc5ecbc41f7437ac7d1f"
+  }, {
+    "url": "icons/128.png",
+    "revision": "5f064081bb992fd08d34201b265d4150"
+  }, {
+    "url": "icons/144.png",
+    "revision": "52414bd5f99df6cc0b16f897087c332e"
+  }, {
+    "url": "icons/152.png",
+    "revision": "03eb838a8ebe6edf49fcd2c58af13890"
+  }, {
+    "url": "icons/16.png",
+    "revision": "b9ac1097b27a608bbf613875e350c595"
+  }, {
+    "url": "icons/167.png",
+    "revision": "cdb6bd9529bfd0a1a2b3ff33f4735c88"
+  }, {
+    "url": "icons/180.png",
+    "revision": "d77c5bc24130db488b5ba59abfb8adba"
+  }, {
+    "url": "icons/192.png",
+    "revision": "554a2738429ee266b92831f16023b1f6"
+  }, {
+    "url": "icons/20.png",
+    "revision": "810022127945d43fd43f8e4ff3ddb00e"
+  }, {
+    "url": "icons/256.png",
+    "revision": "983dc3475e72ea001a26528463029df4"
+  }, {
+    "url": "icons/29.png",
+    "revision": "91150be5cb912553e5d8263de6f48795"
+  }, {
+    "url": "icons/32.png",
+    "revision": "23e8d1250762430ea795e23c7537115d"
+  }, {
+    "url": "icons/40.png",
+    "revision": "6045c13b2a86da74f44af1f5ec1c12e5"
+  }, {
+    "url": "icons/50.png",
+    "revision": "043c084fe379bd63f0763437c64d0819"
+  }, {
+    "url": "icons/512-maskable.png",
+    "revision": "ac348e6e5d0b3ad5d5faaaaec70b4a1a"
+  }, {
+    "url": "icons/512.png",
+    "revision": "ac348e6e5d0b3ad5d5faaaaec70b4a1a"
+  }, {
+    "url": "icons/57.png",
+    "revision": "6ffe272fc72e5a2d59032d7a9814e306"
+  }, {
+    "url": "icons/58.png",
+    "revision": "f609803e7c3ba685d1707c55818d5a36"
+  }, {
+    "url": "icons/60.png",
+    "revision": "1243748a0d8e15e09ab767668dc65e11"
+  }, {
+    "url": "icons/64.png",
+    "revision": "5474312b35532a72ccf6eae60fdd62f8"
+  }, {
+    "url": "icons/72.png",
+    "revision": "d69f98f6be229a95d276feef17e42dc7"
+  }, {
+    "url": "icons/76.png",
+    "revision": "047fdfcda594f0d744bf627c1ad5cec2"
+  }, {
+    "url": "icons/80.png",
+    "revision": "4a881b1175b894e8ae718d060f521f99"
+  }, {
+    "url": "icons/87.png",
+    "revision": "0edf413502948f229d25727dab806c9f"
+  }, {
+    "url": "icons/android-launchericon-144-144.png",
+    "revision": "52414bd5f99df6cc0b16f897087c332e"
+  }, {
+    "url": "icons/android-launchericon-192-192.png",
+    "revision": "554a2738429ee266b92831f16023b1f6"
+  }, {
+    "url": "icons/android-launchericon-48-48.png",
+    "revision": "86cf506ebe5f964eff79b1d7b07ec184"
+  }, {
+    "url": "icons/android-launchericon-512-512.png",
+    "revision": "ac348e6e5d0b3ad5d5faaaaec70b4a1a"
+  }, {
+    "url": "icons/android-launchericon-72-72.png",
+    "revision": "d69f98f6be229a95d276feef17e42dc7"
+  }, {
+    "url": "icons/android-launchericon-96-96.png",
+    "revision": "7aa64e78b34d82148201044e8253ab28"
+  }, {
+    "url": "icons/LargeTile.scale-100.png",
+    "revision": "4fa7aad6afec1397a3ad3bbef5960813"
+  }, {
+    "url": "icons/LargeTile.scale-125.png",
+    "revision": "91d56af8ebc1d65d755d54d832d305ab"
+  }, {
+    "url": "icons/LargeTile.scale-150.png",
+    "revision": "53661fbea960e23d53f92a41c0b3a392"
+  }, {
+    "url": "icons/LargeTile.scale-200.png",
+    "revision": "4a721f86065b71c11008ce1d0a890707"
+  }, {
+    "url": "icons/LargeTile.scale-400.png",
+    "revision": "e1a4aed2f04e4785fd3c5c8a9b5bdfb2"
+  }, {
+    "url": "icons/SmallTile.scale-100.png",
+    "revision": "48424c73a852b99fd4ba6f678cac3f70"
+  }, {
+    "url": "icons/SmallTile.scale-125.png",
+    "revision": "6c10ca6011d0bd92ad27d570d2a13d7c"
+  }, {
+    "url": "icons/SmallTile.scale-150.png",
+    "revision": "4a3cc8205e3787427be8732e17434564"
+  }, {
+    "url": "icons/SmallTile.scale-200.png",
+    "revision": "af42ad0fe403533d70cc3541dc18feb0"
+  }, {
+    "url": "icons/SmallTile.scale-400.png",
+    "revision": "ff73e1316b674d5f2b21574a5b95f745"
+  }, {
+    "url": "icons/SplashScreen.scale-100.png",
+    "revision": "965df17a9e06acdd0f3be5a7d9684cf4"
+  }, {
+    "url": "icons/SplashScreen.scale-125.png",
+    "revision": "d1447278a2daaba6138f7c83676dd825"
+  }, {
+    "url": "icons/SplashScreen.scale-150.png",
+    "revision": "6482756a65166e3676a0eab117382bee"
+  }, {
+    "url": "icons/SplashScreen.scale-200.png",
+    "revision": "62164517066a52d961e02b90f7c1bcd3"
+  }, {
+    "url": "icons/SplashScreen.scale-400.png",
+    "revision": "58825827610178b9dc79fb6c24d4fac5"
+  }, {
+    "url": "icons/Square150x150Logo.scale-100.png",
+    "revision": "c44de5c2989a8491076f29bbe9b503fb"
+  }, {
+    "url": "icons/Square150x150Logo.scale-125.png",
+    "revision": "0926fb9bcc21412f7c97e8c486f53791"
+  }, {
+    "url": "icons/Square150x150Logo.scale-150.png",
+    "revision": "3a9c32b511c997882877945e36ba3c68"
+  }, {
+    "url": "icons/Square150x150Logo.scale-200.png",
+    "revision": "3be7ba6c9c9420c9c046bd72dc7d763d"
+  }, {
+    "url": "icons/Square150x150Logo.scale-400.png",
+    "revision": "b51c6250dd3a5a699b598c713d8b3c94"
+  }, {
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-16.png",
+    "revision": "b9ac1097b27a608bbf613875e350c595"
+  }, {
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-20.png",
+    "revision": "810022127945d43fd43f8e4ff3ddb00e"
+  }, {
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-24.png",
+    "revision": "61c53a7e1641a268084427d3daf6fec1"
+  }, {
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-256.png",
+    "revision": "983dc3475e72ea001a26528463029df4"
+  }, {
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-30.png",
+    "revision": "abba5be62ae56d374b6d0177958d718f"
+  }, {
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-32.png",
+    "revision": "23e8d1250762430ea795e23c7537115d"
+  }, {
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-36.png",
+    "revision": "6d66bcc8a0c493426338c04d07b13410"
+  }, {
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-40.png",
+    "revision": "6045c13b2a86da74f44af1f5ec1c12e5"
+  }, {
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-44.png",
+    "revision": "343b9dc48a5db9eb7fc39820080649e7"
+  }, {
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-48.png",
+    "revision": "86cf506ebe5f964eff79b1d7b07ec184"
+  }, {
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-60.png",
+    "revision": "1243748a0d8e15e09ab767668dc65e11"
+  }, {
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-64.png",
+    "revision": "5474312b35532a72ccf6eae60fdd62f8"
+  }, {
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-72.png",
+    "revision": "d69f98f6be229a95d276feef17e42dc7"
+  }, {
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-80.png",
+    "revision": "4a881b1175b894e8ae718d060f521f99"
+  }, {
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-96.png",
+    "revision": "7aa64e78b34d82148201044e8253ab28"
+  }, {
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-16.png",
+    "revision": "b9ac1097b27a608bbf613875e350c595"
+  }, {
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-20.png",
+    "revision": "810022127945d43fd43f8e4ff3ddb00e"
+  }, {
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-24.png",
+    "revision": "61c53a7e1641a268084427d3daf6fec1"
+  }, {
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-256.png",
+    "revision": "983dc3475e72ea001a26528463029df4"
+  }, {
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-30.png",
+    "revision": "abba5be62ae56d374b6d0177958d718f"
+  }, {
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-32.png",
+    "revision": "23e8d1250762430ea795e23c7537115d"
+  }, {
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-36.png",
+    "revision": "6d66bcc8a0c493426338c04d07b13410"
+  }, {
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-40.png",
+    "revision": "6045c13b2a86da74f44af1f5ec1c12e5"
+  }, {
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-44.png",
+    "revision": "343b9dc48a5db9eb7fc39820080649e7"
+  }, {
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-48.png",
+    "revision": "86cf506ebe5f964eff79b1d7b07ec184"
+  }, {
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-60.png",
+    "revision": "1243748a0d8e15e09ab767668dc65e11"
+  }, {
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-64.png",
+    "revision": "5474312b35532a72ccf6eae60fdd62f8"
+  }, {
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-72.png",
+    "revision": "d69f98f6be229a95d276feef17e42dc7"
+  }, {
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-80.png",
+    "revision": "4a881b1175b894e8ae718d060f521f99"
+  }, {
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-96.png",
+    "revision": "7aa64e78b34d82148201044e8253ab28"
+  }, {
+    "url": "icons/Square44x44Logo.scale-100.png",
+    "revision": "343b9dc48a5db9eb7fc39820080649e7"
+  }, {
+    "url": "icons/Square44x44Logo.scale-125.png",
+    "revision": "fe1eedde3cd7b7650a02854497bf786d"
+  }, {
+    "url": "icons/Square44x44Logo.scale-150.png",
+    "revision": "6c0e04953e7513801df88a8c9708f97e"
+  }, {
+    "url": "icons/Square44x44Logo.scale-200.png",
+    "revision": "da3ee41b9bf49b25bbf144e99fac98f5"
+  }, {
+    "url": "icons/Square44x44Logo.scale-400.png",
+    "revision": "f4faf733e14b677046ff00dc11dfaeea"
+  }, {
+    "url": "icons/Square44x44Logo.targetsize-16.png",
+    "revision": "b9ac1097b27a608bbf613875e350c595"
+  }, {
+    "url": "icons/Square44x44Logo.targetsize-20.png",
+    "revision": "810022127945d43fd43f8e4ff3ddb00e"
+  }, {
+    "url": "icons/Square44x44Logo.targetsize-24.png",
+    "revision": "61c53a7e1641a268084427d3daf6fec1"
+  }, {
+    "url": "icons/Square44x44Logo.targetsize-256.png",
+    "revision": "983dc3475e72ea001a26528463029df4"
+  }, {
+    "url": "icons/Square44x44Logo.targetsize-30.png",
+    "revision": "abba5be62ae56d374b6d0177958d718f"
+  }, {
+    "url": "icons/Square44x44Logo.targetsize-32.png",
+    "revision": "23e8d1250762430ea795e23c7537115d"
+  }, {
+    "url": "icons/Square44x44Logo.targetsize-36.png",
+    "revision": "6d66bcc8a0c493426338c04d07b13410"
+  }, {
+    "url": "icons/Square44x44Logo.targetsize-40.png",
+    "revision": "6045c13b2a86da74f44af1f5ec1c12e5"
+  }, {
+    "url": "icons/Square44x44Logo.targetsize-44.png",
+    "revision": "343b9dc48a5db9eb7fc39820080649e7"
+  }, {
+    "url": "icons/Square44x44Logo.targetsize-48.png",
+    "revision": "86cf506ebe5f964eff79b1d7b07ec184"
+  }, {
+    "url": "icons/Square44x44Logo.targetsize-60.png",
+    "revision": "1243748a0d8e15e09ab767668dc65e11"
+  }, {
+    "url": "icons/Square44x44Logo.targetsize-64.png",
+    "revision": "5474312b35532a72ccf6eae60fdd62f8"
+  }, {
+    "url": "icons/Square44x44Logo.targetsize-72.png",
+    "revision": "d69f98f6be229a95d276feef17e42dc7"
+  }, {
+    "url": "icons/Square44x44Logo.targetsize-80.png",
+    "revision": "4a881b1175b894e8ae718d060f521f99"
+  }, {
+    "url": "icons/Square44x44Logo.targetsize-96.png",
+    "revision": "7aa64e78b34d82148201044e8253ab28"
+  }, {
+    "url": "icons/StoreLogo.scale-100.png",
+    "revision": "6aaf5d95f1367d24ff08542bbdc346aa"
+  }, {
+    "url": "icons/StoreLogo.scale-125.png",
+    "revision": "53d8aa22975a3947a7b8a81f225768b9"
+  }, {
+    "url": "icons/StoreLogo.scale-150.png",
+    "revision": "09cbc56ebe0b3f597c8d11deb732a6fe"
+  }, {
+    "url": "icons/StoreLogo.scale-200.png",
+    "revision": "555e850b1ed2b6c2afa88ad717ef2c27"
+  }, {
+    "url": "icons/StoreLogo.scale-400.png",
+    "revision": "ee28c5571f56b0d172e4d22705549186"
+  }, {
+    "url": "icons/Wide310x150Logo.scale-100.png",
+    "revision": "70f6c0326602653bd98d55e2ec7ffa36"
+  }, {
+    "url": "icons/Wide310x150Logo.scale-125.png",
+    "revision": "a7fd6a05b0c7a049118f0b60afef32cb"
+  }, {
+    "url": "icons/Wide310x150Logo.scale-150.png",
+    "revision": "9756111f2df8b064b3e2b1f167f60bdc"
+  }, {
+    "url": "icons/Wide310x150Logo.scale-200.png",
+    "revision": "965df17a9e06acdd0f3be5a7d9684cf4"
+  }, {
+    "url": "icons/Wide310x150Logo.scale-400.png",
+    "revision": "62164517066a52d961e02b90f7c1bcd3"
+  }, {
+    "url": "/",
+    "revision": "908b32945b0d6eeb8c7d174d8624efc2"
+  }, {
+    "url": "offline",
+    "revision": "2d1873930319e7ba5b6aaab5ca727ca7"
+  }, {
+    "url": "registerSW.js",
+    "revision": "1872c500de691dce40960bb85481de07"
+  }, {
+    "url": "search",
+    "revision": "37fa9aa7fff3977ea3dd87b652e418a6"
+  }, {
+    "url": "search/results",
+    "revision": "f4e543919bcda77ccaf86d7a1e7dfca3"
+  }, {
+    "url": "tools/all",
+    "revision": "c8a8a762b426a2bb435d9dd75782b364"
+  }, {
+    "url": "tools/Data",
+    "revision": "ef389b73d6c34904f35fa3ece853a8a7"
+  }, {
+    "url": "tools/Design",
+    "revision": "6dbe5fd16e9f69c73c7750bef5f59147"
+  }, {
+    "url": "tools/Developer",
+    "revision": "cb8f5332eb676c8e22ac78f4df649773"
+  }, {
+    "url": "tools",
+    "revision": "7f54747067e7280f7c0b4084b961ce03"
+  }, {
+    "url": "tools/Project",
+    "revision": "084dab7f3fadd5faad6cfc51b1b5a478"
+  }, {
+    "url": "tools/Reading",
+    "revision": "a30626469ef095008c23e49b8e6d75c2"
+  }, {
+    "url": "tools/search",
+    "revision": "161749dc50210d6b33a472c5269d0a55"
+  }, {
+    "url": "tools/Social",
+    "revision": "a919f23e9f520d5f54e14a0c520e08e6"
+  }, {
+    "url": "tools/software",
+    "revision": "7ab3b535cb1f5945b02afc56da50979c"
+  }, {
+    "url": "tools/Wireframe",
+    "revision": "996606c7d26e9d2a18a81246057e1248"
+  }, {
+    "url": "tools/Writing",
+    "revision": "c5b8dea2251cd1833eb1435fca95489c"
+  }, {
+    "url": "manifest.json",
+    "revision": "5d3fdbef410b6f02aab661c210dc967d"
+  }], {
+    "directoryIndex": "index.html"
+  });
+  workbox.cleanupOutdatedCaches();
+  workbox.registerRoute(new workbox.NavigationRoute(workbox.createHandlerBoundToURL("/offline.html")));
+  workbox.registerRoute(/\/blog\/.*/, new workbox.StaleWhileRevalidate({
+    "cacheName": "blog-posts",
+    plugins: [new workbox.ExpirationPlugin({
+      maxEntries: 3,
+      maxAgeSeconds: 2592000
+    })]
+  }), 'GET');
+  workbox.registerRoute(/\.(?:png|jpg|jpeg|svg|gif|webp|ico)$/, new workbox.CacheFirst({
+    "cacheName": "images",
+    plugins: [new workbox.ExpirationPlugin({
+      maxEntries: 50,
+      maxAgeSeconds: 2592000
+    })]
+  }), 'GET');
+  workbox.registerRoute(/\.(?:js|css|woff|woff2|ttf|eot)$/, new workbox.CacheFirst({
+    "cacheName": "static-assets",
+    plugins: [new workbox.ExpirationPlugin({
+      maxEntries: 30,
+      maxAgeSeconds: 2592000
+    })]
+  }), 'GET');
+  workbox.registerRoute(({
+    url
+  }) => url.origin === "https://fonts.googleapis.com", new workbox.StaleWhileRevalidate({
+    "cacheName": "google-fonts-stylesheets",
+    plugins: [new workbox.ExpirationPlugin({
+      maxEntries: 10,
+      maxAgeSeconds: 2592000
+    })]
+  }), 'GET');
+  workbox.registerRoute(({
+    url
+  }) => url.origin === "https://fonts.gstatic.com", new workbox.CacheFirst({
+    "cacheName": "google-fonts-webfonts",
+    plugins: [new workbox.ExpirationPlugin({
+      maxEntries: 10,
+      maxAgeSeconds: 31536000
+    }), new workbox.CacheableResponsePlugin({
+      statuses: [0, 200]
+    })]
+  }), 'GET');
+  workbox.registerRoute(/\/api\/.*/, new workbox.NetworkFirst({
+    "cacheName": "api-cache",
+    plugins: [new workbox.ExpirationPlugin({
+      maxEntries: 10,
+      maxAgeSeconds: 86400
+    })]
+  }), 'GET');
+  self.__WB_DISABLE_DEV_LOGS = true;
+
+}));
