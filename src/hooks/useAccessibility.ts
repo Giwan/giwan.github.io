@@ -3,7 +3,8 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import { accessibilityManager, AccessibilityPreferences, NavigationAnnouncement } from '../utils/accessibilityManager';
+import { accessibilityManager } from '../utils/accessibilityManager';
+import type { AccessibilityPreferences, NavigationAnnouncement } from '../utils/accessibilityManager';
 
 export interface UseAccessibilityReturn {
   preferences: AccessibilityPreferences;

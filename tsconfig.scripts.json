@@ -1,0 +1,23 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./scripts/dist",
+    "rootDir": ".",
+    "module": "NodeNext",
+    "target": "ES2020",
+    "moduleResolution": "NodeNext",
+    "noEmit": false,
+    "allowJs": false,
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": false
+  },
+  "include": [
+    "scripts/validate-pwa-build.ts",
+    "src/lib/pwaValidator.ts",
+    "src/config.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "scripts/dist"
+  ]
+}

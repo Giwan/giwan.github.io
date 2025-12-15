@@ -11,7 +11,8 @@
 
 import { mobileTransitionOptimizer } from './mobileTransitionOptimizer';
 import { pwaTransitionIntegration } from './pwaTransitionIntegration';
-import { performanceMonitor, PerformanceMetrics } from './performanceMonitor';
+import { performanceMonitor } from './performanceMonitor';
+import type { PerformanceMetrics, TransitionPerformanceData } from './performanceMonitor';
 import { transitionPreferences } from './transitionPreferences';
 import { transitionErrorHandler } from './transitionErrorHandler';
 
@@ -665,7 +666,7 @@ export class TransitionController {
   /**
    * Update performance metrics from monitoring data
    */
-  private updatePerformanceMetrics(performanceData: any): void {
+  private updatePerformanceMetrics(performanceData: TransitionPerformanceData): void {
     // Update internal metrics with actual performance data
     this.metrics.averageDuration = 
       (this.metrics.averageDuration * (this.metrics.totalTransitions - 1) + 

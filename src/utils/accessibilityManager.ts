@@ -50,7 +50,7 @@ export class AccessibilityManager {
    * Load accessibility preferences from localStorage and system settings
    */
   private loadPreferences(): AccessibilityPreferences {
-    const stored = typeof localStorage !== 'undefined' 
+    const stored = typeof localStorage !== 'undefined' && typeof localStorage.getItem === 'function'
       ? localStorage.getItem('accessibility-preferences') 
       : null;
     
@@ -625,7 +625,7 @@ export class AccessibilityManager {
    * Save preferences to localStorage
    */
   private savePreferences(): void {
-    if (typeof localStorage !== 'undefined') {
+    if (typeof localStorage !== 'undefined' && typeof localStorage.setItem === 'function') {
       localStorage.setItem('accessibility-preferences', JSON.stringify(this.preferences));
     }
   }

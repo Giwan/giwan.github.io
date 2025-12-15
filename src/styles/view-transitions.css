@@ -1,0 +1,618 @@
+@layer components {
+  /* Enhanced View Transition System */
+  
+  /* Transition timing and easing variables */
+  :root {
+    --transition-duration-fast: 200ms;
+    --transition-duration-normal: 300ms;
+    --transition-duration-slow: 500ms;
+    
+    --transition-easing-standard: cubic-bezier(0.4, 0.0, 0.2, 1);
+    --transition-easing-decelerate: cubic-bezier(0.0, 0.0, 0.2, 1);
+    --transition-easing-accelerate: cubic-bezier(0.4, 0.0, 1, 1);
+    
+    /* Default transition animations */
+    --exit-animation: slide-out-left;
+    --enter-animation: slide-in-right;
+  }
+
+  /* Base transition setup with performance optimizations */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: var(--transition-duration-normal);
+    /* Force hardware acceleration for smooth 60fps */
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  /* Default main content transitions with performance optimizations */
+  ::view-transition-old(main-content) {
+    animation: var(--exit-animation) var(--transition-duration-normal) var(--transition-easing-standard);
+    /* Optimize for 60fps performance */
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    /* Prevent layout thrashing */
+    contain: layout style paint;
+  }
+
+  ::view-transition-new(main-content) {
+    animation: var(--enter-animation) var(--transition-duration-normal) var(--transition-easing-standard);
+    /* Optimize for 60fps performance */
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    /* Prevent layout thrashing */
+    contain: layout style paint;
+  }
+
+  /* Contextual directional animations based on data attributes */
+  
+  /* Forward navigation (default) */
+  [data-transition-direction="forward"] {
+    --exit-animation: slide-out-left;
+    --enter-animation: slide-in-right;
+  }
+
+  /* Backward navigation */
+  [data-transition-direction="backward"] {
+    --exit-animation: slide-out-right;
+    --enter-animation: slide-in-left;
+  }
+
+  /* Page relationship-based transitions */
+  
+  /* Drill-down navigation (parent to child) */
+  [data-transition-context="drill-down"] {
+    --exit-animation: scale-out;
+    --enter-animation: scale-in;
+  }
+
+  /* Drill-up navigation (child to parent) */
+  [data-transition-context="drill-up"] {
+    --exit-animation: scale-in-reverse;
+    --enter-animation: scale-out-reverse;
+  }
+
+  /* Sibling navigation (same level) */
+  [data-transition-context="sibling"] {
+    --exit-animation: fade-out;
+    --enter-animation: fade-in;
+    --transition-duration-normal: var(--transition-duration-fast);
+  }
+
+  /* Contextual navigation (related sections) */
+  [data-transition-context="contextual"] {
+    --exit-animation: crossfade-out;
+    --enter-animation: crossfade-in;
+  }
+
+  /* Unrelated navigation (different sections) */
+  [data-transition-context="unrelated"] {
+    --exit-animation: fade-out;
+    --enter-animation: fade-in;
+    --transition-duration-normal: var(--transition-duration-slow);
+  }
+
+  /* Page-type specific transitions */
+  
+  /* Blog-related transitions */
+  [data-page-type="blog-list"] {
+    --exit-animation: slide-out-left;
+    --enter-animation: slide-in-right;
+  }
+
+  [data-page-type="blog-post"] {
+    --exit-animation: scale-out;
+    --enter-animation: scale-in;
+  }
+
+  /* Tools-related transitions */
+  [data-page-type="tools-list"] {
+    --exit-animation: crossfade-out;
+    --enter-animation: crossfade-in;
+  }
+
+  [data-page-type="tools-category"] {
+    --exit-animation: slide-out-left;
+    --enter-animation: slide-in-right;
+  }
+
+  /* Search transitions */
+  [data-page-type="search"] {
+    --exit-animation: fade-out;
+    --enter-animation: fade-in;
+    --transition-duration-normal: var(--transition-duration-fast);
+  }
+
+  /* Static page transitions */
+  [data-page-type="about"],
+  [data-page-type="contact"] {
+    --exit-animation: crossfade-out;
+    --enter-animation: crossfade-in;
+  }
+
+  /* Enhanced keyframe animations optimized for 60fps performance */
+  
+  /* Slide animations with hardware acceleration and optimized transforms */
+  @keyframes slide-out-left {
+    from {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      opacity: 0;
+      transform: translate3d(-20px, 0, 0);
+    }
+  }
+
+  @keyframes slide-in-right {
+    from {
+      opacity: 0;
+      transform: translate3d(20px, 0, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes slide-out-right {
+    from {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      opacity: 0;
+      transform: translate3d(20px, 0, 0);
+    }
+  }
+
+  @keyframes slide-in-left {
+    from {
+      opacity: 0;
+      transform: translate3d(-20px, 0, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  /* Scale animations with hardware acceleration and optimized transforms */
+  @keyframes scale-out {
+    from {
+      opacity: 1;
+      transform: scale3d(1, 1, 1);
+    }
+    to {
+      opacity: 0;
+      transform: scale3d(0.95, 0.95, 1);
+    }
+  }
+
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale3d(1.05, 1.05, 1);
+    }
+    to {
+      opacity: 1;
+      transform: scale3d(1, 1, 1);
+    }
+  }
+
+  @keyframes scale-in-reverse {
+    from {
+      opacity: 1;
+      transform: scale3d(1, 1, 1);
+    }
+    to {
+      opacity: 0;
+      transform: scale3d(1.05, 1.05, 1);
+    }
+  }
+
+  @keyframes scale-out-reverse {
+    from {
+      opacity: 0;
+      transform: scale3d(0.95, 0.95, 1);
+    }
+    to {
+      opacity: 1;
+      transform: scale3d(1, 1, 1);
+    }
+  }
+
+  /* Fade animations */
+  @keyframes fade-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Crossfade animations with hardware acceleration */
+  @keyframes crossfade-out {
+    from {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      opacity: 0;
+      transform: translate3d(0, -10px, 0);
+    }
+  }
+
+  @keyframes crossfade-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 10px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  /* Performance optimizations and responsive adjustments */
+  
+  /* Mobile optimizations with device-specific timing */
+  @media (max-width: 768px) {
+    :root {
+      --transition-duration-fast: 150ms;
+      --transition-duration-normal: 250ms;
+      --transition-duration-slow: 400ms;
+      
+      /* Mobile-specific easing for touch interactions */
+      --transition-easing-mobile: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --transition-easing-mobile-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    /* Optimize for mobile touch interactions */
+    ::view-transition-old(main-content),
+    ::view-transition-new(main-content) {
+      animation-timing-function: var(--transition-easing-mobile);
+    }
+    
+    /* Reduce transform distances for smaller screens */
+    @keyframes slide-out-left {
+      to { transform: translateX(-15px); }
+    }
+    @keyframes slide-in-right {
+      from { transform: translateX(15px); }
+    }
+    @keyframes slide-out-right {
+      to { transform: translateX(15px); }
+    }
+    @keyframes slide-in-left {
+      from { transform: translateX(-15px); }
+    }
+  }
+
+  /* Tablet optimizations */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    :root {
+      --transition-duration-fast: 180ms;
+      --transition-duration-normal: 280ms;
+      --transition-duration-slow: 450ms;
+    }
+  }
+
+  /* PWA-specific optimizations */
+  @media (display-mode: standalone) {
+    :root {
+      /* Slightly faster transitions for PWA to feel more native */
+      --transition-duration-fast: calc(var(--transition-duration-fast) * 0.9);
+      --transition-duration-normal: calc(var(--transition-duration-normal) * 0.9);
+      --transition-duration-slow: calc(var(--transition-duration-slow) * 0.9);
+      
+      /* Native app-like easing */
+      --transition-easing-pwa: cubic-bezier(0.2, 0, 0, 1);
+    }
+    
+    ::view-transition-old(main-content),
+    ::view-transition-new(main-content) {
+      animation-timing-function: var(--transition-easing-pwa);
+    }
+  }
+
+  /* Device orientation handling */
+  @media (orientation: portrait) {
+    :root {
+      --transition-scale-factor: 1;
+    }
+  }
+
+  @media (orientation: landscape) {
+    :root {
+      --transition-scale-factor: 0.8;
+      /* Faster transitions in landscape for better UX */
+      --transition-duration-fast: calc(var(--transition-duration-fast) * 0.8);
+      --transition-duration-normal: calc(var(--transition-duration-normal) * 0.8);
+    }
+  }
+
+  /* Network-aware optimizations */
+  [data-connection="slow-2g"],
+  [data-connection="2g"] {
+    :root {
+      --transition-duration-fast: 100ms;
+      --transition-duration-normal: 150ms;
+      --transition-duration-slow: 200ms;
+    }
+    
+    /* Disable complex animations on slow connections */
+    ::view-transition-old(main-content),
+    ::view-transition-new(main-content) {
+      animation: fade-out var(--transition-duration-fast) ease-out,
+                 fade-in var(--transition-duration-fast) ease-in !important;
+    }
+  }
+
+  [data-connection="3g"] {
+    :root {
+      --transition-duration-fast: 120ms;
+      --transition-duration-normal: 200ms;
+      --transition-duration-slow: 300ms;
+    }
+  }
+
+  /* Battery-aware optimizations */
+  [data-battery-low="true"] {
+    :root {
+      --transition-duration-fast: 100ms;
+      --transition-duration-normal: 150ms;
+      --transition-duration-slow: 200ms;
+    }
+    
+    /* Simplify animations when battery is low */
+    ::view-transition-old(main-content),
+    ::view-transition-new(main-content) {
+      animation: fade-out var(--transition-duration-fast) ease-out,
+                 fade-in var(--transition-duration-fast) ease-in !important;
+    }
+  }
+
+  /* Orientation change optimizations */
+  [data-orientation-changing="true"] {
+    /* Disable transitions during orientation changes to prevent glitches */
+    ::view-transition-old(main-content),
+    ::view-transition-new(main-content) {
+      animation: none !important;
+    }
+  }
+
+  /* App state optimizations */
+  [data-app-state="background"] {
+    /* Pause transitions when app is in background */
+    ::view-transition-old(main-content),
+    ::view-transition-new(main-content) {
+      animation-play-state: paused !important;
+    }
+  }
+
+  [data-transitions-paused="true"] {
+    /* Completely disable transitions when explicitly paused */
+    ::view-transition-old(main-content),
+    ::view-transition-new(main-content) {
+      animation: none !important;
+    }
+  }
+
+  /* Service worker update optimizations */
+  [data-sw-updating="true"] {
+    :root {
+      /* Slightly reduce transition durations during SW updates */
+      --transition-duration-fast: calc(var(--transition-duration-fast) * 0.8);
+      --transition-duration-normal: calc(var(--transition-duration-normal) * 0.8);
+    }
+  }
+
+  /* Offline mode optimizations */
+  [data-offline-mode="true"] {
+    :root {
+      --transition-duration-fast: 100ms;
+      --transition-duration-normal: 150ms;
+      --transition-duration-slow: 200ms;
+    }
+    
+    /* Use simpler animations for offline content */
+    ::view-transition-old(main-content),
+    ::view-transition-new(main-content) {
+      animation-timing-function: ease-out !important;
+    }
+  }
+
+  /* Low memory device optimizations */
+  [data-low-memory="true"] {
+    /* Disable complex animations on low memory devices */
+    ::view-transition-old(main-content),
+    ::view-transition-new(main-content) {
+      animation: fade-out var(--transition-duration-fast) ease-out,
+                 fade-in var(--transition-duration-fast) ease-in !important;
+    }
+  }
+
+  /* Device-specific optimizations */
+  [data-device-type="mobile"] {
+    /* Mobile-specific transition optimizations */
+    ::view-transition-old(main-content),
+    ::view-transition-new(main-content) {
+      /* Use hardware acceleration for better mobile performance */
+      will-change: transform, opacity;
+      transform: translateZ(0);
+    }
+  }
+
+  [data-device-type="tablet"] {
+    /* Tablet-specific optimizations */
+    :root {
+      --transition-duration-fast: 180ms;
+      --transition-duration-normal: 280ms;
+    }
+  }
+
+  /* High refresh rate display optimizations */
+  @media (min-resolution: 120dpi) {
+    :root {
+      --transition-easing-standard: cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+  }
+
+  /* Low power mode optimizations */
+  [data-low-power="true"] ::view-transition-old(main-content),
+  [data-low-power="true"] ::view-transition-new(main-content) {
+    animation-duration: calc(var(--transition-duration-normal) * 0.7) !important;
+  }
+
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --transition-duration-fast: 0ms;
+      --transition-duration-normal: 0ms;
+      --transition-duration-slow: 0ms;
+    }
+    
+    ::view-transition-old(root),
+    ::view-transition-new(root),
+    ::view-transition-old(main-content),
+    ::view-transition-new(main-content) {
+      animation: none !important;
+    }
+  }
+
+  /* Explicit reduced motion override */
+  [data-reduced-motion="true"] ::view-transition-old(main-content),
+  [data-reduced-motion="true"] ::view-transition-new(main-content) {
+    animation: none !important;
+  }
+
+  /* Shared element transitions for visual continuity */
+  
+  /* Header continuity */
+  ::view-transition-old(header),
+  ::view-transition-new(header) {
+    animation-duration: var(--transition-duration-normal);
+    animation-timing-function: var(--transition-easing-standard);
+  }
+
+  ::view-transition-old(header) {
+    animation-name: header-fade-out;
+  }
+
+  ::view-transition-new(header) {
+    animation-name: header-fade-in;
+  }
+
+  /* Footer continuity */
+  ::view-transition-old(footer),
+  ::view-transition-new(footer) {
+    animation-duration: var(--transition-duration-normal);
+    animation-timing-function: var(--transition-easing-standard);
+  }
+
+  ::view-transition-old(footer) {
+    animation-name: footer-fade-out;
+  }
+
+  ::view-transition-new(footer) {
+    animation-name: footer-fade-in;
+  }
+
+  /* Navigation continuity */
+  ::view-transition-old(navigation),
+  ::view-transition-new(navigation) {
+    animation-duration: var(--transition-duration-fast);
+    animation-timing-function: var(--transition-easing-standard);
+  }
+
+  /* Shared element keyframes */
+  @keyframes header-fade-out {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0.8;
+      transform: translateY(-2px);
+    }
+  }
+
+  @keyframes header-fade-in {
+    from {
+      opacity: 0.8;
+      transform: translateY(-2px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes footer-fade-out {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0.8;
+      transform: translateY(2px);
+    }
+  }
+
+  @keyframes footer-fade-in {
+    from {
+      opacity: 0.8;
+      transform: translateY(2px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Article list item transitions */
+  [data-transition-context="article-list"] ::view-transition-old(main-content) {
+    animation: article-list-out var(--transition-duration-normal) var(--transition-easing-standard);
+  }
+
+  [data-transition-context="article-list"] ::view-transition-new(main-content) {
+    animation: article-list-in var(--transition-duration-normal) var(--transition-easing-standard);
+  }
+
+  @keyframes article-list-out {
+    from {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.98) translateY(-5px);
+    }
+  }
+
+  @keyframes article-list-in {
+    from {
+      opacity: 0;
+      transform: scale(1.02) translateY(5px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+}

@@ -3,6 +3,32 @@
 // all pages through the use of the <BaseHead /> component.
 import "../styles/global.css";
 import "../styles/enhanced-transitions.css";
+import {
+    SITE_CONFIG,
+    PWA_CONFIG,
+    APPLE_TOUCH_ICONS,
+    APPLE_SPLASH_SCREENS,
+    WINDOWS_TILE_ICONS,
+} from "../config";
+import SEO from "./SEO.astro";
+
+// Font imports
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/600.css";
+import "@fontsource/inter/700.css";
+
+import "@fontsource/merriweather/400.css";
+import "@fontsource/merriweather/400-italic.css";
+import "@fontsource/merriweather/700.css";
+
+import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/jetbrains-mono/600.css";
+
+import "@fontsource/fira-code/400.css";
+import "@fontsource/fira-code/500.css";
+import "@fontsource/fira-code/600.css";
+
 
 export interface Props {
     title: string;
@@ -10,8 +36,8 @@ export interface Props {
     image?: string;
 }
 
-const { title, description, image = "/placeholder-social.jpg" } = Astro.props;
-const fontUrl = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&family=Fira+Code:wght@400;500;600&display=swap";
+const { title, description, image } = Astro.props;
+
 ---
 
 <!-- Global Metadata -->
@@ -27,74 +53,78 @@ const fontUrl = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600
 <!-- Apple PWA Meta Tags -->
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<meta name="apple-mobile-web-app-title" content="Giwan Blog" />
+<meta name="apple-mobile-web-app-title" content={SITE_CONFIG.title} />
 
 <!-- Apple Touch Icons -->
-<link rel="apple-touch-icon" href="/icons/180.png" />
-<link rel="apple-touch-icon" sizes="152x152" href="/icons/152.png" />
-<link rel="apple-touch-icon" sizes="180x180" href="/icons/180.png" />
-<link rel="apple-touch-icon" sizes="167x167" href="/icons/167.png" />
+{
+    APPLE_TOUCH_ICONS.map(({ href, sizes }) => (
+        sizes ? (
+            <link rel="apple-touch-icon" href={href} sizes={sizes} />
+        ) : (
+            <link rel="apple-touch-icon" href={href} />
+        )
+    ))
+}
 
 <!-- iOS Splash Screens - Using available splash screen images -->
-<!-- iPhone and smaller devices -->
-<link rel="apple-touch-startup-image" href="/icons/SplashScreen.scale-200.png" media="(max-device-width: 480px)" />
-<!-- iPad and larger devices -->
-<link rel="apple-touch-startup-image" href="/icons/SplashScreen.scale-400.png" media="(min-device-width: 481px)" />
-<!-- Fallback splash screen -->
-<link rel="apple-touch-startup-image" href="/icons/SplashScreen.scale-100.png" />
+{
+    APPLE_SPLASH_SCREENS.map(({ href, media }) => (
+        media ? (
+            <link rel="apple-touch-startup-image" href={href} media={media} />
+        ) : (
+            <link rel="apple-touch-startup-image" href={href} />
+        )
+    ))
+}
 
 <!-- Windows Tile Configuration -->
-<meta name="msapplication-TileColor" content="#272822" />
-<meta name="msapplication-TileImage" content="/icons/144.png" />
-<meta name="msapplication-square70x70logo" content="/icons/SmallTile.scale-100.png" />
-<meta name="msapplication-square150x150logo" content="/icons/Square150x150Logo.scale-100.png" />
-<meta name="msapplication-wide310x150logo" content="/icons/Wide310x150Logo.scale-100.png" />
-<meta name="msapplication-square310x310logo" content="/icons/LargeTile.scale-100.png" />
+<meta name="msapplication-TileColor" content={WINDOWS_TILE_ICONS.tileColor} />
+<meta name="msapplication-TileImage" content={WINDOWS_TILE_ICONS.tileImage} />
+<meta name="msapplication-square70x70logo" content={WINDOWS_TILE_ICONS.square70} />
+<meta name="msapplication-square150x150logo" content={WINDOWS_TILE_ICONS.square150} />
+<meta name="msapplication-wide310x150logo" content={WINDOWS_TILE_ICONS.wide310} />
+<meta name="msapplication-square310x310logo" content={WINDOWS_TILE_ICONS.square310} />
 
 <meta name="generator" content={Astro.generator} />
+<meta name="theme-color" content={PWA_CONFIG.themeColor} />
 
-<!-- web fonts -->
+<!-- SEO Component -->
+<SEO title={title} description={description} image={image} />
 
-<link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin="anonymous"
-/>
-<!-- 
-    We want to load the font as soon as possible, but not block
-    preload will preload but not read the stylesheet
--->
-<link rel="preload" as="style" href={fontUrl} /> 
-<!-- Fallback 1: will read the stylesheet conditionally -->
-<link rel="stylesheet" href={fontUrl} media="print" onload="this.media='all'" />
+<script is:inline>
+  // Theme initialization
+  (function() {
+    const STORAGE_KEY = 'theme';
+    const DARK_CLASS = 'dark';
+    const THEME_VALUES = {
+      DARK: 'dark',
+      LIGHT: 'light',
+      SYSTEM: 'system',
+    };
 
-<!-- 
-    Fallback 2: for JS disabled browsers
-    Will be ignored when JS is enabled
- -->
-<noscript>
-    <link rel="stylesheet" href={fontUrl} />
-</noscript>
+    function getSystemTheme() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches 
+        ? THEME_VALUES.DARK 
+        : THEME_VALUES.LIGHT;
+    }
 
+    function getInitialTheme() {
+      const persistedTheme = localStorage.getItem(STORAGE_KEY);
+      if (persistedTheme === THEME_VALUES.SYSTEM || !persistedTheme) {
+        return getSystemTheme();
+      }
+      return persistedTheme;
+    }
 
-<!-- Primary Meta Tags -->
-<title>{title}</title>
-<meta name="title" content={title} />
-<meta name="description" content={description} />
+    const theme = getInitialTheme();
+    const root = document.documentElement;
 
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
-<meta property="og:url" content={Astro.url} />
-<meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
-<meta property="og:image" content={Astro.url + image} />
-
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={Astro.url + image} />
-
-<!-- Tailwind Typography plugin with One Dark Pro theme -->
-<meta name="theme-color" content="#272822" />
+    if (theme === THEME_VALUES.DARK) {
+      root.classList.add(DARK_CLASS);
+      root.setAttribute('data-theme', THEME_VALUES.DARK);
+    } else {
+      root.classList.remove(DARK_CLASS);
+      root.setAttribute('data-theme', THEME_VALUES.LIGHT);
+    }
+  })();
+</script>

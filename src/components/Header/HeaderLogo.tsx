@@ -2,6 +2,7 @@
  * The site logo - newspaper style masthead
  */
 import React from "react";
+import { SITE_CONFIG } from "@/config";
 
 const HeaderLogo = () => (
     <div className="flex flex-col">
@@ -13,10 +14,10 @@ export default HeaderLogo;
 
 function Logo() {
     return (
-        <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-primary mb-1">
-            <a href="/" className="hover:opacity-90 transition-opacity">
+        <p className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-primary mb-1">
+            <a href="/" className="hover:opacity-90 transition-opacity" aria-label={`${SITE_CONFIG.title} home`}>
                 G1
             </a>
-        </h1>
+        </p>
     );
 }

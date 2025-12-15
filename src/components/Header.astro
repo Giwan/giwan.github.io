@@ -3,7 +3,7 @@ import HeaderNav from "./HeaderNav/HeaderNav.astro";
 import Logo from "./Header/HeaderLogo";
 import { ThemeToggle } from "./ThemeToggle";
 import { formatDateWithOptions } from "../utils/helpers.ts";
-import { SITE_DESCRIPTION, SITE_DATE } from "../config";
+import { SITE_DESCRIPTION, SITE_DATE, PUBLICATION_INFO } from "../config";
 const currentDate = formatDateWithOptions(new Date().toString());
 ---
 
@@ -24,7 +24,7 @@ const currentDate = formatDateWithOptions(new Date().toString());
                 </span>
             </p>
             <p transition:name="header-issue">
-                {SITE_DATE} • ISSUE 42
+                {SITE_DATE} • ISSUE {PUBLICATION_INFO.currentIssue}
             </p>
         </div>
     </div>

@@ -56,7 +56,7 @@ When you push changes to the `main` branch:
 
 ## Configuration
 
-The project is configured to build to the `docs` directory in `astro.config.mjs`:
+The project is configured to build to the `docs` directory in `astro.config.ts`:
 
 ```js
 output: "static",
@@ -105,7 +105,7 @@ This blog is implemented as a fully-featured Progressive Web App (PWA) that meet
 ## PWA Configuration
 
 ### Manifest Configuration
-The web app manifest is located at `public/manifest.json` and includes:
+The web app manifest is generated via the VitePWA integration in `astro.config.ts` (values sourced from `src/config.ts`) and includes:
 
 ```json
 {
@@ -120,7 +120,7 @@ The web app manifest is located at `public/manifest.json` and includes:
 ```
 
 ### Service Worker Configuration
-PWA functionality is configured in `astro.config.mjs` using VitePWA:
+PWA functionality is configured in `astro.config.ts` using VitePWA:
 
 ```javascript
 VitePWA({
@@ -152,17 +152,17 @@ VitePWA({
 1. Replace icon files in `public/icons/` directory
 2. Ensure all required sizes are included (16x16 to 1024x1024)
 3. Include maskable icons for Android adaptive icons
-4. Update `public/manifest.json` if icon filenames change
+4. Update the icon list in `src/config.ts` (`PWA_ICONS`) if filenames change
 5. Test installation on different platforms
 
 ### Updating Manifest
-1. Edit `public/manifest.json` for basic properties
-2. Modify VitePWA configuration in `astro.config.mjs` for advanced settings
+1. Edit `src/config.ts` to modify site or PWA metadata
+2. Adjust the VitePWA configuration in `astro.config.ts` if additional settings are required
 3. Test changes with Lighthouse PWA audit
 4. Verify installation behavior after changes
 
 ### Updating Caching Strategies
-1. Modify `workbox.runtimeCaching` in `astro.config.mjs`
+1. Modify `workbox.runtimeCaching` in `astro.config.ts`
 2. Adjust cache expiration times and entry limits
 3. Test offline functionality after changes
 4. Monitor cache storage usage

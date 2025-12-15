@@ -156,62 +156,12 @@ const description = "You're currently offline. Here are some suggestions for cac
                         Try Again
                     </button>
                     
-                    <div id="network-status" class="network-status offline">
-                        🔴 You're currently offline
+                    <div class="network-status offline">
+                        🔴 You're currently offline. Cached pages remain available until you reconnect.
                     </div>
                 </div>
             </main>
             <Footer />
         </div>
-        
-        <!-- Inline JavaScript to avoid external dependencies -->
-        <script>
-            // Network status detection
-            function updateNetworkStatus() {
-                const statusElement = document.getElementById('network-status');
-                if (navigator.onLine) {
-                    statusElement.textContent = '🟢 Connection restored! You can try refreshing the page.';
-                    statusElement.className = 'network-status online';
-                } else {
-                    statusElement.textContent = '🔴 You\'re currently offline';
-                    statusElement.className = 'network-status offline';
-                }
-            }
-            
-            // Listen for network status changes
-            window.addEventListener('online', updateNetworkStatus);
-            window.addEventListener('offline', updateNetworkStatus);
-            
-            // Initial status check
-            updateNetworkStatus();
-            
-            // Theme handling (inline to avoid external dependencies)
-            (function() {
-                function getInitialTheme() {
-                    const persistedTheme = localStorage.getItem('theme');
-                    const hasPersistedTheme = typeof persistedTheme === 'string';
-                    
-                    if (hasPersistedTheme) {
-                        if (persistedTheme === 'system') {
-                            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                        }
-                        return persistedTheme;
-                    }
-                    
-                    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                }
-
-                const theme = getInitialTheme();
-                const root = document.documentElement;
-                
-                if (theme === 'dark') {
-                    root.classList.add('dark');
-                    root.setAttribute('data-theme', 'dark');
-                } else {
-                    root.classList.remove('dark');
-                    root.setAttribute('data-theme', 'light');
-                }
-            })();
-        </script>
     </body>
 </html>

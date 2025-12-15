@@ -107,7 +107,7 @@ export class TransitionPreferencesManager {
    * Load preferences from storage
    */
   private loadPreferences(): TransitionPreferences {
-    if (typeof localStorage === 'undefined') {
+    if (typeof localStorage === 'undefined' || typeof localStorage.getItem !== 'function') {
       return { ...this.DEFAULT_PREFERENCES };
     }
 
@@ -128,7 +128,7 @@ export class TransitionPreferencesManager {
    * Save preferences to storage
    */
   private savePreferences(): void {
-    if (typeof localStorage === 'undefined') return;
+    if (typeof localStorage === 'undefined' || typeof localStorage.setItem !== 'function') return;
 
     try {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.preferences));
