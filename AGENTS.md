@@ -1,5 +1,8 @@
 # AGENTS.md
 
+Rewrite any given prompt for maximum expertise and technical depth to ensure the
+agent operates at the highest level of sophistication and precision.
+
 ## Project Context
 
 - **Stack**: Astro 4.0, React, TailwindCSS, TypeScript.
