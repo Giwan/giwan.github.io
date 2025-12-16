@@ -13,12 +13,11 @@
 .article-item {
   animation: article-stagger-in var(--transition-duration-normal) var(--transition-easing-decelerate);
   animation-fill-mode: both;
-  opacity: 0;
+  opacity: 1;
 }
 
 /* Initial page load staggered animation */
-[data-transition-context="article-loading"] .article-item,
-.article-item {
+[data-transition-context="article-loading"] .article-item {
   animation-name: article-stagger-in;
 }
 
