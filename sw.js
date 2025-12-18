@@ -574,133 +574,133 @@ define(['./workbox-40c1b53b'], (function (workbox) { 'use strict';
     "revision": null
   }, {
     "url": "404",
-    "revision": "41d540a43769946c814f216709115c92"
+    "revision": "b3e901de2c4a592bbcfefeebb2578db7"
   }, {
     "url": "about",
-    "revision": "309d6afdd997af7b9ce9309e4264db22"
+    "revision": "67f88c069ff9b17403c04c57f4b6eff8"
   }, {
     "url": "blog/2018-01-05-vscode-debugging",
-    "revision": "f38a9f689e1a1378943d8d6e02b84cd0"
+    "revision": "2cfff0e2a356fc098ac0b7c81e48f3ca"
   }, {
     "url": "blog/2018-11-11-react-instead-of-jsp",
-    "revision": "9d8fac7824604d08e7a04abc7fc7da61"
+    "revision": "a77efb39e44739c801bfea7e4de61caf"
   }, {
     "url": "blog/2018-11-11-ssr-with-react",
-    "revision": "73054cdeff6b4b6d800217b93a597640"
+    "revision": "d6c882e4af0033ea420ffbc88f585768"
   }, {
     "url": "blog/2018-11-22-react-served-by-express-running-in-docker",
-    "revision": "aaf70c63e39da91bf8ce189dfea72a2c"
+    "revision": "18f9796a22083cccb00f778eae1b0ae8"
   }, {
     "url": "blog/2018-12-29-free-static-site",
-    "revision": "343ffdd713fb198a37a62b3520264915"
+    "revision": "586abac388a98f13a827016b2cf85cbc"
   }, {
     "url": "blog/2019-12-13-browser-tools",
-    "revision": "60a7061dc83c8ce757e464a726fcd6a3"
+    "revision": "3b2a0efae271c1163d2c0edfd635dc9d"
   }, {
     "url": "blog/2019-12-15-svelte",
-    "revision": "6ff6393bf6a43568f0ed30ca0358cb1f"
+    "revision": "8ffc8d4dcc757446612820ea0b49ed73"
   }, {
     "url": "blog/2020-02-04-jest-coverage",
-    "revision": "8303eb5215370b8c944d33ba3896384f"
+    "revision": "b9e35f24625bc4ad0415c5784c8709ee"
   }, {
     "url": "blog/2020-05-19-ssr-with-react-redux",
-    "revision": "be02f0bb966d73d74f7d1cbe98970ebc"
+    "revision": "712cf932fccb93332fd4b23e62f09711"
   }, {
     "url": "blog/2020-09-24-javascript-uncanny-valley",
-    "revision": "28546961d3c772c034086faeb4b3696c"
+    "revision": "769cb675393b2808f268f8d4f24d9d96"
   }, {
     "url": "blog/2020-09-29-uuid-as-apassword",
-    "revision": "5a7f0053d79d7e26f19981cc813c9fd1"
+    "revision": "196257f3ea9c61c2732f73fcfbb05ace"
   }, {
     "url": "blog/2020-1-16-css-grid",
-    "revision": "191dae11cf693d7dcea29bbfff2945de"
+    "revision": "d48bd434a41614f355194407c972d72a"
   }, {
     "url": "blog/2020-10-05-serverless-functions-on-netlify",
-    "revision": "622d6d037955998fd4a7c79026de371a"
+    "revision": "1e09996d11f5687d49cd76b74f5657ca"
   }, {
     "url": "blog/2020-10-06-deploy-serverless-function-on-netlify",
-    "revision": "2a6c05faf58d41f4b316d133154d7da9"
+    "revision": "afbec6b598809d46e2e93577a2fb3a6f"
   }, {
     "url": "blog/2020-10-15-browser-debugging-with-breakpoints",
-    "revision": "dd7cca2c4e199a808a62b9188aa162d5"
+    "revision": "17444f5eac0b2011b7c12ce2381b4f39"
   }, {
     "url": "blog/2020-10-18-loop-vs-function",
-    "revision": "7eb26d1bfd4e4045ea443c9f874967c1"
+    "revision": "6792a88a82eb960f62a1e51ba97bfff0"
   }, {
     "url": "blog/2020-12-03-jsonresume",
-    "revision": "619fabe129ad279fe44d5bbfc37ed62f"
+    "revision": "b7d80b6e39e1f8ba1b101ecbf7872d4e"
   }, {
     "url": "blog/2020-12-23-animation",
-    "revision": "bcd79faee083d386da2c1fa76c1fe00b"
+    "revision": "ed717a897fe590ee0001f36b19df7270"
   }, {
     "url": "blog/2021-01-12-whatsapp-by-facebook",
-    "revision": "1cb4df2c03b343624f55c8c5857a6296"
+    "revision": "6b1540ea51f62db67bd23fb1602501a7"
   }, {
     "url": "blog/2021-01-23-next-js-blog",
-    "revision": "f8e7bae13d6972bd22208186a54ec1e7"
+    "revision": "6086d2deecefc221bef05464adc3ba8d"
   }, {
     "url": "blog/2021-03-06-vue-js-solar",
-    "revision": "2e7824962966591e46d81e2df238101c"
+    "revision": "9e0a69dbe7fd731cd574d8591cf6c6c2"
   }, {
     "url": "blog/2021-04-11-electron-basics",
-    "revision": "0474d770cdc32b7b0b9c6aa7e24612c7"
+    "revision": "7f0bd0c70389ea31f963c9391d4b16fb"
   }, {
     "url": "blog/2021-04-11-electron-save-file",
-    "revision": "e2fc31d58cb35523bec2bd0603cee235"
+    "revision": "13b07bf7f3bf535eaf6fd0ceee3a0d60"
   }, {
     "url": "blog/2021-08-07-pagination",
-    "revision": "c007bfc535c367bb0be8ea4467cc85dd"
+    "revision": "b61e2569692b324f63585af4e72095fb"
   }, {
     "url": "blog/2021-10-09-publish-pagination",
-    "revision": "235f29bcaf210c81d7f788ab95d77011"
+    "revision": "a87e1a6ad26127805f139e8e048c6300"
   }, {
     "url": "blog/2022-01-10-recursive-function",
-    "revision": "b617b10c7b6e43ffec3dfc966e15c128"
+    "revision": "380b9d767f76e888bca6f9b1765427f7"
   }, {
     "url": "blog/2022-05-02-tools",
-    "revision": "c8ffa183239c05597303b57f58caa3c7"
+    "revision": "cce432942ce08613fa36d73e05218ec0"
   }, {
     "url": "blog/2022-09-19-applicant-list",
-    "revision": "774bdb4a528432c93930ec03dde1e823"
+    "revision": "6d2512a0b69fa2393607f6147555df22"
   }, {
     "url": "blog/2024-01-21-deploy-astro-static-on-deno-deploy",
-    "revision": "d674c4ce446f05bcd9c6c81ce0344190"
+    "revision": "e44929390c6fc0c3c6ecdc02f96c6391"
   }, {
     "url": "blog/2025-05-31-prompt-engineering-do-dont",
-    "revision": "7eb5ad9da4fca2bbcab98f3603ac9226"
+    "revision": "734fafbfb722d0f68483dc0438c18844"
   }, {
     "url": "blog/2025-06-14-claude-code-feature-output",
-    "revision": "612d8c749484308f002bc613c0e4c2f0"
+    "revision": "098c2e4b6a5de9bc5abfbb5c0c458db1"
   }, {
     "url": "blog/2025-08-20-intl-segmenter",
-    "revision": "f817e0a6ac3dbb5ff2bdbc6e21940123"
+    "revision": "332350ec84e12bb1af57b9b01846f81c"
   }, {
     "url": "blog/2025-08-27-best-note-taking-tools",
-    "revision": "92d8c4099c249635587d18a1fcbc07a6"
+    "revision": "b1aa9f116224a34fbd32e7d098058b64"
   }, {
     "url": "blog/2025-10-29-top-10-sites-blocking-openai-bot",
-    "revision": "a538660a9158db00a30a222247ad559b"
+    "revision": "e25183052550e0b226a05df3de616f37"
   }, {
     "url": "blog/2025-11-24-building-basic-pomo-with-antigravity",
-    "revision": "94a8f3c032178bd02bb7f556e4fc4c6f"
+    "revision": "e3b2f25dc67194c3716ea861c91e5c26"
   }, {
     "url": "blog/2025-12-15-remix-run-how-it-works",
-    "revision": "b5d5cc5db0bbc027b064970438653ce1"
+    "revision": "80cd395d8ef016cf7567e761881be656"
   }, {
     "url": "blog/2025-12-16-the-windows-11-crisis",
-    "revision": "8e488a931ee7a0d68dfd03664b84f750"
+    "revision": "eb1acb95a87d1b0bc2f016eb726703a9"
   }, {
     "url": "contact",
-    "revision": "bccb7bf42d0b688ff8c846f51538692e"
+    "revision": "66cf7877c9295a6f65b5c937c060f3b1"
   }, {
     "url": "drafts/2018-11-30-advanced-search-on-the-web",
-    "revision": "b986c95058df6104441c7f87540027bb"
+    "revision": "4abcc00cad481dd3db56f60fb7196806"
   }, {
     "url": "drafts/2018-12-01-browser-extension-with-react",
-    "revision": "6dc9a45c3790da5e3ae0b7e42644c8d8"
+    "revision": "2e6dce24d16efdb1014f269feccf619b"
   }, {
     "url": "drafts/2020-02-04-svelte-hn",
-    "revision": "9455809be98cf183ecbb77fbf3ce2117"
+    "revision": "c18fab04c3bf884c31ea681076df2234"
   }, {
     "url": "drafts/2020-02-05-web-performance",
     "revision": "b69dd7e2cc77c2f6d25c104e0a90f2ca"
@@ -709,19 +709,19 @@ define(['./workbox-40c1b53b'], (function (workbox) { 'use strict';
     "revision": "c1721fe237cab7baaf337619cc42bdbe"
   }, {
     "url": "drafts/2020-03-10-django",
-    "revision": "652c51000d1293fa2f2fa375c128a43e"
+    "revision": "587d45a85788d64c3bbb16411a8afdd2"
   }, {
     "url": "drafts/2020-11-21-deploy-nexjs-static",
     "revision": "415840bdd7a6e99ba2c3cc34bc3b770e"
   }, {
     "url": "drafts/2022-05-10-objects",
-    "revision": "52db573d2ff0f27f00e598891807de37"
+    "revision": "aff12173fe7478e4f0c5ed14cf47a895"
   }, {
     "url": "drafts/2023-03-05-module-federation",
-    "revision": "c160427f7af275c5909e1d51428a1dbd"
+    "revision": "bc49a6d394b48989f5e68fc5c7a7e987"
   }, {
     "url": "drafts/2025-06-08-is-ai-the-new-plastic",
-    "revision": "e88182fd96a4f727ca0518f92f8ff07f"
+    "revision": "58bee2b6fa1acc904be8aa4f059b59e8"
   }, {
     "url": "favicon.svg",
     "revision": "b2d181e81ac7bc91332a6da2a262d9df"
@@ -1069,55 +1069,55 @@ define(['./workbox-40c1b53b'], (function (workbox) { 'use strict';
     "revision": "80f07b23e4827842b30948b85bd47440"
   }, {
     "url": "/",
-    "revision": "7202d7fc1c45d3471e422d7ac4403b2e"
+    "revision": "713a78610d69fb390d1cb9524c617a6c"
   }, {
     "url": "offline",
-    "revision": "6f76656b81d4276e99a8b06494bb3b91"
+    "revision": "7fde4c5df09058bcea9fa3f27713ef98"
   }, {
     "url": "registerSW.js",
     "revision": "1872c500de691dce40960bb85481de07"
   }, {
     "url": "search",
-    "revision": "4aa22757174bcded7433d01fc938330a"
+    "revision": "475b35833e9492e4a472939a912877d0"
   }, {
     "url": "search/results",
-    "revision": "88b6b41ef74809e77b7e13cd44078f98"
+    "revision": "0a7d766f51e5a7c75afe22f6f7373dc2"
   }, {
     "url": "tools/all",
-    "revision": "126105e58821e09c224cc14bf5cb31bc"
+    "revision": "8b83cac9bb2d9c33261db001d9c121ac"
   }, {
     "url": "tools/Data",
-    "revision": "96c96b9a3bbd829a4c33ce92facc6403"
+    "revision": "155961e2591d2055073ac11d016028ba"
   }, {
     "url": "tools/Design",
-    "revision": "faa23d7795aca8aa9f4a3499ea98e491"
+    "revision": "ed83d7ed0c73162d1d6c1773b4e7bdec"
   }, {
     "url": "tools/Developer",
-    "revision": "34fead1646e71e187723592d54f40388"
+    "revision": "960fc37268dffa13a3ce84f9dcc76d45"
   }, {
     "url": "tools",
-    "revision": "99fc85dceb7cfce70ed2a8c89c93561c"
+    "revision": "4dd56ed005baf474433ef8c9e9d80595"
   }, {
     "url": "tools/Project",
-    "revision": "27b0f34200730632774f6b0061d8ef3c"
+    "revision": "4c0b4a851757a1cedcba37effdc75a2c"
   }, {
     "url": "tools/Reading",
-    "revision": "8ccfe6bc5e25450f90f15db17bf5f497"
+    "revision": "3ebf8876c8629beebdba5bdc256a1391"
   }, {
     "url": "tools/search",
-    "revision": "31077f3b8106fc14fb64b639e511816d"
+    "revision": "54484c02a6f782068d8d65f0d5eb9b8c"
   }, {
     "url": "tools/Social",
-    "revision": "ef50ef1ff1f29d43269a8fa04c27e146"
+    "revision": "551e1171a20e22132b04cba16d8733f4"
   }, {
     "url": "tools/software",
-    "revision": "7ede73240957160b4af8c8c622e491a6"
+    "revision": "5d6bdd4695746a39f9e8236e528cfcec"
   }, {
     "url": "tools/Wireframe",
-    "revision": "97efa98bd882cdaf4801a258d3c07dc7"
+    "revision": "1ecf00b7395f1b1f638e44578e6b735f"
   }, {
     "url": "tools/Writing",
-    "revision": "2b3d9921a5a3463b6688b805df899c34"
+    "revision": "ad6e7a68cb0085ff11f2dedc6dfc848f"
   }, {
     "url": "manifest.json",
     "revision": "5d3fdbef410b6f02aab661c210dc967d"
