@@ -15,6 +15,7 @@ export const SITE_CONFIG = {
     mastodon: "https://mastodon.social/@giwan",
     email: "giwan@mytoori.com",
   },
+  umamiWebsiteId: "0650b7e5-4c3a-44e4-9af7-b058f1a00a9e",
 };
 
 export const THEME_CONFIG = {

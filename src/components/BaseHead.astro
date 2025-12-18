@@ -91,6 +91,14 @@ const { title, description, image } = Astro.props;
 <!-- SEO Component -->
 <SEO title={title} description={description} image={image} />
 
+{SITE_CONFIG.umamiWebsiteId && (
+    <script 
+        defer 
+        src="https://cloud.umami.is/script.js" 
+        data-website-id={SITE_CONFIG.umamiWebsiteId}
+    ></script>
+)}
+
 <script is:inline>
   // Theme initialization
   (function() {
