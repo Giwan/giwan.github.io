@@ -9,8 +9,7 @@ readTime: 5
 layout: "../../../layouts/BlogArticle.astro"
 ---
 
-> [!NOTE]
-> This article explores the internal architecture of RemixJS.
+> **Note:** This article explores the internal architecture of RemixJS.
 
 Remix is often described as a "centerstack" framework—it doesn't just run on the
 client or just on the server, but bridges the gap between the two using web

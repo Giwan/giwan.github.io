@@ -9,9 +9,8 @@ readTime: 6
 layout: "../../../layouts/BlogArticle.astro"
 ---
 
-> [!NOTE]
-> This article is based on the analysis presented in the ColdFusion video "The
-> Windows 11 Crisis".
+> **Note:** This article is based on the analysis presented in the ColdFusion
+> video "The Windows 11 Crisis".
 
 Windows 11 was launched with promises of a fresh design and improved
 productivity. However, as ColdFusion explores in his recent video, the operating
@@ -77,6 +76,5 @@ services.
 For many, this is the tipping point to finally explore alternatives like Linux
 or macOS.
 
-> [!TIP]
-> You can watch the full video by ColdFusion here:
+> **Tip:** You can watch the full video by ColdFusion here:
 > [The Windows 11 Crisis](https://youtu.be/zKjo8Oc2qLk)
