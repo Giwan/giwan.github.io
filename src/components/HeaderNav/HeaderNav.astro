@@ -7,14 +7,14 @@ import HeaderNavMobile from "./HeaderNavMobile"; // jsx component
 <nav id="navigation" aria-label="Main navigation" transition:name="navigation">
     <!-- Desktop Navigation -->
     <div
-        class="hidden sm:flex justify-end items-center bg-secondary text-secondary-foreground rounded-sm gap-1"
+        class="hidden sm:flex justify-end items-center rounded-sm gap-1"
         transition:name="desktop-navigation"
     >
         {
             links.map(({ href, label }, index) => (
                 <HeaderLink
                     href={href}
-                    class="font-medium text-secondary-foreground hover:bg-accent focus:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-secondary transition-colors duration-200 rounded-sm text-base"
+                    class="font-medium text-foreground hover:bg-accent focus:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background transition-colors duration-200 rounded-sm text-base"
                     aria-label={`Navigate to ${label}`}
                     style={`view-transition-name: nav-link-${label.toLowerCase().replace(/\s+/g, '-')};`}
                 >

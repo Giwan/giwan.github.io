@@ -9,8 +9,8 @@ const MobileMenu = ({ onClose }) => {
 
   return (
     <div className="mobile-menu-container fixed inset-0 bg-background border-r border-border" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999 }}>
-      <div className="p-4 bg-muted text-foreground flex justify-between items-center border-b border-border">
-        <h2 className="font-heading text-2xl text-primary">Menu</h2>
+      <div className="p-4 bg-background text-foreground flex justify-between items-center border-b border-border">
+        <h2 className="font-heading text-2xl text-primary font-bold">Menu</h2>
         <button 
           onClick={onClose}
           className="text-3xl p-2 text-muted-foreground hover:text-destructive focus:text-destructive transition-colors duration-200 hover:bg-muted focus:bg-muted rounded focus:outline-none focus:ring-2 focus:ring-ring"
