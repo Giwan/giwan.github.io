@@ -10,6 +10,7 @@ export default {
         serif: ['Merriweather', 'Georgia', 'serif'],
         sans: ['Inter', 'system-ui', 'sans-serif'],
         mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+        heading: ['Inter', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: 'hsl(var(--border))',
@@ -82,14 +83,17 @@ export default {
             '--tw-prose-invert-th-borders': theme('colors.border'),
             '--tw-prose-invert-td-borders': theme('colors.border'),
             h1: {
+              fontFamily: theme('fontFamily.heading').join(', '),
               fontWeight: '700',
               letterSpacing: '-0.02em',
             },
             h2: {
+              fontFamily: theme('fontFamily.heading').join(', '),
               fontWeight: '700',
               letterSpacing: '-0.02em',
             },
             h3: {
+              fontFamily: theme('fontFamily.heading').join(', '),
               fontWeight: '600',
               letterSpacing: '-0.01em',
             },

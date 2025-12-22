@@ -43,7 +43,7 @@ const formattedUpdatedDate = updatedDate
 
 <PageLayout content={{ title, description }}>
   <article 
-    class="max-w-4xl my-12"
+    class="max-w-5xl my-12"
     transition:name={`article-${Astro.url.pathname.replace(/\//g, '-')}`}
   >
     <!-- Article Header -->
@@ -133,7 +133,7 @@ const formattedUpdatedDate = updatedDate
           </div>
         </div>
         
-        <a href="/" class="inline-flex items-center font-semibold text-foreground hover:text-primary transition-colors">
+        <a href="/" class="inline-flex items-center font-semibold link-hover">
           <span>More articles</span>
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />

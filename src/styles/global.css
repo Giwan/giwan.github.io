@@ -90,3 +90,9 @@
     @apply mx-auto mt-4 max-w-3xl rounded-md border border-border bg-secondary/60 p-4 text-sm text-muted-foreground;
   }
 }
+
+@layer utilities {
+  .link-hover {
+    @apply transition-all duration-200 hover:text-primary hover:underline underline-offset-4 focus-visible:text-primary focus-visible:underline decoration-2;
+  }
+}

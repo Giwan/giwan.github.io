@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import SearchQuery from "./SearchQuery";
 import SearchResults from "./SearchResults";
-import { posts } from "../../../cache/searchData";
+import { posts } from "@/cache/searchData";
 import { filterMatchingPosts } from "./search.helper";
 
 const SearchContainer = function () {

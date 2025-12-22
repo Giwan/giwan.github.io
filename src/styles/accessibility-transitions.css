@@ -132,32 +132,32 @@
   
   /* Main content landmark */
   main[role="main"] {
-    view-transition-name: main-content;
+    contain: layout;
   }
 
   /* Navigation landmark */
   nav[aria-label="Main navigation"] {
-    view-transition-name: navigation;
+    contain: layout;
   }
 
   /* Header landmark */
   header[role="banner"] {
-    view-transition-name: header;
+    contain: layout;
   }
 
   /* Footer landmark */
   footer[role="contentinfo"] {
-    view-transition-name: footer;
+    contain: layout;
   }
 
   /* Search landmark */
   [role="search"] {
-    view-transition-name: search;
+    contain: layout;
   }
 
   /* Complementary content */
   aside[role="complementary"] {
-    view-transition-name: sidebar;
+    contain: layout;
   }
 
   /* Focus management during transitions */
@@ -295,10 +295,6 @@
   /* Transition state indicators for assistive technology */
   
   /* Indicate when transitions are active */
-  [data-transitioning="true"] {
-    /* This will be announced by screen readers */
-  }
-
   [data-transitioning="true"]::before {
     content: "Page transitioning";
     position: absolute;

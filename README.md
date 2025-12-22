@@ -313,57 +313,34 @@ Run Lighthouse PWA audit to verify compliance:
 
 # Styling
 
-The project uses a combination of styling approaches:
+The project uses a modern styling approach based on Tailwind CSS and HSL
+variables:
 
-## Tailwind CSS
+## Tailwind CSS & HSL Variables
 
-Tailwind CSS is integrated through the Astro Tailwind integration. The
-configuration can be found in `tailwind.config.cjs`, where custom colors, fonts,
-and theme extensions are defined. Tailwind classes can be used directly in
-component templates:
+The design system is built on Tailwind CSS, integrated through the Astro
+Tailwind integration. Configuration is in `tailwind.config.js`.
 
-```sh
-<div class="p-4 h-screen w-screen">
-```
-
-## CSS Variables
-
-Global CSS variables are defined in `src/styles/global.css` for consistent
-theming across the site:
+Instead of hardcoded hex values, the project uses **HSL variables** defined in
+`src/styles/global.css`. This allows for seamless theme switching and consistent
+semantic colors (e.g., `primary`, `background`, `muted`).
 
 ```css
 :root {
-  --color-background: #111827;
-  --color-primary: #d2d7d3;
-  --font-family-default: "Merriweather", serif;
-  /* More variables... */
+  --background: 0 0% 100%;
+  --primary: 240 5.9% 10%;
+  /* ... */
 }
 ```
 
-These variables are used throughout the project to maintain a consistent design
-system.
+These variables are mapped in Tailwind to allow usage like `bg-background` or
+`text-primary`.
 
 ## Component-Scoped CSS
 
-Astro components can include scoped styles directly within the component file:
-
-```astro
-<style>
-    header {
-        display: flex;
-        justify-content: space-between;
-    }
-</style>
-```
-
-These styles are automatically scoped to the component to prevent global style
+Astro components can include scoped styles directly within the component file
+using the `<style>` tag. These are automatically scoped to prevent global
 conflicts.
 
-## CSS Modules
-
-For more complex styling needs, CSS modules are used (e.g., `tools.module.css`).
-These provide local class name scoping to avoid conflicts between components.
-
-This hybrid approach allows for both the utility-based rapid development that
-Tailwind provides, while still supporting component-specific styling when
-needed.
+This approach ensures a consistent newspaper-style aesthetic while maintaining
+developer flexibility and high performance.

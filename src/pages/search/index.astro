@@ -5,11 +5,11 @@ import PageLayout from "../../layouts/PageLayout.astro";
 ---
 
 <PageLayout content={{ title: `Search - ${SITE_TITLE}`, description: SITE_DESCRIPTION }}>
-    <main class="my-12">
+    <section class="my-12">
         <div class="bg-paperDark rounded-sm shadow-paper p-8">
             <SearchContainer client:load />
         </div>
-    </main>
+    </section>
 </PageLayout>
 
 

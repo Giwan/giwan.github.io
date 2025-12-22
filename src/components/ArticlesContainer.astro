@@ -45,7 +45,7 @@ const clientArticles = posts.map((post) => ({
 
 <!---
 - Server-rendered initial articles ---->
-<main class="col-span-full" data-transition-context={TRANSITION_CONTEXTS.ARTICLE_LOADING}>
+<section class="col-span-full" data-transition-context={TRANSITION_CONTEXTS.ARTICLE_LOADING}>
     <ul
         id="articles-list"
         class="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-8 mt-12 w-full [&>li:first-child]:md:col-span-2"
@@ -72,7 +72,7 @@ const clientArticles = posts.map((post) => ({
             ))
         }
     </ul>
-</main><!-- 
+</section><!-- 
 Client-side reactive component for "load more" functionality -->
 <ArticlesListWrapper
     client:load

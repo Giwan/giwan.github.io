@@ -53,7 +53,8 @@ const SearchQuery = function ({ handleSearch }) {
                         name="q"
                         className="w-full pl-12 pr-24 py-4 font-sans text-lg bg-background border border-input rounded-lg outline-none focus:border-primary focus:ring-2 focus:ring-ring placeholder-muted-foreground text-foreground transition-all duration-200"
                         placeholder="Search articles..."
-                        defaultValue={queryValue}
+                        value={queryValue || ""}
+                        onChange={(e) => setQueryValue(e.target.value)}
                         ref={inputRef}
                         onFocus={() => setIsFocused(true)}
                         onBlur={() => setIsFocused(false)}

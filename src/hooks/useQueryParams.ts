@@ -9,17 +9,34 @@ function useQueryParams() {
     const [queryValue, updateQueryValue] = useState<string | null | undefined>();
 
     useEffect(() => {
-        const q = new URLSearchParams(location.search).get("q");
-        updateQueryValue(q);
+        const getQ = () => new URLSearchParams(window.location.search).get("q");
+
+        // Initial detection
+        updateQueryValue(getQ());
+
+        // Handle browser back/forward buttons
+        const handlePopState = () => {
+            updateQueryValue(getQ());
+        };
+
+        window.addEventListener("popstate", handlePopState);
+        return () => window.removeEventListener("popstate", handlePopState);
     }, []);
 
     const setQueryValue = (value: string) => {
-        if (!value) return;
-        location.search = `?q=${value}`;
+        const url = new URL(window.location.href);
+        if (value) {
+            url.searchParams.set("q", value);
+        } else {
+            url.searchParams.delete("q");
+        }
+
+        // Update URL without a hard reload
+        window.history.pushState({}, "", url);
         updateQueryValue(value);
     }
 
-    return [queryValue, setQueryValue];
+    return [queryValue, setQueryValue] as const;
 }
 
 export default useQueryParams;

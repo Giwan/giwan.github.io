@@ -12,16 +12,13 @@ const currentDate = formatDateWithOptions(new Date().toString());
         <div class="col-span-1" transition:name="header-logo">
             <Logo />
         </div>
-        <div class="col-span-1 flex justify-end items-center gap-2 sm:flex-row" transition:name="header-controls">
+        <div class="col-span-1 flex justify-end items-center gap-4 sm:gap-2" transition:name="header-controls">
             <ThemeToggle client:load />
             <HeaderNav />
         </div>
-        <div class="col-span-2 w-full flex justify-between border-t border-border py-1 font-sans font-bold text-sm text-muted-foreground" transition:name="header-meta">
+        <div class="col-span-2 w-full flex flex-col sm:flex-row sm:justify-between items-center sm:items-baseline border-t border-border py-2 sm:py-1 gap-1 sm:gap-0 font-sans font-bold text-sm text-muted-foreground" transition:name="header-meta">
             <p transition:name="header-date">
-                {currentDate} —{" "}
-                <span class="hidden sm:inline">
-                    {SITE_DESCRIPTION}
-                </span>
+                {currentDate}
             </p>
             <p transition:name="header-issue">
                 {SITE_DATE} • ISSUE {PUBLICATION_INFO.currentIssue}

@@ -4,12 +4,12 @@ import { Button } from '@/components/ui/button';
 import { useTheme } from '@/hooks/useTheme';
 import { useEffect, useRef, useState } from 'react';
 
-const getThemeIcon = (theme: "light" | "dark" | "system" = "light"): React.JSX.Element => {
-  const classNameForIcon = "h-4 w-4";
+const getNextThemeIcon = (theme: "light" | "dark" | "system" = "light"): React.JSX.Element => {
+  const classNameForIcon = "h-4 w-4 transition-all duration-300";
   const data: Record<"light" | "dark" | "system", React.JSX.Element> = {
-    "light": <Sun className={classNameForIcon} />,
-    "dark": <Moon className={classNameForIcon} />,
-    "system": <Monitor className={classNameForIcon} />
+    "light": <Moon className={classNameForIcon} />, // Next is dark
+    "dark": <Monitor className={classNameForIcon} />, // Next is system
+    "system": <Sun className={classNameForIcon} /> // Next is light
   }
   return data[theme];
 }
@@ -18,15 +18,15 @@ export const ThemeToggle = () => {
   const { theme, toggleTheme } = useTheme();
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const getIcon = () => getThemeIcon(theme);
+  const getIcon = () => getNextThemeIcon(theme);
 
-  const getTitle = () => {
-  const titles: Record<"light" | "dark" | "system", string> = {
-      "light": "Switch to dark mode",
-      "dark": "Switch to system theme",
-      "system": "Switch to light mode"
+  const getAriaLabel = () => {
+    const nextModes: Record<"light" | "dark" | "system", string> = {
+      "light": "dark",
+      "dark": "system",
+      "system": "light"
     };
-    return titles[theme] || "Toggle theme";
+    return `Currently in ${theme} mode. Click to switch to ${nextModes[theme]} mode.`;
   };
 
   // Enhanced theme toggle that coordinates with page transitions
@@ -83,12 +83,12 @@ export const ThemeToggle = () => {
       variant="ghost"
       size="icon"
       onClick={handleThemeToggle}
-      title={getTitle()}
+      title={getAriaLabel()}
       className="h-9 w-9"
       style={{ viewTransitionName: 'theme-toggle' }}
     >
       {getIcon()}
-      <span className="sr-only">{getTitle()}</span>
+      <span className="sr-only">{getAriaLabel()}</span>
     </Button>
   );
 };

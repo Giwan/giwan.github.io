@@ -45,13 +45,13 @@ const {
 
         <PWAErrorBoundary client:idle>
             <div 
-                class="mx-auto max-w-8xl p-4 sm:p-6 lg:p-8" 
+                class="mx-auto max-w-7xl p-4 sm:p-6 lg:p-8" 
                 style="padding-top: calc(var(--sat) + 1rem);" 
                 transition:name="page-container"
             >
                 <Header transition:name="header" />
-                <ConditionalContent client:visible>
-                    <main id="main-content" transition:name="main-content" transition:animate="slide">
+                <ConditionalContent client:load>
+                    <main id="main-content" role="main" transition:name="main-content" transition:animate="slide">
                         <slot />
                     </main>
                     <Footer transition:name="footer" />

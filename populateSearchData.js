@@ -27,12 +27,10 @@ function getPosts() {
 const fileContents = `export const posts = ${getPosts()};`;
 
 try {
-    fs.readdirSync("cache");
+    fs.readdirSync("src/cache");
 } catch ({ }) {
-    fs.mkdirSync("cache");
+    fs.mkdirSync("src/cache");
 }
 
-fs.writeFileSync("cache/searchData.js", fileContents, function (err) {
-    if (err) return console.error(err);
-    console.log("Posts cached");
-}); 
+fs.writeFileSync("src/cache/searchData.js", fileContents);
+console.log("Posts cached in src/cache/searchData.js");
