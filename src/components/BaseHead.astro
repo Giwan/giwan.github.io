@@ -31,13 +31,32 @@ import "@fontsource/fira-code/500.css";
 import "@fontsource/fira-code/600.css";
 
 
+
 export interface Props {
     title: string;
     description: string;
     image?: string;
+    article?: boolean;
+    publishedTime?: string;
+    modifiedTime?: string;
+    author?: string;
+    section?: string;
+    tags?: string[];
+    keywords?: string[];
 }
 
-const { title, description, image } = Astro.props;
+const { 
+    title, 
+    description, 
+    image,
+    article,
+    publishedTime,
+    modifiedTime,
+    author,
+    section,
+    tags,
+    keywords
+} = Astro.props;
 
 ---
 
@@ -50,6 +69,9 @@ const { title, description, image } = Astro.props;
 
 <!-- PWA Manifest -->
 <link rel="manifest" href="/manifest.json" />
+
+<!-- RSS Feed Discovery -->
+<link rel="alternate" type="application/rss+xml" title={SITE_CONFIG.title} href={new URL("rss.xml", Astro.site)} />
 
 <!-- Apple PWA Meta Tags -->
 <meta name="mobile-web-app-capable" content="yes" />
@@ -90,7 +112,18 @@ const { title, description, image } = Astro.props;
 <meta name="theme-color" content={PWA_CONFIG.themeColor} />
 
 <!-- SEO Component -->
-<SEO title={title} description={description} image={image} />
+<SEO 
+    title={title} 
+    description={description} 
+    image={image}
+    article={article}
+    publishedTime={publishedTime}
+    modifiedTime={modifiedTime}
+    author={author}
+    section={section}
+    tags={tags}
+    keywords={keywords}
+/>
 
 {SITE_CONFIG.umamiWebsiteId && (
     <script 

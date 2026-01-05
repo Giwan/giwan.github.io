@@ -8,21 +8,52 @@ import ConditionalContent from "../components/ConditionalContent";
 import { AccessibilityControls } from "../components/AccessibilityControls";
 import { SITE_CONFIG } from "../config";
 
+
 export interface Props {
     content: {
         title: string;
         description: string;
+        image?: string;
+        article?: boolean;
+        publishedTime?: string;
+        modifiedTime?: string;
+        author?: string;
+        section?: string;
+        tags?: string[];
+        keywords?: string[];
     };
 }
 
 const {
-    content: { title, description },
+    content: { 
+        title, 
+        description, 
+        image,
+        article,
+        publishedTime,
+        modifiedTime,
+        author,
+        section,
+        tags,
+        keywords
+    },
 } = Astro.props;
 ---
 
 <html lang={SITE_CONFIG.lang} dir={SITE_CONFIG.dir} transition:animate="fade">
     <head>
-        <BaseHead title={title} description={description} />
+        <BaseHead 
+            title={title} 
+            description={description} 
+            image={image}
+            article={article}
+            publishedTime={publishedTime}
+            modifiedTime={modifiedTime}
+            author={author}
+            section={section}
+            tags={tags}
+            keywords={keywords}
+        />
 
 
     </head>

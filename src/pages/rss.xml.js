@@ -4,13 +4,16 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
 export async function GET(context) {
 	// Get all blog posts using glob import
 	const posts = await import.meta.glob('./blog/**/*.{md,mdx}', { eager: true });
-	
+
 	// Process posts to extract frontmatter and generate RSS items
 	const items = Object.entries(posts)
 		.map(([path, post]) => {
-			// Extract slug from path (e.g., './blog/2024-01-21-deploy-astro-static-on-deno-deploy/index.md' -> '2024-01-21-deploy-astro-static-on-deno-deploy')
-			const slug = path.replace('./blog/', '').replace('/index.md', '').replace('/index.mdx', '');
-			
+			// Extract slug from path (e.g., './blog/2024-01-21-deploy/index.md' -> '2024-01-21-deploy')
+			const slug = path
+				.replace('./blog/', '')
+				.replace(/\/index\.mdx?$/, '')
+				.replace(/\.mdx?$/, '');
+
 			return {
 				...post.frontmatter,
 				slug,

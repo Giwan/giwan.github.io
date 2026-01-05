@@ -4,6 +4,7 @@ import mdx from "@astrojs/mdx";
 import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
 import { default as VitePWA } from "@vite-pwa/astro";
+import sitemap from "@astrojs/sitemap";
 import headersIntegration from "./src/integrations/headers";
 import pwaValidationIntegration from "./src/integrations/pwaValidation";
 import { SITE_CONFIG, PWA_CONFIG } from "./src/config";
@@ -12,7 +13,7 @@ import { SITE_CONFIG, PWA_CONFIG } from "./src/config";
 // https://docs.astro.build/en/guides/server-side-rendering/#enabling-ssr-in-your-project
 export default defineConfig({
     site: SITE_CONFIG.siteUrl,
-    integrations: [mdx(), tailwind(), react(), headersIntegration(), VitePWA({
+    integrations: [mdx(), tailwind(), react(), sitemap(), headersIntegration(), VitePWA({
         scope: '/',
         registerType: 'prompt',
         manifestFilename: 'manifest.json',

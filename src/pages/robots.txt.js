@@ -16,7 +16,7 @@ Allow: /about/
 Crawl-delay: 1
 
 # Sitemap location (when available)
-Sitemap: ${context.site}sitemap.xml
+Sitemap: ${context.site}sitemap-index.xml
 
 # RSS feed
 # Note: RSS feeds are discoverable via <link> tags in HTML head
