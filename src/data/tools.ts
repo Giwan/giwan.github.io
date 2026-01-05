@@ -9,6 +9,11 @@ import socialTools from "./socialTools";
 import dataTools from "./dataTools";
 import wireframeTools from "./wireframeTools";
 import searchTools from "./searchTools";
+import aiMlTools from "./aiMlTools";
+import hostingTools from "./hostingTools";
+import frameworkTools from "./frameworkTools";
+import testingTools from "./testingTools";
+import monitoringTools from "./monitoringTools";
 
 const tools = [
     ...readingTools,
@@ -20,7 +25,12 @@ const tools = [
     ...socialTools,
     ...dataTools,
     ...wireframeTools,
-    ...searchTools
+    ...searchTools,
+    ...aiMlTools,
+    ...hostingTools,
+    ...frameworkTools,
+    ...testingTools,
+    ...monitoringTools
 ];
 
 export default tools;

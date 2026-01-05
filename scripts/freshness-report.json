@@ -1,0 +1,1492 @@
+{
+  "timestamp": "2025-12-24T10:45:29.609Z",
+  "summary": {
+    "total": 164,
+    "withDateAdded": 0,
+    "withLastVerified": 0,
+    "neverVerified": 164,
+    "needsReview": 164,
+    "stale": 0,
+    "fresh": 0
+  },
+  "neverVerified": [
+    {
+      "title": "ChatGPT",
+      "url": "https://chat.openai.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/aiMlTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "GitHub Copilot",
+      "url": "https://github.com/features/copilot",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/aiMlTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Cursor",
+      "url": "https://cursor.sh/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/aiMlTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Claude",
+      "url": "https://claude.ai/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/aiMlTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Codeium",
+      "url": "https://codeium.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/aiMlTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Tabnine",
+      "url": "https://www.tabnine.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/aiMlTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Replit Ghostwriter",
+      "url": "https://replit.com/ai",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/aiMlTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Amazon CodeWhisperer",
+      "url": "https://aws.amazon.com/codewhisperer/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/aiMlTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Sourcegraph Cody",
+      "url": "https://sourcegraph.com/cody",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/aiMlTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Perplexity AI",
+      "url": "https://www.perplexity.ai/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/aiMlTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "v0 by Vercel",
+      "url": "https://v0.dev/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/aiMlTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Bolt.new",
+      "url": "https://bolt.new/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/aiMlTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Figma",
+      "url": "https://figma.com",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Dribbble",
+      "url": "https://dribbble.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Behance",
+      "url": "https://www.behance.net/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "AutoDraw",
+      "url": "https://autodraw.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Framer",
+      "url": "https://www.framer.com",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Spline.design",
+      "url": "https://spline.design/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "reasonable.work",
+      "url": "https://reasonable.work",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "octopus.do",
+      "url": "https://octopus.do",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "tints.dev",
+      "url": "https://www.tints.dev",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Linear",
+      "url": "https://linear.app/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Notion",
+      "url": "https://www.notion.so/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Miro",
+      "url": "https://miro.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "FigJam",
+      "url": "https://www.figma.com/figjam/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Excalidraw",
+      "url": "https://excalidraw.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Penpot",
+      "url": "https://penpot.app/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Heroicons",
+      "url": "https://heroicons.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Lucide",
+      "url": "https://lucide.dev/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Phosphor Icons",
+      "url": "https://phosphoricons.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Tabler Icons",
+      "url": "https://tabler-icons.io/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Iconify",
+      "url": "https://iconify.design/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Unsplash",
+      "url": "https://unsplash.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Pexels",
+      "url": "https://www.pexels.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Coolors",
+      "url": "https://coolors.co/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Adobe Color",
+      "url": "https://color.adobe.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Contrast",
+      "url": "https://usecontrast.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Huetone",
+      "url": "https://huetone.ardov.me/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Radix Colors",
+      "url": "https://www.radix-ui.com/colors",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Tailwind UI",
+      "url": "https://tailwindui.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/designTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Cloudinary",
+      "url": "https://cloudinary.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Codepen",
+      "url": "https://codepen.io",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Codesandbox",
+      "url": "https://codesandbox.io/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Glitch",
+      "url": "https://glitch.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Replit",
+      "url": "https://replit.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "JSFiddle",
+      "url": "https://jsfiddle.net/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "StackBlitz",
+      "url": "https://stackblitz.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "CSS Shadows",
+      "url": "https://shadows.brumm.af/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Cubic bezier tool",
+      "url": "https://cubic-bezier.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "CSS waves",
+      "url": "https://svgwave.in/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Cursor",
+      "url": "https://cursor.sh/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Zed",
+      "url": "https://zed.dev/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Nova",
+      "url": "https://nova.app/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Fleet",
+      "url": "https://www.jetbrains.com/fleet/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Insomnia",
+      "url": "https://insomnia.rest/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Hoppscotch",
+      "url": "https://hoppscotch.io/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Bruno",
+      "url": "https://www.usebruno.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Paw",
+      "url": "https://paw.cloud/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "HTTPie",
+      "url": "https://httpie.io/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Prisma",
+      "url": "https://www.prisma.io/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Drizzle ORM",
+      "url": "https://orm.drizzle.team/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "TablePlus",
+      "url": "https://tableplus.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "DBeaver",
+      "url": "https://dbeaver.io/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Supabase",
+      "url": "https://supabase.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "PlanetScale",
+      "url": "https://planetscale.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Neon",
+      "url": "https://neon.tech/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/developerTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Next.js",
+      "url": "https://nextjs.org/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/frameworkTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Remix",
+      "url": "https://remix.run/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/frameworkTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "SvelteKit",
+      "url": "https://kit.svelte.dev/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/frameworkTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Nuxt",
+      "url": "https://nuxt.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/frameworkTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Astro",
+      "url": "https://astro.build/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/frameworkTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Vite",
+      "url": "https://vitejs.dev/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/frameworkTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Angular",
+      "url": "https://angular.io/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/frameworkTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Vue.js",
+      "url": "https://vuejs.org/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/frameworkTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "React",
+      "url": "https://react.dev/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/frameworkTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Solid.js",
+      "url": "https://www.solidjs.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/frameworkTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Qwik",
+      "url": "https://qwik.builder.io/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/frameworkTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Fresh",
+      "url": "https://fresh.deno.dev/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/frameworkTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "T3 Stack",
+      "url": "https://create.t3.gg/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/frameworkTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Gatsby",
+      "url": "https://www.gatsbyjs.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/frameworkTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Vercel",
+      "url": "https://vercel.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/hostingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Netlify",
+      "url": "https://www.netlify.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/hostingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Railway",
+      "url": "https://railway.app/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/hostingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Fly.io",
+      "url": "https://fly.io/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/hostingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Render",
+      "url": "https://render.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/hostingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Supabase",
+      "url": "https://supabase.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/hostingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "PlanetScale",
+      "url": "https://planetscale.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/hostingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Cloudflare Pages",
+      "url": "https://pages.cloudflare.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/hostingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "GitHub Pages",
+      "url": "https://pages.github.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/hostingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Heroku",
+      "url": "https://www.heroku.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/hostingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "DigitalOcean App Platform",
+      "url": "https://www.digitalocean.com/products/app-platform",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/hostingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "AWS Amplify",
+      "url": "https://aws.amazon.com/amplify/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/hostingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Sentry",
+      "url": "https://sentry.io/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/monitoringTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "LogRocket",
+      "url": "https://logrocket.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/monitoringTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Datadog",
+      "url": "https://www.datadoghq.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/monitoringTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "New Relic",
+      "url": "https://newrelic.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/monitoringTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Vercel Analytics",
+      "url": "https://vercel.com/analytics",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/monitoringTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Google Analytics",
+      "url": "https://analytics.google.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/monitoringTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Plausible Analytics",
+      "url": "https://plausible.io/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/monitoringTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Mixpanel",
+      "url": "https://mixpanel.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/monitoringTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Amplitude",
+      "url": "https://amplitude.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/monitoringTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Hotjar",
+      "url": "https://www.hotjar.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/monitoringTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Grafana",
+      "url": "https://grafana.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/monitoringTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Prometheus",
+      "url": "https://prometheus.io/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/monitoringTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Uptime Robot",
+      "url": "https://uptimerobot.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/monitoringTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Pingdom",
+      "url": "https://www.pingdom.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/monitoringTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Playwright",
+      "url": "https://playwright.dev/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/testingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Cypress",
+      "url": "https://www.cypress.io/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/testingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Vitest",
+      "url": "https://vitest.dev/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/testingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Jest",
+      "url": "https://jestjs.io/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/testingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Testing Library",
+      "url": "https://testing-library.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/testingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Storybook",
+      "url": "https://storybook.js.org/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/testingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Puppeteer",
+      "url": "https://pptr.dev/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/testingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "WebdriverIO",
+      "url": "https://webdriver.io/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/testingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Selenium",
+      "url": "https://www.selenium.dev/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/testingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Mocha",
+      "url": "https://mochajs.org/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/testingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Jasmine",
+      "url": "https://jasmine.github.io/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/testingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Karma",
+      "url": "https://karma-runner.github.io/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/testingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Chromatic",
+      "url": "https://www.chromatic.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/testingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Percy",
+      "url": "https://percy.io/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/testingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Trello",
+      "url": "https://trello.com",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/projectManagementTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Miro",
+      "url": "https://miro.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/projectManagementTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Tweek",
+      "url": "https://tweek.so/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/projectManagementTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Notion",
+      "url": "https://www.notion.so/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/projectManagementTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Obsidian",
+      "url": "https://obsidian.md/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/projectManagementTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Roam Research",
+      "url": "https://roamresearch.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/projectManagementTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Logseq",
+      "url": "https://logseq.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/projectManagementTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "RemNote",
+      "url": "https://www.remnote.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/projectManagementTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Craft",
+      "url": "https://www.craft.do/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/projectManagementTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Toggl Track",
+      "url": "https://toggl.com/track/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/projectManagementTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "RescueTime",
+      "url": "https://www.rescuetime.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/projectManagementTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Clockify",
+      "url": "https://clockify.me/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/projectManagementTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Monday.com",
+      "url": "https://monday.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/projectManagementTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Asana",
+      "url": "https://asana.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/projectManagementTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "ClickUp",
+      "url": "https://clickup.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/projectManagementTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Discord",
+      "url": "https://discord.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/projectManagementTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Slack",
+      "url": "https://slack.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/projectManagementTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Microsoft Teams",
+      "url": "https://www.microsoft.com/en-us/microsoft-teams/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/projectManagementTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Zoom",
+      "url": "https://zoom.us/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/projectManagementTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Loom",
+      "url": "https://www.loom.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/projectManagementTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Instapaper",
+      "url": "https://instapaper.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/readingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "HackerNews",
+      "url": "https://news.ycombinator.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/readingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Medium",
+      "url": "https://medium.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/readingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Scribe.rip",
+      "url": "https://scribe.rip",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/readingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Google doc",
+      "url": "https://docs.google.com",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/writingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "HackMD",
+      "url": "https://hackmd.io/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/writingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Ghost",
+      "url": "https://ghost.org",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/writingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "txtfiddle.com",
+      "url": "https://txtfiddle.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/writingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Hemingway Editor",
+      "url": "https://hemingwayapp.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/writingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Etherpad",
+      "url": "https://etherpad.org/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/writingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Starlight",
+      "url": "https://starlight.astro.build",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/writingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Docusaurus",
+      "url": "https://docusaurus.io/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/writingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "GoodNotes",
+      "url": "https://www.goodnotes.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/writingTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Mibo",
+      "url": "https://getmibo.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/socialTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "weTransfer",
+      "url": "https://wetransfer.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/dataTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Draw.io",
+      "url": "https://diagrams.net",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/wireframeTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "phind.com",
+      "url": "https://phind.com",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/searchTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "chat.openai.com",
+      "url": "https://chat.openai.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/searchTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "chat.bing.com",
+      "url": "https://chat.bing.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/searchTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "ProductHunt",
+      "url": "https://www.producthunt.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/softwareTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "Readme.com",
+      "url": "https://readme.com/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/softwareTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "webmonetization",
+      "url": "https://webmonetization.org/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/softwareTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "patreon.com",
+      "url": "https://www.patreon.com",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/softwareTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    },
+    {
+      "title": "tiny-helpers.dev",
+      "url": "https://tiny-helpers.dev/",
+      "dateAdded": null,
+      "lastVerified": null,
+      "file": "src/data/softwareTools.ts",
+      "reason": "Never verified",
+      "priority": "high"
+    }
+  ],
+  "staleTools": [],
+  "needsReview": []
+}

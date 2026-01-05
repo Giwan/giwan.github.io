@@ -14,7 +14,7 @@ Allow: /about/
 Crawl-delay: 1
 
 # Sitemap location (when available)
-Sitemap: https://giwan.github.io/sitemap.xml
+Sitemap: https://giwan.github.io/sitemap-index.xml
 
 # RSS feed
 # Note: RSS feeds are discoverable via <link> tags in HTML head

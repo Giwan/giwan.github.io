@@ -1,4 +1,4 @@
-import categories from "./categories";
+import { subCategories } from "./categories";
 import labels from "./labels";
 import type { TTool } from "../types/tools.d";
 
@@ -8,7 +8,7 @@ const wireframeTools: TTool[] = [
         url: "https://diagrams.net",
         description: `A simple but powerfull and free diagramming tool.`,
         price: 0,
-        category: categories.WIREFRAME,
+        category: subCategories.WIREFRAME,
         labels: [labels.productivity, labels.image, labels.diagram]
     }
 ]
