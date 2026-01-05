@@ -1,3 +1,4 @@
+import React from "react";
 import { subCategories } from "../../data/categories";
 import { Button } from "@/components/ui/button";
 
@@ -15,28 +16,60 @@ const FilterTools = function ({ setCategory, category }) {
 
     const clearFilters = () => setCategory(undefined);
 
-    const filterButtons = Object.keys(subCategories).map((label) => (
-        <Button
-            onClick={handleClick}
-            key={label}
-            value={subCategories[label]}
-            variant={category === subCategories[label] ? "default" : "outline"}
-            size="sm"
-        >
-            {subCategories[label]?.toLowerCase()}
-        </Button>
-    ));
+    const handleKeyDown = (e, action) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            action();
+        }
+    };
+
+    const filterButtons = Object.keys(subCategories).map((label) => {
+        const categoryValue = subCategories[label];
+        const isSelected = category === categoryValue;
+        
+        return (
+            <Button
+                onClick={handleClick}
+                onKeyDown={(e) => handleKeyDown(e, () => setCategory(categoryValue))}
+                key={label}
+                value={categoryValue}
+                variant={isSelected ? "default" : "outline"}
+                size="sm"
+                role="button"
+                tabIndex={0}
+                aria-pressed={isSelected}
+                aria-label={`Filter tools by ${categoryValue} category${isSelected ? ' (currently selected)' : ''}`}
+            >
+                {categoryValue?.toLowerCase()}
+            </Button>
+        );
+    });
+    
     const allButton = (
         <Button 
             key="all-button" 
-            onClick={clearFilters} 
+            onClick={clearFilters}
+            onKeyDown={(e) => handleKeyDown(e, clearFilters)}
             variant={!category ? "default" : "outline"}
             size="sm"
+            role="button"
+            tabIndex={0}
+            aria-pressed={!category}
+            aria-label={`Show all tools${!category ? ' (currently selected)' : ''}`}
         >
             All
         </Button>
     );
-    return [allButton, ...filterButtons];
+    
+    return (
+        <div 
+            role="group" 
+            aria-label="Filter tools by category"
+            className="flex flex-wrap gap-2"
+        >
+            {[allButton, ...filterButtons]}
+        </div>
+    );
 };
 
 export default FilterTools;

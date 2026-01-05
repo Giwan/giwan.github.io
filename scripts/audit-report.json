@@ -1,0 +1,93 @@
+{
+  "timestamp": "2025-12-23T18:37:18.277Z",
+  "summary": {
+    "totalTools": 47,
+    "accessibleTools": 36,
+    "inaccessibleTools": 11,
+    "suspiciousTools": 0
+  },
+  "issues": [
+    {
+      "type": "inaccessible",
+      "tool": "Instapaper",
+      "url": "https://instapaper.com/",
+      "status": 405,
+      "message": "HTTP 405"
+    },
+    {
+      "type": "inaccessible",
+      "tool": "HackerNews",
+      "url": "https://news.ycombinator.com/",
+      "status": 405,
+      "message": "HTTP 405"
+    },
+    {
+      "type": "inaccessible",
+      "tool": "Medium",
+      "url": "https://medium.com/",
+      "status": 403,
+      "message": "HTTP 403"
+    },
+    {
+      "type": "inaccessible",
+      "tool": "AutoDraw",
+      "url": "https://autodraw.com/",
+      "status": 405,
+      "message": "HTTP 405"
+    },
+    {
+      "type": "error",
+      "tool": "tints.dev",
+      "url": "https://www.tints.dev",
+      "message": "This operation was aborted"
+    },
+    {
+      "type": "inaccessible",
+      "tool": "Codepen",
+      "url": "https://codepen.io",
+      "status": 403,
+      "message": "HTTP 403"
+    },
+    {
+      "type": "inaccessible",
+      "tool": "CSS Shadows",
+      "url": "https://shadows.brumm.af/",
+      "status": 403,
+      "message": "HTTP 403"
+    },
+    {
+      "type": "inaccessible",
+      "tool": "ProductHunt",
+      "url": "https://www.producthunt.com/",
+      "status": 403,
+      "message": "HTTP 403"
+    },
+    {
+      "type": "inaccessible",
+      "tool": "patreon.com",
+      "url": "https://www.patreon.com",
+      "status": 403,
+      "message": "HTTP 403"
+    },
+    {
+      "type": "inaccessible",
+      "tool": "phind.com",
+      "url": "https://phind.com",
+      "status": 403,
+      "message": "HTTP 403"
+    },
+    {
+      "type": "inaccessible",
+      "tool": "chat.openai.com",
+      "url": "https://chat.openai.com/",
+      "status": 403,
+      "message": "HTTP 403"
+    }
+  ],
+  "recommendations": [
+    "Remove inaccessible tools",
+    "Add modern tools",
+    "Standardize categories",
+    "Add tracking fields"
+  ]
+}

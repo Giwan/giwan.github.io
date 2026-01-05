@@ -1,4 +1,4 @@
-import categories from "./categories";
+import { subCategories } from "./categories";
 import labels from "./labels";
 import type { TTool } from "../types/tools.d";
 
@@ -8,23 +8,16 @@ const searchTools: TTool[] = [
         url: "https://phind.com",
         description: `An AI based search engine specifically for developers. It's free to use.`,
         price: 0,
-        category: categories.SEARCH,
+        category: subCategories.SEARCH,
         labels: [labels.search]
     },
-    {
-        title: "rix",
-        url: "https://hashnode.com/rix",
-        description: `An AI based search engine for developers from hashnode.com. It's free to use.`,
-        price: 0,
-        category: categories.SEARCH,
-        labels: [labels.search]
-    },
+
     {
         title: "chat.openai.com",
         url: "https://chat.openai.com/",
         description: `Generic chatbot. It can also be used by developers. Free to use but requires signup.`,
         price: 1,
-        category: categories.SEARCH,
+        category: subCategories.SEARCH,
         labels: [labels.search]
     },
     {
@@ -32,7 +25,7 @@ const searchTools: TTool[] = [
         url: "https://chat.bing.com/",
         description: `Chat bot that's based on chat GPT.`,
         price: 1,
-        category: categories.SEARCH,
+        category: subCategories.SEARCH,
         labels: [labels.search]
     },
 

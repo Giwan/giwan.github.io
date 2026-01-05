@@ -1,3 +1,4 @@
+import React from "react";
 import { categoriesList } from "../../data/categories";
 import CategoryItem from "./CategoryItem";
 

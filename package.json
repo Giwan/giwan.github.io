@@ -21,7 +21,15 @@
         "audit:pwa": "npm run lighthouse-audit",
         "predeploy": "npm run build:pwa",
         "test": "jest",
-        "clean": "rm -rf docs/*"
+        "clean": "rm -rf docs/*",
+        "validate:tools": "node scripts/validate-tools.js",
+        "validate:tools:quick": "node scripts/validate-tools.js --quick",
+        "validate:tools:urls": "node scripts/validate-tools.js --urls",
+        "audit:tools": "node scripts/audit-tools.js",
+        "maintenance:status": "node scripts/maintenance-scheduler.js status",
+        "maintenance:checklist": "node scripts/maintenance-scheduler.js checklist",
+        "maintenance:complete": "node scripts/maintenance-scheduler.js complete",
+        "tools:freshness": "node scripts/tool-freshness-tracker.js"
     },
     "dependencies": {
         "@astrojs/mdx": "^4.3.5",
