@@ -67,7 +67,7 @@ if (!self.define) {
     });
   };
 }
-define(['./workbox-40c1b53b'], (function (workbox) { 'use strict';
+define(['./workbox-e4259612'], (function (workbox) { 'use strict';
 
   self.skipWaiting();
   workbox.clientsClaim();
@@ -78,379 +78,700 @@ define(['./workbox-40c1b53b'], (function (workbox) { 'use strict';
    * See https://goo.gl/S9QRab
    */
   workbox.precacheAndRoute([{
-    "url": "_astro/about.DE4R5MuM.css",
-    "revision": null
+    "url": "registerSW.js",
+    "revision": "1872c500de691dce40960bb85481de07"
   }, {
-    "url": "_astro/AccessibilityControls.DfoW8SZN.js",
-    "revision": null
+    "url": "/",
+    "revision": "81775937218cfc35de8d5c635ebeec83"
   }, {
-    "url": "_astro/BasicPagination.CVYp79M4.js",
-    "revision": null
+    "url": "favicon.svg",
+    "revision": "b2d181e81ac7bc91332a6da2a262d9df"
   }, {
-    "url": "_astro/button.CKqbtVu8.js",
-    "revision": null
+    "url": "404",
+    "revision": "5931a9affbe6934d860743826d70e998"
   }, {
-    "url": "_astro/client.D2WMwoKK.js",
-    "revision": null
+    "url": "tools",
+    "revision": "905f7f115dc255a6ad9fad37ebc7740a"
   }, {
-    "url": "_astro/ConditionalContent.C1r7Ik8R.js",
-    "revision": null
+    "url": "tools/all",
+    "revision": "00915f2b1be362b9a9263808f1df493b"
   }, {
-    "url": "_astro/createLucideIcon.DCnupLqN.js",
-    "revision": null
+    "url": "tools/Writing",
+    "revision": "f9ba45d303b618ebbff59cd8ce9c25fa"
   }, {
-    "url": "_astro/fira-code-cyrillic-400-normal.dc1q3VD7.woff",
-    "revision": null
+    "url": "tools/Wireframe",
+    "revision": "2a83e94369011383b48a87c1869ca5b0"
   }, {
-    "url": "_astro/fira-code-cyrillic-400-normal.UC0NFL4U.woff2",
-    "revision": null
+    "url": "tools/Testing",
+    "revision": "9c0e8f8081fde0109fd1428b1330b4a6"
   }, {
-    "url": "_astro/fira-code-cyrillic-500-normal.Bu7VCL72.woff",
-    "revision": null
+    "url": "tools/Software",
+    "revision": "334b71c119203b12722ca80050206ff4"
   }, {
-    "url": "_astro/fira-code-cyrillic-500-normal.CX35h3Mg.woff2",
-    "revision": null
+    "url": "tools/Social",
+    "revision": "76a1c3d3b97ffde0ebbaaf4f0198abb8"
   }, {
-    "url": "_astro/fira-code-cyrillic-600-normal.BD56RyRT.woff",
-    "revision": null
+    "url": "tools/Search",
+    "revision": "7b846840ead53c8db267334d4f8ae902"
   }, {
-    "url": "_astro/fira-code-cyrillic-600-normal.CPRdbepc.woff2",
-    "revision": null
+    "url": "tools/Reading",
+    "revision": "328c4486f57a45e57b9e25ead48cfdf0"
   }, {
-    "url": "_astro/fira-code-cyrillic-ext-400-normal.Buh61xzB.woff",
-    "revision": null
+    "url": "tools/Project Management",
+    "revision": "713bc7f3f36bb06d99d553ce873e3c8b"
   }, {
-    "url": "_astro/fira-code-cyrillic-ext-400-normal.txZ9Fk_1.woff2",
-    "revision": null
+    "url": "tools/Monitoring",
+    "revision": "dc601f2aafb6599d2e2c5aa8ee3d2cd1"
   }, {
-    "url": "_astro/fira-code-cyrillic-ext-500-normal.CwtLmSFD.woff",
-    "revision": null
+    "url": "tools/Hosting",
+    "revision": "6f94f0949b7416cd77e7656be2418cf8"
   }, {
-    "url": "_astro/fira-code-cyrillic-ext-500-normal.CYRspHgm.woff2",
-    "revision": null
+    "url": "tools/Frameworks",
+    "revision": "19938dd1bf2813feb80b571d1b32039c"
   }, {
-    "url": "_astro/fira-code-cyrillic-ext-600-normal.B9wE0zmr.woff2",
-    "revision": null
+    "url": "tools/Developer",
+    "revision": "c44aac109a54322d53ba89f7802c34fd"
   }, {
-    "url": "_astro/fira-code-cyrillic-ext-600-normal.DldcyWhZ.woff",
-    "revision": null
+    "url": "tools/Design",
+    "revision": "85f01529d532b93e2d350f3cc1b50b23"
   }, {
-    "url": "_astro/fira-code-greek-400-normal.B2Gh_Y8s.woff2",
-    "revision": null
+    "url": "tools/Data",
+    "revision": "8f621dc6f7ce6325082ca0fd387e099a"
   }, {
-    "url": "_astro/fira-code-greek-400-normal.DobhaxvF.woff",
-    "revision": null
+    "url": "tools/AI & ML",
+    "revision": "b3a591a6a46e7b8b649924dc8411542f"
   }, {
-    "url": "_astro/fira-code-greek-500-normal.CVO0IRNt.woff2",
-    "revision": null
+    "url": "search",
+    "revision": "c9f0e8261b9f416d893c19e89945cbf7"
   }, {
-    "url": "_astro/fira-code-greek-500-normal.DEXIWiey.woff",
-    "revision": null
+    "url": "search/results",
+    "revision": "418a6c836dadca4938d1a09a8f95f4c6"
   }, {
-    "url": "_astro/fira-code-greek-600-normal.D_h3X2X5.woff",
-    "revision": null
+    "url": "offline",
+    "revision": "a72926b5168653694bb8cdb7c8b64c8a"
   }, {
-    "url": "_astro/fira-code-greek-600-normal.Dxp52_By.woff2",
-    "revision": null
+    "url": "images/architecture-infographic.png",
+    "revision": "80f07b23e4827842b30948b85bd47440"
   }, {
-    "url": "_astro/fira-code-greek-ext-400-normal.DR7mBgIM.woff2",
-    "revision": null
+    "url": "icons/android-launchericon-96-96.png",
+    "revision": "7aa64e78b34d82148201044e8253ab28"
   }, {
-    "url": "_astro/fira-code-greek-ext-400-normal.DSPUheWg.woff",
-    "revision": null
+    "url": "icons/android-launchericon-72-72.png",
+    "revision": "d69f98f6be229a95d276feef17e42dc7"
   }, {
-    "url": "_astro/fira-code-greek-ext-500-normal.BO3iq16n.woff2",
-    "revision": null
+    "url": "icons/android-launchericon-512-512.png",
+    "revision": "ac348e6e5d0b3ad5d5faaaaec70b4a1a"
   }, {
-    "url": "_astro/fira-code-greek-ext-500-normal.CMiNLXER.woff",
-    "revision": null
+    "url": "icons/android-launchericon-48-48.png",
+    "revision": "86cf506ebe5f964eff79b1d7b07ec184"
   }, {
-    "url": "_astro/fira-code-greek-ext-600-normal.C-cQDoOk.woff",
-    "revision": null
+    "url": "icons/android-launchericon-192-192.png",
+    "revision": "554a2738429ee266b92831f16023b1f6"
   }, {
-    "url": "_astro/fira-code-greek-ext-600-normal.DtBpFRLc.woff2",
-    "revision": null
+    "url": "icons/android-launchericon-144-144.png",
+    "revision": "52414bd5f99df6cc0b16f897087c332e"
   }, {
-    "url": "_astro/fira-code-latin-400-normal.C-QZfXAs.woff",
-    "revision": null
+    "url": "icons/Wide310x150Logo.scale-400.png",
+    "revision": "62164517066a52d961e02b90f7c1bcd3"
   }, {
-    "url": "_astro/fira-code-latin-400-normal.DGosTW8U.woff2",
-    "revision": null
+    "url": "icons/Wide310x150Logo.scale-200.png",
+    "revision": "965df17a9e06acdd0f3be5a7d9684cf4"
   }, {
-    "url": "_astro/fira-code-latin-500-normal.aMLC2AMm.woff",
-    "revision": null
+    "url": "icons/Wide310x150Logo.scale-150.png",
+    "revision": "9756111f2df8b064b3e2b1f167f60bdc"
   }, {
-    "url": "_astro/fira-code-latin-500-normal.B6gioGu8.woff2",
-    "revision": null
+    "url": "icons/Wide310x150Logo.scale-125.png",
+    "revision": "a7fd6a05b0c7a049118f0b60afef32cb"
   }, {
-    "url": "_astro/fira-code-latin-600-normal.BmSSHshu.woff",
-    "revision": null
+    "url": "icons/Wide310x150Logo.scale-100.png",
+    "revision": "70f6c0326602653bd98d55e2ec7ffa36"
   }, {
-    "url": "_astro/fira-code-latin-600-normal.CvYZpPHg.woff2",
-    "revision": null
+    "url": "icons/StoreLogo.scale-400.png",
+    "revision": "ee28c5571f56b0d172e4d22705549186"
   }, {
-    "url": "_astro/fira-code-latin-ext-400-normal.DG73JjOf.woff",
-    "revision": null
+    "url": "icons/StoreLogo.scale-200.png",
+    "revision": "555e850b1ed2b6c2afa88ad717ef2c27"
   }, {
-    "url": "_astro/fira-code-latin-ext-400-normal.KSMg0QLl.woff2",
-    "revision": null
+    "url": "icons/StoreLogo.scale-150.png",
+    "revision": "09cbc56ebe0b3f597c8d11deb732a6fe"
   }, {
-    "url": "_astro/fira-code-latin-ext-500-normal.CaANqXjI.woff",
-    "revision": null
+    "url": "icons/StoreLogo.scale-125.png",
+    "revision": "53d8aa22975a3947a7b8a81f225768b9"
   }, {
-    "url": "_astro/fira-code-latin-ext-500-normal.Crd9e_oI.woff2",
-    "revision": null
+    "url": "icons/StoreLogo.scale-100.png",
+    "revision": "6aaf5d95f1367d24ff08542bbdc346aa"
   }, {
-    "url": "_astro/fira-code-latin-ext-600-normal.0PFQL1eg.woff",
-    "revision": null
+    "url": "icons/Square44x44Logo.targetsize-96.png",
+    "revision": "7aa64e78b34d82148201044e8253ab28"
   }, {
-    "url": "_astro/fira-code-latin-ext-600-normal.Cb7jxoAi.woff2",
-    "revision": null
+    "url": "icons/Square44x44Logo.targetsize-80.png",
+    "revision": "4a881b1175b894e8ae718d060f521f99"
   }, {
-    "url": "_astro/fira-code-symbols2-400-normal._QEZCEwe.woff",
-    "revision": null
+    "url": "icons/Square44x44Logo.targetsize-72.png",
+    "revision": "d69f98f6be229a95d276feef17e42dc7"
   }, {
-    "url": "_astro/fira-code-symbols2-500-normal.DwsgbIjQ.woff",
-    "revision": null
+    "url": "icons/Square44x44Logo.targetsize-64.png",
+    "revision": "5474312b35532a72ccf6eae60fdd62f8"
   }, {
-    "url": "_astro/fira-code-symbols2-600-normal.Dvq6IQE5.woff",
-    "revision": null
+    "url": "icons/Square44x44Logo.targetsize-60.png",
+    "revision": "1243748a0d8e15e09ab767668dc65e11"
   }, {
-    "url": "_astro/HeaderNavMobile.CXy4nywR.js",
-    "revision": null
+    "url": "icons/Square44x44Logo.targetsize-48.png",
+    "revision": "86cf506ebe5f964eff79b1d7b07ec184"
   }, {
-    "url": "_astro/image-1.CVihJDoD_Z1e3Xns.webp",
-    "revision": null
+    "url": "icons/Square44x44Logo.targetsize-44.png",
+    "revision": "343b9dc48a5db9eb7fc39820080649e7"
   }, {
-    "url": "_astro/index.C1NIqZ-E.css",
-    "revision": null
+    "url": "icons/Square44x44Logo.targetsize-40.png",
+    "revision": "6045c13b2a86da74f44af1f5ec1c12e5"
   }, {
-    "url": "_astro/index.RH_Wq4ov.js",
-    "revision": null
+    "url": "icons/Square44x44Logo.targetsize-36.png",
+    "revision": "6d66bcc8a0c493426338c04d07b13410"
   }, {
-    "url": "_astro/inter-cyrillic-400-normal.HOLc17fK.woff",
-    "revision": null
+    "url": "icons/Square44x44Logo.targetsize-32.png",
+    "revision": "23e8d1250762430ea795e23c7537115d"
   }, {
-    "url": "_astro/inter-cyrillic-400-normal.obahsSVq.woff2",
-    "revision": null
+    "url": "icons/Square44x44Logo.targetsize-30.png",
+    "revision": "abba5be62ae56d374b6d0177958d718f"
   }, {
-    "url": "_astro/inter-cyrillic-500-normal.BasfLYem.woff2",
-    "revision": null
+    "url": "icons/Square44x44Logo.targetsize-256.png",
+    "revision": "983dc3475e72ea001a26528463029df4"
   }, {
-    "url": "_astro/inter-cyrillic-500-normal.CxZf_p3X.woff",
-    "revision": null
+    "url": "icons/Square44x44Logo.targetsize-24.png",
+    "revision": "61c53a7e1641a268084427d3daf6fec1"
   }, {
-    "url": "_astro/inter-cyrillic-600-normal.4D_pXhcN.woff",
-    "revision": null
+    "url": "icons/Square44x44Logo.targetsize-20.png",
+    "revision": "810022127945d43fd43f8e4ff3ddb00e"
   }, {
-    "url": "_astro/inter-cyrillic-600-normal.CWCymEST.woff2",
-    "revision": null
+    "url": "icons/Square44x44Logo.targetsize-16.png",
+    "revision": "b9ac1097b27a608bbf613875e350c595"
   }, {
-    "url": "_astro/inter-cyrillic-700-normal.CjBOestx.woff2",
-    "revision": null
+    "url": "icons/Square44x44Logo.scale-400.png",
+    "revision": "f4faf733e14b677046ff00dc11dfaeea"
   }, {
-    "url": "_astro/inter-cyrillic-700-normal.DrXBdSj3.woff",
-    "revision": null
+    "url": "icons/Square44x44Logo.scale-200.png",
+    "revision": "da3ee41b9bf49b25bbf144e99fac98f5"
   }, {
-    "url": "_astro/inter-cyrillic-ext-400-normal.BQZuk6qB.woff2",
-    "revision": null
+    "url": "icons/Square44x44Logo.scale-150.png",
+    "revision": "6c0e04953e7513801df88a8c9708f97e"
   }, {
-    "url": "_astro/inter-cyrillic-ext-400-normal.DQukG94-.woff",
-    "revision": null
+    "url": "icons/Square44x44Logo.scale-125.png",
+    "revision": "fe1eedde3cd7b7650a02854497bf786d"
   }, {
-    "url": "_astro/inter-cyrillic-ext-500-normal.B0yAr1jD.woff2",
-    "revision": null
+    "url": "icons/Square44x44Logo.scale-100.png",
+    "revision": "343b9dc48a5db9eb7fc39820080649e7"
   }, {
-    "url": "_astro/inter-cyrillic-ext-500-normal.BmqWE9Dz.woff",
-    "revision": null
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-96.png",
+    "revision": "7aa64e78b34d82148201044e8253ab28"
   }, {
-    "url": "_astro/inter-cyrillic-ext-600-normal.Bcila6Z-.woff",
-    "revision": null
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-80.png",
+    "revision": "4a881b1175b894e8ae718d060f521f99"
   }, {
-    "url": "_astro/inter-cyrillic-ext-600-normal.Dfes3d0z.woff2",
-    "revision": null
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-72.png",
+    "revision": "d69f98f6be229a95d276feef17e42dc7"
   }, {
-    "url": "_astro/inter-cyrillic-ext-700-normal.BjwYoWNd.woff2",
-    "revision": null
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-64.png",
+    "revision": "5474312b35532a72ccf6eae60fdd62f8"
   }, {
-    "url": "_astro/inter-cyrillic-ext-700-normal.LO58E6JB.woff",
-    "revision": null
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-60.png",
+    "revision": "1243748a0d8e15e09ab767668dc65e11"
   }, {
-    "url": "_astro/inter-greek-400-normal.B4URO6DV.woff2",
-    "revision": null
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-48.png",
+    "revision": "86cf506ebe5f964eff79b1d7b07ec184"
   }, {
-    "url": "_astro/inter-greek-400-normal.q2sYcFCs.woff",
-    "revision": null
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-44.png",
+    "revision": "343b9dc48a5db9eb7fc39820080649e7"
   }, {
-    "url": "_astro/inter-greek-500-normal.BIZE56-Y.woff2",
-    "revision": null
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-40.png",
+    "revision": "6045c13b2a86da74f44af1f5ec1c12e5"
   }, {
-    "url": "_astro/inter-greek-500-normal.Xzm54t5V.woff",
-    "revision": null
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-36.png",
+    "revision": "6d66bcc8a0c493426338c04d07b13410"
   }, {
-    "url": "_astro/inter-greek-600-normal.BZpKdvQh.woff",
-    "revision": null
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-32.png",
+    "revision": "23e8d1250762430ea795e23c7537115d"
   }, {
-    "url": "_astro/inter-greek-600-normal.plRanbMR.woff2",
-    "revision": null
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-30.png",
+    "revision": "abba5be62ae56d374b6d0177958d718f"
   }, {
-    "url": "_astro/inter-greek-700-normal.BUv2fZ6O.woff",
-    "revision": null
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-256.png",
+    "revision": "983dc3475e72ea001a26528463029df4"
   }, {
-    "url": "_astro/inter-greek-700-normal.C3JjAnD8.woff2",
-    "revision": null
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-24.png",
+    "revision": "61c53a7e1641a268084427d3daf6fec1"
   }, {
-    "url": "_astro/inter-greek-ext-400-normal.DGGRlc-M.woff2",
-    "revision": null
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-20.png",
+    "revision": "810022127945d43fd43f8e4ff3ddb00e"
   }, {
-    "url": "_astro/inter-greek-ext-400-normal.KugGGMne.woff",
-    "revision": null
+    "url": "icons/Square44x44Logo.altform-unplated_targetsize-16.png",
+    "revision": "b9ac1097b27a608bbf613875e350c595"
   }, {
-    "url": "_astro/inter-greek-ext-500-normal.2j5mBUwD.woff",
-    "revision": null
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-96.png",
+    "revision": "7aa64e78b34d82148201044e8253ab28"
   }, {
-    "url": "_astro/inter-greek-ext-500-normal.C4iEst2y.woff2",
-    "revision": null
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-80.png",
+    "revision": "4a881b1175b894e8ae718d060f521f99"
   }, {
-    "url": "_astro/inter-greek-ext-600-normal.B8X0CLgF.woff",
-    "revision": null
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-72.png",
+    "revision": "d69f98f6be229a95d276feef17e42dc7"
   }, {
-    "url": "_astro/inter-greek-ext-600-normal.DRtmH8MT.woff2",
-    "revision": null
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-64.png",
+    "revision": "5474312b35532a72ccf6eae60fdd62f8"
   }, {
-    "url": "_astro/inter-greek-ext-700-normal.BoQ6DsYi.woff",
-    "revision": null
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-60.png",
+    "revision": "1243748a0d8e15e09ab767668dc65e11"
   }, {
-    "url": "_astro/inter-greek-ext-700-normal.qfdV9bQt.woff2",
-    "revision": null
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-48.png",
+    "revision": "86cf506ebe5f964eff79b1d7b07ec184"
   }, {
-    "url": "_astro/inter-latin-400-normal.C38fXH4l.woff2",
-    "revision": null
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-44.png",
+    "revision": "343b9dc48a5db9eb7fc39820080649e7"
+  }, {
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-40.png",
+    "revision": "6045c13b2a86da74f44af1f5ec1c12e5"
+  }, {
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-36.png",
+    "revision": "6d66bcc8a0c493426338c04d07b13410"
+  }, {
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-32.png",
+    "revision": "23e8d1250762430ea795e23c7537115d"
+  }, {
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-30.png",
+    "revision": "abba5be62ae56d374b6d0177958d718f"
+  }, {
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-256.png",
+    "revision": "983dc3475e72ea001a26528463029df4"
+  }, {
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-24.png",
+    "revision": "61c53a7e1641a268084427d3daf6fec1"
+  }, {
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-20.png",
+    "revision": "810022127945d43fd43f8e4ff3ddb00e"
+  }, {
+    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-16.png",
+    "revision": "b9ac1097b27a608bbf613875e350c595"
+  }, {
+    "url": "icons/Square150x150Logo.scale-400.png",
+    "revision": "b51c6250dd3a5a699b598c713d8b3c94"
+  }, {
+    "url": "icons/Square150x150Logo.scale-200.png",
+    "revision": "3be7ba6c9c9420c9c046bd72dc7d763d"
+  }, {
+    "url": "icons/Square150x150Logo.scale-150.png",
+    "revision": "3a9c32b511c997882877945e36ba3c68"
+  }, {
+    "url": "icons/Square150x150Logo.scale-125.png",
+    "revision": "0926fb9bcc21412f7c97e8c486f53791"
+  }, {
+    "url": "icons/Square150x150Logo.scale-100.png",
+    "revision": "c44de5c2989a8491076f29bbe9b503fb"
+  }, {
+    "url": "icons/SplashScreen.scale-400.png",
+    "revision": "58825827610178b9dc79fb6c24d4fac5"
+  }, {
+    "url": "icons/SplashScreen.scale-200.png",
+    "revision": "62164517066a52d961e02b90f7c1bcd3"
+  }, {
+    "url": "icons/SplashScreen.scale-150.png",
+    "revision": "6482756a65166e3676a0eab117382bee"
+  }, {
+    "url": "icons/SplashScreen.scale-125.png",
+    "revision": "d1447278a2daaba6138f7c83676dd825"
+  }, {
+    "url": "icons/SplashScreen.scale-100.png",
+    "revision": "965df17a9e06acdd0f3be5a7d9684cf4"
+  }, {
+    "url": "icons/SmallTile.scale-400.png",
+    "revision": "ff73e1316b674d5f2b21574a5b95f745"
+  }, {
+    "url": "icons/SmallTile.scale-200.png",
+    "revision": "af42ad0fe403533d70cc3541dc18feb0"
+  }, {
+    "url": "icons/SmallTile.scale-150.png",
+    "revision": "4a3cc8205e3787427be8732e17434564"
+  }, {
+    "url": "icons/SmallTile.scale-125.png",
+    "revision": "6c10ca6011d0bd92ad27d570d2a13d7c"
+  }, {
+    "url": "icons/SmallTile.scale-100.png",
+    "revision": "48424c73a852b99fd4ba6f678cac3f70"
+  }, {
+    "url": "icons/LargeTile.scale-400.png",
+    "revision": "e1a4aed2f04e4785fd3c5c8a9b5bdfb2"
+  }, {
+    "url": "icons/LargeTile.scale-200.png",
+    "revision": "4a721f86065b71c11008ce1d0a890707"
+  }, {
+    "url": "icons/LargeTile.scale-150.png",
+    "revision": "53661fbea960e23d53f92a41c0b3a392"
+  }, {
+    "url": "icons/LargeTile.scale-125.png",
+    "revision": "91d56af8ebc1d65d755d54d832d305ab"
+  }, {
+    "url": "icons/LargeTile.scale-100.png",
+    "revision": "4fa7aad6afec1397a3ad3bbef5960813"
+  }, {
+    "url": "icons/87.png",
+    "revision": "0edf413502948f229d25727dab806c9f"
+  }, {
+    "url": "icons/80.png",
+    "revision": "4a881b1175b894e8ae718d060f521f99"
+  }, {
+    "url": "icons/76.png",
+    "revision": "047fdfcda594f0d744bf627c1ad5cec2"
+  }, {
+    "url": "icons/72.png",
+    "revision": "d69f98f6be229a95d276feef17e42dc7"
+  }, {
+    "url": "icons/64.png",
+    "revision": "5474312b35532a72ccf6eae60fdd62f8"
+  }, {
+    "url": "icons/60.png",
+    "revision": "1243748a0d8e15e09ab767668dc65e11"
+  }, {
+    "url": "icons/58.png",
+    "revision": "f609803e7c3ba685d1707c55818d5a36"
+  }, {
+    "url": "icons/57.png",
+    "revision": "6ffe272fc72e5a2d59032d7a9814e306"
+  }, {
+    "url": "icons/512.png",
+    "revision": "ac348e6e5d0b3ad5d5faaaaec70b4a1a"
+  }, {
+    "url": "icons/512-maskable.png",
+    "revision": "ac348e6e5d0b3ad5d5faaaaec70b4a1a"
+  }, {
+    "url": "icons/50.png",
+    "revision": "043c084fe379bd63f0763437c64d0819"
+  }, {
+    "url": "icons/40.png",
+    "revision": "6045c13b2a86da74f44af1f5ec1c12e5"
+  }, {
+    "url": "icons/32.png",
+    "revision": "23e8d1250762430ea795e23c7537115d"
+  }, {
+    "url": "icons/29.png",
+    "revision": "91150be5cb912553e5d8263de6f48795"
+  }, {
+    "url": "icons/256.png",
+    "revision": "983dc3475e72ea001a26528463029df4"
+  }, {
+    "url": "icons/20.png",
+    "revision": "810022127945d43fd43f8e4ff3ddb00e"
+  }, {
+    "url": "icons/192.png",
+    "revision": "554a2738429ee266b92831f16023b1f6"
+  }, {
+    "url": "icons/180.png",
+    "revision": "d77c5bc24130db488b5ba59abfb8adba"
+  }, {
+    "url": "icons/167.png",
+    "revision": "cdb6bd9529bfd0a1a2b3ff33f4735c88"
+  }, {
+    "url": "icons/16.png",
+    "revision": "b9ac1097b27a608bbf613875e350c595"
+  }, {
+    "url": "icons/152.png",
+    "revision": "03eb838a8ebe6edf49fcd2c58af13890"
+  }, {
+    "url": "icons/144.png",
+    "revision": "52414bd5f99df6cc0b16f897087c332e"
+  }, {
+    "url": "icons/128.png",
+    "revision": "5f064081bb992fd08d34201b265d4150"
+  }, {
+    "url": "icons/120.png",
+    "revision": "cecde137825dbc5ecbc41f7437ac7d1f"
+  }, {
+    "url": "icons/114.png",
+    "revision": "a616ecb4159a0b27cac56a4d432d34c7"
+  }, {
+    "url": "icons/1024.png",
+    "revision": "a7fdfb5a51393af2757c5d3306c8a3e6"
+  }, {
+    "url": "icons/100.png",
+    "revision": "7c6da90297ef3d461ff068e2c67cc03c"
+  }, {
+    "url": "drafts/2025-06-08-is-ai-the-new-plastic",
+    "revision": "4bb165779badd6c7713cbef4bad8547e"
+  }, {
+    "url": "drafts/2023-03-05-module-federation",
+    "revision": "419d9ca923b10a1b5682f2b7c8612e7b"
+  }, {
+    "url": "drafts/2022-05-10-objects",
+    "revision": "2e83fb4208d938d2098aa44d1db62985"
+  }, {
+    "url": "drafts/2020-11-21-deploy-nexjs-static",
+    "revision": "ce2ca1b803909203a17032f9f51e0e03"
+  }, {
+    "url": "drafts/2020-03-10-django",
+    "revision": "63301a2a175033b1bdc8ee3deb6a7c87"
+  }, {
+    "url": "drafts/2020-02-12-socket-io",
+    "revision": "5f985c9a03283251eeba34c35375efe8"
+  }, {
+    "url": "drafts/2020-02-05-web-performance",
+    "revision": "cd21bd63741a383735bd0892624d20f9"
+  }, {
+    "url": "drafts/2020-02-04-svelte-hn",
+    "revision": "b5719c9309d369c0030b033787fa0a8c"
+  }, {
+    "url": "drafts/2018-12-01-browser-extension-with-react",
+    "revision": "2141686feeb8df248c446bb837a7d29b"
+  }, {
+    "url": "drafts/2018-11-30-advanced-search-on-the-web",
+    "revision": "42c28bdd0583fd50a7e7abf11aefa774"
+  }, {
+    "url": "contact",
+    "revision": "f30b7953616c5f7c1e0d7b4650ff63ab"
+  }, {
+    "url": "blog/2026-01-13-ucp-protocol",
+    "revision": "b85c8a9f247351f763079026c32b8106"
+  }, {
+    "url": "blog/2026-01-05-free-ai-learning-resources-nvidia-google-microsoft",
+    "revision": "44b9a3d80208f0373ab047d07cd46ba1"
+  }, {
+    "url": "blog/2025-12-19-project-vend-ai-vending-machine",
+    "revision": "dd845ef365a1851ae64fdbc9bb32442b"
+  }, {
+    "url": "blog/2025-12-16-the-windows-11-crisis",
+    "revision": "3555712791fbb23d3360952fed8ede35"
+  }, {
+    "url": "blog/2025-12-15-remix-run-how-it-works",
+    "revision": "203977e2a175fb397781bdb35369aed0"
+  }, {
+    "url": "blog/2025-11-24-building-basic-pomo-with-antigravity",
+    "revision": "8d3c8d8612fbef6b53862f83e3187ee2"
+  }, {
+    "url": "blog/2025-10-29-top-10-sites-blocking-openai-bot",
+    "revision": "68b16758011cd23b2a8b7a199d928668"
+  }, {
+    "url": "blog/2025-08-27-best-note-taking-tools",
+    "revision": "3ac3a6cccd612872d8d4f14944087758"
+  }, {
+    "url": "blog/2025-08-20-intl-segmenter",
+    "revision": "21a27b3d14e55e272b27b69ed7aa6e57"
+  }, {
+    "url": "blog/2025-06-14-claude-code-feature-output",
+    "revision": "ef66fd75b16aaaa18623cfec9d5c260e"
+  }, {
+    "url": "blog/2025-05-31-prompt-engineering-do-dont",
+    "revision": "8657f89630b95fa020d7d8e43fda2185"
+  }, {
+    "url": "blog/2024-01-21-deploy-astro-static-on-deno-deploy",
+    "revision": "99e700ec433bea8317fc5f6aab55cbf9"
+  }, {
+    "url": "blog/2022-09-19-applicant-list",
+    "revision": "87dcb6ca5122ad4a6894ce278742c98d"
+  }, {
+    "url": "blog/2022-05-02-tools",
+    "revision": "ec1101fbe2ee26f9c35017d1788954ae"
+  }, {
+    "url": "blog/2022-01-10-recursive-function",
+    "revision": "7a7535d0ed601130b7b77b0664cb39a1"
+  }, {
+    "url": "blog/2021-10-09-publish-pagination",
+    "revision": "4e66db7bbf5011992518445864b11e9d"
+  }, {
+    "url": "blog/2021-08-07-pagination",
+    "revision": "b56b48fada4efa5fe35e487570c1146e"
+  }, {
+    "url": "blog/2021-04-11-electron-save-file",
+    "revision": "d4affcd27e4f4f7865be82e27a03c0e3"
+  }, {
+    "url": "blog/2021-04-11-electron-basics",
+    "revision": "7777cb6d9d1a985195379eff3ec8e16c"
+  }, {
+    "url": "blog/2021-03-06-vue-js-solar",
+    "revision": "ae13bc89facdefe51b38fe6b750603a7"
+  }, {
+    "url": "blog/2021-01-23-next-js-blog",
+    "revision": "059f8f81fd813967b145cbbc3b63f0dd"
+  }, {
+    "url": "blog/2021-01-12-whatsapp-by-facebook",
+    "revision": "78ac31a601087c25b5e762d4dfc4dc00"
+  }, {
+    "url": "blog/2020-12-23-animation",
+    "revision": "58e5ff62e9637d2974cba584a2a0469e"
+  }, {
+    "url": "blog/2020-12-03-jsonresume",
+    "revision": "03bd7c94050d2d6ce61eb98d6f998a18"
+  }, {
+    "url": "blog/2020-10-18-loop-vs-function",
+    "revision": "dce4344cded81ecf1c774efdb9e79873"
+  }, {
+    "url": "blog/2020-10-15-browser-debugging-with-breakpoints",
+    "revision": "feeb77e1460be3a9ee678fff137ffd51"
+  }, {
+    "url": "blog/2020-10-06-deploy-serverless-function-on-netlify",
+    "revision": "940d4b6e265763dc55262a60b2d096a6"
+  }, {
+    "url": "blog/2020-10-05-serverless-functions-on-netlify",
+    "revision": "7f21a42440a6f5d4b5d583381529706c"
+  }, {
+    "url": "blog/2020-1-16-css-grid",
+    "revision": "62f4ad05a31f105b156bff1787b1a986"
+  }, {
+    "url": "blog/2020-09-29-uuid-as-apassword",
+    "revision": "4295fc30ed1e6a3b1df39ae0500cd3b3"
+  }, {
+    "url": "blog/2020-09-24-javascript-uncanny-valley",
+    "revision": "ef872cab97c133584fd0e4bfe8188702"
+  }, {
+    "url": "blog/2020-05-19-ssr-with-react-redux",
+    "revision": "e85d20ecba824b1cc0f0642f50dbd48d"
+  }, {
+    "url": "blog/2020-02-04-jest-coverage",
+    "revision": "d483b30b82cff3f672bc02aa9f4c13a8"
+  }, {
+    "url": "blog/2019-12-15-svelte",
+    "revision": "71b005d1286d85f94569dda5d9bc4391"
+  }, {
+    "url": "blog/2019-12-13-browser-tools",
+    "revision": "533b808d056f145670e3568ab4222eb9"
+  }, {
+    "url": "blog/2018-12-29-free-static-site",
+    "revision": "88f17f6a3d1a3091ba2ee21298245e5e"
+  }, {
+    "url": "blog/2018-11-22-react-served-by-express-running-in-docker",
+    "revision": "dfaca933b3dba9db3fc954a55a66bf7e"
+  }, {
+    "url": "blog/2018-11-11-ssr-with-react",
+    "revision": "dda0e46ab601c507894d68f7b21c88c8"
+  }, {
+    "url": "blog/2018-11-11-react-instead-of-jsp",
+    "revision": "db9291600b7b59ca3289da63b41022c7"
+  }, {
+    "url": "blog/2018-01-05-vscode-debugging",
+    "revision": "bca4ecf097ddf93218b02db7af9bf09b"
+  }, {
+    "url": "about",
+    "revision": "55118b82a935531c8df5907262eadcea"
   }, {
-    "url": "_astro/inter-latin-400-normal.CyCys3Eg.woff",
+    "url": "_astro/transitionController.CxYAGZHG.js",
     "revision": null
   }, {
-    "url": "_astro/inter-latin-500-normal.BL9OpVg8.woff",
+    "url": "_astro/remix-base-infograph-portrait.DcfFVmeC_Z2sy50P.webp",
     "revision": null
   }, {
-    "url": "_astro/inter-latin-500-normal.Cerq10X2.woff2",
+    "url": "_astro/pwa.3YOn0q8T.js",
     "revision": null
   }, {
-    "url": "_astro/inter-latin-600-normal.CiBQ2DWP.woff",
+    "url": "_astro/mobileMenuStore.BdH87GpN.js",
     "revision": null
   }, {
-    "url": "_astro/inter-latin-600-normal.LgqL8muc.woff2",
+    "url": "_astro/merriweather-vietnamese-900-normal.p8mKJh8H.woff",
     "revision": null
   }, {
-    "url": "_astro/inter-latin-700-normal.BLAVimhd.woff",
+    "url": "_astro/merriweather-vietnamese-900-normal.CeUxwsLu.woff2",
     "revision": null
   }, {
-    "url": "_astro/inter-latin-700-normal.Yt3aPRUw.woff2",
+    "url": "_astro/merriweather-vietnamese-700-normal.C7_HxHBa.woff",
     "revision": null
   }, {
-    "url": "_astro/inter-latin-ext-400-normal.77YHD8bZ.woff",
+    "url": "_astro/merriweather-vietnamese-700-normal.Bp6kWjW5.woff2",
     "revision": null
   }, {
-    "url": "_astro/inter-latin-ext-400-normal.C1nco2VV.woff2",
+    "url": "_astro/merriweather-vietnamese-400-normal.hNacsVs_.woff2",
     "revision": null
   }, {
-    "url": "_astro/inter-latin-ext-500-normal.BxGbmqWO.woff",
+    "url": "_astro/merriweather-vietnamese-400-normal.Dh8WVvgZ.woff",
     "revision": null
   }, {
-    "url": "_astro/inter-latin-ext-500-normal.CV4jyFjo.woff2",
+    "url": "_astro/merriweather-vietnamese-400-italic.O1h-65_z.woff",
     "revision": null
   }, {
-    "url": "_astro/inter-latin-ext-600-normal.CIVaiw4L.woff",
+    "url": "_astro/merriweather-vietnamese-400-italic.CpoqsQFt.woff2",
     "revision": null
   }, {
-    "url": "_astro/inter-latin-ext-600-normal.D2bJ5OIk.woff2",
+    "url": "_astro/merriweather-latin-ext-900-normal.D8UXbgFc.woff2",
     "revision": null
   }, {
-    "url": "_astro/inter-latin-ext-700-normal.Ca8adRJv.woff2",
+    "url": "_astro/merriweather-latin-ext-900-normal.BrLgZc9e.woff",
     "revision": null
   }, {
-    "url": "_astro/inter-latin-ext-700-normal.TidjK2hL.woff",
+    "url": "_astro/merriweather-latin-ext-700-normal.jHnxg2Kc.woff2",
     "revision": null
   }, {
-    "url": "_astro/inter-vietnamese-400-normal.Bbgyi5SW.woff",
+    "url": "_astro/merriweather-latin-ext-700-normal.CaBzXGOk.woff",
     "revision": null
   }, {
-    "url": "_astro/inter-vietnamese-400-normal.DMkecbls.woff2",
+    "url": "_astro/merriweather-latin-ext-400-normal.CWVzVQq3.woff2",
     "revision": null
   }, {
-    "url": "_astro/inter-vietnamese-500-normal.DOriooB6.woff2",
+    "url": "_astro/merriweather-latin-ext-400-normal.CLqijLtt.woff",
     "revision": null
   }, {
-    "url": "_astro/inter-vietnamese-500-normal.mJboJaSs.woff",
+    "url": "_astro/merriweather-latin-ext-400-italic.menzxlp4.woff2",
     "revision": null
   }, {
-    "url": "_astro/inter-vietnamese-600-normal.BuLX-rYi.woff",
+    "url": "_astro/merriweather-latin-ext-400-italic.Cdckp9Zh.woff",
     "revision": null
   }, {
-    "url": "_astro/inter-vietnamese-600-normal.Cc8MFFhd.woff2",
+    "url": "_astro/merriweather-latin-900-normal.sTsv-I3q.woff",
     "revision": null
   }, {
-    "url": "_astro/inter-vietnamese-700-normal.BZaoP0fm.woff",
+    "url": "_astro/merriweather-latin-900-normal.CRmIFSJV.woff2",
     "revision": null
   }, {
-    "url": "_astro/inter-vietnamese-700-normal.DlLaEgI2.woff2",
+    "url": "_astro/merriweather-latin-700-normal.DoUP8Ce-.woff2",
     "revision": null
   }, {
-    "url": "_astro/jetbrains-mono-cyrillic-400-normal.BEIGL1Tu.woff2",
+    "url": "_astro/merriweather-latin-700-normal.D4-nzrAh.woff",
     "revision": null
   }, {
-    "url": "_astro/jetbrains-mono-cyrillic-400-normal.ugxPyKxw.woff",
+    "url": "_astro/merriweather-latin-400-normal.G4kZaoXi.woff2",
     "revision": null
   }, {
-    "url": "_astro/jetbrains-mono-cyrillic-600-normal.8K4wrrwR.woff",
+    "url": "_astro/merriweather-latin-400-normal.CvqO63Ah.woff",
     "revision": null
   }, {
-    "url": "_astro/jetbrains-mono-cyrillic-600-normal.EVf6-Yzo.woff2",
+    "url": "_astro/merriweather-latin-400-italic.CuD3zK4B.woff2",
     "revision": null
   }, {
-    "url": "_astro/jetbrains-mono-greek-400-normal.B9oWc5Lo.woff",
+    "url": "_astro/merriweather-latin-400-italic.Cq-nJhum.woff",
     "revision": null
   }, {
-    "url": "_astro/jetbrains-mono-greek-400-normal.C190GLew.woff2",
+    "url": "_astro/merriweather-cyrillic-ext-900-normal.ViDOlusB.woff",
     "revision": null
   }, {
-    "url": "_astro/jetbrains-mono-greek-600-normal.H7WoG9Et.woff2",
+    "url": "_astro/merriweather-cyrillic-ext-900-normal.CjAGNUn_.woff2",
     "revision": null
   }, {
-    "url": "_astro/jetbrains-mono-greek-600-normal.mc2nkWzM.woff",
+    "url": "_astro/merriweather-cyrillic-ext-700-normal.DoooT6Vg.woff",
     "revision": null
   }, {
-    "url": "_astro/jetbrains-mono-latin-400-normal.6-qcROiO.woff",
+    "url": "_astro/merriweather-cyrillic-ext-700-normal.Bk1p9YoV.woff2",
     "revision": null
   }, {
-    "url": "_astro/jetbrains-mono-latin-400-normal.V6pRDFza.woff2",
+    "url": "_astro/merriweather-cyrillic-ext-400-normal.Di6yW_eE.woff",
     "revision": null
   }, {
-    "url": "_astro/jetbrains-mono-latin-600-normal.BfsvjouI.woff",
+    "url": "_astro/merriweather-cyrillic-ext-400-normal.D9NYhYTq.woff2",
     "revision": null
   }, {
-    "url": "_astro/jetbrains-mono-latin-600-normal.C8RAYTDA.woff2",
+    "url": "_astro/merriweather-cyrillic-ext-400-italic.jx_hxLZ6.woff",
     "revision": null
   }, {
-    "url": "_astro/jetbrains-mono-latin-ext-400-normal.Bc8Ftmh3.woff2",
+    "url": "_astro/merriweather-cyrillic-ext-400-italic.BzaozJoX.woff2",
     "revision": null
   }, {
-    "url": "_astro/jetbrains-mono-latin-ext-400-normal.fXTG6kC5.woff",
+    "url": "_astro/merriweather-cyrillic-900-normal.D5j5R45h.woff",
     "revision": null
   }, {
-    "url": "_astro/jetbrains-mono-latin-ext-600-normal.BfB_LPfz.woff2",
+    "url": "_astro/merriweather-cyrillic-900-normal.B-mPZ_zT.woff2",
     "revision": null
   }, {
-    "url": "_astro/jetbrains-mono-latin-ext-600-normal.DObL3zCW.woff",
+    "url": "_astro/merriweather-cyrillic-700-normal.wbY04GlL.woff2",
     "revision": null
   }, {
-    "url": "_astro/jetbrains-mono-vietnamese-400-normal.CqNFfHCs.woff",
+    "url": "_astro/merriweather-cyrillic-700-normal.CHCcU-4a.woff",
     "revision": null
   }, {
-    "url": "_astro/jetbrains-mono-vietnamese-600-normal.OWROknRo.woff",
+    "url": "_astro/merriweather-cyrillic-400-normal.DAcQ8g-H.woff",
     "revision": null
   }, {
-    "url": "_astro/jsx-runtime.D_zvdyIk.js",
+    "url": "_astro/merriweather-cyrillic-400-normal.AvfsDsMQ.woff2",
     "revision": null
   }, {
     "url": "_astro/merriweather-cyrillic-400-italic._pNjnltw.woff2",
@@ -459,716 +780,395 @@ define(['./workbox-40c1b53b'], (function (workbox) { 'use strict';
     "url": "_astro/merriweather-cyrillic-400-italic.B7k1f10R.woff",
     "revision": null
   }, {
-    "url": "_astro/merriweather-cyrillic-400-normal.AvfsDsMQ.woff2",
+    "url": "_astro/jsx-runtime.D_zvdyIk.js",
     "revision": null
   }, {
-    "url": "_astro/merriweather-cyrillic-400-normal.DAcQ8g-H.woff",
+    "url": "_astro/jetbrains-mono-vietnamese-600-normal.OWROknRo.woff",
     "revision": null
   }, {
-    "url": "_astro/merriweather-cyrillic-700-normal.CHCcU-4a.woff",
+    "url": "_astro/jetbrains-mono-vietnamese-400-normal.CqNFfHCs.woff",
     "revision": null
   }, {
-    "url": "_astro/merriweather-cyrillic-700-normal.wbY04GlL.woff2",
+    "url": "_astro/jetbrains-mono-latin-ext-600-normal.DObL3zCW.woff",
     "revision": null
   }, {
-    "url": "_astro/merriweather-cyrillic-900-normal.B-mPZ_zT.woff2",
+    "url": "_astro/jetbrains-mono-latin-ext-600-normal.BfB_LPfz.woff2",
     "revision": null
   }, {
-    "url": "_astro/merriweather-cyrillic-900-normal.D5j5R45h.woff",
+    "url": "_astro/jetbrains-mono-latin-ext-400-normal.fXTG6kC5.woff",
     "revision": null
   }, {
-    "url": "_astro/merriweather-cyrillic-ext-400-italic.BzaozJoX.woff2",
+    "url": "_astro/jetbrains-mono-latin-ext-400-normal.Bc8Ftmh3.woff2",
     "revision": null
   }, {
-    "url": "_astro/merriweather-cyrillic-ext-400-italic.jx_hxLZ6.woff",
+    "url": "_astro/jetbrains-mono-latin-600-normal.C8RAYTDA.woff2",
     "revision": null
   }, {
-    "url": "_astro/merriweather-cyrillic-ext-400-normal.D9NYhYTq.woff2",
+    "url": "_astro/jetbrains-mono-latin-600-normal.BfsvjouI.woff",
     "revision": null
   }, {
-    "url": "_astro/merriweather-cyrillic-ext-400-normal.Di6yW_eE.woff",
+    "url": "_astro/jetbrains-mono-latin-400-normal.V6pRDFza.woff2",
     "revision": null
   }, {
-    "url": "_astro/merriweather-cyrillic-ext-700-normal.Bk1p9YoV.woff2",
+    "url": "_astro/jetbrains-mono-latin-400-normal.6-qcROiO.woff",
     "revision": null
   }, {
-    "url": "_astro/merriweather-cyrillic-ext-700-normal.DoooT6Vg.woff",
+    "url": "_astro/jetbrains-mono-greek-600-normal.mc2nkWzM.woff",
     "revision": null
   }, {
-    "url": "_astro/merriweather-cyrillic-ext-900-normal.CjAGNUn_.woff2",
+    "url": "_astro/jetbrains-mono-greek-600-normal.H7WoG9Et.woff2",
     "revision": null
   }, {
-    "url": "_astro/merriweather-cyrillic-ext-900-normal.ViDOlusB.woff",
+    "url": "_astro/jetbrains-mono-greek-400-normal.C190GLew.woff2",
     "revision": null
   }, {
-    "url": "_astro/merriweather-latin-400-italic.Cq-nJhum.woff",
+    "url": "_astro/jetbrains-mono-greek-400-normal.B9oWc5Lo.woff",
     "revision": null
   }, {
-    "url": "_astro/merriweather-latin-400-italic.CuD3zK4B.woff2",
+    "url": "_astro/jetbrains-mono-cyrillic-600-normal.EVf6-Yzo.woff2",
     "revision": null
   }, {
-    "url": "_astro/merriweather-latin-400-normal.CvqO63Ah.woff",
+    "url": "_astro/jetbrains-mono-cyrillic-600-normal.8K4wrrwR.woff",
     "revision": null
   }, {
-    "url": "_astro/merriweather-latin-400-normal.G4kZaoXi.woff2",
+    "url": "_astro/jetbrains-mono-cyrillic-400-normal.ugxPyKxw.woff",
     "revision": null
   }, {
-    "url": "_astro/merriweather-latin-700-normal.D4-nzrAh.woff",
+    "url": "_astro/jetbrains-mono-cyrillic-400-normal.BEIGL1Tu.woff2",
     "revision": null
   }, {
-    "url": "_astro/merriweather-latin-700-normal.DoUP8Ce-.woff2",
+    "url": "_astro/inter-vietnamese-700-normal.DlLaEgI2.woff2",
     "revision": null
   }, {
-    "url": "_astro/merriweather-latin-900-normal.CRmIFSJV.woff2",
+    "url": "_astro/inter-vietnamese-700-normal.BZaoP0fm.woff",
     "revision": null
   }, {
-    "url": "_astro/merriweather-latin-900-normal.sTsv-I3q.woff",
+    "url": "_astro/inter-vietnamese-600-normal.Cc8MFFhd.woff2",
     "revision": null
   }, {
-    "url": "_astro/merriweather-latin-ext-400-italic.Cdckp9Zh.woff",
+    "url": "_astro/inter-vietnamese-600-normal.BuLX-rYi.woff",
     "revision": null
   }, {
-    "url": "_astro/merriweather-latin-ext-400-italic.menzxlp4.woff2",
+    "url": "_astro/inter-vietnamese-500-normal.mJboJaSs.woff",
     "revision": null
   }, {
-    "url": "_astro/merriweather-latin-ext-400-normal.CLqijLtt.woff",
+    "url": "_astro/inter-vietnamese-500-normal.DOriooB6.woff2",
     "revision": null
   }, {
-    "url": "_astro/merriweather-latin-ext-400-normal.CWVzVQq3.woff2",
+    "url": "_astro/inter-vietnamese-400-normal.DMkecbls.woff2",
     "revision": null
   }, {
-    "url": "_astro/merriweather-latin-ext-700-normal.CaBzXGOk.woff",
+    "url": "_astro/inter-vietnamese-400-normal.Bbgyi5SW.woff",
     "revision": null
   }, {
-    "url": "_astro/merriweather-latin-ext-700-normal.jHnxg2Kc.woff2",
+    "url": "_astro/inter-latin-ext-700-normal.TidjK2hL.woff",
     "revision": null
   }, {
-    "url": "_astro/merriweather-latin-ext-900-normal.BrLgZc9e.woff",
+    "url": "_astro/inter-latin-ext-700-normal.Ca8adRJv.woff2",
     "revision": null
   }, {
-    "url": "_astro/merriweather-latin-ext-900-normal.D8UXbgFc.woff2",
+    "url": "_astro/inter-latin-ext-600-normal.D2bJ5OIk.woff2",
     "revision": null
   }, {
-    "url": "_astro/merriweather-vietnamese-400-italic.CpoqsQFt.woff2",
+    "url": "_astro/inter-latin-ext-600-normal.CIVaiw4L.woff",
     "revision": null
   }, {
-    "url": "_astro/merriweather-vietnamese-400-italic.O1h-65_z.woff",
+    "url": "_astro/inter-latin-ext-500-normal.CV4jyFjo.woff2",
     "revision": null
   }, {
-    "url": "_astro/merriweather-vietnamese-400-normal.Dh8WVvgZ.woff",
+    "url": "_astro/inter-latin-ext-500-normal.BxGbmqWO.woff",
     "revision": null
   }, {
-    "url": "_astro/merriweather-vietnamese-400-normal.hNacsVs_.woff2",
+    "url": "_astro/inter-latin-ext-400-normal.C1nco2VV.woff2",
     "revision": null
   }, {
-    "url": "_astro/merriweather-vietnamese-700-normal.Bp6kWjW5.woff2",
+    "url": "_astro/inter-latin-ext-400-normal.77YHD8bZ.woff",
     "revision": null
   }, {
-    "url": "_astro/merriweather-vietnamese-700-normal.C7_HxHBa.woff",
+    "url": "_astro/inter-latin-700-normal.Yt3aPRUw.woff2",
     "revision": null
   }, {
-    "url": "_astro/merriweather-vietnamese-900-normal.CeUxwsLu.woff2",
+    "url": "_astro/inter-latin-700-normal.BLAVimhd.woff",
     "revision": null
   }, {
-    "url": "_astro/merriweather-vietnamese-900-normal.p8mKJh8H.woff",
+    "url": "_astro/inter-latin-600-normal.LgqL8muc.woff2",
     "revision": null
   }, {
-    "url": "_astro/mobileMenuStore.C0S3vVzd.js",
+    "url": "_astro/inter-latin-600-normal.CiBQ2DWP.woff",
     "revision": null
   }, {
-    "url": "_astro/PageContainer.BAGGQq7t.js",
+    "url": "_astro/inter-latin-500-normal.Cerq10X2.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-latin-500-normal.BL9OpVg8.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-latin-400-normal.CyCys3Eg.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-latin-400-normal.C38fXH4l.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-ext-700-normal.qfdV9bQt.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-ext-700-normal.BoQ6DsYi.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-ext-600-normal.DRtmH8MT.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-ext-600-normal.B8X0CLgF.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-ext-500-normal.C4iEst2y.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-ext-500-normal.2j5mBUwD.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-ext-400-normal.KugGGMne.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-ext-400-normal.DGGRlc-M.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-700-normal.C3JjAnD8.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-700-normal.BUv2fZ6O.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-600-normal.plRanbMR.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-600-normal.BZpKdvQh.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-500-normal.Xzm54t5V.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-500-normal.BIZE56-Y.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-400-normal.q2sYcFCs.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-greek-400-normal.B4URO6DV.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-ext-700-normal.LO58E6JB.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-ext-700-normal.BjwYoWNd.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-ext-600-normal.Dfes3d0z.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-ext-600-normal.Bcila6Z-.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-ext-500-normal.BmqWE9Dz.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-ext-500-normal.B0yAr1jD.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-ext-400-normal.DQukG94-.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-ext-400-normal.BQZuk6qB.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-700-normal.DrXBdSj3.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-700-normal.CjBOestx.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-600-normal.CWCymEST.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-600-normal.4D_pXhcN.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-500-normal.CxZf_p3X.woff",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-500-normal.BasfLYem.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-400-normal.obahsSVq.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/inter-cyrillic-400-normal.HOLc17fK.woff",
+    "revision": null
+  }, {
+    "url": "_astro/index.Bf1nT9TB.js",
+    "revision": null
+  }, {
+    "url": "_astro/index.B-dIDiSS.css",
+    "revision": null
+  }, {
+    "url": "_astro/image-1.CVihJDoD_Z1e3Xns.webp",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-symbols2-600-normal.Dvq6IQE5.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-symbols2-500-normal.DwsgbIjQ.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-symbols2-400-normal._QEZCEwe.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-latin-ext-600-normal.Cb7jxoAi.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-latin-ext-600-normal.0PFQL1eg.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-latin-ext-500-normal.Crd9e_oI.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-latin-ext-500-normal.CaANqXjI.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-latin-ext-400-normal.KSMg0QLl.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-latin-ext-400-normal.DG73JjOf.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-latin-600-normal.CvYZpPHg.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-latin-600-normal.BmSSHshu.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-latin-500-normal.aMLC2AMm.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-latin-500-normal.B6gioGu8.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-latin-400-normal.DGosTW8U.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-latin-400-normal.C-QZfXAs.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-greek-ext-600-normal.DtBpFRLc.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-greek-ext-600-normal.C-cQDoOk.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-greek-ext-500-normal.CMiNLXER.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-greek-ext-500-normal.BO3iq16n.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-greek-ext-400-normal.DSPUheWg.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-greek-ext-400-normal.DR7mBgIM.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-greek-600-normal.Dxp52_By.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-greek-600-normal.D_h3X2X5.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-greek-500-normal.DEXIWiey.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-greek-500-normal.CVO0IRNt.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-greek-400-normal.DobhaxvF.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-greek-400-normal.B2Gh_Y8s.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-cyrillic-ext-600-normal.DldcyWhZ.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-cyrillic-ext-600-normal.B9wE0zmr.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-cyrillic-ext-500-normal.CwtLmSFD.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-cyrillic-ext-500-normal.CYRspHgm.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-cyrillic-ext-400-normal.txZ9Fk_1.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-cyrillic-ext-400-normal.Buh61xzB.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-cyrillic-600-normal.CPRdbepc.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-cyrillic-600-normal.BD56RyRT.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-cyrillic-500-normal.CX35h3Mg.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-cyrillic-500-normal.Bu7VCL72.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-cyrillic-400-normal.dc1q3VD7.woff",
+    "revision": null
+  }, {
+    "url": "_astro/fira-code-cyrillic-400-normal.UC0NFL4U.woff2",
+    "revision": null
+  }, {
+    "url": "_astro/createLucideIcon.Hp-D5l7C.js",
+    "revision": null
+  }, {
+    "url": "_astro/client.Dl6Zczf6.js",
+    "revision": null
+  }, {
+    "url": "_astro/button.Ci4pvAd8.js",
+    "revision": null
+  }, {
+    "url": "_astro/ThemeToggle.B84r1Jf_.js",
+    "revision": null
+  }, {
+    "url": "_astro/ServiceWorkerUpdateManager.Cb2sJdME.js",
+    "revision": null
+  }, {
+    "url": "_astro/SearchContainer.BnfHoz-f.js",
     "revision": null
   }, {
     "url": "_astro/PageLayout.astro_astro_type_script_index_0_lang.Bq2IckCh.js",
     "revision": null
   }, {
-    "url": "_astro/pwa.CVZs07lH.js",
+    "url": "_astro/PageContainer.rWl8v66v.js",
     "revision": null
   }, {
-    "url": "_astro/PWAErrorBoundary.Whuoj_7R.js",
+    "url": "_astro/PWAErrorBoundary.Dg7GF4ur.js",
     "revision": null
   }, {
-    "url": "_astro/remix-base-infograph-portrait.DcfFVmeC_Z2sy50P.webp",
+    "url": "_astro/HeaderNavMobile.CSjLLvtT.js",
     "revision": null
   }, {
-    "url": "_astro/SearchContainer.C6lAUp6G.js",
+    "url": "_astro/ConditionalContent.D9Up_tfe.js",
     "revision": null
   }, {
-    "url": "_astro/ServiceWorkerUpdateManager.C601wTBy.js",
+    "url": "_astro/BasicPagination.D2etzERO.js",
     "revision": null
   }, {
-    "url": "_astro/ThemeToggle.Bgiw00f9.js",
+    "url": "_astro/AccessibilityControls.ChVE-xqT.js",
     "revision": null
-  }, {
-    "url": "_astro/transitionController.CxYAGZHG.js",
-    "revision": null
-  }, {
-    "url": "404",
-    "revision": "787f5cfb7c7bb3a7af140dcdb4aa47f4"
-  }, {
-    "url": "about",
-    "revision": "81dfaea7a2d677f09903170eaee240d0"
-  }, {
-    "url": "blog/2018-01-05-vscode-debugging",
-    "revision": "7ad6e58fb811ce4a0f4635d48bf87b54"
-  }, {
-    "url": "blog/2018-11-11-react-instead-of-jsp",
-    "revision": "c11c13ebb74a6afc41ade74c8bdad092"
-  }, {
-    "url": "blog/2018-11-11-ssr-with-react",
-    "revision": "d1827516e8501d0254a8af6a60325f31"
-  }, {
-    "url": "blog/2018-11-22-react-served-by-express-running-in-docker",
-    "revision": "df50b332bfb7f9dc42148a5729085a4f"
-  }, {
-    "url": "blog/2018-12-29-free-static-site",
-    "revision": "2c9b77b9472417e338ecc734ba6dee12"
-  }, {
-    "url": "blog/2019-12-13-browser-tools",
-    "revision": "6815fcd906aea06d46b50cf05efb06c7"
-  }, {
-    "url": "blog/2019-12-15-svelte",
-    "revision": "b3b618afa8075ecc64a78eef6891340a"
-  }, {
-    "url": "blog/2020-02-04-jest-coverage",
-    "revision": "6fbaa667560b79bccc86eec6500a116c"
-  }, {
-    "url": "blog/2020-05-19-ssr-with-react-redux",
-    "revision": "78489df3b896b42de68210c0e364b3fe"
-  }, {
-    "url": "blog/2020-09-24-javascript-uncanny-valley",
-    "revision": "e19e9759fbb6d3511f8e9ad3c05a5d6c"
-  }, {
-    "url": "blog/2020-09-29-uuid-as-apassword",
-    "revision": "966d69b7ffad07590bb5e63d54af9e46"
-  }, {
-    "url": "blog/2020-1-16-css-grid",
-    "revision": "b5aea8476b470ba6df2b7074abf8a542"
-  }, {
-    "url": "blog/2020-10-05-serverless-functions-on-netlify",
-    "revision": "fe205f777c11e66564078b3096d7e184"
-  }, {
-    "url": "blog/2020-10-06-deploy-serverless-function-on-netlify",
-    "revision": "58d99c326880a2d9821d2ed3d8591f37"
-  }, {
-    "url": "blog/2020-10-15-browser-debugging-with-breakpoints",
-    "revision": "01172963236836891d6932af5da45a69"
-  }, {
-    "url": "blog/2020-10-18-loop-vs-function",
-    "revision": "7febf7acef29d921ed7196ba0b9f8e94"
-  }, {
-    "url": "blog/2020-12-03-jsonresume",
-    "revision": "9875c95dbdb113d0a7f473176674b29b"
-  }, {
-    "url": "blog/2020-12-23-animation",
-    "revision": "5c6ef6365dbf78f6dc71b331190fd242"
-  }, {
-    "url": "blog/2021-01-12-whatsapp-by-facebook",
-    "revision": "8e919b596b1eaf7f2d7b399796811d74"
-  }, {
-    "url": "blog/2021-01-23-next-js-blog",
-    "revision": "d363170feaf0f28ab0635f84e544ade2"
-  }, {
-    "url": "blog/2021-03-06-vue-js-solar",
-    "revision": "2a6b126c7ace20b9e1414f4a8c7073d2"
-  }, {
-    "url": "blog/2021-04-11-electron-basics",
-    "revision": "234660872188fde3d4bc3af8180dad02"
-  }, {
-    "url": "blog/2021-04-11-electron-save-file",
-    "revision": "df3f56d2f62efa07ef9c9c088a27916e"
-  }, {
-    "url": "blog/2021-08-07-pagination",
-    "revision": "38604192ff8a50f05d9b8d95d4048e2b"
-  }, {
-    "url": "blog/2021-10-09-publish-pagination",
-    "revision": "e8e1369c3190d79b3c0fabd38592c636"
-  }, {
-    "url": "blog/2022-01-10-recursive-function",
-    "revision": "04f92c49fc5f3e963e5acc6d2a07f73d"
-  }, {
-    "url": "blog/2022-05-02-tools",
-    "revision": "2d590e344c7d35ced0feccae3c444841"
-  }, {
-    "url": "blog/2022-09-19-applicant-list",
-    "revision": "97861cacfd8785b573c072f2775251dc"
-  }, {
-    "url": "blog/2024-01-21-deploy-astro-static-on-deno-deploy",
-    "revision": "2dd7f7262723e59182d6ac7d9704f2de"
-  }, {
-    "url": "blog/2025-05-31-prompt-engineering-do-dont",
-    "revision": "54ed6261d5fb0a74852c5cb3dc8909d3"
-  }, {
-    "url": "blog/2025-06-14-claude-code-feature-output",
-    "revision": "ff733ce8396e701c948c1ca727e51b64"
-  }, {
-    "url": "blog/2025-08-20-intl-segmenter",
-    "revision": "2ad22ce3b1054c50674e86efbb329082"
-  }, {
-    "url": "blog/2025-08-27-best-note-taking-tools",
-    "revision": "76aeff93465382ba8fcaaa63b552dc87"
-  }, {
-    "url": "blog/2025-10-29-top-10-sites-blocking-openai-bot",
-    "revision": "8fe1b3e1ef377c7211c60a5477a1a677"
-  }, {
-    "url": "blog/2025-11-24-building-basic-pomo-with-antigravity",
-    "revision": "17164920f67af0020afa273fb7a4eda6"
-  }, {
-    "url": "blog/2025-12-15-remix-run-how-it-works",
-    "revision": "2a607bdff49a9d3c764578f1b8250a3d"
-  }, {
-    "url": "blog/2025-12-16-the-windows-11-crisis",
-    "revision": "de719e18b23b6c4b975b2d0d9e515aad"
-  }, {
-    "url": "blog/2025-12-19-project-vend-ai-vending-machine",
-    "revision": "a2fd9a0a7053a226b464db173e631912"
-  }, {
-    "url": "blog/2026-01-13-ucp-protocol",
-    "revision": "a50e09f382bc05c82c5dfed875e1d126"
-  }, {
-    "url": "contact",
-    "revision": "791f94525222b6b88e68e92d606149bb"
-  }, {
-    "url": "drafts/2018-11-30-advanced-search-on-the-web",
-    "revision": "0eaf387892a4147510c3fdc28cb254ea"
-  }, {
-    "url": "drafts/2018-12-01-browser-extension-with-react",
-    "revision": "8b5d32661e161cb39a5201eef8ab7750"
-  }, {
-    "url": "drafts/2020-02-04-svelte-hn",
-    "revision": "3527c590bc97ad59ecad6808499cc2fb"
-  }, {
-    "url": "drafts/2020-02-05-web-performance",
-    "revision": "33749737d6300ea16dac5a6716e1407d"
-  }, {
-    "url": "drafts/2020-02-12-socket-io",
-    "revision": "1b15b46056acb549336185a706463565"
-  }, {
-    "url": "drafts/2020-03-10-django",
-    "revision": "0628e0b73c6725e5a3678e2cfc7cf71f"
-  }, {
-    "url": "drafts/2020-11-21-deploy-nexjs-static",
-    "revision": "e97e3ce8a64466dc77fde4fc6bf83677"
-  }, {
-    "url": "drafts/2022-05-10-objects",
-    "revision": "89255d38d768db0068ae8c58d26670ed"
-  }, {
-    "url": "drafts/2023-03-05-module-federation",
-    "revision": "813d414dcfd4aabfd6803584c644f0a3"
-  }, {
-    "url": "drafts/2025-06-08-is-ai-the-new-plastic",
-    "revision": "2d9e7cd8f2cc8cbfdcef0543fe627ea6"
-  }, {
-    "url": "favicon.svg",
-    "revision": "b2d181e81ac7bc91332a6da2a262d9df"
-  }, {
-    "url": "icons/100.png",
-    "revision": "7c6da90297ef3d461ff068e2c67cc03c"
-  }, {
-    "url": "icons/1024.png",
-    "revision": "a7fdfb5a51393af2757c5d3306c8a3e6"
-  }, {
-    "url": "icons/114.png",
-    "revision": "a616ecb4159a0b27cac56a4d432d34c7"
-  }, {
-    "url": "icons/120.png",
-    "revision": "cecde137825dbc5ecbc41f7437ac7d1f"
-  }, {
-    "url": "icons/128.png",
-    "revision": "5f064081bb992fd08d34201b265d4150"
-  }, {
-    "url": "icons/144.png",
-    "revision": "52414bd5f99df6cc0b16f897087c332e"
-  }, {
-    "url": "icons/152.png",
-    "revision": "03eb838a8ebe6edf49fcd2c58af13890"
-  }, {
-    "url": "icons/16.png",
-    "revision": "b9ac1097b27a608bbf613875e350c595"
-  }, {
-    "url": "icons/167.png",
-    "revision": "cdb6bd9529bfd0a1a2b3ff33f4735c88"
-  }, {
-    "url": "icons/180.png",
-    "revision": "d77c5bc24130db488b5ba59abfb8adba"
-  }, {
-    "url": "icons/192.png",
-    "revision": "554a2738429ee266b92831f16023b1f6"
-  }, {
-    "url": "icons/20.png",
-    "revision": "810022127945d43fd43f8e4ff3ddb00e"
-  }, {
-    "url": "icons/256.png",
-    "revision": "983dc3475e72ea001a26528463029df4"
-  }, {
-    "url": "icons/29.png",
-    "revision": "91150be5cb912553e5d8263de6f48795"
-  }, {
-    "url": "icons/32.png",
-    "revision": "23e8d1250762430ea795e23c7537115d"
-  }, {
-    "url": "icons/40.png",
-    "revision": "6045c13b2a86da74f44af1f5ec1c12e5"
-  }, {
-    "url": "icons/50.png",
-    "revision": "043c084fe379bd63f0763437c64d0819"
-  }, {
-    "url": "icons/512-maskable.png",
-    "revision": "ac348e6e5d0b3ad5d5faaaaec70b4a1a"
-  }, {
-    "url": "icons/512.png",
-    "revision": "ac348e6e5d0b3ad5d5faaaaec70b4a1a"
-  }, {
-    "url": "icons/57.png",
-    "revision": "6ffe272fc72e5a2d59032d7a9814e306"
-  }, {
-    "url": "icons/58.png",
-    "revision": "f609803e7c3ba685d1707c55818d5a36"
-  }, {
-    "url": "icons/60.png",
-    "revision": "1243748a0d8e15e09ab767668dc65e11"
-  }, {
-    "url": "icons/64.png",
-    "revision": "5474312b35532a72ccf6eae60fdd62f8"
-  }, {
-    "url": "icons/72.png",
-    "revision": "d69f98f6be229a95d276feef17e42dc7"
-  }, {
-    "url": "icons/76.png",
-    "revision": "047fdfcda594f0d744bf627c1ad5cec2"
-  }, {
-    "url": "icons/80.png",
-    "revision": "4a881b1175b894e8ae718d060f521f99"
-  }, {
-    "url": "icons/87.png",
-    "revision": "0edf413502948f229d25727dab806c9f"
-  }, {
-    "url": "icons/android-launchericon-144-144.png",
-    "revision": "52414bd5f99df6cc0b16f897087c332e"
-  }, {
-    "url": "icons/android-launchericon-192-192.png",
-    "revision": "554a2738429ee266b92831f16023b1f6"
-  }, {
-    "url": "icons/android-launchericon-48-48.png",
-    "revision": "86cf506ebe5f964eff79b1d7b07ec184"
-  }, {
-    "url": "icons/android-launchericon-512-512.png",
-    "revision": "ac348e6e5d0b3ad5d5faaaaec70b4a1a"
-  }, {
-    "url": "icons/android-launchericon-72-72.png",
-    "revision": "d69f98f6be229a95d276feef17e42dc7"
-  }, {
-    "url": "icons/android-launchericon-96-96.png",
-    "revision": "7aa64e78b34d82148201044e8253ab28"
-  }, {
-    "url": "icons/LargeTile.scale-100.png",
-    "revision": "4fa7aad6afec1397a3ad3bbef5960813"
-  }, {
-    "url": "icons/LargeTile.scale-125.png",
-    "revision": "91d56af8ebc1d65d755d54d832d305ab"
-  }, {
-    "url": "icons/LargeTile.scale-150.png",
-    "revision": "53661fbea960e23d53f92a41c0b3a392"
-  }, {
-    "url": "icons/LargeTile.scale-200.png",
-    "revision": "4a721f86065b71c11008ce1d0a890707"
-  }, {
-    "url": "icons/LargeTile.scale-400.png",
-    "revision": "e1a4aed2f04e4785fd3c5c8a9b5bdfb2"
-  }, {
-    "url": "icons/SmallTile.scale-100.png",
-    "revision": "48424c73a852b99fd4ba6f678cac3f70"
-  }, {
-    "url": "icons/SmallTile.scale-125.png",
-    "revision": "6c10ca6011d0bd92ad27d570d2a13d7c"
-  }, {
-    "url": "icons/SmallTile.scale-150.png",
-    "revision": "4a3cc8205e3787427be8732e17434564"
-  }, {
-    "url": "icons/SmallTile.scale-200.png",
-    "revision": "af42ad0fe403533d70cc3541dc18feb0"
-  }, {
-    "url": "icons/SmallTile.scale-400.png",
-    "revision": "ff73e1316b674d5f2b21574a5b95f745"
-  }, {
-    "url": "icons/SplashScreen.scale-100.png",
-    "revision": "965df17a9e06acdd0f3be5a7d9684cf4"
-  }, {
-    "url": "icons/SplashScreen.scale-125.png",
-    "revision": "d1447278a2daaba6138f7c83676dd825"
-  }, {
-    "url": "icons/SplashScreen.scale-150.png",
-    "revision": "6482756a65166e3676a0eab117382bee"
-  }, {
-    "url": "icons/SplashScreen.scale-200.png",
-    "revision": "62164517066a52d961e02b90f7c1bcd3"
-  }, {
-    "url": "icons/SplashScreen.scale-400.png",
-    "revision": "58825827610178b9dc79fb6c24d4fac5"
-  }, {
-    "url": "icons/Square150x150Logo.scale-100.png",
-    "revision": "c44de5c2989a8491076f29bbe9b503fb"
-  }, {
-    "url": "icons/Square150x150Logo.scale-125.png",
-    "revision": "0926fb9bcc21412f7c97e8c486f53791"
-  }, {
-    "url": "icons/Square150x150Logo.scale-150.png",
-    "revision": "3a9c32b511c997882877945e36ba3c68"
-  }, {
-    "url": "icons/Square150x150Logo.scale-200.png",
-    "revision": "3be7ba6c9c9420c9c046bd72dc7d763d"
-  }, {
-    "url": "icons/Square150x150Logo.scale-400.png",
-    "revision": "b51c6250dd3a5a699b598c713d8b3c94"
-  }, {
-    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-16.png",
-    "revision": "b9ac1097b27a608bbf613875e350c595"
-  }, {
-    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-20.png",
-    "revision": "810022127945d43fd43f8e4ff3ddb00e"
-  }, {
-    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-24.png",
-    "revision": "61c53a7e1641a268084427d3daf6fec1"
-  }, {
-    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-256.png",
-    "revision": "983dc3475e72ea001a26528463029df4"
-  }, {
-    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-30.png",
-    "revision": "abba5be62ae56d374b6d0177958d718f"
-  }, {
-    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-32.png",
-    "revision": "23e8d1250762430ea795e23c7537115d"
-  }, {
-    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-36.png",
-    "revision": "6d66bcc8a0c493426338c04d07b13410"
-  }, {
-    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-40.png",
-    "revision": "6045c13b2a86da74f44af1f5ec1c12e5"
-  }, {
-    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-44.png",
-    "revision": "343b9dc48a5db9eb7fc39820080649e7"
-  }, {
-    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-48.png",
-    "revision": "86cf506ebe5f964eff79b1d7b07ec184"
-  }, {
-    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-60.png",
-    "revision": "1243748a0d8e15e09ab767668dc65e11"
-  }, {
-    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-64.png",
-    "revision": "5474312b35532a72ccf6eae60fdd62f8"
-  }, {
-    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-72.png",
-    "revision": "d69f98f6be229a95d276feef17e42dc7"
-  }, {
-    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-80.png",
-    "revision": "4a881b1175b894e8ae718d060f521f99"
-  }, {
-    "url": "icons/Square44x44Logo.altform-lightunplated_targetsize-96.png",
-    "revision": "7aa64e78b34d82148201044e8253ab28"
-  }, {
-    "url": "icons/Square44x44Logo.altform-unplated_targetsize-16.png",
-    "revision": "b9ac1097b27a608bbf613875e350c595"
-  }, {
-    "url": "icons/Square44x44Logo.altform-unplated_targetsize-20.png",
-    "revision": "810022127945d43fd43f8e4ff3ddb00e"
-  }, {
-    "url": "icons/Square44x44Logo.altform-unplated_targetsize-24.png",
-    "revision": "61c53a7e1641a268084427d3daf6fec1"
-  }, {
-    "url": "icons/Square44x44Logo.altform-unplated_targetsize-256.png",
-    "revision": "983dc3475e72ea001a26528463029df4"
-  }, {
-    "url": "icons/Square44x44Logo.altform-unplated_targetsize-30.png",
-    "revision": "abba5be62ae56d374b6d0177958d718f"
-  }, {
-    "url": "icons/Square44x44Logo.altform-unplated_targetsize-32.png",
-    "revision": "23e8d1250762430ea795e23c7537115d"
-  }, {
-    "url": "icons/Square44x44Logo.altform-unplated_targetsize-36.png",
-    "revision": "6d66bcc8a0c493426338c04d07b13410"
-  }, {
-    "url": "icons/Square44x44Logo.altform-unplated_targetsize-40.png",
-    "revision": "6045c13b2a86da74f44af1f5ec1c12e5"
-  }, {
-    "url": "icons/Square44x44Logo.altform-unplated_targetsize-44.png",
-    "revision": "343b9dc48a5db9eb7fc39820080649e7"
-  }, {
-    "url": "icons/Square44x44Logo.altform-unplated_targetsize-48.png",
-    "revision": "86cf506ebe5f964eff79b1d7b07ec184"
-  }, {
-    "url": "icons/Square44x44Logo.altform-unplated_targetsize-60.png",
-    "revision": "1243748a0d8e15e09ab767668dc65e11"
-  }, {
-    "url": "icons/Square44x44Logo.altform-unplated_targetsize-64.png",
-    "revision": "5474312b35532a72ccf6eae60fdd62f8"
-  }, {
-    "url": "icons/Square44x44Logo.altform-unplated_targetsize-72.png",
-    "revision": "d69f98f6be229a95d276feef17e42dc7"
-  }, {
-    "url": "icons/Square44x44Logo.altform-unplated_targetsize-80.png",
-    "revision": "4a881b1175b894e8ae718d060f521f99"
-  }, {
-    "url": "icons/Square44x44Logo.altform-unplated_targetsize-96.png",
-    "revision": "7aa64e78b34d82148201044e8253ab28"
-  }, {
-    "url": "icons/Square44x44Logo.scale-100.png",
-    "revision": "343b9dc48a5db9eb7fc39820080649e7"
-  }, {
-    "url": "icons/Square44x44Logo.scale-125.png",
-    "revision": "fe1eedde3cd7b7650a02854497bf786d"
-  }, {
-    "url": "icons/Square44x44Logo.scale-150.png",
-    "revision": "6c0e04953e7513801df88a8c9708f97e"
-  }, {
-    "url": "icons/Square44x44Logo.scale-200.png",
-    "revision": "da3ee41b9bf49b25bbf144e99fac98f5"
-  }, {
-    "url": "icons/Square44x44Logo.scale-400.png",
-    "revision": "f4faf733e14b677046ff00dc11dfaeea"
-  }, {
-    "url": "icons/Square44x44Logo.targetsize-16.png",
-    "revision": "b9ac1097b27a608bbf613875e350c595"
-  }, {
-    "url": "icons/Square44x44Logo.targetsize-20.png",
-    "revision": "810022127945d43fd43f8e4ff3ddb00e"
-  }, {
-    "url": "icons/Square44x44Logo.targetsize-24.png",
-    "revision": "61c53a7e1641a268084427d3daf6fec1"
-  }, {
-    "url": "icons/Square44x44Logo.targetsize-256.png",
-    "revision": "983dc3475e72ea001a26528463029df4"
-  }, {
-    "url": "icons/Square44x44Logo.targetsize-30.png",
-    "revision": "abba5be62ae56d374b6d0177958d718f"
-  }, {
-    "url": "icons/Square44x44Logo.targetsize-32.png",
-    "revision": "23e8d1250762430ea795e23c7537115d"
-  }, {
-    "url": "icons/Square44x44Logo.targetsize-36.png",
-    "revision": "6d66bcc8a0c493426338c04d07b13410"
-  }, {
-    "url": "icons/Square44x44Logo.targetsize-40.png",
-    "revision": "6045c13b2a86da74f44af1f5ec1c12e5"
-  }, {
-    "url": "icons/Square44x44Logo.targetsize-44.png",
-    "revision": "343b9dc48a5db9eb7fc39820080649e7"
-  }, {
-    "url": "icons/Square44x44Logo.targetsize-48.png",
-    "revision": "86cf506ebe5f964eff79b1d7b07ec184"
-  }, {
-    "url": "icons/Square44x44Logo.targetsize-60.png",
-    "revision": "1243748a0d8e15e09ab767668dc65e11"
-  }, {
-    "url": "icons/Square44x44Logo.targetsize-64.png",
-    "revision": "5474312b35532a72ccf6eae60fdd62f8"
-  }, {
-    "url": "icons/Square44x44Logo.targetsize-72.png",
-    "revision": "d69f98f6be229a95d276feef17e42dc7"
-  }, {
-    "url": "icons/Square44x44Logo.targetsize-80.png",
-    "revision": "4a881b1175b894e8ae718d060f521f99"
-  }, {
-    "url": "icons/Square44x44Logo.targetsize-96.png",
-    "revision": "7aa64e78b34d82148201044e8253ab28"
-  }, {
-    "url": "icons/StoreLogo.scale-100.png",
-    "revision": "6aaf5d95f1367d24ff08542bbdc346aa"
-  }, {
-    "url": "icons/StoreLogo.scale-125.png",
-    "revision": "53d8aa22975a3947a7b8a81f225768b9"
-  }, {
-    "url": "icons/StoreLogo.scale-150.png",
-    "revision": "09cbc56ebe0b3f597c8d11deb732a6fe"
-  }, {
-    "url": "icons/StoreLogo.scale-200.png",
-    "revision": "555e850b1ed2b6c2afa88ad717ef2c27"
-  }, {
-    "url": "icons/StoreLogo.scale-400.png",
-    "revision": "ee28c5571f56b0d172e4d22705549186"
-  }, {
-    "url": "icons/Wide310x150Logo.scale-100.png",
-    "revision": "70f6c0326602653bd98d55e2ec7ffa36"
-  }, {
-    "url": "icons/Wide310x150Logo.scale-125.png",
-    "revision": "a7fd6a05b0c7a049118f0b60afef32cb"
-  }, {
-    "url": "icons/Wide310x150Logo.scale-150.png",
-    "revision": "9756111f2df8b064b3e2b1f167f60bdc"
-  }, {
-    "url": "icons/Wide310x150Logo.scale-200.png",
-    "revision": "965df17a9e06acdd0f3be5a7d9684cf4"
-  }, {
-    "url": "icons/Wide310x150Logo.scale-400.png",
-    "revision": "62164517066a52d961e02b90f7c1bcd3"
-  }, {
-    "url": "images/architecture-infographic.png",
-    "revision": "80f07b23e4827842b30948b85bd47440"
-  }, {
-    "url": "/",
-    "revision": "dae50c03da1fd74a08ade825aaf3c6bd"
-  }, {
-    "url": "offline",
-    "revision": "6c9f3f4909181f882cb1fb8637471cb9"
-  }, {
-    "url": "registerSW.js",
-    "revision": "1872c500de691dce40960bb85481de07"
-  }, {
-    "url": "search",
-    "revision": "efce83596f15acf1e6325ed946282d7c"
-  }, {
-    "url": "search/results",
-    "revision": "d114ea658a36be367787a7d2abe37f7f"
-  }, {
-    "url": "tools/AI & ML",
-    "revision": "fae832ee7dc45f1725baa70a65c608de"
-  }, {
-    "url": "tools/all",
-    "revision": "68c1a78d758460b7cb81d690c189fe0d"
-  }, {
-    "url": "tools/Data",
-    "revision": "7e97cfb23dcd6babe536665245963418"
-  }, {
-    "url": "tools/Design",
-    "revision": "7f44efb08f8e4fd6414524dd308b3c7e"
-  }, {
-    "url": "tools/Developer",
-    "revision": "9d91ef3a2505de71780b96951dbf84d8"
-  }, {
-    "url": "tools/Frameworks",
-    "revision": "d129b38d1d8a0869db722d1fb2a6831c"
-  }, {
-    "url": "tools/Hosting",
-    "revision": "1c6b42b92b4066b361d7fb4b110f8275"
-  }, {
-    "url": "tools",
-    "revision": "7404ec99a67abda71d8f2f295594e8d1"
-  }, {
-    "url": "tools/Monitoring",
-    "revision": "b2a89fb170f77bc9ee85159408eab111"
-  }, {
-    "url": "tools/Project Management",
-    "revision": "f307cbdb4fd6674bde0321fefca7314e"
-  }, {
-    "url": "tools/Reading",
-    "revision": "f56f56d8bc103ae1d14f211d95091019"
-  }, {
-    "url": "tools/Search",
-    "revision": "e7e75ee3929855811a827b15a3eee209"
-  }, {
-    "url": "tools/Social",
-    "revision": "b58e7ccef23f3a867370f6c646470bb5"
-  }, {
-    "url": "tools/Software",
-    "revision": "48ccfbba5ac29e7f6797f3e44401d5ad"
-  }, {
-    "url": "tools/Testing",
-    "revision": "394e38c5816eb7257ecf40638b18823b"
-  }, {
-    "url": "tools/Wireframe",
-    "revision": "11057a452669d7d7e66861de791b6a88"
-  }, {
-    "url": "tools/Writing",
-    "revision": "dea60d10728b75d922ab0000d2bfd1fd"
   }, {
     "url": "manifest.json",
     "revision": "5d3fdbef410b6f02aab661c210dc967d"
