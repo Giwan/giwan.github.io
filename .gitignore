@@ -27,3 +27,5 @@ pnpm-debug.log*
 
 # The docs file contents should be ignored as it's generated
 # /docs
+
+.vscode
