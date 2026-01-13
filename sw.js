@@ -82,73 +82,73 @@ define(['./workbox-e4259612'], (function (workbox) { 'use strict';
     "revision": "1872c500de691dce40960bb85481de07"
   }, {
     "url": "/",
-    "revision": "a1016000ea71f0b5956fe7c44cd7647e"
+    "revision": "3254df567501c9fce34017e426575afa"
   }, {
     "url": "favicon.svg",
     "revision": "b2d181e81ac7bc91332a6da2a262d9df"
   }, {
     "url": "404",
-    "revision": "2d25f82f5b9bba14f6f912fdd1152fb9"
+    "revision": "ba72d8c072548d6e1a24d571c1c0b058"
   }, {
     "url": "tools",
-    "revision": "36b1b6c2d204fe671df77123366eaf85"
+    "revision": "d85101e0ac2e206d2cc6e0dd69ef55e7"
   }, {
     "url": "tools/all",
-    "revision": "f2646e0e35bb68c612ddb7d7341e48fd"
+    "revision": "bcaedb35573a26f9ec4720aadc5cf596"
   }, {
     "url": "tools/Writing",
-    "revision": "9c538d1abf385c1de0697a71ee98fd0b"
+    "revision": "2c8beb0918591882eba35afbf4fd2cd5"
   }, {
     "url": "tools/Wireframe",
-    "revision": "044e19ef507a249a1fd44bc8f0984914"
+    "revision": "9f67c48962794280cd4e0028d1b9449c"
   }, {
     "url": "tools/Testing",
-    "revision": "20502f10e023bb02be9ed61cafc5d070"
+    "revision": "8e0820afc996e87a658e29ec8d2c3729"
   }, {
     "url": "tools/Software",
-    "revision": "b29208812c72800202b9786829f93c03"
+    "revision": "04cd2ac927fa57ffe6cbe5068854acc2"
   }, {
     "url": "tools/Social",
-    "revision": "a209279ea6b63a56f9a3dd201aaba72d"
+    "revision": "edcd06ac1197a4f22088b6e2bcbefd16"
   }, {
     "url": "tools/Search",
-    "revision": "f8adf0cc804695a6158f310125cdd986"
+    "revision": "ebf3fedc1147b6afb3f223ef85955cec"
   }, {
     "url": "tools/Reading",
-    "revision": "2486595b50b9225aef295136b927d260"
+    "revision": "b8c827e7bfa6a897abffeadda35e24fd"
   }, {
     "url": "tools/Project Management",
-    "revision": "2f934b355a794a1de7e09d020a48ceb5"
+    "revision": "52fa1ff82cc2dd15165a12c4e8f644ea"
   }, {
     "url": "tools/Monitoring",
-    "revision": "3e37588cde3e7488a7cc5444250da2c1"
+    "revision": "eb72709ee7f968c9e8e42c974392185f"
   }, {
     "url": "tools/Hosting",
-    "revision": "048c291a92b92bf83c6863d04cd24cb0"
+    "revision": "577d2e9bde41e5f26f876059f166c63e"
   }, {
     "url": "tools/Frameworks",
-    "revision": "21be53b5d3d274ed39ed956bee33cea9"
+    "revision": "ffa3b9cfe56eb9252b796596511fdc10"
   }, {
     "url": "tools/Developer",
-    "revision": "73a13cb3ff7b53dfa2f326c81da143ee"
+    "revision": "489223199729125ee93655aa875323eb"
   }, {
     "url": "tools/Design",
-    "revision": "114ef161a840ec94575772d09e62ebbc"
+    "revision": "501b18e02acf96e4ee7e5433ee49e670"
   }, {
     "url": "tools/Data",
-    "revision": "7b7cc1b2f0b84eae4c924b42ce832884"
+    "revision": "3dba497d42947073b171c30da4804c20"
   }, {
     "url": "tools/AI & ML",
-    "revision": "c5753729bb329ca205f1b839ef468274"
+    "revision": "ca0e694932fe320eb2fcb83b0bce2fa8"
   }, {
     "url": "search",
-    "revision": "661feb424800cf78182c0292df2c9e5f"
+    "revision": "a70a19cd77b3e8c00586a55131bf7f11"
   }, {
     "url": "search/results",
-    "revision": "026fb9970794f4bfc409362128aba369"
+    "revision": "a4f9c502936d715c421fded80fb7ead9"
   }, {
     "url": "offline",
-    "revision": "0d58a37530d4d89d9b890fb1a87ecf53"
+    "revision": "86221cec6b007e616c42e1498e41d629"
   }, {
     "url": "images/architecture-infographic.png",
     "revision": "80f07b23e4827842b30948b85bd47440"
@@ -493,19 +493,19 @@ define(['./workbox-e4259612'], (function (workbox) { 'use strict';
     "revision": "7c6da90297ef3d461ff068e2c67cc03c"
   }, {
     "url": "drafts/2025-06-08-is-ai-the-new-plastic",
-    "revision": "197d7b8eaeec2abd4e1dbfe2e304c7e1"
+    "revision": "ebfba2e7f5075e10f0db2311ee1ee1fb"
   }, {
     "url": "drafts/2023-03-05-module-federation",
-    "revision": "c568184f2292d5e5b971123eaff17ed9"
+    "revision": "cc905ee4d1f78d587422ca2224ec25d8"
   }, {
     "url": "drafts/2022-05-10-objects",
-    "revision": "bb1440938977a3e193e44859a926e71c"
+    "revision": "683d680eeb75a6f219a1827c3171c71f"
   }, {
     "url": "drafts/2020-11-21-deploy-nexjs-static",
     "revision": "ce2ca1b803909203a17032f9f51e0e03"
   }, {
     "url": "drafts/2020-03-10-django",
-    "revision": "4ca7ae406b5ef1cce386eb90519e32f7"
+    "revision": "6bb9dcd25b0baefea275d88f862d972a"
   }, {
     "url": "drafts/2020-02-12-socket-io",
     "revision": "5f985c9a03283251eeba34c35375efe8"
@@ -514,136 +514,139 @@ define(['./workbox-e4259612'], (function (workbox) { 'use strict';
     "revision": "cd21bd63741a383735bd0892624d20f9"
   }, {
     "url": "drafts/2020-02-04-svelte-hn",
-    "revision": "bcf34934fa9c492de6e6d3e6373d54e5"
+    "revision": "22db92e549f68129b6f7f2815d8fd701"
   }, {
     "url": "drafts/2018-12-01-browser-extension-with-react",
-    "revision": "804e8dbd8088dd14fe496589e6ef6d7d"
+    "revision": "66b440521f826dfa6327ad7084f6f407"
   }, {
     "url": "drafts/2018-11-30-advanced-search-on-the-web",
-    "revision": "917732648dd2caca9d8735fe271a531a"
+    "revision": "11fbf54db38ae703180d39d6df9a7de7"
   }, {
     "url": "contact",
-    "revision": "92dd76f9b5d02c938d7e1a3cfd2b73de"
+    "revision": "b2d204968c25f4b10013f437d9af395b"
+  }, {
+    "url": "blog/2026-01-13-ucp-protocol",
+    "revision": "bba0053fd65d89314c142efb53d38b40"
   }, {
     "url": "blog/2026-01-05-free-ai-learning-resources-nvidia-google-microsoft",
-    "revision": "bab28cbe0deda04e92a9af141ff7d0d5"
+    "revision": "2b4580abb8cbf345739f07c061f0ace8"
   }, {
     "url": "blog/2025-12-19-project-vend-ai-vending-machine",
-    "revision": "b7da08d6be70c202b41ea193aee8f26c"
+    "revision": "acc28e48789a97c7bf314d99a36f5490"
   }, {
     "url": "blog/2025-12-16-the-windows-11-crisis",
-    "revision": "1ffde498983d0c3c0c1b4d467a69418f"
+    "revision": "cdec100770846b7a1cefa66dd795c02d"
   }, {
     "url": "blog/2025-12-15-remix-run-how-it-works",
-    "revision": "4f27637909f6ab33c2dd0605c548a978"
+    "revision": "0d4df07844324acdaa091203c15f8e38"
   }, {
     "url": "blog/2025-11-24-building-basic-pomo-with-antigravity",
-    "revision": "6a7efac168a2695fac98e30cc51e21c7"
+    "revision": "40a7c02f2dc32a4c97b386ae0cee5d5c"
   }, {
     "url": "blog/2025-10-29-top-10-sites-blocking-openai-bot",
-    "revision": "c18e793dc8158212030b54cc2665c36d"
+    "revision": "817a15944576f9cff15a1bcbbdec8212"
   }, {
     "url": "blog/2025-08-27-best-note-taking-tools",
-    "revision": "02849b4fb086a58c97303758d3993058"
+    "revision": "d59f14e1bb9cb5b45c616303d5e9f343"
   }, {
     "url": "blog/2025-08-20-intl-segmenter",
-    "revision": "5a27b7c2c0078cfc32e016207e5eb2ba"
+    "revision": "53b075044004180a54aca71fdf61890f"
   }, {
     "url": "blog/2025-06-14-claude-code-feature-output",
-    "revision": "7babd2f44d8f833cf1a97af9476e81dd"
+    "revision": "e3783af8e0194df8f7c697606e6948ba"
   }, {
     "url": "blog/2025-05-31-prompt-engineering-do-dont",
-    "revision": "a50324d8f6e3489f239f0b1db538ebc5"
+    "revision": "797dc85f3eb78ac53b117fb33a7fbae9"
   }, {
     "url": "blog/2024-01-21-deploy-astro-static-on-deno-deploy",
-    "revision": "a82118b67716a9163977b1f0e4e05e5a"
+    "revision": "d2a51ee6614de2431b6c1db3c23e4c31"
   }, {
     "url": "blog/2022-09-19-applicant-list",
-    "revision": "b9feb4abebc38d8f74c013a5f62ae1ac"
+    "revision": "273b188d85302518d8b1fa0f97f426b8"
   }, {
     "url": "blog/2022-05-02-tools",
-    "revision": "60d4bb7bd8e90b21a66b4c4b501d2b9a"
+    "revision": "07ec84cb734a4c7547332f0a199c6641"
   }, {
     "url": "blog/2022-01-10-recursive-function",
-    "revision": "767d90de8da342269222fea38627179f"
+    "revision": "49656b628ca323b2c7c083b00c0b3ca9"
   }, {
     "url": "blog/2021-10-09-publish-pagination",
-    "revision": "8f4c234f083efed87bad1fd1cf876d67"
+    "revision": "f26128f513deb08dc6b94340416b33d7"
   }, {
     "url": "blog/2021-08-07-pagination",
-    "revision": "3397f1f968f853317f1639c377e9eaf0"
+    "revision": "c3388130e18728e0145965a8a0adfdf3"
   }, {
     "url": "blog/2021-04-11-electron-save-file",
-    "revision": "4da31ae27c4e6b263086611fb40a68e6"
+    "revision": "e34056d88ad6169f15d7f85565d43865"
   }, {
     "url": "blog/2021-04-11-electron-basics",
-    "revision": "ebfe7ba09d665eb18f0c6aeabfd09e90"
+    "revision": "0abfd5c0fb9119130f8e447405f47efa"
   }, {
     "url": "blog/2021-03-06-vue-js-solar",
-    "revision": "ba14ddca3dab01937878848c93988c1b"
+    "revision": "785d123bbe68b686e3b3c8491c6e5048"
   }, {
     "url": "blog/2021-01-23-next-js-blog",
-    "revision": "31b79a9dd6ecfdbb379ec28779ee1445"
+    "revision": "9a294ee014206c3913287261cdef0db5"
   }, {
     "url": "blog/2021-01-12-whatsapp-by-facebook",
-    "revision": "a1e11f816653a6b98d27791247cb0a89"
+    "revision": "fbef8fee838fecd98c93d23e34cc4bb1"
   }, {
     "url": "blog/2020-12-23-animation",
-    "revision": "ca2105690e2d9f7b25dd994f9c349d7e"
+    "revision": "ccc99ec898ffcf7875373b6faff751b6"
   }, {
     "url": "blog/2020-12-03-jsonresume",
-    "revision": "d4d4131bd0828cf85cf790102f4552af"
+    "revision": "6af5af1e33d1f0bb28314b2c66a0d684"
   }, {
     "url": "blog/2020-10-18-loop-vs-function",
-    "revision": "599945dd932da5059668108b9b876824"
+    "revision": "142773ef16ae2c228143706749b65a42"
   }, {
     "url": "blog/2020-10-15-browser-debugging-with-breakpoints",
-    "revision": "0c69f5befd31e8018832e0a172be077f"
+    "revision": "b89242f6bc61a35a7b75d064af0c5be4"
   }, {
     "url": "blog/2020-10-06-deploy-serverless-function-on-netlify",
-    "revision": "2a0c52904c63c951595c3f355dccf5cb"
+    "revision": "12dcb7efb05127ed810ab9eb575441ab"
   }, {
     "url": "blog/2020-10-05-serverless-functions-on-netlify",
-    "revision": "217d66ff913a558e8e54212d57fae5c6"
+    "revision": "51ce790e4b192f93fa4d6feb00f4eb95"
   }, {
     "url": "blog/2020-1-16-css-grid",
-    "revision": "7a74e11c70bf21b3ca33f6ed3c1f23b5"
+    "revision": "ad63f6cc792e980102dc9aa000c37b4a"
   }, {
     "url": "blog/2020-09-29-uuid-as-apassword",
-    "revision": "465b07b9cee5f01a12cfe34d5d2abe88"
+    "revision": "b8c0bffa38013e9c3344b7fa31836e7e"
   }, {
     "url": "blog/2020-09-24-javascript-uncanny-valley",
-    "revision": "8ff761f7325a191a4e62ac1b3ed0f24c"
+    "revision": "ee3a73052292564f6e831668375463d5"
   }, {
     "url": "blog/2020-05-19-ssr-with-react-redux",
-    "revision": "a1cd9aa7845034408651f820df3215cb"
+    "revision": "e25f95b9c8ec8526059f097e303dd7df"
   }, {
     "url": "blog/2020-02-04-jest-coverage",
-    "revision": "7f9f589a3a2701b78a401efe58eb60ad"
+    "revision": "4e3db89338487f00fdc8e643ef5fcf2e"
   }, {
     "url": "blog/2019-12-15-svelte",
-    "revision": "9505bae3440359f0c8f3cc58f3b94e1c"
+    "revision": "a71b177e57a8b8165743f82ee7438032"
   }, {
     "url": "blog/2019-12-13-browser-tools",
-    "revision": "f22f8bc1e25346d73ae35e8581636632"
+    "revision": "7fc8fd6bc1333e82d4b1944746646d26"
   }, {
     "url": "blog/2018-12-29-free-static-site",
-    "revision": "f0a79f91246c879c66b5d18305ed75ff"
+    "revision": "90d0a753aee70750b22e941ef027724e"
   }, {
     "url": "blog/2018-11-22-react-served-by-express-running-in-docker",
-    "revision": "90f2fe1f5f8e44601154d1b923843f61"
+    "revision": "72e03f62c8eb15e89e9beea8d53d3761"
   }, {
     "url": "blog/2018-11-11-ssr-with-react",
-    "revision": "28a3bce1478a973424344831140a2f9f"
+    "revision": "6d0013590cce08b184d8bb4a77ba0d8f"
   }, {
     "url": "blog/2018-11-11-react-instead-of-jsp",
-    "revision": "e03cd813aba7c0cdc4286f3cb630c770"
+    "revision": "f0c36c5c5ecc29233115a19caaa4c621"
   }, {
     "url": "blog/2018-01-05-vscode-debugging",
-    "revision": "a29c88632976f05950ae278f6f9e2e23"
+    "revision": "3ecff4c0ff3997216008ea42bdef090f"
   }, {
     "url": "about",
-    "revision": "4dc43fafdb4f941de80ad4804ade1072"
+    "revision": "321e21a065c6812f7b39c38793c1cfc5"
   }, {
     "url": "_astro/transitionController.CxYAGZHG.js",
     "revision": null
@@ -1005,7 +1008,7 @@ define(['./workbox-e4259612'], (function (workbox) { 'use strict';
     "url": "_astro/index.Bf1nT9TB.js",
     "revision": null
   }, {
-    "url": "_astro/index.4vHyDr48.css",
+    "url": "_astro/index.B-dIDiSS.css",
     "revision": null
   }, {
     "url": "_astro/image-1.CVihJDoD_Z1e3Xns.webp",
@@ -1143,7 +1146,7 @@ define(['./workbox-e4259612'], (function (workbox) { 'use strict';
     "url": "_astro/ServiceWorkerUpdateManager.Cb2sJdME.js",
     "revision": null
   }, {
-    "url": "_astro/SearchContainer.BGR_YLX8.js",
+    "url": "_astro/SearchContainer.BnfHoz-f.js",
     "revision": null
   }, {
     "url": "_astro/PageLayout.astro_astro_type_script_index_0_lang.Bq2IckCh.js",
