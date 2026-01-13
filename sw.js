@@ -85,7 +85,7 @@ define(['./workbox-e4259612'], (function (workbox) { 'use strict';
     "revision": "3254df567501c9fce34017e426575afa"
   }, {
     "url": "favicon.svg",
-    "revision": "b2d181e81ac7bc91332a6da2a262d9df"
+    "revision": "e810d6e1e81129f112424ef9b67a1b92"
   }, {
     "url": "404",
     "revision": "ba72d8c072548d6e1a24d571c1c0b058"
@@ -514,7 +514,7 @@ define(['./workbox-e4259612'], (function (workbox) { 'use strict';
     "revision": "cd21bd63741a383735bd0892624d20f9"
   }, {
     "url": "drafts/2020-02-04-svelte-hn",
-    "revision": "22db92e549f68129b6f7f2815d8fd701"
+    "revision": "884cf30e96e9a74a3a0a3e7d9c1f7d6f"
   }, {
     "url": "drafts/2018-12-01-browser-extension-with-react",
     "revision": "66b440521f826dfa6327ad7084f6f407"
