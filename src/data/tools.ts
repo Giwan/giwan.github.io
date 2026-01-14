@@ -14,6 +14,7 @@ import hostingTools from "./hostingTools";
 import frameworkTools from "./frameworkTools";
 import testingTools from "./testingTools";
 import monitoringTools from "./monitoringTools";
+import cliCodingTools from "./cliCodingTools";
 
 const tools = [
     ...readingTools,
@@ -30,7 +31,8 @@ const tools = [
     ...hostingTools,
     ...frameworkTools,
     ...testingTools,
-    ...monitoringTools
+    ...monitoringTools,
+    ...cliCodingTools
 ];
 
 export default tools;
