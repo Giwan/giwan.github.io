@@ -14,7 +14,8 @@ export const subCategories = {
     HOSTING: "Hosting",
     FRAMEWORKS: "Frameworks",
     TESTING: "Testing",
-    MONITORING: "Monitoring"
+    MONITORING: "Monitoring",
+    CLI: "CLI"
 }
 
 export const categoriesList = ["all", ...Object.values(subCategories)];
