@@ -35,6 +35,22 @@ const cliCodingTools: TTool[] = [
         category: subCategories.CLI,
         labels: [labels.productivity, labels.engineering, labels["ai-powered"]],
     },
+    {
+        title: "Qwen CLI",
+        url: "https://github.com/QwenLM/qwen-code",
+        description: "An open-source AI agent from Alibaba Cloud that lives in your terminal. It offers a generous free tier and can be configured to use various models.",
+        price: 0,
+        category: subCategories.CLI,
+        labels: [labels.productivity, labels.engineering, labels["ai-powered"]],
+    },
+    {
+        title: "Kilocode CLI",
+        url: "https://kilo.ai/",
+        description: "An open-source AI coding agent for VS Code, JetBrains, and the CLI. It supports over 500 models and offers a free tier to get started.",
+        price: 0,
+        category: subCategories.CLI,
+        labels: [labels.productivity, labels.engineering, labels["ai-powered"]],
+    },
 ];
 
 export default cliCodingTools;
