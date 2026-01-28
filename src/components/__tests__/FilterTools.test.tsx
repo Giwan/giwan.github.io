@@ -43,8 +43,8 @@ describe('FilterTools Component', () => {
     expect(aiMlButton).toHaveClass('bg-primary');
     
     // Non-selected categories should have outline variant
-    expect(designButton).toHaveClass('border-input');
-    expect(allButton).toHaveClass('border-input');
+    expect(designButton).toHaveClass('border-primary');
+    expect(allButton).toHaveClass('border-primary');
   });
 
   it('shows "All" button as selected when no category is active', () => {
@@ -55,7 +55,7 @@ describe('FilterTools Component', () => {
     
     // All button should be active when no category is selected
     expect(allButton).toHaveClass('bg-primary');
-    expect(designButton).toHaveClass('border-input');
+    expect(designButton).toHaveClass('border-primary');
   });
 
   it('calls setCategory with correct value when category button is clicked', () => {

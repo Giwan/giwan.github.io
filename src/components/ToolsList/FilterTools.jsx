@@ -35,6 +35,7 @@ const FilterTools = function ({ setCategory, category }) {
                 value={categoryValue}
                 variant={isSelected ? "default" : "outline"}
                 size="sm"
+                className="rounded-none uppercase text-[10px] font-bold tracking-widest px-4 border-primary"
                 role="button"
                 tabIndex={0}
                 aria-pressed={isSelected}
@@ -52,6 +53,7 @@ const FilterTools = function ({ setCategory, category }) {
             onKeyDown={(e) => handleKeyDown(e, clearFilters)}
             variant={!category ? "default" : "outline"}
             size="sm"
+            className="rounded-none uppercase text-[10px] font-bold tracking-widest px-4 border-primary"
             role="button"
             tabIndex={0}
             aria-pressed={!category}
