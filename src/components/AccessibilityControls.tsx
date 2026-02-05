@@ -222,6 +222,7 @@ export const AccessibilityControls: React.FC = () => {
                 <div><kbd className="px-1 py-0.5 bg-muted rounded text-xs">Ctrl + /</kbd> Skip to main content</div>
                 <div><kbd className="px-1 py-0.5 bg-muted rounded text-xs">Alt + ←</kbd> Navigate back</div>
                 <div><kbd className="px-1 py-0.5 bg-muted rounded text-xs">Alt + →</kbd> Navigate forward</div>
+                <div><kbd className="px-1 py-0.5 bg-muted rounded text-xs">Ctrl/Cmd + K</kbd> Search</div>
               </div>
             </div>
           </div>

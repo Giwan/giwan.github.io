@@ -25,7 +25,7 @@ const STYLES = {
  * StatusBadges Component
  * Displays 'New' or 'Popular' indicators if applicable.
  */
-const StatusBadges = ({ isNew, isPopular }) => {
+const StatusBadges = React.memo(({ isNew, isPopular }) => {
     if (!isNew && !isPopular) return null;
 
     return (
@@ -52,13 +52,13 @@ const StatusBadges = ({ isNew, isPopular }) => {
             </div>
         </CardHeader>
     );
-};
+});
 
 /**
  * ToolHeader Component
  * Displays the title and 'Free' badge.
  */
-const ToolHeader = ({ title, isFree }) => (
+const ToolHeader = React.memo(({ title, isFree }) => (
     <div className="flex items-start justify-between mb-2">
         <h3 className={STYLES.TITLE}>{title}</h3>
         {isFree && (
@@ -71,13 +71,13 @@ const ToolHeader = ({ title, isFree }) => (
             </Badge>
         )}
     </div>
-);
+));
 
 /**
  * ToolFooter Component
  * Displays the list of labels/categories.
  */
-const ToolFooterLabels = ({ labels, toolUrl }) => {
+const ToolFooterLabels = React.memo(({ labels, toolUrl }) => {
     if (!Array.isArray(labels) || labels.length === 0) return null;
 
     return (
@@ -101,7 +101,7 @@ const ToolFooterLabels = ({ labels, toolUrl }) => {
             </div>
         </CardFooter>
     );
-};
+});
 
 // Utility functions
 const UTILS = {
@@ -132,7 +132,7 @@ const UTILS = {
  * ToolItem Component
  * The main item for the tools list.
  */
-const ToolItem = ({ tool }) => {
+const ToolItem = React.memo(({ tool }) => {
     const isNew = UTILS.isNewTool(tool.dateAdded);
     const isPopular = UTILS.isPopularTool(tool.labels);
     const isFree = UTILS.isFreeTool(tool.price);
@@ -183,6 +183,7 @@ const ToolItem = ({ tool }) => {
             <ToolFooterLabels labels={tool.labels} toolUrl={tool.url} />
         </Card>
     );
-};
+});
 
 export default ToolItem;
+

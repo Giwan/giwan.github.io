@@ -175,9 +175,9 @@ describe('AccessibilityManager', () => {
   describe('preferences management', () => {
     it('should update preferences', () => {
       const manager = new AccessibilityManager();
-      
+
       manager.updatePreferences({ reducedMotion: true });
-      
+
       const preferences = manager.getPreferences();
       expect(preferences.reducedMotion).toBe(true);
       expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
@@ -295,7 +295,7 @@ describe('AccessibilityManager', () => {
         value: mockGetElementById,
         configurable: true,
       });
-      
+
       mockGetElementById.mockReturnValue(mockMainContent);
 
       // Simulate transition completion
@@ -370,7 +370,7 @@ describe('AccessibilityManager', () => {
         value: mockGetElementById,
         configurable: true,
       });
-      
+
       mockGetElementById.mockReturnValue(mockMainContent);
 
       // Call the skip to main content method directly

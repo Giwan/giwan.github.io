@@ -51,9 +51,9 @@ export class AccessibilityManager {
    */
   private loadPreferences(): AccessibilityPreferences {
     const stored = typeof localStorage !== 'undefined' && typeof localStorage.getItem === 'function'
-      ? localStorage.getItem('accessibility-preferences') 
+      ? localStorage.getItem('accessibility-preferences')
       : null;
-    
+
     const defaults: AccessibilityPreferences = {
       reducedMotion: this.detectReducedMotionPreference(),
       screenReaderAnnouncements: true,
@@ -91,7 +91,7 @@ export class AccessibilityManager {
     this.announcer.setAttribute('aria-atomic', 'true');
     this.announcer.className = 'sr-only';
     this.announcer.id = 'accessibility-announcer';
-    
+
     // Add styles to ensure it's completely hidden but accessible to screen readers
     this.announcer.style.cssText = `
       position: absolute !important;
@@ -122,16 +122,16 @@ export class AccessibilityManager {
    */
   private handleTransitionStart(event: Event): void {
     this.isTransitioning = true;
-    
+
     // Store current focus for restoration if needed
     this.lastFocusedElement = document.activeElement as HTMLElement;
-    
+
     // Announce navigation start to screen readers
     if (this.preferences.screenReaderAnnouncements) {
       const customEvent = event as CustomEvent;
       const fromPath = customEvent.detail?.from?.pathname || 'current page';
       const toPath = customEvent.detail?.to?.pathname || 'new page';
-      
+
       this.announce({
         message: `Navigating from ${this.getPageTitle(fromPath)} to ${this.getPageTitle(toPath)}`,
         priority: 'polite'
@@ -170,7 +170,7 @@ export class AccessibilityManager {
   private handlePageLoad(): void {
     // Update page landmarks with transition names
     this.updateLandmarkTransitionNames();
-    
+
     // Ensure skip links are properly configured
     this.setupSkipLinks();
   }
@@ -244,7 +244,7 @@ export class AccessibilityManager {
    */
   private applyReducedMotionPreferences(): void {
     const root = document.documentElement;
-    
+
     if (this.preferences.reducedMotion) {
       root.setAttribute('data-reduced-motion', 'true');
       root.style.setProperty('--transition-duration-fast', '0ms');
@@ -286,12 +286,12 @@ export class AccessibilityManager {
       // Make main content focusable temporarily
       mainContent.setAttribute('tabindex', '-1');
       mainContent.focus();
-      
+
       // Remove tabindex after focus to maintain natural tab order
       setTimeout(() => {
         mainContent.removeAttribute('tabindex');
       }, 100);
-      
+
       return;
     }
 
@@ -330,8 +330,8 @@ export class AccessibilityManager {
    */
   private isElementVisible(element: HTMLElement): boolean {
     const rect = element.getBoundingClientRect();
-    return rect.width > 0 && rect.height > 0 && 
-           window.getComputedStyle(element).visibility !== 'hidden';
+    return rect.width > 0 && rect.height > 0 &&
+      window.getComputedStyle(element).visibility !== 'hidden';
   }
 
   /**
@@ -376,7 +376,7 @@ export class AccessibilityManager {
    */
   private setupSkipLinks(): void {
     const skipLinks = document.querySelectorAll('.skip-link');
-    
+
     skipLinks.forEach((link) => {
       // Ensure skip links work properly during transitions
       link.addEventListener('click', (event) => {
@@ -390,13 +390,13 @@ export class AccessibilityManager {
             if (!originalTabIndex) {
               (target as HTMLElement).setAttribute('tabindex', '-1');
             }
-            
+
             (target as HTMLElement).focus();
-            (target as HTMLElement).scrollIntoView({ 
+            (target as HTMLElement).scrollIntoView({
               behavior: this.preferences.reducedMotion ? 'auto' : 'smooth',
               block: 'start'
             });
-            
+
             // Announce the skip action
             if (this.preferences.screenReaderAnnouncements) {
               const targetName = this.getSkipTargetName(href);
@@ -406,7 +406,7 @@ export class AccessibilityManager {
                 delay: 100
               });
             }
-            
+
             // Remove temporary tabindex after a short delay
             if (!originalTabIndex) {
               setTimeout(() => {
@@ -430,7 +430,7 @@ export class AccessibilityManager {
       '#search': 'search',
       '#sidebar': 'sidebar'
     };
-    
+
     return targetMap[href] || href.substring(1);
   }
 
@@ -444,7 +444,7 @@ export class AccessibilityManager {
       if (this.announcer) {
         this.announcer.setAttribute('aria-live', announcement.priority);
         this.announcer.textContent = announcement.message;
-        
+
         // Clear after announcement to allow repeated announcements
         setTimeout(() => {
           if (this.announcer) {
@@ -470,7 +470,7 @@ export class AccessibilityManager {
       mainContent.setAttribute('tabindex', '-1');
       mainContent.focus();
       mainContent.scrollIntoView({ behavior: 'smooth' });
-      
+
       setTimeout(() => {
         mainContent.removeAttribute('tabindex');
       }, 100);
@@ -494,7 +494,7 @@ export class AccessibilityManager {
   }
 
   /**
-   * Focus on search input if available
+   * Focus on search input if available, otherwise navigate to search page
    */
   private focusSearch(): void {
     const searchInput = document.querySelector('input[type="search"], input[name="search"], #search-input') as HTMLInputElement;
@@ -505,6 +505,11 @@ export class AccessibilityManager {
           message: 'Search focused',
           priority: 'polite'
         });
+      }
+    } else {
+      // If search input not found, navigate to search page
+      if (typeof window !== 'undefined') {
+        window.location.href = '/search';
       }
     }
   }
@@ -562,7 +567,7 @@ export class AccessibilityManager {
    */
   private handleFocusDuringTransition(event: FocusEvent): void {
     const target = event.target as HTMLElement;
-    
+
     // Ensure focused element is visible and properly announced
     if (target && this.preferences.screenReaderAnnouncements) {
       const elementType = target.tagName.toLowerCase();
