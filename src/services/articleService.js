@@ -6,7 +6,7 @@ import {
   setHasMore, 
   setPage 
 } from '../stores/articleStore';
-import { devConsole } from '../utils/isDev';
+import { devConsole } from '../utils/isDev.js';
 
 const POSTS_PER_PAGE = 10;
 const MAX_RETRY_ATTEMPTS = 3;
