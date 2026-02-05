@@ -41,6 +41,7 @@ const REQUIRED_FRONTMATTER = ['title', 'description', 'pubDate', 'status', 'read
 /**
  * Parses frontmatter from a markdown string.
  * @param {string} rawContent
+ * @param {string} slug
  * @returns {PostData|null}
  */
 const parsePostData = (rawContent, slug) => {
@@ -107,84 +108,125 @@ const extractImages = (content) => {
   return images;
 };
 
-// --- SEO Validation Rules (Pure Functions) ---
+// --- SEO Validation Rules (Named Pure Functions) ---
+
+/**
+ * Validates that the slug follows the YYYY-MM-DD-slug format.
+ * @param {PostData} data
+ * @returns {ValidationResult}
+ */
+const checkSlugFormat = ({ slug }) => {
+  const isValid = /^\d{4}-\d{2}-\d{2}-[\w-]+$/.test(slug);
+  return {
+    errors: isValid ? [] : [`Invalid slug format: "${slug}". Expected YYYY-MM-DD-slug`],
+    warnings: []
+  };
+};
+
+/**
+ * Validates that all required frontmatter fields are present.
+ * @param {PostData} data
+ * @returns {ValidationResult}
+ */
+const checkRequiredFrontmatter = ({ frontmatter }) => ({
+  errors: REQUIRED_FRONTMATTER
+    .filter(field => !frontmatter[field])
+    .map(field => `Missing required frontmatter field: "${field}"`),
+  warnings: []
+});
+
+/**
+ * Validates the length of the title.
+ * @param {PostData} data
+ * @returns {ValidationResult}
+ */
+const checkTitleLength = ({ frontmatter }) => {
+  if (!frontmatter.title) return { errors: [], warnings: [] };
+  const len = frontmatter.title.length;
+  const isOutOfRange = len < SEO_LIMITS.TITLE.MIN || len > SEO_LIMITS.TITLE.MAX;
+  return {
+    errors: [],
+    warnings: isOutOfRange ? [`Title length (${len}) is outside recommended range [${SEO_LIMITS.TITLE.MIN}-${SEO_LIMITS.TITLE.MAX}]`] : []
+  };
+};
+
+/**
+ * Validates the length of the meta description.
+ * @param {PostData} data
+ * @returns {ValidationResult}
+ */
+const checkDescriptionLength = ({ frontmatter }) => {
+  if (!frontmatter.description) return { errors: [], warnings: [] };
+  const len = frontmatter.description.length;
+  const isOutOfRange = len < SEO_LIMITS.DESCRIPTION.MIN || len > SEO_LIMITS.DESCRIPTION.MAX;
+  return {
+    errors: [],
+    warnings: isOutOfRange ? [`Description length (${len}) is outside recommended range [${SEO_LIMITS.DESCRIPTION.MIN}-${SEO_LIMITS.DESCRIPTION.MAX}]`] : []
+  };
+};
+
+/**
+ * Validates the minimum word count of the post content.
+ * @param {PostData} data
+ * @returns {ValidationResult}
+ */
+const checkWordCount = ({ content }) => {
+  const wordCount = countWords(content);
+  return {
+    errors: [],
+    warnings: wordCount < SEO_LIMITS.MIN_WORDS ? [`Content length (${wordCount} words) is below recommended minimum of ${SEO_LIMITS.MIN_WORDS}`] : []
+  };
+};
+
+/**
+ * Validates the heading structure (no H1 in content, ensures H2 exists).
+ * @param {PostData} data
+ * @returns {ValidationResult}
+ */
+const checkHeadingStructure = ({ content }) => {
+  const results = { errors: [], warnings: [] };
+  if (/^#\s+/m.test(content)) {
+    results.errors.push('Avoid using H1 (#) in markdown content; the title is already H1');
+  }
+  if (!/^##\s+/m.test(content)) {
+    results.warnings.push('At least one H2 (##) is recommended for SEO');
+  }
+  return results;
+};
+
+/**
+ * Validates that all images have alt text for accessibility and SEO.
+ * @param {PostData} data
+ * @returns {ValidationResult}
+ */
+const checkImageAccessibility = ({ content }) => {
+  const images = extractImages(content);
+  const errors = images
+    .filter(img => img.alt === null || img.alt.trim() === '')
+    .map(img => `Image missing alt text: ${img.src} (${img.type})`);
+  return { errors, warnings: [] };
+};
+
+/**
+ * Validates the presence of external links to build authority.
+ * @param {PostData} data
+ * @returns {ValidationResult}
+ */
+const checkAuthorityLinks = ({ content }) => ({
+  errors: [],
+  warnings: !/\[.*?\]\((https?:\/\/.*?)\)/.test(content) ? ['No external links found; adding authority links is good for SEO'] : []
+});
 
 /** @type {Array<(data: PostData) => ValidationResult>} */
 const SEO_RULES = [
-  // 1. Slug format
-  ({ slug }) => {
-    const isValid = /^\d{4}-\d{2}-\d{2}-[\w-]+$/.test(slug);
-    return {
-      errors: isValid ? [] : [`Invalid slug format: "${slug}". Expected YYYY-MM-DD-slug`],
-      warnings: []
-    };
-  },
-
-  // 2. Required frontmatter
-  ({ frontmatter }) => ({
-    errors: REQUIRED_FRONTMATTER
-      .filter(field => !frontmatter[field])
-      .map(field => `Missing required frontmatter field: "${field}"`),
-    warnings: []
-  }),
-
-  // 3. Title length
-  ({ frontmatter }) => {
-    if (!frontmatter.title) return { errors: [], warnings: [] };
-    const len = frontmatter.title.length;
-    const isOutOfRange = len < SEO_LIMITS.TITLE.MIN || len > SEO_LIMITS.TITLE.MAX;
-    return {
-      errors: [],
-      warnings: isOutOfRange ? [`Title length (${len}) is outside recommended range [${SEO_LIMITS.TITLE.MIN}-${SEO_LIMITS.TITLE.MAX}]`] : []
-    };
-  },
-
-  // 4. Description length
-  ({ frontmatter }) => {
-    if (!frontmatter.description) return { errors: [], warnings: [] };
-    const len = frontmatter.description.length;
-    const isOutOfRange = len < SEO_LIMITS.DESCRIPTION.MIN || len > SEO_LIMITS.DESCRIPTION.MAX;
-    return {
-      errors: [],
-      warnings: isOutOfRange ? [`Description length (${len}) is outside recommended range [${SEO_LIMITS.DESCRIPTION.MIN}-${SEO_LIMITS.DESCRIPTION.MAX}]`] : []
-    };
-  },
-
-  // 5. Word count
-  ({ content }) => {
-    const wordCount = countWords(content);
-    return {
-      errors: [],
-      warnings: wordCount < SEO_LIMITS.MIN_WORDS ? [`Content length (${wordCount} words) is below recommended minimum of ${SEO_LIMITS.MIN_WORDS}`] : []
-    };
-  },
-
-  // 6. Heading structure
-  ({ content }) => {
-    const results = { errors: [], warnings: [] };
-    if (/^#\s+/m.test(content)) {
-      results.errors.push('Avoid using H1 (#) in markdown content; the title is already H1');
-    }
-    if (!/^##\s+/m.test(content)) {
-      results.warnings.push('At least one H2 (##) is recommended for SEO');
-    }
-    return results;
-  },
-
-  // 7. Image accessibility
-  ({ content }) => {
-    const images = extractImages(content);
-    const errors = images
-      .filter(img => img.alt === null || img.alt.trim() === '')
-      .map(img => `Image missing alt text: ${img.src} (${img.type})`);
-    return { errors, warnings: [] };
-  },
-
-  // 8. Authority links
-  ({ content }) => ({
-    errors: [],
-    warnings: !/\[.*?\]\((https?:\/\/.*?)\)/.test(content) ? ['No external links found; adding authority links is good for SEO'] : []
-  })
+  checkSlugFormat,
+  checkRequiredFrontmatter,
+  checkTitleLength,
+  checkDescriptionLength,
+  checkWordCount,
+  checkHeadingStructure,
+  checkImageAccessibility,
+  checkAuthorityLinks
 ];
 
 // --- Main Logic ---
