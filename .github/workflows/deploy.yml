@@ -10,9 +10,16 @@ permissions:
   pages: write
   id-token: write
 
+# Environment for GitHub Pages deployment
+env:
+  GITHUB_PAGES_ENV: github-pages
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -41,4 +48,5 @@ jobs:
           path: ./docs
 
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
