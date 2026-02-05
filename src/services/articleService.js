@@ -6,6 +6,7 @@ import {
   setHasMore, 
   setPage 
 } from '../stores/articleStore';
+import { devConsole } from '../utils/isDev';
 
 const POSTS_PER_PAGE = 10;
 const MAX_RETRY_ATTEMPTS = 3;
@@ -48,11 +49,13 @@ export async function loadMoreArticles(retryAttempt = 0) {
       window.__ARTICLE_DATA__.loadedCount = (window.__ARTICLE_DATA__.loadedCount || 0) + newArticles.length;
     }
   } catch (error) {
-    console.error('Error loading more articles:', error);
+    // Only log errors in development mode
+    devConsole('error', ['Error loading more articles:', error]);
     
     // Retry logic
     if (retryAttempt < MAX_RETRY_ATTEMPTS) {
-      console.log(`Retrying (${retryAttempt + 1}/${MAX_RETRY_ATTEMPTS})...`);
+      // Only log retry attempts in development mode
+      devConsole('log', [`Retrying (${retryAttempt + 1}/${MAX_RETRY_ATTEMPTS})...`]);
       // Wait a bit before retrying (exponential backoff)
       await new Promise(resolve => setTimeout(resolve, 1000 * Math.pow(2, retryAttempt)));
       return loadMoreArticles(retryAttempt + 1);

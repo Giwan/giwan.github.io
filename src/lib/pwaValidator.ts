@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { devConsole } from '../utils/isDev';
 
 type LogType = "info" | "warning" | "error" | "success";
 
@@ -47,9 +48,9 @@ export class PWABuildValidator {
         this.manifestExpectations = options.manifestExpectations;
         this.requiredIconFiles = options.requiredIconFiles;
         this.logger = options.logger ?? {
-            info: console.log,
-            warn: console.warn,
-            error: console.error,
+            info: (message?: string) => devConsole('log', [message]),
+            warn: (message?: string) => devConsole('warn', [message]),
+            error: (message?: string) => devConsole('error', [message]),
         };
     }
 

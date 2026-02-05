@@ -8,6 +8,7 @@
 import { mobileTransitionOptimizer } from './mobileTransitionOptimizer';
 import { pwaTransitionIntegration } from './pwaTransitionIntegration';
 import { transitionController } from './transitionController';
+import { devConsole } from '../utils/isDev';
 
 export interface MobileTransitionConfig {
   enableMobileOptimizations: boolean;
@@ -68,7 +69,7 @@ export class MobileTransitionInitializer {
       this.log('Mobile transition optimizations initialized successfully');
 
     } catch (error) {
-      console.error('Failed to initialize mobile transition optimizations:', error);
+      devConsole('error', ['Failed to initialize mobile transition optimizations:', error]);
     }
   }
 

@@ -6,6 +6,7 @@
  */
 
 import { transitionController } from './transitionController';
+import { devConsole } from './isDev';
 
 /**
  * Initialize transitions for the application
@@ -22,22 +23,22 @@ export function initializeTransitions(): void {
     });
 
     // Add any additional initialization logic here
-    console.log('TransitionController initialized');
+    devConsole('log', ['TransitionController initialized']);
     
     // Optional: Log transition events in development
     if (import.meta.env.DEV) {
       document.addEventListener('astro:before-preparation', (event) => {
         const customEvent = event as CustomEvent;
-        console.log('Transition starting:', {
+        devConsole('log', ['Transition starting:', {
           from: window.location.pathname,
           to: customEvent.detail?.to?.pathname
-        });
+        }]);
       });
       
       document.addEventListener('astro:after-swap', (event) => {
         const context = transitionController.getCurrentContext();
         if (context) {
-          console.log('Transition completed:', context);
+          devConsole('log', ['Transition completed:', context]);
         }
       });
     }

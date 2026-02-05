@@ -206,7 +206,8 @@ ce capability-based optimizations */
   background: rgba(255, 0, 0, 0.1);
 }
 
-[data-debug-transitions="true"]::before {
+/* DEBUG STYLES - REMOVED FROM PRODUCTION */
+/* [data-debug-transitions="true"]::before {
   content: "DEBUG: Transition Active";
   position: fixed;
   top: 10px;
@@ -217,7 +218,7 @@ ce capability-based optimizations */
   font-size: 12px;
   z-index: 9999;
   border-radius: 4px;
-}
+} */
 
 /* Custom duration override */
 [data-transition-intensity="normal"][style*="--transition-duration-custom"] ::view-transition-old(main-content),

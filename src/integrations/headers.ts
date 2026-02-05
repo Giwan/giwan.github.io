@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { devConsole } from '../utils/isDev';
 
 /**
  * Astro integration to generate _headers file for Cloudflare Pages / Netlify / Vercel
@@ -36,9 +37,11 @@ export default function headersIntegration() {
 
                 try {
                     fs.writeFileSync(cleanPath, headersContent);
-                    console.log('\x1b[32m%s\x1b[0m', '✅ _headers file generated successfully');
+                    // Only log in development mode
+                    devConsole('log', ['\x1b[32m%s\x1b[0m', '✅ _headers file generated successfully']);
                 } catch (error: any) {
-                    console.error('\x1b[31m%s\x1b[0m', `❌ Failed to generate _headers file: ${error.message}`);
+                    // Only log errors in development mode
+                    devConsole('error', ['\x1b[31m%s\x1b[0m', `❌ Failed to generate _headers file: ${error.message}`]);
                 }
             },
         },

@@ -126,7 +126,8 @@
   position: relative;
 }
 
-[data-transition-debug="true"]::after {
+/* DEBUG STYLES - REMOVED FROM PRODUCTION */
+/* [data-transition-debug="true"]::after {
   content: 'DEBUG';
   position: fixed;
   top: 10px;
@@ -141,7 +142,7 @@
   z-index: 9998;
   pointer-events: none;
   backdrop-filter: blur(4px);
-}
+} */
 
 /* Debug transition indicators */
 [data-transition-debug="true"] [style*="view-transition-name"] {
