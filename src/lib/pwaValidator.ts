@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { devConsole } from '../utils/isDev';
+import { devConsole } from '../utils/isDev.js';
 
 type LogType = "info" | "warning" | "error" | "success";
 
