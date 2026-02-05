@@ -7,7 +7,6 @@
 
 import { performanceMonitor } from './performanceMonitor';
 import { transitionPreferences } from './transitionPreferences';
-import { devConsole } from './isDev';
 import {
   detectDeviceCapabilities
 } from './transition/deviceDetector';
@@ -42,7 +41,7 @@ export type {
 export function calculateRecommendations(
   capabilities: DeviceCapabilities,
   metrics: { frameRate: number, memoryUsage?: number },
-  preferences: { reducedMotion: boolean },
+  preferences: { respectReducedMotion: boolean },
   isLowBattery: boolean,
   isSlowNetwork: boolean
 ): OptimizationRecommendations {
@@ -99,7 +98,7 @@ export function calculateRecommendations(
   }
 
   // Respect user preferences
-  if (preferences.reducedMotion) {
+  if (preferences.respectReducedMotion && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     shouldSimplifyAnimations = true;
     recommendedDuration = 0;
     maxAnimationComplexity = 'low';
@@ -217,7 +216,9 @@ export function applyEmergencyOptimizations(): void {
   root.setAttribute('data-force-simple-transitions', 'true');
 
   // Only warn in development mode
-  devConsole('warn', ['Emergency transition optimizations applied due to poor performance']);
+  if (import.meta.env.DEV) {
+    console.warn('Emergency transition optimizations applied due to poor performance');
+  }
 }
 
 /**

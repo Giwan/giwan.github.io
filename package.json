@@ -30,7 +30,8 @@
         "maintenance:status": "node scripts/maintenance-scheduler.js status",
         "maintenance:checklist": "node scripts/maintenance-scheduler.js checklist",
         "maintenance:complete": "node scripts/maintenance-scheduler.js complete",
-        "tools:freshness": "node scripts/tool-freshness-tracker.js"
+        "tools:freshness": "node scripts/tool-freshness-tracker.js",
+        "lint": "eslint src --ext .ts,.tsx,.astro"
     },
     "dependencies": {
         "@astrojs/mdx": "^4.3.13",
@@ -63,10 +64,13 @@
         "@testing-library/jest-dom": "^6.9.1",
         "@testing-library/react": "^16.3.1",
         "@vite-pwa/astro": "^1.2.0",
+        "eslint": "^9.39.2",
+        "eslint-plugin-astro": "^1.5.0",
         "http-server": "^14.1.1",
         "jest": "^30.2.0",
         "jest-environment-jsdom": "^30.2.0",
         "puppeteer": "^24.35.0",
-        "ts-jest": "^29.4.6"
+        "ts-jest": "^29.4.6",
+        "typescript-eslint": "^8.54.0"
     }
 }

@@ -28,6 +28,6 @@ pnpm-debug.log*
 .astro
 
 # The docs file contents should be ignored as it's generated
-# /docs
+/docs
 
 .vscode

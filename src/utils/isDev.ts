@@ -20,11 +20,12 @@
  * ```
  */
 export function isDev(): boolean {
-  // Check for various development environment indicators
-  // This covers different build systems and environments
   return (
-    import.meta.env?.DEV === true ||
-    process.env.NODE_ENV === 'development' ||
+    (
+      typeof process !== 'undefined' &&
+      process.env &&
+      (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test')
+    ) ||
     (typeof window !== 'undefined' && window.location.hostname === 'localhost')
   );
 }
@@ -62,8 +63,14 @@ export function devOnly(fn: Function, args: any[] = []): void {
  * devConsole('error', ['Development error:', error]);
  * ```
  */
-export function devConsole(method: string, args: any[] = []): void {
-  if (isDev() && typeof console !== 'undefined' && console[method]) {
-    console[method](...args);
+const CONSOLE_METHODS = ['log', 'error', 'warn', 'info', 'debug', 'trace', 'group', 'groupEnd', 'time', 'timeEnd', 'table', 'dir'] as const;
+type ConsoleMethod = typeof CONSOLE_METHODS[number];
+
+export function devConsole(method: ConsoleMethod, args: any[] = []): void {
+  if (isDev() && typeof console !== 'undefined') {
+    const consoleMethod = method as keyof Console;
+    if (console[consoleMethod]) {
+      (console[consoleMethod] as (...args: any[]) => void)(...args);
+    }
   }
 }

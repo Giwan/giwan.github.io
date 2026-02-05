@@ -27,13 +27,13 @@ jest.mock('../../stores/articleStore', () => ({
 }));
 
 // Import the service after mocking
-const { loadMoreArticles, retryLoadingArticles } = require('../articleService');
+import { loadMoreArticles, retryLoadingArticles } from '../articleService';
 
 describe('articleService', () => {
   beforeEach(() => {
     // Reset all mocks
     jest.resetAllMocks();
-    
+
     // Mock the window.__ARTICLE_DATA__ object
     const mockArticleData = {
       allArticles: [
@@ -48,12 +48,12 @@ describe('articleService', () => {
       loadedCount: 0,
       hasMore: true
     };
-    
+
     global.window = {
       ...global.window,
       __ARTICLE_DATA__: mockArticleData
     };
-    
+
     // Mock the store state
     mockArticleStore.get.mockReturnValue({
       articles: mockArticleData.allArticles.slice(0, 2),
@@ -62,11 +62,11 @@ describe('articleService', () => {
       isLoading: false,
       error: null
     });
-    
+
     // Mock setTimeout
     jest.useFakeTimers();
   });
-  
+
   afterEach(() => {
     jest.restoreAllMocks();
     jest.useRealTimers();
@@ -75,17 +75,17 @@ describe('articleService', () => {
   it('should load more articles', async () => {
     // Call the loadMoreArticles function
     const loadPromise = loadMoreArticles();
-    
+
     // Check that the loading state is set
     expect(mockSetLoading).toHaveBeenCalledWith(true);
     expect(mockSetError).toHaveBeenCalledWith(null);
-    
+
     // Fast-forward timers
     jest.runAllTimers();
-    
+
     // Wait for the promise to resolve
     await loadPromise;
-    
+
     // Check that the articles are loaded
     expect(mockAppendArticles).toHaveBeenCalled();
     expect(mockSetPage).toHaveBeenCalledWith(2);
@@ -97,20 +97,20 @@ describe('articleService', () => {
   it('should handle errors when loading articles', async () => {
     // Mock the window.__ARTICLE_DATA__ to be null to cause an error
     global.window.__ARTICLE_DATA__ = null;
-    
+
     // Call the loadMoreArticles function
     const loadPromise = loadMoreArticles();
-    
+
     // Check that the loading state is set and error is cleared
     expect(mockSetLoading).toHaveBeenCalledWith(true);
     expect(mockSetError).toHaveBeenCalledWith(null);
-    
+
     // Fast-forward timers
     jest.runAllTimers();
-    
+
     // Wait for the promise to resolve
     await loadPromise;
-    
+
     // Check that the loading state is cleared
     expect(mockSetLoading).toHaveBeenCalledWith(false);
     // Since window.__ARTICLE_DATA__ is null, it will return empty array (no error)
@@ -132,9 +132,9 @@ describe('articleService', () => {
         hasMore: false
       };
     }
-    
+
     const mockArticleData = global.window.__ARTICLE_DATA__;
-    
+
     // Mock the store state with an error
     mockArticleStore.get.mockReturnValue({
       articles: mockArticleData.allArticles.slice(0, 2),
@@ -143,10 +143,10 @@ describe('articleService', () => {
       isLoading: false,
       error: 'Failed to load more articles'
     });
-    
+
     // Call the retryLoadingArticles function
     retryLoadingArticles();
-    
+
     // Check that loadMoreArticles is called
     expect(mockSetLoading).toHaveBeenCalledWith(true);
   });
