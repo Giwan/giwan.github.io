@@ -1,6 +1,6 @@
 ---
 title: "How RemixJS Works: A Deep Dive"
-description: "Understanding the core architecture of RemixJS: The Compiler, Server Handler, Server Framework, and Browser Framework."
+description: "Explore the core architecture of RemixJS: The Compiler, Server Handler, Server Framework, and Browser Framework in this deep dive."
 createdDate: "2025-12-15"
 published: "2025-12-15"
 pubDate: "2025-12-15"
