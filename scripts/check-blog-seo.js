@@ -1,224 +1,261 @@
 #!/usr/bin/env node
 
 /**
- * Blog SEO Check Script
- *
- * This script validates blog posts for SEO best practices:
- * - Frontmatter: required fields (title, description, pubDate, status, readTime)
- * - Title length: 30-70 characters
- * - Description length: 120-160 characters
- * - Content length: At least 300 words
- * - Headings: At least one H2, no H1 in markdown content
- * - Images: All images must have alt text
- * - Links: Presence of at least one external link
- * - Slug format: Directory name should match YYYY-MM-DD-slug
+ * @fileoverview Blog SEO Check Script
+ * This script validates blog posts for SEO best practices.
  */
 
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const rootDir = path.resolve(__dirname, '..');
+// --- Configuration ---
 
-const BLOG_PATH = path.join(rootDir, 'src/pages/blog');
+const BLOG_PATH = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'src/pages/blog');
 
-const RULES = {
+const SEO_LIMITS = {
   MIN_WORDS: 300,
-  TITLE_MIN: 30,
-  TITLE_MAX: 70,
-  DESC_MIN: 120,
-  DESC_MAX: 160,
+  TITLE: { MIN: 30, MAX: 70 },
+  DESCRIPTION: { MIN: 120, MAX: 160 },
 };
 
-function parseFrontmatter(content) {
+const REQUIRED_FRONTMATTER = ['title', 'description', 'pubDate', 'status', 'readTime'];
+
+// --- Types & Constants ---
+
+/**
+ * @typedef {Object} ValidationResult
+ * @property {string[]} errors
+ * @property {string[]} warnings
+ */
+
+/**
+ * @typedef {Object} PostData
+ * @property {Object} frontmatter
+ * @property {string} content
+ * @property {string} slug
+ */
+
+// --- Pure Utility Functions ---
+
+/**
+ * Parses frontmatter from a markdown string.
+ * @param {string} rawContent
+ * @returns {PostData|null}
+ */
+const parsePostData = (rawContent, slug) => {
   const frontmatterRegex = /^---\r?\n([\s\S]+?)\r?\n---/;
-  const match = content.match(frontmatterRegex);
+  const match = rawContent.match(frontmatterRegex);
   if (!match) return null;
 
   const yamlStr = match[1];
   const frontmatter = {};
 
-  // Basic YAML parser for key: value
-  const lines = yamlStr.split(/\r?\n/);
-  let currentKey = null;
-
-  lines.forEach(line => {
-    if (line.trim() === '') return;
-
+  yamlStr.split(/\r?\n/).forEach(line => {
     const keyValueMatch = line.match(/^(\w+):\s*(.*)/);
     if (keyValueMatch) {
-      currentKey = keyValueMatch[1].trim();
       let value = keyValueMatch[2].trim();
-
-      // Handle quoted values
       if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
         value = value.slice(1, -1);
       }
-      frontmatter[currentKey] = value;
-    } else if (currentKey && line.startsWith('  ')) {
-      // Handle simple multi-line values (very basic)
-      frontmatter[currentKey] += ' ' + line.trim();
+      frontmatter[keyValueMatch[1].trim()] = value;
     }
   });
 
   return {
     frontmatter,
-    content: content.slice(match[0].length).trim()
+    content: rawContent.slice(match[0].length).trim(),
+    slug
   };
-}
+};
 
-function checkPost(postDir) {
-  let indexPath = path.join(BLOG_PATH, postDir, 'index.md');
-  if (!fs.existsSync(indexPath)) {
-    indexPath = path.join(BLOG_PATH, postDir, 'index.mdx');
+/**
+ * Counts words in a string.
+ * @param {string} text
+ * @returns {number}
+ */
+const countWords = (text) => text.split(/\s+/).filter(Boolean).length;
+
+/**
+ * Extracts all image definitions from markdown/HTML content.
+ * @param {string} content
+ * @returns {Array<{alt: string, src: string, type: 'markdown'|'html'}>}
+ */
+const extractImages = (content) => {
+  const images = [];
+
+  // Markdown images: ![alt](src)
+  const mdRegex = /!\[(.*?)\]\((.*?)\)/g;
+  let match;
+  while ((match = mdRegex.exec(content)) !== null) {
+    images.push({ alt: match[1], src: match[2], type: 'markdown' });
   }
 
-  if (!fs.existsSync(indexPath)) return null;
-
-  const rawContent = fs.readFileSync(indexPath, 'utf8');
-  const parsed = parseFrontmatter(rawContent);
-  if (!parsed) {
-    return { errors: ['Missing or invalid frontmatter'], warnings: [] };
+  // HTML images: <img alt="..." src="..." />
+  const htmlRegex = /<img\s+([^>]*?)>/g;
+  while ((match = htmlRegex.exec(content)) !== null) {
+    const tag = match[1];
+    const altMatch = tag.match(/alt=["'](.*?)["']/);
+    const srcMatch = tag.match(/src=["'](.*?)["']/);
+    images.push({
+      alt: altMatch ? altMatch[1] : null,
+      src: srcMatch ? srcMatch[1] : 'unknown',
+      type: 'html'
+    });
   }
 
-  const { frontmatter, content } = parsed;
-  const errors = [];
-  const warnings = [];
+  return images;
+};
 
+// --- SEO Validation Rules (Pure Functions) ---
+
+/** @type {Array<(data: PostData) => ValidationResult>} */
+const SEO_RULES = [
   // 1. Slug format
-  const slugRegex = /^\d{4}-\d{2}-\d{2}-[\w-]+$/;
-  if (!slugRegex.test(postDir)) {
-    errors.push(`Invalid slug format: "${postDir}". Expected YYYY-MM-DD-slug`);
-  }
+  ({ slug }) => {
+    const isValid = /^\d{4}-\d{2}-\d{2}-[\w-]+$/.test(slug);
+    return {
+      errors: isValid ? [] : [`Invalid slug format: "${slug}". Expected YYYY-MM-DD-slug`],
+      warnings: []
+    };
+  },
 
-  // 2. Required frontmatter fields
-  const requiredFields = ['title', 'description', 'pubDate', 'status', 'readTime'];
-  requiredFields.forEach(field => {
-    if (!frontmatter[field]) {
-      errors.push(`Missing required frontmatter field: "${field}"`);
-    }
-  });
+  // 2. Required frontmatter
+  ({ frontmatter }) => ({
+    errors: REQUIRED_FRONTMATTER
+      .filter(field => !frontmatter[field])
+      .map(field => `Missing required frontmatter field: "${field}"`),
+    warnings: []
+  }),
 
   // 3. Title length
-  if (frontmatter.title) {
+  ({ frontmatter }) => {
+    if (!frontmatter.title) return { errors: [], warnings: [] };
     const len = frontmatter.title.length;
-    if (len < RULES.TITLE_MIN || len > RULES.TITLE_MAX) {
-      warnings.push(`Title length (${len}) is outside recommended range [${RULES.TITLE_MIN}-${RULES.TITLE_MAX}]`);
-    }
-  }
+    const isOutOfRange = len < SEO_LIMITS.TITLE.MIN || len > SEO_LIMITS.TITLE.MAX;
+    return {
+      errors: [],
+      warnings: isOutOfRange ? [`Title length (${len}) is outside recommended range [${SEO_LIMITS.TITLE.MIN}-${SEO_LIMITS.TITLE.MAX}]`] : []
+    };
+  },
 
   // 4. Description length
-  if (frontmatter.description) {
+  ({ frontmatter }) => {
+    if (!frontmatter.description) return { errors: [], warnings: [] };
     const len = frontmatter.description.length;
-    if (len < RULES.DESC_MIN || len > RULES.DESC_MAX) {
-      warnings.push(`Description length (${len}) is outside recommended range [${RULES.DESC_MIN}-${RULES.DESC_MAX}]`);
-    }
-  }
+    const isOutOfRange = len < SEO_LIMITS.DESCRIPTION.MIN || len > SEO_LIMITS.DESCRIPTION.MAX;
+    return {
+      errors: [],
+      warnings: isOutOfRange ? [`Description length (${len}) is outside recommended range [${SEO_LIMITS.DESCRIPTION.MIN}-${SEO_LIMITS.DESCRIPTION.MAX}]`] : []
+    };
+  },
 
   // 5. Word count
-  const wordCount = content.split(/\s+/).filter(Boolean).length;
-  if (wordCount < RULES.MIN_WORDS) {
-    warnings.push(`Content length (${wordCount} words) is below recommended minimum of ${RULES.MIN_WORDS}`);
-  }
+  ({ content }) => {
+    const wordCount = countWords(content);
+    return {
+      errors: [],
+      warnings: wordCount < SEO_LIMITS.MIN_WORDS ? [`Content length (${wordCount} words) is below recommended minimum of ${SEO_LIMITS.MIN_WORDS}`] : []
+    };
+  },
 
-  // 6. Headings
-  const h1Match = content.match(/^#\s+/m);
-  if (h1Match) {
-    errors.push('Avoid using H1 (#) in markdown content; the title is already H1');
-  }
-  const h2Match = content.match(/^##\s+/m);
-  if (!h2Match) {
-    warnings.push('At least one H2 (##) is recommended for SEO');
-  }
-
-  // 7. Images alt text
-  const imgRegex = /!\[(.*?)\]\((.*?)\)/g;
-  let match;
-  while ((match = imgRegex.exec(content)) !== null) {
-    if (!match[1].trim()) {
-      errors.push(`Image missing alt text: ${match[2]}`);
+  // 6. Heading structure
+  ({ content }) => {
+    const results = { errors: [], warnings: [] };
+    if (/^#\s+/m.test(content)) {
+      results.errors.push('Avoid using H1 (#) in markdown content; the title is already H1');
     }
-  }
-
-  // Also check for HTML img tags
-  const htmlImgRegex = /<img\s+[^>]*alt=["'](.*?)["'][^>]*>/g;
-  const rawHtmlImgRegex = /<img\s+[^>]*>/g;
-  const rawImgs = content.match(rawHtmlImgRegex) || [];
-  rawImgs.forEach(img => {
-    if (!img.includes('alt=')) {
-      errors.push(`HTML Image missing alt attribute: ${img}`);
-    } else {
-      const altMatch = img.match(/alt=["'](.*?)["']/);
-      if (altMatch && !altMatch[1].trim()) {
-        errors.push(`HTML Image has empty alt attribute: ${img}`);
-      }
+    if (!/^##\s+/m.test(content)) {
+      results.warnings.push('At least one H2 (##) is recommended for SEO');
     }
-  });
+    return results;
+  },
 
-  // 8. External links
-  const linkRegex = /\[.*?\]\((https?:\/\/.*?)\)/g;
-  if (!content.match(linkRegex)) {
-    warnings.push('No external links found; adding authority links is good for SEO');
+  // 7. Image accessibility
+  ({ content }) => {
+    const images = extractImages(content);
+    const errors = images
+      .filter(img => img.alt === null || img.alt.trim() === '')
+      .map(img => `Image missing alt text: ${img.src} (${img.type})`);
+    return { errors, warnings: [] };
+  },
+
+  // 8. Authority links
+  ({ content }) => ({
+    errors: [],
+    warnings: !/\[.*?\]\((https?:\/\/.*?)\)/.test(content) ? ['No external links found; adding authority links is good for SEO'] : []
+  })
+];
+
+// --- Main Logic ---
+
+/**
+ * Validates a single post.
+ * @param {string} postDir
+ */
+const validatePost = (postDir) => {
+  const getPostPath = (ext) => path.join(BLOG_PATH, postDir, `index.${ext}`);
+  const mdPath = getPostPath('md');
+  const mdxPath = getPostPath('mdx');
+  const actualPath = fs.existsSync(mdPath) ? mdPath : (fs.existsSync(mdxPath) ? mdxPath : null);
+
+  if (!actualPath) return null;
+
+  const rawContent = fs.readFileSync(actualPath, 'utf8');
+  const postData = parsePostData(rawContent, postDir);
+
+  if (!postData) {
+    return { errors: ['Missing or invalid frontmatter'], warnings: [], title: postDir };
   }
 
-  return { errors, warnings, title: frontmatter.title || postDir };
-}
+  const results = SEO_RULES.reduce((acc, rule) => {
+    const { errors, warnings } = rule(postData);
+    return {
+      errors: [...acc.errors, ...errors],
+      warnings: [...acc.warnings, ...warnings]
+    };
+  }, { errors: [], warnings: [] });
 
-function main() {
+  return { ...results, title: postData.frontmatter.title || postDir };
+};
+
+const main = () => {
   if (!fs.existsSync(BLOG_PATH)) {
     console.error(`❌ Blog path not found: ${BLOG_PATH}`);
     process.exit(1);
   }
 
-  const posts = fs.readdirSync(BLOG_PATH).filter(f => {
+  const postDirs = fs.readdirSync(BLOG_PATH).filter(f => {
     const fullPath = path.join(BLOG_PATH, f);
-    return fs.statSync(fullPath).isDirectory() && (
-      fs.existsSync(path.join(fullPath, 'index.md')) ||
-      fs.existsSync(path.join(fullPath, 'index.mdx'))
-    );
+    return fs.statSync(fullPath).isDirectory() &&
+           (fs.existsSync(path.join(fullPath, 'index.md')) || fs.existsSync(path.join(fullPath, 'index.mdx')));
   });
 
-  let totalErrors = 0;
-  let totalWarnings = 0;
-  let postsWithIssues = 0;
+  console.log(`🔍 Checking ${postDirs.length} blog posts for SEO best practices...\n`);
 
-  console.log(`🔍 Checking ${posts.length} blog posts for SEO best practices...\n`);
+  let stats = { totalErrors: 0, totalWarnings: 0, postsWithIssues: 0 };
 
-  posts.forEach(post => {
-    const result = checkPost(post);
+  postDirs.forEach(dir => {
+    const result = validatePost(dir);
     if (result && (result.errors.length > 0 || result.warnings.length > 0)) {
-      postsWithIssues++;
-      console.log(`Post: ${post}`);
-      if (result.title && result.title !== post) {
-        console.log(`Title: ${result.title}`);
-      }
+      stats.postsWithIssues++;
+      console.log(`Post: ${dir}${result.title !== dir ? ` (${result.title})` : ''}`);
       result.errors.forEach(e => console.log(`  ❌ Error: ${e}`));
       result.warnings.forEach(w => console.log(`  ⚠️ Warning: ${w}`));
       console.log('');
 
-      totalErrors += result.errors.length;
-      totalWarnings += result.warnings.length;
+      stats.totalErrors += result.errors.length;
+      stats.totalWarnings += result.warnings.length;
     }
   });
 
   console.log('Summary:');
-  console.log(`  Total Posts: ${posts.length}`);
-  console.log(`  Posts with issues: ${postsWithIssues}`);
-  console.log(`  Total Errors: ${totalErrors}`);
-  console.log(`  Total Warnings: ${totalWarnings}`);
+  console.log(`  Total Posts: ${postDirs.length}`);
+  console.log(`  Posts with issues: ${stats.postsWithIssues}`);
+  console.log(`  Total Errors: ${stats.totalErrors}`);
+  console.log(`  Total Warnings: ${stats.totalWarnings}`);
 
-  if (totalErrors > 0) {
-    console.log('\n❌ SEO check failed with errors.');
-    process.exit(1);
-  } else if (totalWarnings > 0) {
-    console.log('\n✅ SEO check passed with warnings.');
-    process.exit(0);
-  } else {
-    console.log('\n✨ All SEO checks passed!');
-    process.exit(0);
-  }
-}
+  process.exit(stats.totalErrors > 0 ? 1 : 0);
+};
 
 main();
