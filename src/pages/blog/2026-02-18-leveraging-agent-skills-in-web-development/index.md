@@ -9,7 +9,7 @@ readTime: "10 min read"
 layout: "../../../layouts/BlogArticle.astro"
 ---
 
-**TL;DR:** For solo developers, the "Agent Skills" ecosystem (pioneered by Anthropic and Vercel) is the missing link between simple code completion and autonomous engineering. By using the portable `SKILL.md` format and tools like [skills.sh](https://skills.sh/), you can codify your "Senior Architect" knowledge into reusable plugins that manage planning, execution, and verification across any compatible tool (Claude Code, Cursor, Windsurf).
+**TL;DR:** For solo developers, the "Agent Skills" ecosystem (pioneered by [Anthropic](https://www.anthropic.com/) and [Vercel](https://vercel.com/)) is the missing link between simple code completion and autonomous engineering. By using the portable `SKILL.md` format and tools like [skills.sh](https://skills.sh/), you can codify your "Senior Architect" knowledge into reusable plugins that manage planning, execution, and verification across any compatible tool ([Claude Code](https://claude.ai/product/claude-code), [Cursor](https://cursor.sh/), [Windsurf](https://codeium.com/windsurf)).
 
 ---
 
@@ -65,7 +65,7 @@ Launching is exhausting. Use skills like [seo-audit](https://skills.sh/coreyhain
 
 ## The Future is Portable: Skills.sh
 
-The most important aspect of Agent Skills is **interoperability**. Because it's an open standard, a skill you build today for *Claude Code* will likely work in *Cursor*, *Windsurf*, or *Trae*.
+The most important aspect of Agent Skills is **interoperability**. Because it's an open standard, a skill you build today for [Claude Code](https://claude.ai/product/claude-code) will likely work in [Cursor](https://cursor.sh/), [Windsurf](https://codeium.com/windsurf), or [Trae](https://www.trae.ai/).
 
 The [skills.sh](https://skills.sh/) ecosystem is the central hub for this. Much like `npm` or `Homebrew`, you can install these capabilities with one command:
 
