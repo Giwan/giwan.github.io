@@ -28,3 +28,14 @@ Standardized practices for code quality and maintainability.
 
 - **Images**: Use Astro's `<Image />` component for optimization.
 - **Scripts**: Externalize large scripts and load them efficiently.
+
+## Content Guidelines (Blog)
+
+1. **Title and Headers**:
+   - The article title must be defined in the frontmatter as `title`.
+   - **Do NOT** use a Level 1 header (`#`) in the markdown content. The layout
+     automatically renders the title as an `<h1>`.
+   - Use Level 2 headers (`##`) for main sections.
+2. **Validation**:
+   - Run `npm run validate:blog-seo` before publishing to ensure compliance with
+     SEO and structural standards.

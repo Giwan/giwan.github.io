@@ -8,25 +8,23 @@ status: "published"
 readTime: 10
 layout: "../../../layouts/BlogArticle.astro"
 tags: [
-    "AI",
-    "OpenCode",
-    "Coding",
-    "LLM",
-    "Developer Tools",
-    "Gemini",
-    "Claude",
-    "Frontend",
-    "React",
-    "JavaScript",
-    "Kimi K2.5",
-    "MiniMax",
-    "AI Coding Assistant",
+  "AI",
+  "OpenCode",
+  "Coding",
+  "LLM",
+  "Developer Tools",
+  "Gemini",
+  "Claude",
+  "Frontend",
+  "React",
+  "JavaScript",
+  "Kimi K2.5",
+  "MiniMax",
+  "AI Coding Assistant",
 ]
 category: "Technology"
 image: "./opencode-models-comparison.png"
 ---
-
-# Best AI Coding Models 2026: Comparing Free Options via OpenCode CLI
 
 In this post, we'll dive deep into how these models perform—**with special
 attention to frontend development**—and when it actually makes sense to use the

@@ -185,10 +185,14 @@ const checkWordCount = ({ content }) => {
  */
 const checkHeadingStructure = ({ content }) => {
   const results = { errors: [], warnings: [] };
-  if (/^#\s+/m.test(content)) {
+
+  // Strip code blocks to avoid false positives from comments (e.g. bash #)
+  const contentWithoutCodeBlocks = content.replace(/```[\s\S]*?```/g, '');
+
+  if (/^#\s+/m.test(contentWithoutCodeBlocks)) {
     results.errors.push('Avoid using H1 (#) in markdown content; the title is already H1');
   }
-  if (!/^##\s+/m.test(content)) {
+  if (!/^##\s+/m.test(contentWithoutCodeBlocks)) {
     results.warnings.push('At least one H2 (##) is recommended for SEO');
   }
   return results;
@@ -270,7 +274,7 @@ const main = () => {
   const postDirs = fs.readdirSync(BLOG_PATH).filter(f => {
     const fullPath = path.join(BLOG_PATH, f);
     return fs.statSync(fullPath).isDirectory() &&
-           (fs.existsSync(path.join(fullPath, 'index.md')) || fs.existsSync(path.join(fullPath, 'index.mdx')));
+      (fs.existsSync(path.join(fullPath, 'index.md')) || fs.existsSync(path.join(fullPath, 'index.mdx')));
   });
 
   console.log(`🔍 Checking ${postDirs.length} blog posts for SEO best practices...\n`);
