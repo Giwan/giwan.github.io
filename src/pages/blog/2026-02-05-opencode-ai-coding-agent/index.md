@@ -42,9 +42,19 @@ workflow, check out our guide on
 - [The Contenders At A Glance](#the-contenders-at-a-glance)
 - [Pricing Comparison](#pricing-comparison-what-each-model-actually-costs)
 - [Coding Performance Comparison](#coding-performance-where-free-models-shine-and-dont)
+- [Long Context and "Big Picture" Tasks](#long-context-repos-and-big-picture-tasks)
+- [What OpenCode Actually Changes](#what-opencode-actually-changes)
 - [Frontend Development Deep Dive](#frontend-development-where-these-models-truly-shine)
+- [Model Spotlight: Kimi K2.5](#kimi-k2.5-the-open-source-front-end-monster)
+- [Model Spotlight: MiniMax M2.1](#minimax-m2.1-reasonable-cheap-and-underestimated)
+- [Model Spotlight: Trinity-Large-Preview](#trinity-large-preview-moe-long-context-specialist)
 - [When NOT to Use Each Model](#when-not-to-use-each-model-limitations)
+- [Real-World Usage Tips](#real-world-usage-tips-maximizing-opencode)
+- [Cost, Reliability, and Paid Models](#cost-reliability-and-when-paid-models-still-win)
+- [Which Model Should You Use?](#which-model-should-you-use-for-coding)
+- [Conclusion](#conclusion)
 - [FAQ](#faq-frequently-asked-questions)
+- [Learn More](#learn-more)
 
 ## TL;DR for Frontend Developers
 
@@ -77,7 +87,7 @@ opencode --model trinity-large-preview --session "repo-audit"
 opencode --model gemini-3-pro --session "architecture"
 
 # Check your token usage across all sessions
-/usage
+opencode stats
 
 # Export a session to share with teammates
 /share
@@ -112,7 +122,7 @@ quality of the generated code.
   - Known for solid reasoning and good price-performance, often close to or
     matching older Gemini/Claude tiers in tests
 
-- **Big Pickle Kimi K2.5**
+- **Kimi K2.5**
   - Open-weight model built on Moonshot's Kimi K2 line, tuned heavily for code
     and tool use
   - Frequently showcased beating Gemini 3 Pro on complex coding tasks like
@@ -147,13 +157,13 @@ quality of the generated code.
 When evaluating "free" vs "paid," here's the real cost breakdown (per million
 tokens):
 
-| Model             | Input Cost | Output Cost | Context Window | Best For                            |
-| ----------------- | ---------- | ----------- | -------------- | ----------------------------------- |
-| **MiniMax M2.1**  | Free*      | Free*       | 200k           | Budget-conscious dev, CSS fixes     |
-| **Kimi K2.5**     | Free*      | Free*       | 256k           | Frontend development, UI generation |
-| **Trinity-Large** | Free*      | Free*       | 128k           | Large codebase analysis             |
-| **Gemini 3 Pro**  | $3.00      | $15.00      | 1M             | Production apps, complex logic      |
-| **Opus 4.5**      | $5.00      | $25.00      | 200k           | Design systems, documentation       |
+| Model                     | Input Cost | Output Cost | Context Window | Best For                            |
+| ------------------------- | ---------- | ----------- | -------------- | ----------------------------------- |
+| **MiniMax M2.1**          | Free*      | Free*       | 200k           | Budget-conscious dev, CSS fixes     |
+| **Kimi K2.5**             | Free*      | Free*       | 256k           | Frontend development, UI generation |
+| **Trinity-Large-Preview** | Free*      | Free*       | 128k           | Large codebase analysis             |
+| **Gemini 3 Pro**          | $3.00      | $15.00      | 1M             | Production apps, complex logic      |
+| **Opus 4.5**              | $5.00      | $25.00      | 200k           | Design systems, documentation       |
 
 \* Free through OpenCode's free tier or OpenRouter. Paid tiers available for
 higher rate limits.
@@ -268,8 +278,8 @@ A pragmatic model strategy within OpenCode:
   within 20–100 USD monthly budgets instead of blindly burning credits
 
 The same interface also exposes a large catalog of free models (including GLM
-4.7 and MiniMax) that can beat mid-tier closed models like GPT-5.2 and Gemini 3
-Flash in many benchmarks while staying much cheaper to run.
+4.7 and MiniMax M2.1) that can beat mid-tier closed models like GPT-5.2 and
+Gemini 3 Flash in many benchmarks while staying much cheaper to run.
 
 ## Frontend Development: Where These Models Truly Shine
 
@@ -497,7 +507,7 @@ Day goal: Stay under $2
 
 ```bash
 # In OpenCode
-/usage
+/stats
 
 # Shows per-model breakdown
 Kimi K2.5:     45k tokens (free)
@@ -567,7 +577,7 @@ reliability and polish for cost savings and openness.
 
 **Where free models are "good enough"**:
 
-- Solo devs, indie hackers, and hobby projects (This is me! It let's me use this
+- Solo devs, indie hackers, and hobby projects (This is me! It lets me use this
   stuff for my side projects)
 - Internal tools, prototypes, and experiments where occasional missteps are
   acceptable
