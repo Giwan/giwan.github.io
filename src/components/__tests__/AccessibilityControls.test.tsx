@@ -2,6 +2,7 @@
  * Tests for AccessibilityControls component
  */
 
+import { jest } from '@jest/globals';
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { AccessibilityControls } from '../AccessibilityControls';

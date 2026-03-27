@@ -1,32 +1,30 @@
-// Mock the articleStore
-const mockArticleStore = {
-  get: jest.fn(),
-  set: jest.fn(),
-  setKey: jest.fn()
-};
-
-// Mock the store functions
-const mockResetStore = jest.fn();
-const mockSetArticles = jest.fn();
-const mockAppendArticles = jest.fn();
-const mockSetPage = jest.fn();
-const mockSetHasMore = jest.fn();
-const mockSetLoading = jest.fn();
-const mockSetError = jest.fn();
-
 // Mock the articleStore module
 jest.mock('../../stores/articleStore', () => ({
-  $articleStore: mockArticleStore,
-  resetStore: mockResetStore,
-  setArticles: mockSetArticles,
-  appendArticles: mockAppendArticles,
-  setPage: mockSetPage,
-  setHasMore: mockSetHasMore,
-  setLoading: mockSetLoading,
-  setError: mockSetError
+  $articleStore: {
+    get: jest.fn(),
+    set: jest.fn(),
+    setKey: jest.fn()
+  },
+  resetStore: jest.fn(),
+  setArticles: jest.fn(),
+  appendArticles: jest.fn(),
+  setPage: jest.fn(),
+  setHasMore: jest.fn(),
+  setLoading: jest.fn(),
+  setError: jest.fn()
 }));
 
 // Import the service after mocking
+import { 
+  $articleStore, 
+  resetStore, 
+  setArticles, 
+  appendArticles, 
+  setPage, 
+  setHasMore, 
+  setLoading, 
+  setError 
+} from '../../stores/articleStore';
 import { loadMoreArticles, retryLoadingArticles } from '../articleService';
 
 describe('articleService', () => {
@@ -55,7 +53,7 @@ describe('articleService', () => {
     };
 
     // Mock the store state
-    mockArticleStore.get.mockReturnValue({
+    $articleStore.get.mockReturnValue({
       articles: mockArticleData.allArticles.slice(0, 2),
       page: 1,
       hasMore: true,
@@ -77,8 +75,8 @@ describe('articleService', () => {
     const loadPromise = loadMoreArticles();
 
     // Check that the loading state is set
-    expect(mockSetLoading).toHaveBeenCalledWith(true);
-    expect(mockSetError).toHaveBeenCalledWith(null);
+    expect(setLoading).toHaveBeenCalledWith(true);
+    expect(setError).toHaveBeenCalledWith(null);
 
     // Fast-forward timers
     jest.runAllTimers();
@@ -87,10 +85,10 @@ describe('articleService', () => {
     await loadPromise;
 
     // Check that the articles are loaded
-    expect(mockAppendArticles).toHaveBeenCalled();
-    expect(mockSetPage).toHaveBeenCalledWith(2);
-    expect(mockSetHasMore).toHaveBeenCalled();
-    expect(mockSetLoading).toHaveBeenCalledWith(false);
+    expect(appendArticles).toHaveBeenCalled();
+    expect(setPage).toHaveBeenCalledWith(2);
+    expect(setHasMore).toHaveBeenCalled();
+    expect(setLoading).toHaveBeenCalledWith(false);
     // Skip the loadedCount check as it's implementation detail
   });
 
@@ -102,8 +100,8 @@ describe('articleService', () => {
     const loadPromise = loadMoreArticles();
 
     // Check that the loading state is set and error is cleared
-    expect(mockSetLoading).toHaveBeenCalledWith(true);
-    expect(mockSetError).toHaveBeenCalledWith(null);
+    expect(setLoading).toHaveBeenCalledWith(true);
+    expect(setError).toHaveBeenCalledWith(null);
 
     // Fast-forward timers
     jest.runAllTimers();
@@ -112,10 +110,10 @@ describe('articleService', () => {
     await loadPromise;
 
     // Check that the loading state is cleared
-    expect(mockSetLoading).toHaveBeenCalledWith(false);
+    expect(setLoading).toHaveBeenCalledWith(false);
     // Since window.__ARTICLE_DATA__ is null, it will return empty array (no error)
     // The function should still work but append empty articles
-    expect(mockAppendArticles).toHaveBeenCalledWith([]);
+    expect(appendArticles).toHaveBeenCalledWith([]);
   });
 
   it('should retry loading articles', async () => {
@@ -136,7 +134,7 @@ describe('articleService', () => {
     const mockArticleData = global.window.__ARTICLE_DATA__;
 
     // Mock the store state with an error
-    mockArticleStore.get.mockReturnValue({
+    $articleStore.get.mockReturnValue({
       articles: mockArticleData.allArticles.slice(0, 2),
       page: 1,
       hasMore: true,
@@ -148,6 +146,6 @@ describe('articleService', () => {
     retryLoadingArticles();
 
     // Check that loadMoreArticles is called
-    expect(mockSetLoading).toHaveBeenCalledWith(true);
+    expect(setLoading).toHaveBeenCalledWith(true);
   });
 });

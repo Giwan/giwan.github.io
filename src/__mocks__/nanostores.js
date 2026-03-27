@@ -1,4 +1,3 @@
-// Mock for nanostores
 const map = jest.fn(() => ({
   get: jest.fn(),
   set: jest.fn(),
