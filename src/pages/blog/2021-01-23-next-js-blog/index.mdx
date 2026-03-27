@@ -5,6 +5,7 @@ title: "NextJS blogging with MDX"
 
 createdDate: "2021-01-23"
 published: "2021-01-23"
+status: "published"
 pubDate: "2021-01-23"
 readTime: 1
 layout: "../../../layouts/BlogArticle.astro"
@@ -22,7 +23,7 @@ This setup is based on the awesome article from <a href="https://www.smashingmag
 ## Create a new React project
 
 ```bash
-# Create a new project
+## Create a new project
 npx create-next-app
 ```
 
@@ -32,7 +33,7 @@ The blog articles will be written in MDX.
 The following loaders will read and parse `MDX` files to `HTML`.
 
 ```bash
-# Install loaders
+## Install loaders
 npm i @mdx-js/loader @next/mdx
 ```
 
@@ -275,7 +276,7 @@ Styling the code is done by [rehype-prism](https://github.com/mapbox/rehype-pris
 It's a plugin for [Rehype](https://github.com/rehypejs/rehype) and performs the highlighting.
 
 ```bash
-# Install @mapbox/rehype-prism.
+## Install @mapbox/rehype-prism.
 npm i @mapbox/rehype-prism
 ```
 
@@ -326,11 +327,11 @@ import "../node_modules/prismjs/themes/prism-okaidia.css";
 Start the development server with the following.
 
 ```bash
-# Start the dev server
+## Start the dev server
 npm run dev
 ```
 
-# Sources
+## Sources
 
 -   <a
         href="https://www.netlify.com/blog/2020/11/30/how-to-deploy-next.js-sites-to-netlify/"

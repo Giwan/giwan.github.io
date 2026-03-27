@@ -3,8 +3,8 @@ title: "Free AI Courses 2026 (NVIDIA, Hugging Face, Google & Microsoft)"
 description: "Master AI development in 2026 with free courses from NVIDIA, Hugging Face, Google & Microsoft. Learn Agents, RAG, and LLMs—no fluff, just code."
 createdDate: "2026-01-05"
 published: "2026-01-05"
-pubDate: "2026-01-05"
 status: "published"
+pubDate: "2026-01-05"
 readTime: 8
 layout: "../../../layouts/BlogArticle.astro"
 ---

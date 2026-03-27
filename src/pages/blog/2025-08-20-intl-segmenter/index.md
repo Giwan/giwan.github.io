@@ -3,8 +3,8 @@ title: "Sentence Segmentation with JavaScript's Intl.Segmenter"
 description: "Explore how the Intl.Segmenter API can be used to split text into sentences."
 createdDate: "2025-08-20"
 published: "2025-08-20"
-pubDate: "2025-08-20"
 status: "published"
+pubDate: "2025-08-20"
 readTime: 7
 layout: "../../../layouts/BlogArticle.astro"
 tags: ["javascript", "i18n", "webdev", "text-processing"]

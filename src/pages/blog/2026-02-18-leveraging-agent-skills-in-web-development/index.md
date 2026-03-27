@@ -3,8 +3,8 @@ title: "Solo Dev Force Multipliers: Mastering the Agent Skills Ecosystem"
 description: "Stop using AI agents as simple chatbots. Learn how to use Agent Skills to codify complex workflows, automate design systems, and manage specialized subagents."
 createdDate: "2026-02-18"
 published: true
-pubDate: "2026-02-18"
 status: "published"
+pubDate: "2026-02-18"
 readTime: "10 min read"
 layout: "../../../layouts/BlogArticle.astro"
 ---
