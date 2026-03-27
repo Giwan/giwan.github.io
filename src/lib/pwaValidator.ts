@@ -240,7 +240,7 @@ export class PWABuildValidator {
         });
 
         try {
-            const iconFiles = fs.readdirSync(iconsDir).filter((file) => file.endsWith(".png") || file.endsWith(".ico"));
+            const iconFiles = fs.readdirSync(iconsDir).filter((file: string) => file.endsWith(".png") || file.endsWith(".ico"));
             this.addSuccess(`Found ${iconFiles.length} icon files`);
         } catch (error: any) {
             this.addError(`Failed to read icons directory: ${error.message}`);

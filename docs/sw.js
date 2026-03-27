@@ -517,7 +517,7 @@ define(['./workbox-e4259612'], (function (workbox) { 'use strict';
     "revision": "cd21bd63741a383735bd0892624d20f9"
   }, {
     "url": "drafts/2020-02-04-svelte-hn",
-    "revision": "552753e53377c355438285e5d0818287"
+    "revision": "11dfd74261dba1f0526b36c114f3c75d"
   }, {
     "url": "drafts/2018-12-01-browser-extension-with-react",
     "revision": "f22e0063bfeabdb1c19b501befc68353"
