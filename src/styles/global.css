@@ -9,32 +9,32 @@
   --font-family-mono: "JetBrains Mono", "Fira Code", "monospace";
   --font-family-heading: "Inter", "system-ui", "sans-serif";
 
-  --color-border: hsl(240 5.9% 90%);
-  --color-input: hsl(240 5.9% 90%);
+  --color-border: hsl(20 10% 88%);
+  --color-input: hsl(20 10% 88%);
   --color-ring: hsl(240 5.9% 10%);
-  --color-background: hsl(0 0% 100%);
-  --color-foreground: hsl(240 10% 3.9%);
+  --color-background: hsl(36 33% 98%);
+  --color-foreground: hsl(240 6% 10%);
 
-  --color-primary: hsl(240 5.9% 10%);
-  --color-primary-foreground: hsl(0 0% 98%);
+  --color-primary: hsl(240 6% 10%);
+  --color-primary-foreground: hsl(36 33% 98%);
 
-  --color-secondary: hsl(240 4.8% 95.9%);
-  --color-secondary-foreground: hsl(240 5.9% 10%);
+  --color-secondary: hsl(36 20% 94%);
+  --color-secondary-foreground: hsl(240 6% 10%);
 
   --color-destructive: hsl(0 84.2% 60.2%);
-  --color-destructive-foreground: hsl(0 0% 98%);
+  --color-destructive-foreground: hsl(36 33% 98%);
 
-  --color-muted: hsl(240 4.8% 95.9%);
-  --color-muted-foreground: hsl(240 3.8% 46.1%);
+  --color-muted: hsl(36 20% 94%);
+  --color-muted-foreground: hsl(240 4% 45%);
 
-  --color-accent: hsl(240 4.8% 95.9%);
-  --color-accent-foreground: hsl(240 5.9% 10%);
+  --color-accent: hsl(36 20% 94%);
+  --color-accent-foreground: hsl(240 6% 10%);
 
-  --color-popover: hsl(0 0% 100%);
-  --color-popover-foreground: hsl(240 10% 3.9%);
+  --color-popover: hsl(36 33% 99%);
+  --color-popover-foreground: hsl(240 6% 10%);
 
-  --color-card: hsl(0 0% 100%);
-  --color-card-foreground: hsl(240 10% 3.9%);
+  --color-card: hsl(36 33% 99%);
+  --color-card-foreground: hsl(240 6% 10%);
 }
 
 .dark {
@@ -69,6 +69,24 @@
 @import './view-transitions.css';
 
 @layer components {
+  /* Subtle Texture Overlay */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    z-index: 100;
+  }
+
+  .dark body::before {
+    opacity: 0.05;
+  }
+
   /* Skip Link Styles */
   .skip-link {
     @apply fixed top-0 left-0 z-50 px-4 py-2 bg-primary text-primary-foreground;

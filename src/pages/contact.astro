@@ -3,12 +3,31 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
 import PageLayout from "../layouts/PageLayout.astro";
 ---
 
-<PageLayout content={{ title: SITE_TITLE, description: SITE_DESCRIPTION }}>
+<PageLayout content={{ title: `Contact | ${SITE_TITLE}`, description: "Get in touch for inquiries or collaborations via Mastodon." }}>
+    <div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 min-h-[50vh] flex flex-col justify-center items-center text-center">
+        <header class="mb-12">
+            <span class="text-xs font-bold tracking-widest uppercase text-muted-foreground mb-4 block italic">Let's Connect</span>
+            <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground mb-6">
+                Inquiries & Collaborations
+            </h1>
+            <p class="text-xl font-serif italic text-muted-foreground max-w-xl mx-auto">
+                For any inquiries, please reach out via Mastodon. I'm moving away from centralized platforms and prefer this decentralized network.
+            </p>
+        </header>
 
-    <p class="h-12 my-12">For any inquiries, please reach out to me at <a
-        href="https://mastodon.social/@giwan"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="text-primary hover:text-primary/80 underline"
-        >mastodon.social/@giwan</a></p>
+        <a
+            href="https://mastodon.social/@giwan"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group relative inline-flex items-center justify-center p-4 px-8 py-3 overflow-hidden font-heading text-2xl font-bold transition duration-300 ease-out border-2 border-primary rounded-full shadow-md hover:text-background"
+        >
+            <span class="absolute inset-0 flex items-center justify-center w-full h-full text-background duration-300 -translate-x-full bg-primary group-hover:translate-x-0 ease">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                </svg>
+            </span>
+            <span class="absolute flex items-center justify-center w-full h-full text-primary transition-all duration-300 transform group-hover:translate-x-full ease">@giwan on Mastodon</span>
+            <span class="relative invisible">@giwan on Mastodon</span>
+        </a>
+    </div>
 </PageLayout>

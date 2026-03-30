@@ -5,6 +5,7 @@ title: "The basics of publishing on NPM"
 
 createdDate: "2021-10-09"
 published: "2021-10-14"
+status: "published"
 pubDate: "2021-10-14"
 readTime: 1
 layout: "../../../layouts/BlogArticle.astro"
@@ -37,7 +38,7 @@ Here the typical usecase is a plain website that uses the `<script src="test"></
 Bundling for UMD typically also needs a name value. The library is accessible through a global object.
 Example: `window.test` if "test" was the name provided when bundling.
 
-# Getting started
+## Getting started
 
 Create a new empty folder where the project will live. Inside it create the folders **src** and **dist**.
 Raw dev code is stored in **src** while the compiled bundles live in **dist**.
@@ -47,7 +48,7 @@ Raw dev code is stored in **src** while the compiled bundles live in **dist**.
 Initialise the project with the following:
 
 ```shell
-# initialise the npm project
+## initialise the npm project
 npm init -y
 ```
 
@@ -60,7 +61,7 @@ I'll use "test-component" for mine.
 Rollup is a development dependency. It isn't bundled with the production code.
 
 ```sh
-# Install Rollup as a development dependency
+## Install Rollup as a development dependency
 npm i -D rollup
 ```
 
@@ -144,7 +145,7 @@ Those need to be installed, along with a few other supporting packages.
 Run the following command to install them as development dependencies.
 
 ```sh
-# run in root directory
+## run in root directory
 
 npm i -D @rollup/plugin-node-resolve @rollup/plugin-babel autoprefixer rollup-plugin-postcss @babel/core postcss
 ```
@@ -181,7 +182,7 @@ Add the following script to the `package.json`
 With the `package.json` saved, execute the script.
 
 ```sh
-# run build
+## run build
 npm run build
 
 ```
@@ -197,10 +198,10 @@ Since the function is very simple, only a simple test setup will be done for now
 Create an example folder in the root directory and add the file `server.js`.
 
 ```shell
-# Create an examples folder
+## Create an examples folder
 mkdir -p examples/server
 
-# Create a file in it called server.js
+## Create a file in it called server.js
 touch examples/server/server.js
 ```
 
@@ -211,7 +212,7 @@ This example/server directory is effectively a project within our parent project
 We'll need to init npm here to.
 
 ```shell
-# initialise NPM in the example/server folder
+## initialise NPM in the example/server folder
 
 cd examples/server # move into the examples/server older
 npm init -y
@@ -246,8 +247,8 @@ console.log("This is the server.js file saying hello");
 While still in the examples/server/ folder, save the file and run it.
 
 ```sh
-# examples/server/
-# Save the changes to the server.js file and start it
+## examples/server/
+## Save the changes to the server.js file and start it
 
 npm start
 ```
@@ -260,7 +261,7 @@ Now we'll need to import our library component.
 While still in `/examples/server` install the following:
 
 ```sh
-# /examples/server/
+## /examples/server/
 
 npm i ../../../test-component # The name of the directory that the root project is in
 ```
@@ -278,7 +279,7 @@ console.log("This is the server.js file saying hello");
 Run the start command again in the examples folder.
 
 ```shell
-# /examples/server
+## /examples/server
 npm start
 ```
 

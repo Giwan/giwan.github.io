@@ -3,8 +3,8 @@ title: "How Claude Code Helped Ship an Image Generation Feature in Half the Time
 description: "I leveraged Claude Code to implement an AI image generation feature for Mytoori, comparing different AI models and sharing key learnings."
 createdDate: "2025-06-14"
 published: "2025-06-14"
-pubDate: "2025-06-14"
 status: "published"
+pubDate: "2025-06-14"
 readTime: 5
 layout: "../../../layouts/BlogArticle.astro"
 ---

@@ -3,38 +3,64 @@ import PageLayout from "../layouts/PageLayout.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
 ---
 
-<PageLayout content={{ title: SITE_TITLE, description: SITE_DESCRIPTION }}>
-    <div class="flex justify-center items-center py-16">
-        <div class="prose prose-lg max-w-prose dark:prose-invert">
-            <h1>Hi, I'm Giwan.</h1>
+<PageLayout content={{ title: "About | Giwan Persaud", description: "Learn more about Giwan, a senior frontend developer and creator behind this editorial blog." }}>
+    <div class="max-w-4xl mx-auto py-12 px-4 sm:px-6">
+        <header class="text-center mb-16 border-b border-border pb-12">
+            <span class="text-xs font-bold tracking-widest uppercase text-muted-foreground mb-4 block italic">Behind the Publication</span>
+            <h1 class="font-heading text-5xl md:text-6xl font-bold tracking-tight text-foreground mb-6">
+                Hi, I'm Giwan.
+            </h1>
+            <p class="text-xl font-serif italic text-muted-foreground max-w-2xl mx-auto">
+                Senior frontend developer by day, creator of digital experiments by night.
+                Building with intention, one side project at a time.
+            </p>
+        </header>
+
+        <div class="prose prose-2xl prose-serif max-w-none dark:prose-invert">
             <p>
                 I'm a senior frontend developer who likes to build. 
                 This is just one of the side projects I spend time on. 
-                My primary side project is <a href="https://mytoori.com" target="_blank" class="text-primary hover:text-primary/80 underline">Mytoori.com</a>. 
-                I grep up speaking both English, at home, and Dutch, at school. Later I traveled quite a bit for work. I picked up and can get by in a few other languages. German is close enough to Dutch so I cheat a bit there. I spent a year living in France but also lost a lot of my fluency when I left. I'm currently learning and struggling with Portuguese.
+                My primary side project is <a href="https://mytoori.com" target="_blank" class="text-primary hover:text-primary/80 underline decoration-primary/30 underline-offset-4">Mytoori.com</a>.
             </p>
+
             <p>
-                I mostly develop with <a href="https://react.dev/" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary/80 underline">ReactJS</a> but
-                have dabbled with <a href="https://svelte.dev/" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary/80 underline">SvelteKit</a>, <a href="https://vuejs.org/" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary/80 underline">VueJS</a>, etc.
-                Meta frameworks are the future and I prefer <a href="https://remix.run/" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary/80 underline">Remix</a> or <a href="https://reactrouter.com/" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary/80 underline">React Router</a>.
+                I grew up speaking both English at home and Dutch at school. Later, I traveled quite a bit for work, picking up a few other languages along the way. German is close enough to Dutch so I cheat a bit there; I spent a year living in France but lost some fluency when I left. I'm currently learning and struggling with Portuguese.
             </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 my-16 border-y border-border py-12 not-prose">
+                <div class="space-y-4">
+                    <h3 class="font-heading text-xl font-bold uppercase tracking-wider text-foreground">The Stack</h3>
+                    <p class="font-serif text-lg text-muted-foreground leading-relaxed">
+                        I mostly develop with <a href="https://react.dev/" target="_blank" rel="noopener noreferrer" class="text-primary hover:opacity-80 underline decoration-primary/30">ReactJS</a> but
+                        have dabbled with <a href="https://svelte.dev/" target="_blank" rel="noopener noreferrer" class="text-primary hover:opacity-80 underline decoration-primary/30">SvelteKit</a> and <a href="https://vuejs.org/" target="_blank" rel="noopener noreferrer" class="text-primary hover:opacity-80 underline decoration-primary/30">VueJS</a>.
+                        Meta frameworks are the future—I prefer <a href="https://remix.run/" target="_blank" rel="noopener noreferrer" class="text-primary hover:opacity-80 underline decoration-primary/30">Remix</a> or <a href="https://reactrouter.com/" target="_blank" rel="noopener noreferrer" class="text-primary hover:opacity-80 underline decoration-primary/30">React Router</a>.
+                    </p>
+                </div>
+                <div class="space-y-4">
+                    <h3 class="font-heading text-xl font-bold uppercase tracking-wider text-foreground">The Engine</h3>
+                    <p class="font-serif text-lg text-muted-foreground leading-relaxed">
+                        In the backend, I use <a href="https://nodejs.org/" target="_blank" rel="noopener noreferrer" class="text-primary hover:opacity-80 underline decoration-primary/30">NodeJS</a>.
+                        Lately, I've been using and liking <a href="https://deno.com/" target="_blank" rel="noopener noreferrer" class="text-primary hover:opacity-80 underline decoration-primary/30">Deno</a>. Since most of the things I build are side projects, I look for services where I can host them for free.
+                    </p>
+                </div>
+            </div>
+
             <p>
-                In the backend I use <a href="https://nodejs.org/" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary/80 underline">NodeJS</a>. 
-                Lately I've been using and liking <a href="https://deno.com/" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary/80 underline">Deno</a>. Since most of the things I build are side projects, I look at services where I can host them for free. Most work with serverless functions however the ones that need AI are pushing the limits.
+                This site is built with <a href="https://astro.build/" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary/80 underline decoration-primary/30 underline-offset-4">Astro</a> and <a href="https://tailwindcss.com/" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary/80 underline decoration-primary/30 underline-offset-4">TailwindCSS</a>.
+                I use <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary/80 underline decoration-primary/30 underline-offset-4">GitHub</a> for version control and <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary/80 underline decoration-primary/30 underline-offset-4">GitHub Pages</a> for hosting.
             </p>
-            <p>
-                This site is built with <a href="https://astro.build/" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary/80 underline">Astro</a> and <a href="https://tailwindcss.com/" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary/80 underline">TailwindCSS</a>. 
-                I use <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary/80 underline">GitHub</a> for version control and <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary/80 underline">GitHub Pages</a> for hosting.
-            </p>
-            <p>
-                If you'd like to reach out, I'm moving away from twitter and
-                instead you can find me on <a
+
+            <footer class="mt-16 text-center border-t border-border pt-12">
+                <p class="text-lg italic text-muted-foreground mb-4">Finding me elsewhere</p>
+                <a
                     href="https://mastodon.social/@giwan"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="text-primary hover:text-primary/80 underline"
-                    >mastodon.social/@giwan</a>
-            </p>
+                    class="font-heading text-2xl font-bold text-primary hover:opacity-80 transition-opacity"
+                >
+                    mastodon.social/@giwan
+                </a>
+            </footer>
         </div>
     </div>
 </PageLayout>

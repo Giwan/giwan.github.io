@@ -15,15 +15,15 @@ jest.mock('../../stores/articleStore', () => ({
 }));
 
 // Import the service after mocking
-import { 
-  $articleStore, 
-  resetStore, 
-  setArticles, 
-  appendArticles, 
-  setPage, 
-  setHasMore, 
-  setLoading, 
-  setError 
+import {
+  $articleStore,
+  resetStore,
+  setArticles,
+  appendArticles,
+  setPage,
+  setHasMore,
+  setLoading,
+  setError
 } from '../../stores/articleStore';
 import { loadMoreArticles, retryLoadingArticles } from '../articleService';
 

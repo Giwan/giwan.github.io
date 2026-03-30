@@ -4,6 +4,7 @@ title: "Getting started with serverless functions on Netlify"
 
 createdDate: "2020-10-06"
 published: "2020-10-06"
+status: "published"
 pubDate: "2020-10-06"
 readTime: 5
 layout: "../../../layouts/BlogArticle.astro"
@@ -14,7 +15,7 @@ It allows for a **minimal backend infrastructure**. At it's most basic, handle a
 
 ---
 
-# Pros & Cons
+## Pros & Cons
 
 ## Pro: Easily run a server function
 
@@ -29,7 +30,7 @@ There is no need to setup, maintain and run a backend server. It saves quite som
 First you'll need to figure out how a particular hosting provider has configured their serverless functions. Depending on what you're building you might not want to tie your entire backend to a single company.
 The details of that are a separate post however.
 
-# Netlify
+## Netlify
 
 There are many parties offering (front-end) hosting. I started using Netlify because of how easy it is.
 In a follow-up post, I'll dive into the use of FaunaDB for a more complete backend infrastructure.
@@ -101,7 +102,7 @@ export default App;
 
 Delete the files not imported anywhere.
 
-# Serverless functions
+## Serverless functions
 
 ## Creating the first function
 
@@ -111,7 +112,7 @@ At this point nothing is connected to the database yet.
 Netlify needs to know where the serverless functions are stored. In this case this is indicated in the `netlify.toml` configuration file.
 
 ```toml
-# netlify.toml
+## netlify.toml
 
 [build]
     functions="functions"
@@ -129,7 +130,7 @@ The codebase now has a `functions` folder with `login.js`.
 That `login.js` represents an API endpoint. Type CTRL-C to stop the development server and run Netlify dev again. Now test it.
 
 ```bash
-# API call to serverless function
+## API call to serverless function
 curl http://localhost:8888/.netlify/functions/login/login.js
 ```
 
@@ -145,7 +146,7 @@ With this template function the template returns "hello world"
 This default function also accepts input from the client. It can be provided with a name parameter which will be returned in the output:
 
 ```bash
-# API call with queryString parameter
+## API call with queryString parameter
 curl http://localhost:8888/.netlify/functions/login/login.js?name=client
 ```
 
@@ -196,7 +197,7 @@ The function now checks `event.body` for the credentials which have to be posted
 Call the function without providing any input data.
 
 ```bash
-# API call to login.js
+## API call to login.js
 curl --location --request GET 'http://localhost:8888/.netlify/functions/login/login.js'
 ```
 
@@ -212,7 +213,7 @@ In practice the `401` return code should be sufficient but this demonstrates the
 Another call with invalid credentials returns a slightly different message.
 
 ```bash
-# API call to login.js
+## API call to login.js
 
 curl --location --request GET 'http://localhost:8888/.netlify/functions/login/login.js' \
 --header 'Content-Type: application/json' \
@@ -230,7 +231,7 @@ curl --location --request GET 'http://localhost:8888/.netlify/functions/login/lo
 repeat the call above with `username="admin"` and `password=123` and the server responds with HTTP status 200.
 
 ```bash
-# API call to login.js
+## API call to login.js
 
 curl --location --request GET 'http://localhost:8888/.netlify/functions/login/login.js' \
 --header 'Content-Type: application/json' \
@@ -245,7 +246,7 @@ curl --location --request GET 'http://localhost:8888/.netlify/functions/login/lo
 { "message": "access granted" }
 ```
 
-# Front-end using API end-point
+## Front-end using API end-point
 
 For now the login button will call the end-point with the credentials. If HTTP 200 is received the front-end redirects to the /admin page.
 
