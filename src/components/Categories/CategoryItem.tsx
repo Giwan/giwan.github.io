@@ -1,22 +1,21 @@
-import React from "react";
-import { Button } from "@/components/ui/button";
-import { isCategorySelected } from "../../utils/helpers/isCategorySelected";
-import { cn } from "@/lib/utils";
+import React from 'react';
+import {Button} from '@/components/ui/button';
+import {isCategorySelected} from '../../utils/helpers/isCategorySelected';
 
 type TProps = {
     selectedCategory?: string;
     c: string;
 };
 
-const CategoryItem = ({ c, selectedCategory }: TProps) => (
+const CategoryItem = ({c, selectedCategory}: TProps) => (
     <li key={c}>
-        <Button 
-            variant={isCategorySelected(c, selectedCategory) ? "default" : "outline"}
+        <Button
+            variant={isCategorySelected(c, selectedCategory) ? 'default' : 'outline'}
             size="sm"
             asChild
         >
-            <a href={`/tools/${c}`}>{c}</a>
-        </Button>
+        <a href={`/tools/${c}`}>{c}</a>
+    </Button>
     </li>
 );
 

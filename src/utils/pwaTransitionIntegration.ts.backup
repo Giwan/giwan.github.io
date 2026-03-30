@@ -1,4 +1,5 @@
 import {setTimeout} from 'node:timers/promises';
+
 /**
  * PWA Transition Integration
  * 
@@ -9,25 +10,6 @@ import {setTimeout} from 'node:timers/promises';
  * - Native-like transition behaviors
  */
 import {mobileTransitionOptimizer} from './mobileTransitionOptimizer';
-
-
-/**
- * PWA Transition Integration
- * 
- * This utility integrates view transitions with PWA-specific behaviors:
- * - Service worker coordination
- * - Offline state handling
- * - App lifecycle events
- * - Native-like transition behaviors
- */
-interface BeforeInstallPromptEvent extends Event {
-    prompt(): Promise<void>;
-    userChoice: Promise<{    outcome: string}>;
-}
-
-interface WindowWithDeferredPrompt {
-    deferredPrompt?: BeforeInstallPromptEvent;
-}
 
 export interface PWATransitionState {
     isOnline: boolean;
@@ -87,12 +69,9 @@ export class PWATransitionIntegration {
         if (typeof window === 'undefined' || typeof document === 'undefined')
             return false;
         
-        const nav = globalThis.navigator as {
-            standalone?: boolean | string;
-        } | undefined;
-        const isStandalone = nav && 'standalone' in nav && Boolean(nav.standalone) as boolean;
-        
-        return Boolean(globalThis.matchMedia('(display-mode: standalone)').matches || isStandalone || (typeof document !== 'undefined' && document.referrer && document.referrer.includes('android-app://')));
+        return globalThis.matchMedia('(display-mode: standalone)').matches
+            || (!!globalThis.navigator && 'standalone' in globalThis.navigator && globalThis.navigator.standalone)
+            || (typeof document !== 'undefined' && document.referrer && document.referrer.includes('android-app://'));
     }
     /**
    * Set up service worker integration
@@ -242,7 +221,7 @@ export class PWATransitionIntegration {
         
         // Handle PWA install prompt
         globalThis.addEventListener('beforeinstallprompt', (event) => {
-            this.handleInstallPrompt(event as BeforeInstallPromptEvent);
+            this.handleInstallPrompt(event as any);
         });
         
         // Handle app installed
@@ -292,7 +271,7 @@ export class PWATransitionIntegration {
    */
     private handleInstallPrompt(event: BeforeInstallPromptEvent): void {
         // Store the event for later use
-        (window as WindowWithDeferredPrompt).deferredPrompt = event;
+        (window as any).deferredPrompt = event;
         // Dispatch custom event for install UI
         globalThis.dispatchEvent(new CustomEvent('pwa-install-available', {
             detail: {
@@ -503,7 +482,7 @@ export class PWATransitionIntegration {
    * Trigger PWA install prompt
    */
     public async triggerInstallPrompt(): Promise<boolean> {
-        const {deferredPrompt} = window as WindowWithDeferredPrompt;
+        const {deferredPrompt} = (window as any);
         
         if (!deferredPrompt)
             return false;
@@ -517,7 +496,7 @@ export class PWATransitionIntegration {
                 this.applyPWATransitionOptimizations();
             }
             
-            (window as WindowWithDeferredPrompt).deferredPrompt = undefined;
+            (window as any).deferredPrompt = null;
             return outcome === 'accepted';
         } catch {
             return false;

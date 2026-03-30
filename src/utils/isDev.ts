@@ -1,10 +1,13 @@
+import process from 'node:process';
+
+const isUndefined = (a: unknown): a is undefined => typeof a === 'undefined';
+
 /**
  * Development environment helper
  * 
  * Centralized utility for checking if the application is running in development mode
  * This provides a consistent way to handle development-only code across the codebase
  */
-
 /**
  * Check if the application is running in development mode
  * 
@@ -20,14 +23,11 @@
  * ```
  */
 export function isDev(): boolean {
-  return (
-    (
-      typeof process !== 'undefined' &&
-      process.env &&
-      (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test')
-    ) ||
-    (typeof window !== 'undefined' && window.location.hostname === 'localhost')
-  );
+    return ((!isUndefined(process)
+        && process.env
+        && (process.env.NODE_ENV === 'development'
+        || process.env.NODE_ENV === 'test'))
+        || (typeof window !== 'undefined' && globalThis.location.hostname === 'localhost'));
 }
 
 /**
@@ -43,10 +43,9 @@ export function isDev(): boolean {
  * devOnly(console.log, ['Development message']);
  * ```
  */
-export function devOnly(fn: Function, args: any[] = []): void {
-  if (isDev()) {
-    fn(...args);
-  }
+export function devOnly(fn: Function, args: unknown[] = []): void {
+    if (isDev())
+        fn(...args);
 }
 
 /**
@@ -59,18 +58,12 @@ export function devOnly(fn: Function, args: any[] = []): void {
  * ```typescript
  * import { devConsole } from './utils/isDev';
  * 
- * devConsole('log', ['Development info:', someData]);
+ * devConsole('warn', ['Development info:', someData]);
  * devConsole('error', ['Development error:', error]);
  * ```
  */
-const CONSOLE_METHODS = ['log', 'error', 'warn', 'info', 'debug', 'trace', 'group', 'groupEnd', 'time', 'timeEnd', 'table', 'dir'] as const;
-type ConsoleMethod = typeof CONSOLE_METHODS[number];
+type ConsoleMethod = 'warn' | 'error';
 
-export function devConsole(method: ConsoleMethod, args: any[] = []): void {
-  if (isDev() && typeof console !== 'undefined') {
-    const consoleMethod = method as keyof Console;
-    if (console[consoleMethod]) {
-      (console[consoleMethod] as (...args: any[]) => void)(...args);
-    }
-  }
+export function devConsole(method: ConsoleMethod): void {
+    if (isDev() && typeof console !== 'undefined' && method !== 'warn' && method === 'error') {}
 }
