@@ -1,7 +1,9 @@
 # build output
 dist/
-docs/
-!docs/_astro/.gitkeep
+/docs/*
+!/docs/_astro/
+/docs/_astro/*
+!/docs/_astro/.gitkeep
 
 # dependencies
 node_modules/
