@@ -47,11 +47,12 @@
         "@giwan/is-valid-page-number": "^0.0.4",
         "@nanostores/react": "1.1.0",
         "@radix-ui/react-slot": "^1.2.4",
+        "@rollup/plugin-terser": "^1.0.0",
         "@tailwindcss/vite": "^4.2.2",
         "@types/jest": "^30.0.0",
         "@types/react": "^19.2.14",
         "@types/react-dom": "^19.2.3",
-        "astro": "^6.1.1",
+        "astro": "^6.1.2",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "lucide-react": "^1.7.0",
@@ -80,13 +81,14 @@
         "jest": "^30.3.0",
         "jest-environment-jsdom": "^30.3.0",
         "puppeteer": "^24.40.0",
-        "putout": "^42.2.3",
+        "putout": "^42.3.0",
         "ts-jest": "^29.4.6",
         "typescript": "^6.0.2",
-        "typescript-eslint": "^8.57.2"
+        "typescript-eslint": "^8.58.0"
     },
     "overrides": {
         "astro": "$astro",
-        "typescript": "$typescript"
+        "typescript": "$typescript",
+        "serialize-javascript": "^7.0.5"
     }
 }
