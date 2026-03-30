@@ -4,12 +4,13 @@
         "jsx": "react",
         "esModuleInterop": true,
         "module": "ESNext",
-        "moduleResolution": "Node",
-        "outDir": "./docs/**",
-        "baseUrl": ".",
+        "moduleResolution": "bundler",
+        "outDir": "./docs",
+        "rootDir": ".",
         "paths": {
             "@/*": ["./src/*"]
         },
-        "isolatedModules": true
+        "isolatedModules": true,
+        "types": ["node"]
     }
 }

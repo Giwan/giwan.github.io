@@ -7,15 +7,13 @@ export default {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^(\\.{1,2}/.*)\\.js$': '$1'
   },
-  setupFilesAfterEnv: ['<rootDir>/src/setupTests.js'],
+  setupFilesAfterEnv: ['<rootDir>/src/setupTests.cjs'],
   testEnvironment: 'jsdom',
   testEnvironmentOptions: {
     url: 'http://localhost/'
   },
   transform: {
-    '^.+\\.[t|j]sx?$': ['ts-jest', {
-      useESM: true,
-    }],
+    '^.+\\.[tj]sx?$': 'babel-jest',
   },
   transformIgnorePatterns: [
     'node_modules/(?!(@nanostores|nanostores)/)'

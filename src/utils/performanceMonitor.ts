@@ -554,8 +554,5 @@ export class PerformanceMonitor {
 // Create and export singleton instance
 export const performanceMonitor = new PerformanceMonitor();
 
-// Re-export types for better compatibility
-export type { PerformanceMetrics, TransitionPerformanceData, DeviceCapabilities, TransitionIntensity };
-
 // Export for testing and advanced usage
 export default PerformanceMonitor;
