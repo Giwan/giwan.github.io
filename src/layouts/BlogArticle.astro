@@ -136,16 +136,16 @@ const articleSchema = {
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
   <article 
-    class="max-w-5xl mx-auto my-16 px-4 md:px-0"
+    class="max-w-5xl my-12"
     transition:name={`article-${Astro.url.pathname.replace(/\//g, '-')}`}
   >
     <!-- Article Header -->
-    <header class="mb-12 pb-10 border-b border-border text-center">
+    <header class="mb-8 pb-6">
       <!-- Categories -->
       {categories.length > 0 && (
-        <div class="mb-6 flex justify-center gap-2">
+        <div class="mb-3">
           {categories.map((category: string) => (
-            <a href={`/category/${category.toLowerCase()}`} class="text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors border border-border px-2 py-1">
+            <a href={`/category/${category.toLowerCase()}`} class="text-xs uppercase tracking-wider text-primary hover:underline mr-3">
               {category}
             </a>
           ))}
@@ -153,24 +153,16 @@ const articleSchema = {
       )}
       
       <!-- Title -->
-      <h1 class="text-5xl md:text-7xl font-heading font-extrabold text-primary mb-6 leading-tight max-w-4xl mx-auto">
+      <h1 class="text-4xl md:text-6xl font-bold text-foreground mb-4">
         {title}
       </h1>
-
-      <p class="text-xl md:text-2xl text-muted-foreground font-serif italic mb-8 max-w-2xl mx-auto leading-relaxed">
-        {description}
-      </p>
       
       <!-- Metadata Row -->
-      <div class="flex flex-col items-center gap-2 text-sm font-bold uppercase tracking-tighter text-muted-foreground">
-        <div class="flex items-center gap-2">
-            <span>By Giwan Persaud</span>
-            <span class="w-1 h-1 bg-border rounded-full"></span>
-            <time datetime={isoDate}>{formattedDate}</time>
-        </div>
+      <div class="flex flex-wrap items-center text-sm text-muted-foreground">
+        <span class="mr-3">{formattedDate}</span>
         {formattedUpdatedDate && (
-          <span class="text-xs opacity-80">
-            Last Updated: {formattedUpdatedDate}
+          <span class="mr-3">
+            (Updated: {formattedUpdatedDate})
           </span>
         )}
       </div>
@@ -178,17 +170,17 @@ const articleSchema = {
     
     <!-- Hero Image -->
     {heroImage && (
-      <figure class="mb-12">
+      <figure class="mb-8">
         <img 
           src={heroImage} 
           alt={`Image for ${title}`} 
-          class="w-full h-auto border border-border grayscale hover:grayscale-0 transition-all duration-700"
+          class="w-full h-auto rounded-lg border"
         />
       </figure>
     )}
     
     <!-- Article Content -->
-    <section class="prose prose-xl md:prose-2xl max-w-none dark:prose-invert font-serif leading-relaxed">
+    <section class="prose prose-xl max-w-none dark:prose-invert">
       <slot />
     </section>
     

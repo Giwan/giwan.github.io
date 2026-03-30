@@ -1,20 +1,29 @@
-import React, { Component } from 'react';
-import { AlertTriangle, RefreshCw, X, Settings } from 'lucide-react';
-import { clearCorruptedCaches, clearPWAErrors, getPWAErrors } from '../utils/pwa';
+import {setTimeout} from 'node:timers/promises';
+import React, {Component} from 'react';
+import {
+    AlertTriangle,
+    RefreshCw,
+    X,
+} from 'lucide-react';
+import {tryToCatch} from 'try-to-catch';
+import {
+    clearCorruptedCaches,
+    clearPWAErrors,
+} from '../utils/pwa';
 
 interface PWAErrorBoundaryState {
-  hasError: boolean;
-  error: Error | null;
-  errorInfo: React.ErrorInfo | null;
-  showDetails: boolean;
-  isRecovering: boolean;
-  recoveryAttempts: number;
+    hasError: boolean;
+    error: Error | null;
+    errorInfo: React.ErrorInfo | null;
+    showDetails: boolean;
+    isRecovering: boolean;
+    recoveryAttempts: number;
 }
 
 interface PWAErrorBoundaryProps {
-  children: React.ReactNode;
-  fallback?: React.ReactNode;
-  onError?: (error: Error, errorInfo: React.ErrorInfo) => void;
+    children: React.ReactNode;
+    fallback?: React.ReactNode;
+    onError?: (error: Error, errorInfo: React.ErrorInfo) => void;
 }
 
 /**
@@ -22,199 +31,188 @@ interface PWAErrorBoundaryProps {
  * Provides graceful degradation when PWA features fail
  */
 class PWAErrorBoundary extends Component<PWAErrorBoundaryProps, PWAErrorBoundaryState> {
-  constructor(props: PWAErrorBoundaryProps) {
-    super(props);
-    this.state = {
-      hasError: false,
-      error: null,
-      errorInfo: null,
-      showDetails: false,
-      isRecovering: false,
-      recoveryAttempts: 0
-    };
-  }
-
-  static getDerivedStateFromError(error: Error): Partial<PWAErrorBoundaryState> {
-    // Update state so the next render will show the fallback UI
-    return {
-      hasError: true,
-      error
-    };
-  }
-
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    // Store error info for debugging
-    this.setState({
-      error,
-      errorInfo
-    });
-
-    // Call custom error handler if provided
-    if (this.props.onError) {
-      this.props.onError(error, errorInfo);
+    constructor(props: PWAErrorBoundaryProps) {
+        super(props);
+        this.state = {
+            hasError: false,
+            error: null,
+            errorInfo: null,
+            showDetails: false,
+            isRecovering: false,
+            recoveryAttempts: 0,
+        };
     }
 
-    // Log error for debugging
-    console.error('PWA Error Boundary caught an error:', error, errorInfo);
-
-    // Store error in localStorage for debugging
-    try {
-      const errorData = {
-        error: {
-          name: error.name,
-          message: error.message,
-          stack: error.stack
-        },
-        errorInfo,
-        timestamp: Date.now(),
-        userAgent: navigator.userAgent,
-        url: window.location.href
-      };
-
-      const errorLog = JSON.parse(localStorage.getItem('pwa-component-errors') || '[]');
-      errorLog.push(errorData);
-
-      // Keep only last 5 errors
-      if (errorLog.length > 5) {
-        errorLog.splice(0, errorLog.length - 5);
-      }
-
-      localStorage.setItem('pwa-component-errors', JSON.stringify(errorLog));
-    } catch (storageError) {
-      console.warn('Failed to store component error:', storageError);
+    static getDerivedStateFromError(error: Error): Partial<PWAErrorBoundaryState> {
+        // Update state so the next render will show the fallback UI
+        return {
+            hasError: true,
+            error,
+        };
     }
-  }
 
-  handleRetry = async () => {
-    this.setState({
-      isRecovering: true,
-      recoveryAttempts: this.state.recoveryAttempts + 1
-    });
+    componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+        // Store error info for debugging
+        this.setState({
+            error,
+            errorInfo,
+        });
 
-    try {
-      // Attempt to clear corrupted caches if this is a cache-related error
-      if (this.state.error?.message.includes('cache') || this.state.error?.message.includes('storage')) {
-        await clearCorruptedCaches();
-      }
+        // Call custom error handler if provided
+        if (this.props.onError)
+            this.props.onError(error, errorInfo);
 
-      // Wait a moment to show recovery state
-      await new Promise(resolve => setTimeout(resolve, 1000));
+        // Log error for debugging
+        try {
+            const errorData = {
+                error: {
+                    name: error.name,
+                    message: error.message,
+                    stack: error.stack,
+                },
+                errorInfo,
+                timestamp: Date.now(),
+                userAgent: navigator.userAgent,
+                url: globalThis.location.href,
+            };
 
-      this.setState({
-        hasError: false,
-        error: null,
-        errorInfo: null,
-        showDetails: false,
-        isRecovering: false
-      });
-    } catch (recoveryError) {
-      console.warn('Recovery attempt failed:', recoveryError);
-      this.setState({
-        isRecovering: false
-      });
+            const errorLog = JSON.parse(localStorage.getItem('pwa-component-errors') || '[]');
+
+            errorLog.push(errorData);
+            // Keep only last 5 errors
+            if (errorLog.length > 5)
+                errorLog.splice(0, errorLog.length - 5);
+
+            localStorage.setItem('pwa-component-errors', JSON.stringify(errorLog));
+        } catch {}
     }
-  };
 
-  handleAdvancedRecovery = async () => {
-    this.setState({ isRecovering: true });
+    handleRetry = async () => {
+        this.setState({
+            isRecovering: true,
+            recoveryAttempts: this.state.recoveryAttempts + 1,
+        });
 
-    try {
-      // Clear all PWA-related storage
-      await clearCorruptedCaches();
-      clearPWAErrors();
-      
-      // Clear component error log
-      localStorage.removeItem('pwa-component-errors');
-      
-      // Unregister service worker if possible
-      if ('serviceWorker' in navigator) {
-        const registrations = await navigator.serviceWorker.getRegistrations();
-        for (const registration of registrations) {
-          await registration.unregister();
+        try {
+            // Attempt to clear corrupted caches if this is a cache-related error
+            if (this.state.error?.message.includes('cache') || this.state.error?.message.includes('storage'))
+                await clearCorruptedCaches();
+
+            // Wait a moment to show recovery state
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+
+            this.setState({
+                hasError: false,
+                error: null,
+                errorInfo: null,
+                showDetails: false,
+                isRecovering: false,
+            });
+        } catch {
+            this.setState({
+                isRecovering: false,
+            });
         }
-      }
+    };
+    handleAdvancedRecovery = async () => {
+        this.setState({
+            isRecovering: true,
+        });
+        const [error] = await tryToCatch(clearCorruptedCaches);
 
-      // Wait a moment then reload
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      window.location.reload();
-    } catch (error) {
-      console.warn('Advanced recovery failed:', error);
-      this.setState({ isRecovering: false });
-    }
-  };
+        if (error)
+            this.setState({
+                isRecovering: false,
+            });
 
-  toggleDetails = () => {
-    this.setState(prevState => ({
-      showDetails: !prevState.showDetails
-    }));
-  };
+        clearPWAErrors();
+                // Clear component error log
+        localStorage.removeItem('pwa-component-errors');
+        // Unregister service worker if possible
+        if ('serviceWorker' in navigator) {
+            const registrations = await navigator.serviceWorker.getRegistrations();
 
-  render() {
-    if (this.state.hasError) {
-      // Custom fallback UI provided
-      if (this.props.fallback) {
-        return this.props.fallback;
-      }
+            for (const registration of registrations) {
+                await registration.unregister();
+            }
+        }
 
-      // Default error UI
-      return (
-        <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:max-w-md z-50">
-          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 shadow-lg">
-            <div className="flex items-start">
-              <AlertTriangle className="h-5 w-5 text-red-500 mt-0.5 mr-3 flex-shrink-0" />
-              <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium text-red-800 dark:text-red-200 mb-1">
+        // Wait a moment then reload
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+        globalThis.location.reload();
+    };
+    toggleDetails = () => {
+        this.setState((prevState) => ({
+            showDetails: !prevState.showDetails,
+        }));
+    };
+    render() {
+        if (this.state.hasError) {
+            // Custom fallback UI provided
+            if (this.props.fallback)
+                return this.props.fallback;
+
+            // Default error UI
+            return (
+                <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:max-w-md z-50">
+                    <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 shadow-lg">
+                        <div className="flex items-start">
+                            <AlertTriangle className="h-5 w-5 text-red-500 mt-0.5 mr-3 flex-shrink-0"/>
+                            <div className="flex-1 min-w-0">
+                                <h3 className="text-sm font-medium text-red-800 dark:text-red-200 mb-1">
                   PWA Feature Unavailable
                 </h3>
-                <p className="text-sm text-red-700 dark:text-red-300 mb-3">
+                                <p className="text-sm text-red-700 dark:text-red-300 mb-3">
                   Some advanced features may not be working properly. The site will continue to function normally.
                 </p>
-                
-                <div className="flex flex-wrap gap-2">
-                  <button
-                    onClick={this.handleRetry}
-                    className="inline-flex items-center px-3 py-1.5 bg-red-100 hover:bg-red-200 dark:bg-red-800 dark:hover:bg-red-700 text-red-800 dark:text-red-200 text-xs font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
-                  >
-                    <RefreshCw className="h-3 w-3 mr-1" />
+                                <div className="flex flex-wrap gap-2">
+                                    <button
+                                        onClick={this.handleRetry}
+                                        className="inline-flex items-center px-3 py-1.5 bg-red-100 hover:bg-red-200 dark:bg-red-800 dark:hover:bg-red-700 text-red-800 dark:text-red-200 text-xs font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                                    >
+                                    <RefreshCw className="h-3 w-3 mr-1"/>
                     Retry
                   </button>
-                  
-                  <button
-                    onClick={this.toggleDetails}
-                    className="inline-flex items-center px-3 py-1.5 bg-red-100 hover:bg-red-200 dark:bg-red-800 dark:hover:bg-red-700 text-red-800 dark:text-red-200 text-xs font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
-                  >
-                    {this.state.showDetails ? 'Hide' : 'Show'} Details
+                                    <button
+                                        onClick={this.toggleDetails}
+                                        className="inline-flex items-center px-3 py-1.5 bg-red-100 hover:bg-red-200 dark:bg-red-800 dark:hover:bg-red-700 text-red-800 dark:text-red-200 text-xs font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                                    >
+                                    {this.state.showDetails ? 'Hide' : 'Show'} Details
                   </button>
+                                </div>
+                                {this.state.showDetails && this.state.error && (
+<div className="mt-3 p-2 bg-red-100 dark:bg-red-900/40 rounded text-xs font-mono text-red-800 dark:text-red-300 overflow-auto max-h-32">
+                                    <div className="font-semibold mb-1">{this.state.error.name}</div>
+                                    <div className="mb-2">{this.state.error.message}</div>
+                                    {this.state.error.stack && (
+<div className="text-red-600 dark:text-red-400 whitespace-pre-wrap">
+                                        {this
+                                        .state
+                                        .error
+                                        .stack
+                                        .split('\n')
+                                        .slice(0, 5)
+                                        .join('\n')}
+                                    </div>
+                                )}
+                                </div>
+                                )}
+                            </div>
+                            <button
+                                onClick={this.handleRetry}
+                                className="ml-2 text-red-400 hover:text-red-600 dark:hover:text-red-300 transition-colors"
+                                aria-label="Dismiss error"
+                            >
+                            <X className="h-4 w-4"/>
+                        </button>
+                        </div>
+                    </div>
                 </div>
+            );
+        }
 
-                {this.state.showDetails && this.state.error && (
-                  <div className="mt-3 p-2 bg-red-100 dark:bg-red-900/40 rounded text-xs font-mono text-red-800 dark:text-red-300 overflow-auto max-h-32">
-                    <div className="font-semibold mb-1">{this.state.error.name}</div>
-                    <div className="mb-2">{this.state.error.message}</div>
-                    {this.state.error.stack && (
-                      <div className="text-red-600 dark:text-red-400 whitespace-pre-wrap">
-                        {this.state.error.stack.split('\n').slice(0, 5).join('\n')}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-              
-              <button
-                onClick={this.handleRetry}
-                className="ml-2 text-red-400 hover:text-red-600 dark:hover:text-red-300 transition-colors"
-                aria-label="Dismiss error"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            </div>
-          </div>
-        </div>
-      );
+        return this.props.children;
     }
-
-    return this.props.children;
-  }
 }
 
 export default PWAErrorBoundary;

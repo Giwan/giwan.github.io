@@ -3,8 +3,8 @@ title: "Prompt Engineering: Essential Do's and Don'ts for Beginners"
 description: "Master the art of prompt engineering with these essential do's and don'ts to get the best results from AI language models."
 createdDate: "2025-05-31"
 published: "2025-05-31"
-status: "published"
 pubDate: "2025-05-31"
+status: "published"
 readTime: 5
 layout: "../../../layouts/BlogArticle.astro"
 ---

@@ -3,8 +3,8 @@ title: "Essential Google AI Tools for Developers (2026)"
 description: "Explore Google's AI developer ecosystem in 2026: Gemini API, Stitch UI generator, Antigravity IDE, Jules coding agent, and NotebookLM for research."
 createdDate: "2026-01-14"
 published: "2026-01-14"
-status: "published"
 pubDate: "2026-01-14"
+status: "published"
 readTime: 14
 layout: "../../../layouts/BlogArticle.astro"
 ---

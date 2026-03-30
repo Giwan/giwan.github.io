@@ -3,8 +3,8 @@ title: "Hacking the AI Vending Machine: Security Lessons from Project Vend"
 description: "Anthropic's Project Vend Phase Two was a controlled experiment designed to expose the edge cases and security vulnerabilities of autonomous AI agents."
 createdDate: "2025-12-19"
 published: "2025-12-19"
-status: "published"
 pubDate: "2025-12-19"
+status: "published"
 readTime: 6
 categories: ["AI", "Security", "Red Teaming"]
 tags: ["Anthropic", "Claude", "AI Safety", "Agentic AI", "Cybersecurity"]

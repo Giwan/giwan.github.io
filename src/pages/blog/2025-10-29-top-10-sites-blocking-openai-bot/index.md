@@ -3,8 +3,8 @@ title: "Global Giants and European Leaders Blocking OpenAI's Bot"
 description: "A look at the major websites, including European and Dutch companies, that are blocking OpenAI's GPTBot and why they are doing it."
 createdDate: "2025-10-29"
 published: "2025-10-29"
-status: "published"
 pubDate: "2025-10-29"
+status: "published"
 readTime: 8
 layout: "../../../layouts/BlogArticle.astro"
 ---
@@ -135,6 +135,7 @@ new standards and practices in the ethical sourcing of data for AI training.
 - [ah.nl](https://www.ah.nl/)
 - [Buienradar](https://www.buienradar.nl/)
 pubDate: "2025-10-29"
+status: "published"
 readTime: 6
 layout: "../../../layouts/BlogArticle.astro"
 lastChecked: "2025-10-29"

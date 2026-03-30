@@ -1,18 +1,16 @@
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import type { AstroIntegration } from "astro";
-import { runPwaBuildValidation } from "../lib/pwaValidator";
-import { PWA_CONFIG } from "../config";
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import type {AstroIntegration} from 'astro';
+import {runPwaBuildValidation} from '../lib/pwaValidator';
+import {PWA_CONFIG} from '../config';
 
 export default function pwaValidationIntegration(): AstroIntegration {
     return {
-        name: "pwa-validation",
+        name: 'pwa-validation',
         hooks: {
-            "astro:build:done": async ({ dir }) => {
+            'astro:build:done': async ({dir}) => {
                 const outputDir = fileURLToPath(dir);
-                const requiredIconFiles = Array.from(
-                    new Set(PWA_CONFIG.icons.map((icon) => path.basename(icon.src))),
-                );
+                const requiredIconFiles = Array.from(new Set(PWA_CONFIG.icons.map((icon) => path.basename(icon.src))));
 
                 const result = await runPwaBuildValidation({
                     outputDir,
@@ -28,9 +26,8 @@ export default function pwaValidationIntegration(): AstroIntegration {
                     },
                 });
 
-                if (!result.success) {
-                    throw new Error(`PWA validation failed with ${result.errors.length} error(s).`);
-                }
+                if (!result.success)
+                    throw Error(`PWA validation failed with ${result.errors.length} error(s).`);
             },
         },
     };

@@ -5,7 +5,6 @@ title: "React App Served by Express in Docker"
 
 createdDate: "2018-11-22"
 published: "2018-11-22"
-status: "published"
 pubDate: "2018-11-22"
 readTime: 2
 layout: "../../../layouts/BlogArticle.astro"
@@ -98,7 +97,7 @@ Building the front-end production version results in the `apiHost` value being p
 
 ```bash
 
-## -- .env
+# -- .env
 
 REACT_APP_API_HOST=http://someremotehost.com
 ```
@@ -166,7 +165,7 @@ That server, A node / express server, can be used to provide the **`apiHost`** t
 <Boxes />
 
 ```bash
-## run docker image with environment variables
+# run docker image with environment variables
 docker run -e "API_HOST=https://mydockerdynamichost.com" -p 3000:3000 mydockerimagename
 
 ```
@@ -180,7 +179,7 @@ The front-end has to request the host before any data requests are possible.
 Network latency means that our application is slower.
 The next section discusses a solution. Server side rendering.
 
-## Server Side Rendering to provide the API HOST
+# Server Side Rendering to provide the API HOST
 
 Using server side rendering in the Docker container, the app rendered on the server.
 It's also sent to the client.
@@ -398,31 +397,31 @@ module.exports = serverRenderer;
 The entire project can also be executed in a docker container. Copy the following to run the project in docker. It will build the project and run the start command when finished to start the project.
 
 ```bash
-## Use the following image to build this docker image
-## This is pulled from docker.com and has everything
-## needed to run a node project
+# Use the following image to build this docker image
+# This is pulled from docker.com and has everything
+# needed to run a node project
 FROM node:alpine
 
-## Back_env is set during build
-## telling the front-end which back-end
-## it should be talking to
-## ARG backend_env
-## ENV BACKEND_ENV $backend_env
+# Back_env is set during build
+# telling the front-end which back-end
+# it should be talking to
+# ARG backend_env
+# ENV BACKEND_ENV $backend_env
 ENV PORT 3000
 
-## Navigate (cd) to the app folder in the docker container
+# Navigate (cd) to the app folder in the docker container
 WORKDIR /usr/src/app
 
-## Copy all package.json / package-lock.json etc. to the root folder
-## this is executed on build: docker build .
+# Copy all package.json / package-lock.json etc. to the root folder
+# this is executed on build: docker build .
 COPY ./package*.json ./
 
 RUN npm install
 
-## copy everything from the external directory to the container folder in docker
+# copy everything from the external directory to the container folder in docker
 COPY . .
 
-## build the front-end with react build scripts and store them in the build folder
+# build the front-end with react build scripts and store them in the build folder
 RUN npm run build
 
 EXPOSE 3000
@@ -443,9 +442,9 @@ To test outside of Docker, simply run `npm run start:prod` from the terminal.
 While running the docker container the API host is provided as an environment variable. That is then read when rendering the app on the server.
 
 ```bash
-## build docker
+# build docker
 docker build -t mydockercontainer .
 
-## run docker container with environment variable
+# run docker container with environment variable
 docker run -e "API_HOST=https://dockerruntimeapihost.com" -p 3000:3000 mydockercontainer
 ```

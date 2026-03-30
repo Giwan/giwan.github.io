@@ -3,8 +3,8 @@ title: "Building Basic Pomodoro with Antigravity"
 description: "A quick look at building the basic-pomo project using the Antigravity IDE."
 createdDate: "2025-11-24"
 published: "2025-11-24"
-status: "published"
 pubDate: "2025-11-24"
+status: "published"
 readTime: 3
 layout: "../../../layouts/BlogArticle.astro"
 ---

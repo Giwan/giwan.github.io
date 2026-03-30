@@ -1,19 +1,18 @@
----
+***
+
 title: "Sentence Segmentation with JavaScript's Intl.Segmenter"
 description: "Explore how the Intl.Segmenter API can be used to split text into sentences."
 createdDate: "2025-08-20"
 published: "2025-08-20"
-status: "published"
 pubDate: "2025-08-20"
+status: "published"
 readTime: 7
 layout: "../../../layouts/BlogArticle.astro"
 tags: ["javascript", "i18n", "webdev", "text-processing"]
----
+---------------------------------------------------------
 
-Initially I was using the
-<a href="https://www.npmjs.com/package/sbd" target="_blank">SBD</a> library to
-split the text into sentences for
-<a href="https://mytoori.com" target="_blank">Mytoori.com</a>. Upon uploading
+Initially I was using the <a href="https://www.npmjs.com/package/sbd" target="_blank">SBD</a> library to
+split the text into sentences for <a href="https://mytoori.com" target="_blank">Mytoori.com</a>. Upon uploading
 the text, it would get split into sentences which would then be saved to the
 MongoDB database.
 
@@ -49,9 +48,10 @@ browser, is supported in modern browsers and also in Node.js.
 
 ```ts
 function segmentBySentence(language: string) {
-    return function (text: string) {
-        return new Intl.Segmenter(language, { type: "sentence" })
-            .segment(text);
+    return (text: string) => {
+        return new Intl.Segmenter(language, {
+            type: 'sentence',
+        }).segment(text);
     };
 }
 ```
@@ -73,8 +73,7 @@ multiple times.
 In my current implementation, I'm just scratching the surface of what it can do.
 There's a lot more to it than just segmenting text into sentences.
 
-I used this
-<a href="https://www.stefanjudis.com/today-i-learned/how-to-split-javascript-strings-with-intl-segmenter/" target="_blank">blog
+I used this <a href="https://www.stefanjudis.com/today-i-learned/how-to-split-javascript-strings-with-intl-segmenter/" target="_blank">blog
 post from Stefan Judis</a> to get started. There's nice tool there to quickly
 check if the sentences are split correctly.
 

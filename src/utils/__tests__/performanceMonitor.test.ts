@@ -1,71 +1,68 @@
+import {setTimeout} from 'node:timers/promises';
+
 /**
  * Performance Monitor Tests
  * 
  * Tests for the performance monitoring and fallback system
  */
-
-import { PerformanceMonitor, TransitionIntensity } from '../performanceMonitor';
+import {
+    PerformanceMonitor,
+    TransitionIntensity,
+} from '../performanceMonitor';
 
 // Mock browser APIs
 const mockPerformance = {
-  now: jest.fn(() => Date.now()),
-  memory: {
-    usedJSHeapSize: 50000000,
-    jsHeapSizeLimit: 100000000
-  }
+    now: jest.fn(() => Date.now()),
+    memory: {
+        usedJSHeapSize: 50000000,
+        jsHeapSizeLimit: 100000000,
+    },
 };
 
 const mockNavigator = {
-  hardwareConcurrency: 4,
-  deviceMemory: 8,
-  connection: {
-    effectiveType: '4g'
-  },
-  vibrate: jest.fn()
+    hardwareConcurrency: 4,
+    deviceMemory: 8,
+    connection: {
+        effectiveType: '4g',
+    },
+    vibrate: jest.fn(),
 };
 
-const mockMatchMedia = jest.fn((query: string) => ({
-  matches: query.includes('reduce'),
-  addEventListener: jest.fn(),
-  removeEventListener: jest.fn()
-}));
-
 const mockRequestAnimationFrame = jest.fn((callback: FrameRequestCallback) => {
-  setTimeout(() => callback(performance.now()), 16);
-  return 1;
+    setTimeout(() => callback(performance.now()), 16);
+    return 1;
 });
 
 // Setup global mocks
 Object.defineProperty(window, 'performance', {
-  value: mockPerformance,
-  writable: true,
-  configurable: true
+    value: mockPerformance,
+    writable: true,
+    configurable: true,
 });
 
 Object.defineProperty(window, 'navigator', {
-  value: mockNavigator,
-  writable: true,
-  configurable: true
+    value: mockNavigator,
+    writable: true,
+    configurable: true,
 });
 
 // matchMedia is already mocked globally in setupTests.js
-
 Object.defineProperty(window, 'requestAnimationFrame', {
-  value: mockRequestAnimationFrame,
-  writable: true,
-  configurable: true
+    value: mockRequestAnimationFrame,
+    writable: true,
+    configurable: true,
 });
 
 Object.defineProperty(window, 'AudioContext', {
-  value: jest.fn(),
-  writable: true,
-  configurable: true
+    value: jest.fn(),
+    writable: true,
+    configurable: true,
 });
 
 Object.defineProperty(window, 'webkitAudioContext', {
-  value: jest.fn(),
-  writable: true,
-  configurable: true
+    value: jest.fn(),
+    writable: true,
+    configurable: true,
 });
 
 document.addEventListener = jest.fn();
@@ -73,337 +70,335 @@ document.removeEventListener = jest.fn();
 document.dispatchEvent = jest.fn();
 Object.defineProperty(document, 'documentElement', {
     value: {
-      setAttribute: jest.fn(),
-      removeAttribute: jest.fn(),
-      style: {
-        setProperty: jest.fn(),
-        removeProperty: jest.fn()
-      }
+        setAttribute: jest.fn(),
+        removeAttribute: jest.fn(),
+        style: {
+            setProperty: jest.fn(),
+            removeProperty: jest.fn(),
+        },
     },
     writable: true,
-    configurable: true
+    configurable: true,
 });
 
 describe('PerformanceMonitor', () => {
-  let monitor: PerformanceMonitor;
+    let monitor: PerformanceMonitor;
 
-  beforeEach(() => {
-    jest.clearAllMocks();
-    monitor = new PerformanceMonitor();
-  });
-
-  afterEach(() => {
-    monitor.destroy();
-  });
-
-  describe('initialization', () => {
-    it('should initialize without errors', () => {
-      expect(monitor).toBeInstanceOf(PerformanceMonitor);
+    beforeEach(() => {
+        jest.clearAllMocks();
+        monitor = new PerformanceMonitor();
     });
 
-    it('should set up event listeners', () => {
-      expect(document.addEventListener).toHaveBeenCalledWith(
-        'astro:before-preparation',
-        expect.any(Function)
-      );
-      expect(document.addEventListener).toHaveBeenCalledWith(
-        'astro:after-swap',
-        expect.any(Function)
-      );
-    });
-  });
-
-  describe('monitoring lifecycle', () => {
-    it('should start monitoring', () => {
-      monitor.startMonitoring('test-transition');
-      const metrics = monitor.getCurrentMetrics();
-      
-      expect(metrics.transitionDuration).toBeGreaterThanOrEqual(0);
+    afterEach(() => {
+        monitor.destroy();
     });
 
-    it('should stop monitoring and return data', async () => {
-      monitor.startMonitoring('test-transition');
-      
-      // Simulate some time passing
-      await new Promise(resolve => setTimeout(resolve, 10));
-      
-      const result = monitor.stopMonitoring();
-      
-      expect(result).toBeDefined();
-      expect(result?.transitionType).toBe('test-transition');
-      expect(result?.endTime).toBeGreaterThanOrEqual(result?.startTime || 0);
+    describe('initialization', () => {
+        it('should initialize without errors', () => {
+            expect(monitor).toBeInstanceOf(PerformanceMonitor);
+        });
+
+        it('should set up event listeners', () => {
+            expect(document.addEventListener).toHaveBeenCalledWith('astro:before-preparation', expect.any(Function));
+            expect(document.addEventListener).toHaveBeenCalledWith('astro:after-swap', expect.any(Function));
+        });
     });
 
-    it('should handle multiple start/stop cycles', () => {
-      monitor.startMonitoring('transition-1');
-      const result1 = monitor.stopMonitoring();
-      
-      monitor.startMonitoring('transition-2');
-      const result2 = monitor.stopMonitoring();
-      
-      expect(result1?.transitionType).toBe('transition-1');
-      expect(result2?.transitionType).toBe('transition-2');
-    });
-  });
+    describe('monitoring lifecycle', () => {
+        it('should start monitoring', () => {
+            monitor.startMonitoring('test-transition');
+            const metrics = monitor.getCurrentMetrics();
 
-  describe('performance metrics', () => {
-    it('should provide current metrics', () => {
-      const metrics = monitor.getCurrentMetrics();
-      
-      expect(metrics).toHaveProperty('frameRate');
-      expect(metrics).toHaveProperty('averageFrameTime');
-      expect(metrics).toHaveProperty('droppedFrames');
-      expect(metrics).toHaveProperty('transitionDuration');
-      expect(metrics.frameRate).toBeGreaterThan(0);
-    });
+            expect(metrics.transitionDuration).toBeGreaterThanOrEqual(0);
+        });
 
-    it('should calculate memory usage when available', () => {
-      const metrics = monitor.getCurrentMetrics();
-      
-      expect(metrics.memoryUsage).toBeDefined();
-      expect(metrics.memoryUsage).toBe(0.5); // 50MB / 100MB
-    });
+        it('should stop monitoring and return data', async () => {
+            monitor.startMonitoring('test-transition');
+            // Simulate some time passing
+            await new Promise((resolve) => setTimeout(resolve, 10));
 
-    it('should estimate CPU usage', () => {
-      // Add some frame rate history to enable CPU usage calculation
-      for (let i = 0; i < 15; i++) {
-        (monitor as any).frameRateHistory.push(45 + Math.random() * 10);
-      }
-      
-      const metrics = monitor.getCurrentMetrics();
-      
-      expect(metrics.cpuUsage).toBeDefined();
-      expect(typeof metrics.cpuUsage).toBe('number');
-    });
-  });
+            const result = monitor.stopMonitoring();
 
-  describe('device capabilities', () => {
-    it('should detect device capabilities', () => {
-      monitor.startMonitoring('test');
-      const result = monitor.stopMonitoring();
-      
-      expect(result?.deviceInfo).toBeDefined();
-      expect(result?.deviceInfo.hardwareConcurrency).toBe(4);
-      expect(result?.deviceInfo.deviceMemory).toBe(8);
-      expect(result?.deviceInfo.connectionType).toBe('4g');
+            expect(result).toBeDefined();
+            expect(result?.transitionType).toBe('test-transition');
+            expect(result?.endTime).toBeGreaterThanOrEqual(result?.startTime || 0);
+        });
+
+        it('should handle multiple start/stop cycles', () => {
+            monitor.startMonitoring('transition-1');
+            const result1 = monitor.stopMonitoring();
+
+            monitor.startMonitoring('transition-2');
+            const result2 = monitor.stopMonitoring();
+
+            expect(result1?.transitionType).toBe('transition-1');
+            expect(result2?.transitionType).toBe('transition-2');
+        });
     });
 
-    it('should detect low power mode', () => {
-      // Mock low power indicators
-      Object.defineProperty(global, 'navigator', {
-        value: {
-          ...mockNavigator,
-          hardwareConcurrency: 2,
-          deviceMemory: 2
-        },
-        writable: true
-      });
+    describe('performance metrics', () => {
+        it('should provide current metrics', () => {
+            const metrics = monitor.getCurrentMetrics();
 
-      const newMonitor = new PerformanceMonitor();
-      newMonitor.startMonitoring('test');
-      const result = newMonitor.stopMonitoring();
-      
-      expect(result?.deviceInfo.isLowPowerMode).toBe(true);
-      newMonitor.destroy();
+            expect(metrics).toHaveProperty('frameRate');
+            expect(metrics).toHaveProperty('averageFrameTime');
+            expect(metrics).toHaveProperty('droppedFrames');
+            expect(metrics).toHaveProperty('transitionDuration');
+            expect(metrics.frameRate).toBeGreaterThan(0);
+        });
+
+        it('should calculate memory usage when available', () => {
+            const metrics = monitor.getCurrentMetrics();
+
+            expect(metrics.memoryUsage).toBeDefined();
+            expect(metrics.memoryUsage).toBe(0.5); // 50MB / 100MB
+        });
+
+        it('should estimate CPU usage', () => {
+            // Add some frame rate history to enable CPU usage calculation
+            for (let i = 0; i < 15; i++) {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                (monitor as any).frameRateHistory.push(45 + Math.random() * 10);
+            }
+
+            const metrics = monitor.getCurrentMetrics();
+
+            expect(metrics.cpuUsage).toBeDefined();
+            expect(typeof metrics.cpuUsage).toBe('number');
+        });
     });
 
-    it('should respect reduced motion preference', () => {
-      window.matchMedia = jest.fn().mockReturnValue({
-        matches: true,
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn()
-      });
+    describe('device capabilities', () => {
+        it('should detect device capabilities', () => {
+            monitor.startMonitoring('test');
+            const result = monitor.stopMonitoring();
 
-      const newMonitor = new PerformanceMonitor();
-      newMonitor.startMonitoring('test');
-      const result = newMonitor.stopMonitoring();
-      
-      expect(result?.deviceInfo.prefersReducedMotion).toBe(true);
-      newMonitor.destroy();
-    });
-  });
+            expect(result?.deviceInfo).toBeDefined();
+            expect(result?.deviceInfo.hardwareConcurrency).toBe(4);
+            expect(result?.deviceInfo.deviceMemory).toBe(8);
+            expect(result?.deviceInfo.connectionType).toBe('4g');
+        });
 
-  describe('performance recommendations', () => {
-    it('should recommend minimal intensity for reduced motion', () => {
-      window.matchMedia = jest.fn().mockReturnValue({
-        matches: true,
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn()
-      });
+        it('should detect low power mode', () => {
+            // Mock low power indicators
+            Object.defineProperty(global, 'navigator', {
+                value: {
+                    ...mockNavigator,
+                    hardwareConcurrency: 2,
+                    deviceMemory: 2,
+                },
+                writable: true,
+            });
 
-      const newMonitor = new PerformanceMonitor();
-      const intensity = newMonitor.getRecommendedIntensity();
-      
-      expect(intensity).toBe(TransitionIntensity.MINIMAL);
-      newMonitor.destroy();
-    });
+            const newMonitor = new PerformanceMonitor();
+            newMonitor.startMonitoring('test');
+            const result = newMonitor.stopMonitoring();
 
-    it('should recommend reduced intensity for low-end devices', () => {
-      // Reset matchMedia to not match reduced motion
-      window.matchMedia = jest.fn().mockReturnValue({
-        matches: false,
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn()
-      });
+            expect(result?.deviceInfo.isLowPowerMode).toBe(true);
+            newMonitor.destroy();
+        });
 
-      Object.defineProperty(global, 'navigator', {
-        value: {
-          ...mockNavigator,
-          hardwareConcurrency: 2,
-          deviceMemory: 2
-        },
-        writable: true
-      });
+        it('should respect reduced motion preference', () => {
+            globalThis.matchMedia = jest
+                .fn()
+                .mockReturnValue({
+                    matches: true,
+                    addEventListener: jest.fn(),
+                    removeEventListener: jest.fn(),
+                });
 
-      const newMonitor = new PerformanceMonitor();
-      const intensity = newMonitor.getRecommendedIntensity();
-      
-      expect(intensity).toBe(TransitionIntensity.REDUCED);
-      newMonitor.destroy();
+            const newMonitor = new PerformanceMonitor();
+            newMonitor.startMonitoring('test');
+            const result = newMonitor.stopMonitoring();
+
+            expect(result?.deviceInfo.prefersReducedMotion).toBe(true);
+            newMonitor.destroy();
+        });
     });
 
-    it('should recommend enhanced intensity for high-end devices', () => {
-      // Reset matchMedia to not match reduced motion
-      window.matchMedia = jest.fn().mockReturnValue({
-        matches: false,
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn()
-      });
+    describe('performance recommendations', () => {
+        it('should recommend minimal intensity for reduced motion', () => {
+            globalThis.matchMedia = jest
+                .fn()
+                .mockReturnValue({
+                    matches: true,
+                    addEventListener: jest.fn(),
+                    removeEventListener: jest.fn(),
+                });
 
-      Object.defineProperty(global, 'navigator', {
-        value: {
-          ...mockNavigator,
-          hardwareConcurrency: 8,
-          deviceMemory: 16
-        },
-        writable: true
-      });
+            const newMonitor = new PerformanceMonitor();
+            const intensity = newMonitor.getRecommendedIntensity();
 
-      const newMonitor = new PerformanceMonitor();
-      
-      // Mock high frame rate
-      const metrics = {
-        frameRate: 60,
-        averageFrameTime: 16.67,
-        droppedFrames: 0,
-        transitionDuration: 0
-      };
-      
-      const intensity = newMonitor.getRecommendedIntensity(metrics as any);
-      
-      expect(intensity).toBe(TransitionIntensity.ENHANCED);
-      newMonitor.destroy();
+            expect(intensity).toBe(TransitionIntensity.MINIMAL);
+            newMonitor.destroy();
+        });
+
+        it('should recommend reduced intensity for low-end devices', () => {
+            // Reset matchMedia to not match reduced motion
+            globalThis.matchMedia = jest
+                .fn()
+                .mockReturnValue({
+                    matches: false,
+                    addEventListener: jest.fn(),
+                    removeEventListener: jest.fn(),
+                });
+
+            Object.defineProperty(global, 'navigator', {
+                value: {
+                    ...mockNavigator,
+                    hardwareConcurrency: 2,
+                    deviceMemory: 2,
+                },
+                writable: true,
+            });
+
+            const newMonitor = new PerformanceMonitor();
+            const intensity = newMonitor.getRecommendedIntensity();
+
+            expect(intensity).toBe(TransitionIntensity.REDUCED);
+            newMonitor.destroy();
+        });
+
+        it('should recommend enhanced intensity for high-end devices', () => {
+            // Reset matchMedia to not match reduced motion
+            globalThis.matchMedia = jest
+                .fn()
+                .mockReturnValue({
+                    matches: false,
+                    addEventListener: jest.fn(),
+                    removeEventListener: jest.fn(),
+                });
+
+            Object.defineProperty(global, 'navigator', {
+                value: {
+                    ...mockNavigator,
+                    hardwareConcurrency: 8,
+                    deviceMemory: 16,
+                },
+                writable: true,
+            });
+
+            const newMonitor = new PerformanceMonitor();
+
+            // Mock high frame rate
+            const metrics = {
+                frameRate: 60,
+                averageFrameTime: 16.67,
+                droppedFrames: 0,
+                transitionDuration: 0,
+            };
+
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const intensity = newMonitor.getRecommendedIntensity(metrics as any);
+
+            expect(intensity).toBe(TransitionIntensity.ENHANCED);
+            newMonitor.destroy();
+        });
+
+        it('should recommend normal intensity for average performance', () => {
+            // Reset matchMedia to not match reduced motion
+            globalThis.matchMedia = jest
+                .fn()
+                .mockReturnValue({
+                    matches: false,
+                    addEventListener: jest.fn(),
+                    removeEventListener: jest.fn(),
+                });
+
+            const metrics = {
+                frameRate: 50,
+                averageFrameTime: 20,
+                droppedFrames: 1,
+                transitionDuration: 0,
+            };
+
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const intensity = monitor.getRecommendedIntensity(metrics as any);
+
+            expect(intensity).toBe(TransitionIntensity.NORMAL);
+        });
     });
 
-    it('should recommend normal intensity for average performance', () => {
-      // Reset matchMedia to not match reduced motion
-      window.matchMedia = jest.fn().mockReturnValue({
-        matches: false,
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn()
-      });
+    describe('performance fallback', () => {
+        it('should trigger fallback for poor performance', () => {
+            const mockDispatchEvent = jest.spyOn(document, 'dispatchEvent');
 
-      const metrics = {
-        frameRate: 50,
-        averageFrameTime: 20,
-        droppedFrames: 1,
-        transitionDuration: 0
-      };
-      
-      const intensity = monitor.getRecommendedIntensity(metrics as any);
-      
-      expect(intensity).toBe(TransitionIntensity.NORMAL);
-    });
-  });
+            monitor.startMonitoring('test');
+            // Simulate poor performance data
+            const poorPerformanceData = {
+                startTime: 0,
+                endTime: 1000,
+                frameCount: 15, // Low frame count
+                droppedFrames: 10, // High dropped frames
+                averageFrameRate: 15, // Low FPS
+                worstFrameTime: 100,
+                transitionType: 'test',
+                deviceInfo: {
+                    hardwareConcurrency: 4,
+                    connectionType: '4g',
+                    isLowPowerMode: false,
+                    prefersReducedMotion: false,
+                },
+            };
 
-  describe('performance fallback', () => {
-    it('should trigger fallback for poor performance', () => {
-      const mockDispatchEvent = jest.spyOn(document, 'dispatchEvent');
-      
-      monitor.startMonitoring('test');
-      
-      // Simulate poor performance data
-      const poorPerformanceData = {
-        startTime: 0,
-        endTime: 1000,
-        frameCount: 15, // Low frame count
-        droppedFrames: 10, // High dropped frames
-        averageFrameRate: 15, // Low FPS
-        worstFrameTime: 100,
-        transitionType: 'test',
-        deviceInfo: {
-          hardwareConcurrency: 4,
-          connectionType: '4g',
-          isLowPowerMode: false,
-          prefersReducedMotion: false
-        }
-      };
-      
-      // Manually trigger the performance check
-      (monitor as any).checkPerformanceAndTriggerFallback(poorPerformanceData);
-      
-      expect(mockDispatchEvent).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: 'transition-performance-fallback'
-        })
-      );
-    });
-  });
+            // Manually trigger the performance check
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (monitor as any).checkPerformanceAndTriggerFallback(poorPerformanceData);
 
-  describe('history management', () => {
-    it('should maintain performance history', () => {
-      monitor.startMonitoring('test-1');
-      monitor.stopMonitoring();
-      
-      monitor.startMonitoring('test-2');
-      monitor.stopMonitoring();
-      
-      const history = monitor.getPerformanceHistory();
-      
-      expect(history).toHaveLength(2);
-      expect(history[0].transitionType).toBe('test-1');
-      expect(history[1].transitionType).toBe('test-2');
+            expect(mockDispatchEvent).toHaveBeenCalledWith(expect.objectContaining({
+                type: 'transition-performance-fallback',
+            }));
+        });
     });
 
-    it('should limit history size', () => {
-      // Add more than the limit (50)
-      for (let i = 0; i < 55; i++) {
-        monitor.startMonitoring(`test-${i}`);
-        monitor.stopMonitoring();
-      }
-      
-      const history = monitor.getPerformanceHistory();
-      
-      expect(history).toHaveLength(50);
-      expect(history[0].transitionType).toBe('test-5'); // First 5 should be removed
+    describe('history management', () => {
+        it('should maintain performance history', () => {
+            monitor.startMonitoring('test-1');
+            monitor.stopMonitoring();
+
+            monitor.startMonitoring('test-2');
+            monitor.stopMonitoring();
+
+            const history = monitor.getPerformanceHistory();
+
+            expect(history).toHaveLength(2);
+            expect(history[0].transitionType).toBe('test-1');
+            expect(history[1].transitionType).toBe('test-2');
+        });
+
+        it('should limit history size', () => {
+            // Add more than the limit (50)
+            for (let i = 0; i < 55; i++) {
+                monitor.startMonitoring(`test-${i}`);
+                monitor.stopMonitoring();
+            }
+
+            const history = monitor.getPerformanceHistory();
+
+            expect(history).toHaveLength(50);
+            expect(history[0].transitionType).toBe('test-5'); // First 5 should be removed
+        });
+
+        it('should clear history', () => {
+            monitor.startMonitoring('test');
+            monitor.stopMonitoring();
+
+            expect(monitor.getPerformanceHistory()).toHaveLength(1);
+
+            monitor.clearHistory();
+
+            expect(monitor.getPerformanceHistory()).toHaveLength(0);
+        });
     });
 
-    it('should clear history', () => {
-      monitor.startMonitoring('test');
-      monitor.stopMonitoring();
-      
-      expect(monitor.getPerformanceHistory()).toHaveLength(1);
-      
-      monitor.clearHistory();
-      
-      expect(monitor.getPerformanceHistory()).toHaveLength(0);
-    });
-  });
+    describe('cleanup', () => {
+        it('should cleanup resources on destroy', () => {
+            const mockRemoveEventListener = jest.spyOn(document, 'removeEventListener');
 
-  describe('cleanup', () => {
-    it('should cleanup resources on destroy', () => {
-      const mockRemoveEventListener = jest.spyOn(document, 'removeEventListener');
-      
-      monitor.destroy();
-      
-      expect(mockRemoveEventListener).toHaveBeenCalledWith(
-        'astro:before-preparation',
-        expect.any(Function)
-      );
-      expect(mockRemoveEventListener).toHaveBeenCalledWith(
-        'astro:after-swap',
-        expect.any(Function)
-      );
+            monitor.destroy();
+
+            expect(mockRemoveEventListener).toHaveBeenCalledWith('astro:before-preparation', expect.any(Function));
+            expect(mockRemoveEventListener).toHaveBeenCalledWith('astro:after-swap', expect.any(Function));
+        });
     });
-  });
 });

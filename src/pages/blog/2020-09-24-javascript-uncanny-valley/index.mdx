@@ -5,7 +5,6 @@ title: "JavaScript's Uncanny Valley"
 
 createdDate: "2020-09-25"
 published: "2020-09-25"
-status: "published"
 pubDate: "2020-09-25"
 readTime: 2
 layout: "../../../layouts/BlogArticle.astro"
@@ -18,7 +17,7 @@ With a large amount of JavaScript, the client CPU, be it laptop or phone, will h
 It's wasteful in many ways. There is unnecessary network transfer and CPU processing. Obviously it's also very wasteful for your battery.
 From a UX perspective the user is also waiting much longer than necessary.
 
-## Rendering an SPA
+# Rendering an SPA
 
 1. Download HTML, CSS and JavaScript
 2. Construct the page based on the files received
@@ -43,7 +42,7 @@ Should the user click on it, it's downloaded and made available. That download t
 
 ---
 
-## Hydration
+# Hydration
 
 With server side rendering the browser **first** receives static HTML. This initial page is **not** interactive on a SPA. To make it interactive, the JS needs to be executed. This allows all the buttons, links etc. to actually trigger the functions defined in the SPA's JS code. Hydration refers to this last step where the static HTML page receives that last bit it needs to make the page interactive.
 

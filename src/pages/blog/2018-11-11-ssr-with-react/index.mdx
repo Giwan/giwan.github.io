@@ -5,7 +5,6 @@ title: "Server Side Rendering - React & NodeJS"
 
 createdDate: "2018-11-11"
 published: "2018-11-11"
-status: "published"
 pubDate: "2018-11-11"
 readTime: 2
 layout: "../../../layouts/BlogArticle.astro"
@@ -59,7 +58,7 @@ Install the packages.
 ```bash
 npm i --save ignore-styles babel-preset-es2015 babel-preset-react-app file-loader url-loader babel-plugin-syntax-dynamic-import
 
-## Support dynamic importing
+# Support dynamic importing
 npm i babel-plugin-dynamic-import-node --save-dev
 ```
 
@@ -297,10 +296,10 @@ Run the app locally to ensure the initial render is indeed being served by the s
 
 ```bash
 
-## first create a new build (used for hydration)
+# first create a new build (used for hydration)
 npm run build
 
-## Now start the server
+# Now start the server
 NODE_ENV=production node ./server/server.js
 ```
 
@@ -310,7 +309,7 @@ NODE_ENV=production node ./server/server.js
 
 With server side rendering in place the sitemap.xml generators can find all of the pages of the site. The generated file can then be fed (uploaded) to the webmaster pages of the popular search engines (Google, Bing, Yahoo, Yandex, etc.). This allows the crawlers to more easily index the site.
 
-## Summary
+# Summary
 
 All in all it took some time to get this setup properly. The benefits are definitely there though.
 
@@ -318,10 +317,10 @@ Giwan
 
 ---
 
-## Future updates / articles
+# Future updates / articles
 
 How to verify that server side rendering is indeed working (using various browsers), especially when service workers are in the mix.
 
-## Links
+# Links
 
 [Rendering React **only** on the server](/react-instead-of-jsp/)

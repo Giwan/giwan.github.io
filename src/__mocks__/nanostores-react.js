@@ -1,4 +1,1 @@
-const useStore = jest.fn();
-module.exports = {
-  useStore
-};
+export const useStore = jest.fn();

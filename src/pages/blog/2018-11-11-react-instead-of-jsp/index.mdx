@@ -1,10 +1,10 @@
 ---
 description: React can replace Java Server Pages (JSP), HandlebarJS, etc. as a templating language on the server.
+
 title: "React Server Pages"
+
 createdDate: "2018-11-11"
 pubDate: "2018-11-11"
-published: "2018-11-11"
-status: "published"
 readTime: 2
 layout: "../../../layouts/BlogArticle.astro"
 ---
@@ -31,22 +31,22 @@ JSP and other such templating languages already allow for this but I would argue
 Create a standard node application with express. We first create the application with
 
 ```bash
-## -- terminal
+# -- terminal
 
 
-## create project folder
+# create project folder
 mkdir react-on-the-server
 
-## nav into project folder
+# nav into project folder
 cd $!
 
-## Initiate project
+# Initiate project
 npm init -y
 
-## create gitignore
+# create gitignore
 touch .gitignore
 
-## install some basic dependencies
+# install some basic dependencies
 npm i --save express react react-dom express-react-views
 
 ```
@@ -87,15 +87,15 @@ const listener = app.listen(9000, () => {
 Now that the `server.js` file has been setup to find our view file, the next step is to create the views.
 
 ```bash
-## -- terminal
+# -- terminal
 
 
-## create the views folder
+# create the views folder
 mkdir views
 
-## create the view (react) file
-## It's important that that extension matches
-## that which has been configured in server.js
+# create the view (react) file
+# It's important that that extension matches
+# that which has been configured in server.js
 touch views/index.jsx
 ```
 
@@ -126,7 +126,7 @@ response.render("index", { name: "hello world" });
 With that the project can be started.
 
 ```bash
-## -- terminal
+# -- terminal
 
 node server.js
 ```

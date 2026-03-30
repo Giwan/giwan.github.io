@@ -4,8 +4,8 @@ description: With a little bit of workaround it's possible to deploy a static As
 
 createdDate: "2024-01-21"
 published: "2024-01-21"
-status: "published"
 pubDate: "2024-01-21"
+status: "published"
 readTime: 5
 layout: "../../../layouts/BlogArticle.astro"
 ---

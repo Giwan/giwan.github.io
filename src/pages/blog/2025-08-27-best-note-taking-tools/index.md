@@ -3,8 +3,8 @@ title: "Note-Taking Tools for Web Developers in 2025"
 description: "A developer-focused guide to the best note-taking tools for technical documentation, code snippets, project planning, and knowledge management. Find your perfect coding companion."
 createdDate: "2025-08-27"
 published: "2025-08-27"
-status: "published"
 pubDate: "2025-08-27"
+status: "published"
 readTime: 10
 layout: "../../../layouts/BlogArticle.astro"
 ---
