@@ -22,7 +22,7 @@ export const reverseDate = (date = '') => parseInt(date
 export const getDateNumber = (dateString: string) => {
     if (!isString(dateString))
         throw Error('Provided date argument is not of type string');
-
+    
     return Number(dateString?.replace(/-/g, '')) || 0;
 };
 
@@ -38,11 +38,11 @@ export const getStyle = (router: TRouter, styles: {
     activeLink: string;
 }, target: TTarget) => {
     const [_target, _routes] = getStyleValidation(router, target);
-
+    
     // early check for exact match
     if (router.pathname === _target)
         return styles.activeLink;
-
+    
     if (Array.isArray(_routes) && _routes.length)
         return _routes.find((route) => router.pathname.indexOf(route) > -1) ? styles.activeLink : undefined;
 };
@@ -56,20 +56,20 @@ export const getStyle = (router: TRouter, styles: {
 export const getStyleValidation = (router: TRouter, target: TTarget) => {
     if (!router?.pathname)
         throw Error('Please provide a valid router object with pathname');
-
+    
     let _target = target;
     let _routes: string[] = [];
-
+    
     if (typeof target === 'object') {
         if (!target.path)
             throw Error(
                 'The path value is required when the target is an object. target: ' +
                 JSON.stringify(target));
-
+        
         _target = target.path;
         _routes = target.routes;
     }
-
+    
     return [_target, _routes];
 };
 
@@ -82,7 +82,7 @@ const dateOptions = {
 export const formatArticlePublishedDate = (post: IPost) => {
     const {pubDate, published} = post.frontmatter;
     const articleDate = pubDate || published;
-
+    
     return formatDateWithOptions(String(articleDate));
 };
 
@@ -93,6 +93,6 @@ export const formatDateWithOptions = (date: string) => {
         ...dateOptions,
         weekday: 'long',
     };
-
+    
     return formatDate(dateOptionsFiltered)(date);
 };
