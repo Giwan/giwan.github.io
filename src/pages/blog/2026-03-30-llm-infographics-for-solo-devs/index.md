@@ -93,25 +93,22 @@ This ensures your diagrams are **version-controlled** and always in sync with yo
 The "Bento Grid" is the dominant design trend for 2026. It's clean, modular, and perfect for displaying disparate features. Here is a conceptual SVG wireframe of how to map your project's "Core Metrics" to a Bento layout:
 
 <div class="bg-muted p-8 border border-border my-8 flex justify-center">
-  <svg width="400" height="250" viewBox="0 0 400 250" fill="none" xmlns="http://www.w3.org/2000/svg" class="max-w-full" role="img" aria-label="Bento Grid layout wireframe showing three feature boxes and one wide status box">
-    <!-- Main Feature -->
-    <rect x="10" y="10" width="230" height="150" rx="8" fill="hsl(var(--primary))" fill-opacity="0.1" stroke="hsl(var(--primary))" stroke-width="2"/>
-    <text x="30" y="40" fill="hsl(var(--primary))" font-family="sans-serif" font-size="14" font-weight="bold">Core Logic</text>
-    <rect x="30" y="60" width="190" height="10" rx="5" fill="hsl(var(--primary))" fill-opacity="0.2"/>
-    <rect x="30" y="80" width="150" height="10" rx="5" fill="hsl(var(--primary))" fill-opacity="0.2"/>
-
-    <!-- Secondary Feature 1 -->
-    <rect x="250" y="10" width="140" height="70" rx="8" fill="hsl(var(--muted-foreground))" fill-opacity="0.1" stroke="hsl(var(--muted-foreground))" stroke-width="1"/>
-    <text x="265" y="35" fill="hsl(var(--muted-foreground))" font-family="sans-serif" font-size="12" font-weight="bold">Dependencies</text>
-
-    <!-- Secondary Feature 2 -->
-    <rect x="250" y="90" width="140" height="70" rx="8" fill="hsl(var(--muted-foreground))" fill-opacity="0.1" stroke="hsl(var(--muted-foreground))" stroke-width="1"/>
-    <text x="265" y="115" fill="hsl(var(--muted-foreground))" font-family="sans-serif" font-size="12" font-weight="bold">API Health</text>
-
-    <!-- Bottom Wide Feature -->
-    <rect x="10" y="170" width="380" height="70" rx="8" fill="hsl(var(--accent))" fill-opacity="0.1" stroke="hsl(var(--accent))" stroke-width="1"/>
-    <text x="30" y="200" fill="hsl(var(--accent-foreground))" font-family="sans-serif" font-size="12" font-weight="bold">System Status: Global CDN Online</text>
-  </svg>
+<svg width="400" height="250" viewBox="0 0 400 250" fill="none" xmlns="http://www.w3.org/2000/svg" class="max-w-full" role="img" aria-label="Bento Grid layout wireframe showing three feature boxes and one wide status box">
+<!-- Main Feature -->
+<rect x="10" y="10" width="230" height="150" rx="8" fill="hsl(var(--primary))" fill-opacity="0.1" stroke="hsl(var(--primary))" stroke-width="2"/>
+<text x="30" y="40" fill="hsl(var(--primary))" font-family="sans-serif" font-size="14" font-weight="bold">Core Logic</text>
+<rect x="30" y="60" width="190" height="10" rx="5" fill="hsl(var(--primary))" fill-opacity="0.2"/>
+<rect x="30" y="80" width="150" height="10" rx="5" fill="hsl(var(--primary))" fill-opacity="0.2"/>
+<!-- Secondary Feature 1 -->
+<rect x="250" y="10" width="140" height="70" rx="8" fill="hsl(var(--muted-foreground))" fill-opacity="0.1" stroke="hsl(var(--muted-foreground))" stroke-width="1"/>
+<text x="265" y="35" fill="hsl(var(--muted-foreground))" font-family="sans-serif" font-size="12" font-weight="bold">Dependencies</text>
+<!-- Secondary Feature 2 -->
+<rect x="250" y="90" width="140" height="70" rx="8" fill="hsl(var(--muted-foreground))" fill-opacity="0.1" stroke="hsl(var(--muted-foreground))" stroke-width="1"/>
+<text x="265" y="115" fill="hsl(var(--muted-foreground))" font-family="sans-serif" font-size="12" font-weight="bold">API Health</text>
+<!-- Bottom Wide Feature -->
+<rect x="10" y="170" width="380" height="70" rx="8" fill="hsl(var(--accent))" fill-opacity="0.1" stroke="hsl(var(--accent))" stroke-width="1"/>
+<text x="30" y="200" fill="hsl(var(--accent-foreground))" font-family="sans-serif" font-size="12" font-weight="bold">System Status: Global CDN Online</text>
+</svg>
 </div>
 
 ---
