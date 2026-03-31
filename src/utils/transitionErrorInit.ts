@@ -188,10 +188,10 @@ function setupDevelopmentMode(): void {
  * Toggle transition debugger visibility
  */
 function toggleTransitionDebugger(): void {
-  const debugger = document.querySelector('[data-transition-debug]');
-  if (debugger) {
-    const isVisible = debugger.getAttribute('data-debug-visible') === 'true';
-    debugger.setAttribute('data-debug-visible', (!isVisible).toString());
+  const debuggerElement = document.querySelector('[data-transition-debug]');
+  if (debuggerElement) {
+    const isVisible = debuggerElement.getAttribute('data-debug-visible') === 'true';
+    debuggerElement.setAttribute('data-debug-visible', (!isVisible).toString());
   } else {
     // Create debugger if it doesn't exist
     createTransitionDebugger();
@@ -202,11 +202,11 @@ function toggleTransitionDebugger(): void {
  * Create transition debugger element
  */
 function createTransitionDebugger(): void {
-  const debugger = document.createElement('div');
-  debugger.id = 'transition-debugger';
-  debugger.setAttribute('data-transition-debug', 'true');
-  debugger.setAttribute('data-debug-visible', 'true');
-  debugger.style.cssText = `
+  const debuggerElement = document.createElement('div');
+  debuggerElement.id = 'transition-debugger';
+  debuggerElement.setAttribute('data-transition-debug', 'true');
+  debuggerElement.setAttribute('data-debug-visible', 'true');
+  debuggerElement.style.cssText = `
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -222,23 +222,23 @@ function createTransitionDebugger(): void {
   `;
   
   // Update debugger content
-  updateDebuggerContent(debugger);
+  updateDebuggerContent(debuggerElement);
   
   // Update every second
-  setInterval(() => updateDebuggerContent(debugger), 1000);
+  setInterval(() => updateDebuggerContent(debuggerElement), 1000);
   
-  document.body.appendChild(debugger);
+  document.body.appendChild(debuggerElement);
 }
 
 /**
  * Update debugger content
  */
-function updateDebuggerContent(debugger: HTMLElement): void {
+function updateDebuggerContent(debuggerElement: HTMLElement): void {
   const debugInfo = transitionErrorHandler.getDebugInfo();
   const errorCount = debugInfo.errorHistory.length;
   const lastError = debugInfo.errorHistory[debugInfo.errorHistory.length - 1];
   
-  debugger.innerHTML = `
+  debuggerElement.innerHTML = `
     <div style="font-weight: bold; margin-bottom: 8px;">Transition Debug</div>
     <div>API Supported: ${debugInfo.apiSupported ? '✅' : '❌'}</div>
     <div>Current Path: ${debugInfo.currentPath}</div>

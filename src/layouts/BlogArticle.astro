@@ -191,6 +191,40 @@ const articleSchema = {
     <section class="prose prose-xl md:prose-2xl max-w-none dark:prose-invert font-serif leading-relaxed">
       <slot />
     </section>
+
+    <!-- Mermaid.js Support -->
+    <script>
+      import mermaid from 'mermaid';
+
+      const initializeMermaid = () => {
+        const isDarkMode = document.documentElement.classList.contains('dark');
+        mermaid.initialize({
+          startOnLoad: true,
+          theme: isDarkMode ? 'dark' : 'default',
+          securityLevel: 'loose',
+          fontFamily: 'var(--font-mono, monospace)',
+        });
+
+        // Re-run mermaid on all elements with class 'mermaid'
+        // This is needed because Shiki might wrap the mermaid code blocks
+        const mermaidDivs = document.querySelectorAll('.mermaid');
+        if (mermaidDivs.length > 0) {
+          mermaid.run();
+        }
+      };
+
+      // Initial load
+      if (document.querySelector('.mermaid')) {
+        initializeMermaid();
+      }
+
+      // Handle Astro View Transitions
+      document.addEventListener('astro:after-swap', () => {
+        if (document.querySelector('.mermaid')) {
+          initializeMermaid();
+        }
+      });
+    </script>
     
     <!-- Article Footer -->
     <footer class="mt-12 pt-6 border-t border-border">
