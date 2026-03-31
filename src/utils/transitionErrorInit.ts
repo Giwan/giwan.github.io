@@ -7,58 +7,65 @@
  * - Debug mode setup
  * - Global error recovery
  */
-import {setTimeout, setInterval} from 'node:timers';
-import {transitionErrorHandler} from './transitionErrorHandler';
+
+import { transitionErrorHandler } from './transitionErrorHandler';
 
 /**
  * Initialize transition error handling system
  */
 export function initializeTransitionErrorHandling(): void {
-    if (typeof window === 'undefined')
-        return;
+  if (typeof window === 'undefined') {
+    return;
+  }
 
-    // Load fallback CSS
-    loadFallbackStyles();
-        // Set up global error recovery
-    setupGlobalErrorRecovery();
-    // Initialize debug mode in development
-    if (import.meta.env.DEV)
-        setupDevelopmentMode();
+  // Load fallback CSS
+  loadFallbackStyles();
 
-    // Set up performance-based fallbacks
-    setupPerformanceFallbacks();
+  // Set up global error recovery
+  setupGlobalErrorRecovery();
+
+  // Initialize debug mode in development
+  if (import.meta.env.DEV) {
+    setupDevelopmentMode();
+  }
+
+  // Set up performance-based fallbacks
+  setupPerformanceFallbacks();
+
+  console.log('[TransitionErrorInit] Error handling initialized');
 }
 
 /**
  * Load fallback CSS styles
  */
 function loadFallbackStyles(): void {
-    // Check if styles are already loaded
-    if (document.querySelector('#transition-fallback-styles'))
-        return;
+  // Check if styles are already loaded
+  if (document.querySelector('#transition-fallback-styles')) {
+    return;
+  }
 
-    // Create and inject fallback styles
-    const link = document.createElement('link');
+  // Create and inject fallback styles
+  const link = document.createElement('link');
+  link.id = 'transition-fallback-styles';
+  link.rel = 'stylesheet';
+  link.href = '/src/styles/transitionFallbacks.css';
 
-    link.id = 'transition-fallback-styles';
-    link.rel = 'stylesheet';
-    link.href = '/src/styles/transitionFallbacks.css';
-    // Add to head
-    document.head.appendChild(link);
-    // Fallback: inject critical CSS inline if external file fails
-    link.onerror = () => {
-        injectCriticalFallbackCSS();
-    };
+  // Add to head
+  document.head.appendChild(link);
+
+  // Fallback: inject critical CSS inline if external file fails
+  link.onerror = () => {
+    injectCriticalFallbackCSS();
+  };
 }
 
 /**
  * Inject critical fallback CSS inline
  */
 function injectCriticalFallbackCSS(): void {
-    const style = document.createElement('style');
-
-    style.id = 'critical-transition-fallback';
-    style.textContent = `
+  const style = document.createElement('style');
+  style.id = 'critical-transition-fallback';
+  style.textContent = `
     /* Critical fallback styles */
     [data-view-transition-disabled="true"] * {
       view-transition-name: none !important;
@@ -87,223 +94,234 @@ function injectCriticalFallbackCSS(): void {
     }
   `;
 
-    document.head.appendChild(style);
+  document.head.appendChild(style);
 }
 
 /**
  * Set up global error recovery mechanisms
  */
 function setupGlobalErrorRecovery(): void {
-    // Monitor for stuck transitions
-    let transitionStartTime: number | null = null;
+  // Monitor for stuck transitions
+  let transitionStartTime: number | null = null;
+
+  document.addEventListener('astro:before-preparation', () => {
+    transitionStartTime = Date.now();
     
-    document.addEventListener('astro:before-preparation', () => {
-        transitionStartTime = Date.now();
-        // Set up timeout to detect stuck transitions
-        setTimeout(() => {
-            if (transitionStartTime && Date.now() - transitionStartTime > 10000)
-                forceTransitionRecovery();
-        }, 10000);
-    });
+    // Set up timeout to detect stuck transitions
+    setTimeout(() => {
+      if (transitionStartTime && Date.now() - transitionStartTime > 10000) {
+        console.warn('[TransitionErrorInit] Transition appears stuck, forcing recovery');
+        forceTransitionRecovery();
+      }
+    }, 10000);
+  });
 
-    document.addEventListener('astro:after-swap', () => {
-        transitionStartTime = null;
-    });
+  document.addEventListener('astro:after-swap', () => {
+    transitionStartTime = null;
+  });
 
-    document.addEventListener('astro:page-load', () => {
-        transitionStartTime = null;
-    });
+  document.addEventListener('astro:page-load', () => {
+    transitionStartTime = null;
+  });
 }
 
 /**
  * Force transition recovery
  */
 function forceTransitionRecovery(): void {
-    const root = document.documentElement;
+  const root = document.documentElement;
 
-    // Remove any stuck transition states
-    root.removeAttribute('data-astro-transition');
-    root.removeAttribute('data-astro-transition-persist');
-        // Force fallback mode temporarily
-    root.setAttribute('data-transition-fallback', 'true');
-    root.setAttribute('data-view-transition-disabled', 'true');
-        // Clear after a short delay
-    setTimeout(() => {
-        root.removeAttribute('data-transition-fallback');
-        root.removeAttribute('data-view-transition-disabled');
-    }, 1000);
+  // Remove any stuck transition states
+  root.removeAttribute('data-astro-transition');
+  root.removeAttribute('data-astro-transition-persist');
+
+  // Force fallback mode temporarily
+  root.setAttribute('data-transition-fallback', 'true');
+  root.setAttribute('data-view-transition-disabled', 'true');
+
+  // Clear after a short delay
+  setTimeout(() => {
+    root.removeAttribute('data-transition-fallback');
+    root.removeAttribute('data-view-transition-disabled');
+  }, 1000);
+
+  console.log('[TransitionErrorInit] Forced transition recovery');
 }
 
 /**
  * Set up development mode features
  */
 function setupDevelopmentMode(): void {
-    // Enable debug mode
-    transitionErrorHandler.enableDebugMode();
-        // Add keyboard shortcuts for debugging
-    document.addEventListener('keydown', (event) => {
-        // Ctrl/Cmd + Shift + T for transition debug
-        if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'T') {
-            event.preventDefault();
-            toggleTransitionDebugger();
-        }
+  // Enable debug mode
+  transitionErrorHandler.enableDebugMode();
 
-        // Ctrl/Cmd + Shift + F for force fallback
-        if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'F') {
-            event.preventDefault();
-            transitionErrorHandler.forceFallback('keyboard-shortcut');
-        }
+  // Add keyboard shortcuts for debugging
+  document.addEventListener('keydown', (event) => {
+    // Ctrl/Cmd + Shift + T for transition debug
+    if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'T') {
+      event.preventDefault();
+      toggleTransitionDebugger();
+    }
 
-        // Ctrl/Cmd + Shift + E for test errors
-        if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'E') {
-            event.preventDefault();
-            transitionErrorHandler.testErrorHandling();
-        }
-    });
-    // Log debug info to console
+    // Ctrl/Cmd + Shift + F for force fallback
+    if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'F') {
+      event.preventDefault();
+      transitionErrorHandler.forceFallback('keyboard-shortcut');
+    }
+
+    // Ctrl/Cmd + Shift + E for test errors
+    if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'E') {
+      event.preventDefault();
+      transitionErrorHandler.testErrorHandling();
+    }
+  });
+
+  // Log debug info to console
+  console.log('[TransitionErrorInit] Development mode enabled');
+  console.log('Keyboard shortcuts:');
+  console.log('  Ctrl/Cmd + Shift + T: Toggle transition debugger');
+  console.log('  Ctrl/Cmd + Shift + F: Force fallback mode');
+  console.log('  Ctrl/Cmd + Shift + E: Test error handling');
 }
 
 /**
  * Toggle transition debugger visibility
  */
 function toggleTransitionDebugger(): void {
-    const debuggerElement = document.querySelector('[data-transition-debug]');
-
-    if (debuggerElement) {
-        const isVisible = debuggerElement.getAttribute('data-debug-visible') === 'true';
-        debuggerElement.setAttribute('data-debug-visible', (!isVisible).toString());
-        return;
-    }
-
+  const debuggerElement = document.querySelector('[data-transition-debug]');
+  if (debuggerElement) {
+    const isVisible = debuggerElement.getAttribute('data-debug-visible') === 'true';
+    debuggerElement.setAttribute('data-debug-visible', (!isVisible).toString());
+  } else {
+    // Create debugger if it doesn't exist
     createTransitionDebugger();
+  }
 }
 
 /**
  * Create transition debugger element
  */
 function createTransitionDebugger(): void {
-    const debuggerEl = document.createElement('div');
+  const debuggerElement = document.createElement('div');
+  debuggerElement.id = 'transition-debugger';
+  debuggerElement.setAttribute('data-transition-debug', 'true');
+  debuggerElement.setAttribute('data-debug-visible', 'true');
+  debuggerElement.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 12px;
+    z-index: 10000;
+    max-width: 300px;
+    backdrop-filter: blur(8px);
+  `;
 
-    debuggerEl.id = 'transition-debugger';
-    debuggerEl.setAttribute('data-transition-debug', 'true');
-    debuggerEl.setAttribute('data-debug-visible', 'true');
-    debuggerEl.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background: rgba(0, 0, 0, 0.9);
-        color: white;
-        padding: 10px;
-        border-radius: 8px;
-        font-family: monospace;
-        font-size: 12px;
-        z-index: 10000;
-        max-width: 300px;
-        backdrop-filter: blur(8px);
-    `;
+  // Update debugger content
+  updateDebuggerContent(debuggerElement);
 
-    // Update debugger content
-    updateDebuggerContent(debuggerEl);
-        // Update every second
-    setInterval(() => updateDebuggerContent(debuggerEl), 1000);
+  // Update every second
+  setInterval(() => updateDebuggerContent(debuggerElement), 1000);
 
-    document.body.appendChild(debuggerEl);
+  document.body.appendChild(debuggerElement);
 }
 
 /**
  * Update debugger content
  */
-function updateDebuggerContent(debuggerEl: HTMLElement): void {
-    const debugInfo = transitionErrorHandler.getDebugInfo();
-    const errorCount = debugInfo.errorHistory.length;
-    const lastError = debugInfo.errorHistory.at(-1);
+function updateDebuggerContent(debuggerElement: HTMLElement): void {
+  const debugInfo = transitionErrorHandler.getDebugInfo();
+  const errorCount = debugInfo.errorHistory.length;
+  const lastError = debugInfo.errorHistory[debugInfo.errorHistory.length - 1];
 
-    debuggerEl.innerHTML = `
-        <div style="font-weight: bold; margin-bottom: 8px;">Transition Debug</div>
-        <div>API Supported: ${debugInfo.apiSupported ? '✅' : '❌'}</div>
-        <div>Current Path: ${debugInfo.currentPath}</div>
-        <div>Transition Active: ${debugInfo.transitionInProgress ? '🔄' : '⏸️'}</div>
-        <div>Errors: ${errorCount}</div>
-        ${lastError ? `<div style="color: #ff6b6b; margin-top: 4px;">Last: ${lastError.type}</div>` : ''}
-        <div style="margin-top: 8px; font-size: 10px; opacity: 0.7;">
-            Ctrl+Shift+T to toggle
-        </div>
-    `;
+  debuggerElement.innerHTML = `
+    <div style="font-weight: bold; margin-bottom: 8px;">Transition Debug</div>
+    <div>API Supported: ${debugInfo.apiSupported ? '✅' : '❌'}</div>
+    <div>Current Path: ${debugInfo.currentPath}</div>
+    <div>Transition Active: ${debugInfo.transitionInProgress ? '🔄' : '⏸️'}</div>
+    <div>Errors: ${errorCount}</div>
+    ${lastError ? `<div style="color: #ff6b6b; margin-top: 4px;">Last: ${lastError.type}</div>` : ''}
+    <div style="margin-top: 8px; font-size: 10px; opacity: 0.7;">
+      Ctrl+Shift+T to toggle
+    </div>
+  `;
 }
 
 /**
  * Set up performance-based fallbacks
  */
 function setupPerformanceFallbacks(): void {
-    // Monitor performance and apply fallbacks
-    let performanceCheckInterval: NodeJS.Timeout;
+  // Monitor performance and apply fallbacks
+  let performanceCheckInterval: NodeJS.Timeout;
 
-    const checkPerformance = () => {
-        // Simple performance check
-        const start = performance.now();
+  const checkPerformance = () => {
+    // Simple performance check
+    const start = performance.now();
+    requestAnimationFrame(() => {
+      const frameTime = performance.now() - start;
 
-        requestAnimationFrame(() => {
-            const frameTime = performance.now() - start;
-
-            // If frame time is too high, enable performance mode
-            if (frameTime > 16.67 * 2) {
-                // More than 2 frame times
-                document.documentElement.setAttribute('data-performance-mode', 'low');
-                return;
-            }
-
-            if (frameTime < 16.67 * 0.5) {
-                // Less than half frame time
-                document.documentElement.setAttribute('data-performance-mode', 'high');
-                return;
-            }
-
-            document.documentElement.setAttribute('data-performance-mode', 'normal');
-        });
-    };
-
-    // Check performance periodically
-    performanceCheckInterval = setInterval(checkPerformance, 5000);
-    // Initial check
-    checkPerformance();
-        // Clean up on page unload
-    globalThis.addEventListener('beforeunload', () => {
-        if (performanceCheckInterval)
-            clearInterval(performanceCheckInterval);
+      // If frame time is too high, enable performance mode
+      if (frameTime > 16.67 * 2) { // More than 2 frame times
+        document.documentElement.setAttribute('data-performance-mode', 'low');
+      } else if (frameTime < 16.67 * 0.5) { // Less than half frame time
+        document.documentElement.setAttribute('data-performance-mode', 'high');
+      } else {
+        document.documentElement.setAttribute('data-performance-mode', 'normal');
+      }
     });
+  };
+
+  // Check performance periodically
+  performanceCheckInterval = setInterval(checkPerformance, 5000);
+
+  // Initial check
+  checkPerformance();
+
+  // Clean up on page unload
+  window.addEventListener('beforeunload', () => {
+    if (performanceCheckInterval) {
+      clearInterval(performanceCheckInterval);
+    }
+  });
 }
 
 /**
  * Check if error handling is properly initialized
  */
 export function isTransitionErrorHandlingInitialized(): boolean {
-    return document.querySelector('#transition-fallback-styles') !== null || document.querySelector('#critical-transition-fallback') !== null;
+  return document.querySelector('#transition-fallback-styles') !== null ||
+         document.querySelector('#critical-transition-fallback') !== null;
 }
 
 /**
  * Get error handling status
  */
 export function getErrorHandlingStatus(): {
-    initialized: boolean;
-    debugMode: boolean;
-    fallbackStylesLoaded: boolean;
-    errorCount: number;
+  initialized: boolean;
+  debugMode: boolean;
+  fallbackStylesLoaded: boolean;
+  errorCount: number;
 } {
-    const debugInfo = transitionErrorHandler.getDebugInfo();
+  const debugInfo = transitionErrorHandler.getDebugInfo();
 
-    return {
-        initialized: isTransitionErrorHandlingInitialized(),
-        debugMode: import.meta.env.DEV,
-        fallbackStylesLoaded: document.querySelector('#transition-fallback-styles') !== null,
-        errorCount: debugInfo.errorHistory.length,
-    };
+  return {
+    initialized: isTransitionErrorHandlingInitialized(),
+    debugMode: import.meta.env.DEV,
+    fallbackStylesLoaded: document.querySelector('#transition-fallback-styles') !== null,
+    errorCount: debugInfo.errorHistory.length
+  };
 }
 
 // Auto-initialize when module is imported
 if (typeof window !== 'undefined') {
-    // Initialize after DOM is ready
-    if (document.readyState === 'loading')
-        document.addEventListener('DOMContentLoaded', initializeTransitionErrorHandling);
-    else
-        initializeTransitionErrorHandling();
+  // Initialize after DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeTransitionErrorHandling);
+  } else {
+    initializeTransitionErrorHandling();
+  }
 }

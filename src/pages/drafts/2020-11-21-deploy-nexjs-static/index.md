@@ -1,5 +1,4 @@
-***
-
+---
 path: "/deploy-nextjs-static-to-github"
 date: "2020-11-21"
 title: "Deploy a Nextjs static site to github pages"
@@ -7,12 +6,12 @@ summary: "Easily host any static site directly on github pages."
 image: ""
 author: "Giwan Persaud"
 published: true
----------------
+---
 
 It's perfect for small personal projects. NextJS is also a static site generator, providing the benefits of the JAM stack.
 This post goes through the steps to deploy the static site on github.
 
-***
+---
 
 # Quickly setup a new NextJS project
 
@@ -27,23 +26,24 @@ Enter the project and open the file `/pages/index.js`. Replace the contents of t
 
 ```jsx
 /* /pages/index.js */
-import styles from '../styles/Home.module.css';
-import Head from 'next/head';
+
+import Head from "next/head"
+import styles from "../styles/Home.module.css"
 
 export default function Home() {
     return (
         <div className={styles.container}>
             <Head>
                 <title>Deploy next site to gh-pages</title>
-                <link rel="icon" href="/favicon.ico"/>
+                <link rel="icon" href="/favicon.ico" />
             </Head>
+
             <main className={styles.main}>
                 <h1>How to deploy a next static site to github pages</h1>
             </main>
         </div>
-    );
+    )
 }
-
 ```
 
 Login to github and create a new project. Then push the current code to the master / main branch.

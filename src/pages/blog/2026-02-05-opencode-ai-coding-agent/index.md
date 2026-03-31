@@ -3,8 +3,8 @@ title: "Best AI Coding Models 2026 in OpenCode: Comparing Free Options"
 description: "Compare free AI models (Kimi, MiniMax, Trinity) available via OpenCode CLI with Gemini 3 Pro and Claude Opus 4.5. Find the best AI coding assistant in 2026."
 createdDate: "2026-02-05"
 published: "2026-02-05"
-pubDate: "2026-02-05"
 status: "published"
+pubDate: "2026-02-05"
 readTime: 10
 layout: "../../../layouts/BlogArticle.astro"
 tags: [
@@ -75,21 +75,21 @@ premium option, but Kimi gets you 90% of the way there for $0.
 Here's how to actually use these models in OpenCode:
 
 ```bash
-# Start OpenCode with a specific model
+## Start OpenCode with a specific model
 opencode --model kimi-k2.5
 
-# Or switch models within a session
+## Or switch models within a session
 /model kimi-k2.5
 
-# Start multiple parallel sessions (each in separate terminals)
+## Start multiple parallel sessions (each in separate terminals)
 opencode --model minimax-m2.1 --session "css-fixes"
 opencode --model trinity-large-preview --session "repo-audit"
 opencode --model gemini-3-pro --session "architecture"
 
-# Check your token usage across all sessions
+## Check your token usage across all sessions
 opencode stats
 
-# Export a session to share with teammates
+## Export a session to share with teammates
 /share
 ```
 
@@ -98,11 +98,11 @@ opencode stats
 Use one model for planning, another for execution:
 
 ```bash
-# Terminal 1: Plan with Gemini
+## Terminal 1: Plan with Gemini
 opencode --model gemini-3-pro
 > Design a state management strategy for this React app
 
-# Terminal 2: Implement with Kimi (in parallel)
+## Terminal 2: Implement with Kimi (in parallel)
 opencode --model kimi-k2.5
 > Implement the Redux store based on this architecture: [paste plan]
 ```
@@ -473,13 +473,13 @@ The killer feature of OpenCode is running multiple models simultaneously. Here's
 a practical setup:
 
 ```bash
-# Terminal 1: Kimi for active development
+## Terminal 1: Kimi for active development
 opencode --model kimi-k2.5 --session "feature-dev"
 
-# Terminal 2: Trinity for codebase analysis (running in parallel)
+## Terminal 2: Trinity for codebase analysis (running in parallel)
 opencode --model trinity-large-preview --session "codebase-audit"
 
-# Terminal 3: MiniMax for quick fixes
+## Terminal 3: MiniMax for quick fixes
 opencode --model minimax-m2.1 --session "hotfixes"
 ```
 
@@ -506,10 +506,10 @@ Day goal: Stay under $2
 **Monitor Usage**:
 
 ```bash
-# In OpenCode
+## In OpenCode
 /stats
 
-# Shows per-model breakdown
+## Shows per-model breakdown
 Kimi K2.5:     45k tokens (free)
 MiniMax M2.1:  12k tokens (free)
 Gemini 3 Pro:  8k tokens ($0.12)

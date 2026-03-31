@@ -1,5 +1,5 @@
-export function GET(context) {
-    const robotsTxt = `
+export async function GET(context) {
+	const robotsTxt = `
 User-agent: *
 Allow: /
 
@@ -22,9 +22,9 @@ Sitemap: ${context.site}sitemap-index.xml
 # Note: RSS feeds are discoverable via <link> tags in HTML head
 `.trim();
 
-    return new Response(robotsTxt, {
-        headers: {
-            'Content-Type': 'text/plain; charset=utf-8',
-        },
-    });
+	return new Response(robotsTxt, {
+		headers: {
+			'Content-Type': 'text/plain; charset=utf-8',
+		},
+	});
 }

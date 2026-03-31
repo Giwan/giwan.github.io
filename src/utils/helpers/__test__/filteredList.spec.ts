@@ -1,40 +1,32 @@
-import {test} from 'supertape';
-import filteredList from '../filteredList';
+import filteredList from "../filteredList";
 
-describe('filtered list ', () => {
-    test('should return the parent object if the label was found', (t) => {
+describe("filtered list ", () => {
+    it("should return the parent object if the label was found", () => {
         const toolTemplate = {
-            category: '',
-            title: '',
-            url: '',
-            description: '',
+            category: "",
+            title: "",
+            url: "",
+            description: "",
             price: 0,
-            labels: [''],
-        };
+            labels: [""]
+        }
 
-        let tools = [{
-            ...toolTemplate,
-        }];
+        let tools = [{ ...toolTemplate }];
+        expect(filteredList(tools)).toEqual(tools);
+        expect(filteredList(tools, "design")).toEqual([]);
 
-        t.equal(filteredList(tools), tools);
-        t.deepEqual(filteredList(tools, 'design'), []);
+        tools = [
+            {
+                ...toolTemplate,
+                category: "design",
+            },
+        ];
+        expect(filteredList(tools, "design")).toEqual(tools);
 
-        tools = [{
-            ...toolTemplate,
-            category: 'design',
-        }];
-        t.equal(filteredList(tools, 'design'), tools);
-
-        tools.push({
-            ...toolTemplate,
-            category: 'writing',
-        });
-        expect(filteredList(tools, 'writing')).toMatchObject([{
-            category: 'writing',
-        }]);
-        expect(filteredList(tools, 'design')).toMatchObject([{
-            category: 'design',
-        }]);
-        t.end();
+        tools.push({ ...toolTemplate, category: "writing" });
+        expect(filteredList(tools, "writing")).toMatchObject([
+            { category: "writing" },
+        ]);
+        expect(filteredList(tools, "design")).toMatchObject([{ category: "design" }]);
     });
 });

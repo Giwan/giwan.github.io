@@ -20,13 +20,21 @@
  * @param {Number} totalPages
  * @returns Object
  */
-export const createButtons = function(values = [], setPage: (arg0: number) => void, pageNumber: number, totalPages: number) {
+export const createButtons = function (
+    values = [],
+    setPage: (arg0: number) => void,
+    pageNumber: number,
+    totalPages: number
+) {
     // if the `val` is a valid value then return the
     // object with it's label and action (to go to that page)
-    return values.map((val) => isValid(val, pageNumber, totalPages) && {
-        label: pageNumber + val,
-        action: () => setPage(pageNumber + val),
-    });
+    return values.map(
+        (val) =>
+            isValid(val, pageNumber, totalPages) && {
+                label: pageNumber + val,
+                action: () => setPage(pageNumber + val),
+            }
+    );
 };
 
 /**
@@ -40,26 +48,20 @@ export const createButtons = function(values = [], setPage: (arg0: number) => vo
  * @returns Boolean
  */
 export function isValid(val: number, pageNumber: number, totalPages: number, limit = 5) {
+
     const nextPage = pageNumber + val;
     const remainingPages = totalPages - pageNumber;
 
     // Boundary
-    if (nextPage < 1 || nextPage > totalPages)
-        return;
+    if (nextPage < 1 || nextPage > totalPages) return;
 
     // The previous buttons
-    if (nextPage < pageNumber - 2 && totalPages - pageNumber >= 2)
-        return;
-
-    if ([1, 2].includes(remainingPages) && val === remainingPages - limit)
-        return;
+    if (nextPage < pageNumber - 2 && totalPages - pageNumber >= 2) return;
+    if ([1, 2].includes(remainingPages) && remainingPages - limit === val) return;
 
     // The next buttons
-    if (nextPage > pageNumber + 2 && pageNumber > 2)
-        return;
-
-    if (pageNumber === 2 && val === 4)
-        return;
+    if (nextPage > pageNumber + 2 && pageNumber > 2) return;
+    if (pageNumber === 2 && val === 4) return;
 
     return true;
 }

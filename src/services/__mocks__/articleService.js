@@ -1,4 +1,10 @@
 // Mock for articleService.js
-export const loadInitialArticles = jest.fn();
-export const loadMoreArticles = jest.fn();
-export const retryLoadingArticles = jest.fn();
+const loadInitialArticles = jest.fn();
+const loadMoreArticles = jest.fn();
+const retryLoadingArticles = jest.fn();
+
+module.exports = {
+  loadInitialArticles,
+  loadMoreArticles,
+  retryLoadingArticles
+};

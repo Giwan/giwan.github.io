@@ -4,6 +4,7 @@ title: "Jest coverage in Create React App"
 
 createdDate: "2019-12-13"
 published: "2019-12-13"
+status: "published"
 pubDate: "2019-12-13"
 readTime: 1
 layout: "../../../layouts/BlogArticle.astro"
@@ -24,7 +25,7 @@ Navigate into the folder and run the test.
 npx create-react-app my-test-project
 cd my-test-project
 
-# run tests with out coverage
+## run tests with out coverage
 npm run test
 ```
 
@@ -50,12 +51,12 @@ By setting CI to true, the test is prevented from going into watch mode.
 Since the test script has already been defined, it's reused in the `test:coverage` script.
 The `--coverage --color` flag shows the coverage report in colour.
 
-# Bonus: Bitbucket pipeline
+## Bonus: Bitbucket pipeline
 
 If the project is using BitBucket pipelines, this is how it can be configured to run the test before the deployment.
 
 ```yaml
-# build pipeline
+## build pipeline
 
 image: node:13.7.0
 

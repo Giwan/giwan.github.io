@@ -1,26 +1,26 @@
-import {transitionController} from './transitionController';
-
-const noop = () => {};
+import { transitionController } from './transitionController';
 
 export function initializeTransitions(): void {
-    if (typeof window === 'undefined')
-        return;
-
-    if (import.meta.env.DEV)
-        document.addEventListener('astro:before-preparation', noop);
+  if (typeof window === 'undefined') return;
+  if (import.meta.env.DEV) {
+    document.addEventListener('astro:before-preparation', () => {
+      console.log('Transition starting:', {
+        from: window.location.pathname
+      });
+    });
+  }
 }
 
-export const getTransitionController = () => transitionController;
+export function getTransitionController() {
+  return transitionController;
+}
 
 export function isViewTransitionSupported(): boolean {
-    return transitionController.isTransitionSupported();
+  return transitionController.isTransitionSupported();
 }
 
 export function initializeTransitionErrorHandling(): void {
-    if (typeof window === 'undefined')
-        return;
+  if (typeof window === 'undefined') return;
 }
 
-export {
-    transitionController,
-};
+export { transitionController };

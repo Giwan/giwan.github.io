@@ -1,10 +1,17 @@
 // Mock for mobileMenuStore.js
-export const $isMobileMenuOpen = {
-    get: jest.fn(() => false),
-    set: jest.fn(),
-    subscribe: jest.fn(),
+const $isMobileMenuOpen = {
+  get: jest.fn(() => false),
+  set: jest.fn(),
+  subscribe: jest.fn()
 };
 
-export const openMobileMenu = jest.fn();
-export const closeMobileMenu = jest.fn();
-export const toggleMobileMenu = jest.fn();
+const openMobileMenu = jest.fn();
+const closeMobileMenu = jest.fn();
+const toggleMobileMenu = jest.fn();
+
+module.exports = {
+  $isMobileMenuOpen,
+  openMobileMenu,
+  closeMobileMenu,
+  toggleMobileMenu
+};

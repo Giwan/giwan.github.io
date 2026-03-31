@@ -1,6 +1,6 @@
 {
     "IDX.aI.enableInlineCompletion": true,
     "IDX.aI.enableCodebaseIndexing": true,
-    "workbench.colorTheme": "Default Light+",
+    "workbench.colorTheme": "Quiet Light",
     "css.lint.unknownAtRules": "ignore"
 }

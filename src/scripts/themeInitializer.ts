@@ -2,6 +2,7 @@
  * Theme initialization script
  * Handles initial theme setup based on user preferences and system settings
  */
+
 type TDarkLight = 'dark' | 'light';
 
 // Constants to minimize string repetition
@@ -17,14 +18,15 @@ const DARK_CLASS = 'dark';
 const MEDIA_QUERY = '(prefers-color-scheme: dark)';
 
 function getSystemTheme(): TDarkLight {
-    return globalThis.matchMedia(MEDIA_QUERY).matches ? THEME_VALUES.DARK : THEME_VALUES.LIGHT;
+    return window.matchMedia(MEDIA_QUERY).matches ? THEME_VALUES.DARK : THEME_VALUES.LIGHT;
 }
 
 function getInitialTheme(): TDarkLight {
     const persistedTheme = localStorage.getItem(STORAGE_KEY);
     
-    if (persistedTheme === THEME_VALUES.SYSTEM || !persistedTheme)
+    if (persistedTheme === THEME_VALUES.SYSTEM || !persistedTheme) {
         return getSystemTheme();
+    }
     
     return persistedTheme as TDarkLight;
 }
@@ -35,12 +37,10 @@ function applyTheme(theme: TDarkLight): void {
     if (theme === THEME_VALUES.DARK) {
         root.classList.add(DARK_CLASS);
         root.setAttribute(DATA_THEME_ATTR, THEME_VALUES.DARK);
-
-        return;
+    } else {
+        root.classList.remove(DARK_CLASS);
+        root.setAttribute(DATA_THEME_ATTR, THEME_VALUES.LIGHT);
     }
-
-    root.classList.remove(DARK_CLASS);
-    root.setAttribute(DATA_THEME_ATTR, THEME_VALUES.LIGHT);
 }
 
 export function initializeTheme(): void {

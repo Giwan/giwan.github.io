@@ -4,6 +4,7 @@ title: "Deploy a React SPA with serverless functions to Netlify"
 
 createdDate: "2020-10-08"
 published: "2020-10-08"
+status: "published"
 pubDate: "2020-10-08"
 readTime: 5
 layout: "../../../layouts/BlogArticle.astro"
@@ -17,12 +18,12 @@ Login to your account website on netlify.com. You should see the project that wa
 
 It is, however, not deployed yet.
 
-# Deploy to Netlify
+## Deploy to Netlify
 
 Since the project works locally, run the following to deploy it.
 
 ```bash
-# in the project root directory
+## in the project root directory
 netlify deploy --prod
 ```
 
@@ -49,7 +50,7 @@ The `netlify.toml` allows for this configuration:
     publish = "build"
     base = "/"
 
-# routing is handled on the client
+## routing is handled on the client
 [[redirects]]
     from="/*"
     to="/index.html"

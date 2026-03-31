@@ -16,7 +16,7 @@ The TransitionController provides intelligent navigation context detection and e
 1. Import and initialize the transition controller:
 
 ```typescript
-import {initializeTransitions} from './utils/transitionInit';
+import { initializeTransitions } from './utils/transitionInit';
 
 // Initialize when the app starts
 initializeTransitions();
@@ -41,24 +41,26 @@ initializeTransitions();
 #### Getting Navigation Context
 
 ```typescript
-import {getTransitionController} from './utils/transitionInit';
+import { getTransitionController } from './utils/transitionInit';
 
 const controller = getTransitionController();
 const currentContext = controller.getCurrentContext();
 
 if (currentContext) {
-    console.log('Navigation direction:', currentContext.direction);
-    console.log('Page relationship:', currentContext.relationship);
+  console.log('Navigation direction:', currentContext.direction);
+  console.log('Page relationship:', currentContext.relationship);
 }
 ```
 
 #### Checking Browser Support
 
 ```typescript
-import {isViewTransitionSupported} from './utils/transitionInit';
+import { isViewTransitionSupported } from './utils/transitionInit';
 
-if (!isViewTransitionSupported()) {
-    // Fallback to basic transitions
+if (isViewTransitionSupported()) {
+  // Enhanced transitions are available
+} else {
+  // Fallback to basic transitions
 }
 ```
 

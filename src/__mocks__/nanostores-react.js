@@ -1,1 +1,4 @@
-export const useStore = jest.fn();
+const useStore = jest.fn();
+module.exports = {
+  useStore
+};

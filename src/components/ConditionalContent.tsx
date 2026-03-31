@@ -1,6 +1,5 @@
-import {useStore} from '@nanostores/react';
-import {$isMobileMenuOpen} from '../stores/mobileMenuStore';
-
+import { useStore } from "@nanostores/react";
+import { $isMobileMenuOpen } from "../stores/mobileMenuStore";
 
 /**
  * ConditionalContent component that conditionally renders its children
@@ -11,15 +10,16 @@ import {$isMobileMenuOpen} from '../stores/mobileMenuStore';
  * @param {boolean} [props.hideWhenMenuOpen=true] - Whether to hide content when menu is open
  * @returns {React.ReactNode|null} The children or null based on menu state
  */
-const ConditionalContent = ({children, hideWhenMenuOpen = true}) => {
-    const isMobileMenuOpen = useStore($isMobileMenuOpen);
+const ConditionalContent = ({ children, hideWhenMenuOpen = true }) => {
+  const isMobileMenuOpen = useStore($isMobileMenuOpen);
 
-    // If menu is open and we should hide content, return null
-    if (isMobileMenuOpen && hideWhenMenuOpen)
-        return null;
+  // If menu is open and we should hide content, return null
+  if (isMobileMenuOpen && hideWhenMenuOpen) {
+    return null;
+  }
 
-    // Otherwise, render the children
-    return children;
+  // Otherwise, render the children
+  return children;
 };
 
 export default ConditionalContent;

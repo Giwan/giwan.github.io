@@ -1,36 +1,29 @@
-const noop = () => {};
-
 /**
  * Monitoring utilities for transition optimization
  */
+
 /**
  * Setup battery monitoring
  */
 export function setupBatteryMonitoring(): void {
-    if (typeof window === 'undefined')
-        return;
+    if (typeof window === 'undefined') return;
 
     if ('getBattery' in navigator) {
-        const navWithBattery = navigator as { getBattery(): Promise<{ level: number; charging: boolean; addEventListener: (event: string, listener: () => void) => void; removeEventListener: (event: string, listener: () => void) => void }> };
-        navWithBattery
-            .getBattery()
-            .then((battery) => {
-                const updateBatteryStatus = () => {
-                    const root = document.documentElement;
+        (navigator as any).getBattery().then((battery: any) => {
+            const updateBatteryStatus = () => {
+                const root = document.documentElement;
+                root.setAttribute('data-battery-level', Math.round(battery.level * 100).toString());
+                root.setAttribute('data-battery-charging', battery.charging.toString());
+                root.setAttribute('data-battery-low', (battery.level < 0.2).toString());
+            };
 
-                    root.setAttribute('data-battery-level', Math
-                        .round(battery.level * 100)
-                        .toString());
-                    root.setAttribute('data-battery-charging', battery.charging.toString());
-                    root.setAttribute('data-battery-low', (battery.level < 0.2).toString());
-                };
+            updateBatteryStatus();
 
-                updateBatteryStatus();
-
-                battery.addEventListener('levelchange', updateBatteryStatus);
-                battery.addEventListener('chargingchange', updateBatteryStatus);
-            })
-            .catch(noop);
+            battery.addEventListener('levelchange', updateBatteryStatus);
+            battery.addEventListener('chargingchange', updateBatteryStatus);
+        }).catch(() => {
+            // Battery API not available
+        });
     }
 }
 
@@ -38,11 +31,11 @@ export function setupBatteryMonitoring(): void {
  * Setup network monitoring
  */
 export function setupNetworkMonitoring(): void {
-    if (typeof window === 'undefined')
-        return;
+    if (typeof window === 'undefined') return;
 
-    const navWithConnection = navigator as { connection?: { effectiveType?: string; downlink?: number; saveData?: boolean }; mozConnection?: { effectiveType?: string; downlink?: number; saveData?: boolean }; webkitConnection?: { effectiveType?: string; downlink?: number; saveData?: boolean } };
-    const connection = navWithConnection.connection || navWithConnection.mozConnection || navWithConnection.webkitConnection;
+    const connection = (navigator as any).connection ||
+        (navigator as any).mozConnection ||
+        (navigator as any).webkitConnection;
 
     if (connection) {
         const updateNetworkStatus = () => {
@@ -61,22 +54,16 @@ export function setupNetworkMonitoring(): void {
  * Check if battery is low
  */
 export function isBatteryLow(): boolean {
-    if (typeof document === 'undefined')
-        return false;
-
+    if (typeof document === 'undefined') return false;
     const batteryLevel = document.documentElement.getAttribute('data-battery-level');
-
-    return batteryLevel && parseInt(batteryLevel) < 20;
+    return batteryLevel ? parseInt(batteryLevel) < 20 : false;
 }
 
 /**
  * Check if network is slow
  */
 export function isSlowNetwork(): boolean {
-    if (typeof document === 'undefined')
-        return false;
-
+    if (typeof document === 'undefined') return false;
     const connectionType = document.documentElement.getAttribute('data-connection-type');
-
     return connectionType === 'slow-2g' || connectionType === '2g';
 }

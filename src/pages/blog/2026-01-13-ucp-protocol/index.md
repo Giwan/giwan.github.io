@@ -3,8 +3,8 @@ title: "Universal Commerce Protocol: The New Language of AI Shopping"
 description: "A critical look at Universal Commerce Protocol (UCP). While it promises a unified standard for AI agents, it raises questions about privacy and centralization."
 createdDate: "2026-01-13"
 published: "2026-01-13"
-pubDate: "2026-01-13"
 status: "published"
+pubDate: "2026-01-13"
 readTime: 10
 layout: "../../../layouts/BlogArticle.astro"
 tags: ["AI", "Ecommerce", "UCP", "Agentic Commerce", "Standardization"]

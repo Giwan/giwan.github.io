@@ -4,58 +4,59 @@
  * This module provides a simple way to initialize the TransitionController
  * and integrate it with the existing application.
  */
-import {transitionController} from './transitionController';
-import {devConsole} from './isDev';
+
+import { transitionController } from './transitionController';
+import { devConsole } from './isDev';
 
 /**
  * Initialize transitions for the application
  * This should be called once when the application starts
  */
 export function initializeTransitions(): void {
-    // The TransitionController is automatically initialized when imported
-    // This function exists for explicit initialization if needed
-    if (typeof window !== 'undefined') {
-        // Initialize error handling first
-        import('./transitionErrorInit').then(({initializeTransitionErrorHandling}) => {
-            initializeTransitionErrorHandling();
-        });
+  // The TransitionController is automatically initialized when imported
+  // This function exists for explicit initialization if needed
 
-        // Add any additional initialization logic here
-        devConsole('log', ['TransitionController initialized']);
-        // Optional: Log transition events in development
-        if (import.meta.env.DEV) {
-            document.addEventListener('astro:before-preparation', (event) => {
-                const customEvent = event as CustomEvent;
+  if (typeof window !== 'undefined') {
+    // Initialize error handling first
+    import('./transitionErrorInit').then(({ initializeTransitionErrorHandling }) => {
+      initializeTransitionErrorHandling();
+    });
 
-                devConsole('log', ['Transition starting:', {
-                    from: globalThis.location.pathname,
-                    to: customEvent.detail?.to?.pathname,
-                }]);
-            });
+    // Add any additional initialization logic here
+    devConsole('log', ['TransitionController initialized']);
 
-            document.addEventListener('astro:after-swap', () => {
-                const context = transitionController.getCurrentContext();
+    // Optional: Log transition events in development
+    if (import.meta.env.DEV) {
+      document.addEventListener('astro:before-preparation', (event) => {
+        const customEvent = event as CustomEvent;
+        devConsole('log', ['Transition starting:', {
+          from: window.location.pathname,
+          to: customEvent.detail?.to?.pathname
+        }]);
+      });
 
-                if (context)
-                    devConsole('log', [
-                        'Transition completed:',
-                        context,
-                    ]);
-            });
+      document.addEventListener('astro:after-swap', (event) => {
+        const context = transitionController.getCurrentContext();
+        if (context) {
+          devConsole('log', ['Transition completed:', context]);
         }
+      });
     }
+  }
 }
 
 /**
  * Get the global transition controller instance
  */
-export const getTransitionController = () => transitionController;
+export function getTransitionController() {
+  return transitionController;
+}
 
 /**
  * Check if view transitions are supported in the current browser
  */
 export function isViewTransitionSupported(): boolean {
-    return transitionController.isTransitionSupported();
+  return transitionController.isTransitionSupported();
 }
 
 export default initializeTransitions;

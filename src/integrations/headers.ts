@@ -1,10 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import {devConsole} from '../utils/isDev';
-
-function isError(value: unknown): value is Error {
-    return Object.prototype.toString.call(value) === '[object Error]';
-}
+import { devConsole } from '../utils/isDev';
 
 /**
  * Astro integration to generate _headers file for Cloudflare Pages / Netlify / Vercel
@@ -13,9 +9,7 @@ export default function headersIntegration() {
     return {
         name: 'generate-headers',
         hooks: {
-            'astro:build:done': ({dir}: {
-                dir: URL;
-            }) => {
+            'astro:build:done': async ({ dir }: { dir: URL }) => {
                 const headersContent = `/*
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
@@ -43,15 +37,11 @@ export default function headersIntegration() {
 
                 try {
                     fs.writeFileSync(cleanPath, headersContent);
-                                        // Only log in development mode
-                    devConsole('log', [
-                        '\x1b[32m%s\x1b[0m',
-                        '✅ _headers file generated successfully',
-                    ]);
-                } catch(error) {
+                    // Only log in development mode
+                    devConsole('log', ['\x1b[32m%s\x1b[0m', '✅ _headers file generated successfully']);
+                } catch (error: any) {
                     // Only log errors in development mode
-                    const message = isError(error) ? error.message : String(error);
-                    devConsole('error', ['\x1b[31m%s\x1b[0m', `❌ Failed to generate _headers file: ${message}`]);
+                    devConsole('error', ['\x1b[31m%s\x1b[0m', `❌ Failed to generate _headers file: ${error.message}`]);
                 }
             },
         },

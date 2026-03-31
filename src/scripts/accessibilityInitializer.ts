@@ -2,11 +2,13 @@
  * Accessibility initialization script
  * Handles initial accessibility setup and enhancements
  */
+
 function setupFocusManagement(): void {
     // Add focus-visible polyfill behavior for better keyboard navigation
     document.addEventListener('keydown', (event) => {
-        if (event.key === 'Tab')
+        if (event.key === 'Tab') {
             document.body.classList.add('keyboard-navigation');
+        }
     });
 
     document.addEventListener('mousedown', () => {
@@ -17,15 +19,11 @@ function setupFocusManagement(): void {
 function setupSkipLinks(): void {
     // Ensure skip links are properly positioned when focused
     const skipLinks = document.querySelectorAll('a[href^="#"]');
-
-    for (const link of skipLinks) {
+    skipLinks.forEach(link => {
         link.addEventListener('focus', () => {
-            link.scrollIntoView({
-                behavior: 'smooth',
-                block: 'center',
-            });
+            link.scrollIntoView({ behavior: 'smooth', block: 'center' });
         });
-    }
+    });
 }
 
 export function initializeAccessibility(): void {
