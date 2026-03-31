@@ -2,10 +2,10 @@
 title: "Command Your Knowledge: Mastering the New Obsidian CLI"
 description: "Obsidian 1.12 introduced a powerful official CLI. Learn how to automate your vault, script developer workflows, and connect to agentic AI tools."
 createdDate: "2026-02-20"
-published: "2026-02-20"
+published: true
 status: "published"
 pubDate: "2026-02-20"
-readTime: 10
+readTime: "10 min read"
 layout: "../../../layouts/BlogArticle.astro"
 ---
 
@@ -74,11 +74,13 @@ This isn't a future possibility—it's a current reality for developers using th
 ## Workflow Scenarios: Show, Don't Just Tell
 
 ### 1. The "Zero-Friction" Capture
-Instead of switching apps to log a task, create a shell alias.
+Instead of switching apps to log a task, use a shell function for quick capture.
 
 ```bash
 # Add to your .zshrc or .bashrc
-alias todo='obsidian daily:append content="- [ ] $1"'
+todo() {
+  obsidian daily:append content="- [ ] $1"
+}
 ```
 Now, typing `todo "Fix the login bug"` instantly adds it to your daily note.
 
@@ -115,11 +117,58 @@ obsidian unresolved
 ```
 
 ### 4. Developer Feedback Loops
-Reload your plugin or capture screenshots for documentation directly from your build script.
+The CLI is a game-changer for plugin and theme authors. You can now orchestrate tests and UI captures without leaving your IDE.
 
 ```bash
 # In your package.json or build script
 "watch": "esbuild ... --watch --on-success='obsidian plugin:reload my-plugin'"
+
+# Audit errors from the terminal
+obsidian dev:errors
+
+# Test mobile responsiveness
+obsidian dev:mobile on
+
+# Run arbitrary JS to inspect the vault state
+obsidian eval code="app.plugins.getPlugin('my-plugin').settings"
+
+# Query the DOM to verify your UI rendered correctly
+obsidian dev:dom selector=".my-custom-class" text=true
+```
+
+## Community Gems: Real-World Patterns
+
+Since the 1.12 release, the community has already started building clever wrappers. Here are a few standout patterns:
+
+### 1. The "Git-Grep" Integration
+The community has quickly adopted using `ripgrep` for ultra-fast searching across large vaults, then passing the file path back to Obsidian via the CLI.
+
+```bash
+# Search for 'TODO' and open the result in Obsidian
+obsidian open $(rg -l "TODO" | fzf)
+```
+
+### 2. Auto-Updating "Recent Activity"
+A common pattern involves a Git post-commit hook that updates a "Dashboard" note with the latest commit messages.
+
+```bash
+#!/bin/bash
+# .git/hooks/post-commit
+LOG=$(git log -1 --pretty=format:"- %s (%h)")
+obsidian append file="Dashboard.md" content="$LOG"
+```
+
+### 3. The "Journalist" Script
+A wrapper function that prompts for a title, creates a note with a specific template, and then opens it in your favorite terminal editor *and* Obsidian simultaneously.
+
+```bash
+# Add to your .zshrc or a separate script
+journal() {
+  read -p "Topic: " TOPIC
+  FILE=$(obsidian create name="$TOPIC" template="Journal" --path)
+  obsidian open "$FILE"
+  vim "$FILE" # Edit in Vim while seeing the preview in Obsidian
+}
 ```
 
 ## The "Running App" Constraint
