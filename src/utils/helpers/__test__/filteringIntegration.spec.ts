@@ -70,7 +70,7 @@ describe("Filtering Integration with Expanded Tool Dataset", () => {
     // Ensure each category in subCategories has at least one tool
     Object.values(subCategories).forEach(category => {
       const categoryTools = filteredList(tools, category);
-      expect(categoryTools.length).toBeGreaterThan(0, 
+      expect(categoryTools.length).toBeGreaterThan(0,
         `Category "${category}" should have at least one tool`);
     });
   });
@@ -80,7 +80,7 @@ describe("Filtering Integration with Expanded Tool Dataset", () => {
     const aiMlTools = filteredList(tools, "AI & ML");
     const hostingTools = filteredList(tools, "Hosting");
     const frameworkTools = filteredList(tools, "Frameworks");
-    
+
     // Verify we have a reasonable number of tools in each new category
     expect(aiMlTools.length).toBeGreaterThanOrEqual(5);
     expect(hostingTools.length).toBeGreaterThanOrEqual(5);

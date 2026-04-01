@@ -22,10 +22,10 @@ export function ArticlesList(): JSX.Element | null {
   return (
     <ul className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-8 w-full">
       {clientSideArticles.map((article: Article, index: number) => (
-        <li 
-          key={article.url} 
+        <li
+          key={article.url}
           className="border border-border p-4 rounded-lg bg-card md:h-[420px] overflow-hidden transition-colors hover:bg-muted/50 group article-item"
-          style={{ 
+          style={{
             viewTransitionName: `article-${article.url.replace(/\//g, '-')}`,
             animationDelay: `${(initialArticleCount + index) * 50}ms`
           }}

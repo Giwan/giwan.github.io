@@ -63,10 +63,10 @@ export const registerServiceWorker = async (): Promise<ServiceWorkerRegistration
     
     // Set up update detection with error handling
     setupServiceWorkerUpdateHandling(registration);
-    
+
     // Set up error recovery mechanisms
     setupServiceWorkerErrorRecovery(registration);
-    
+
     // Initialize mobile transition optimizations
     try {
       await mobileTransitionInitializer.initialize();
@@ -83,22 +83,22 @@ export const registerServiceWorker = async (): Promise<ServiceWorkerRegistration
       originalError: error as Error,
       timestamp: Date.now()
     };
-    
+
     handlePWAError(pwaError);
-    
+
     // Attempt fallback registration with different scope
     try {
       console.log('Attempting fallback service worker registration...');
       const fallbackRegistration = await navigator.serviceWorker.register('/sw.js', {
         scope: './'
       });
-      
+
       console.log('Fallback service worker registered successfully:', fallbackRegistration);
       setupServiceWorkerUpdateHandling(fallbackRegistration);
       return fallbackRegistration;
     } catch (fallbackError) {
       console.warn('Fallback service worker registration also failed:', fallbackError);
-      
+
       // Final graceful degradation - app continues to work without SW
       return null;
     }
@@ -190,7 +190,7 @@ const checkServiceWorkerHealth = async (registration: ServiceWorkerRegistration)
     // Check if service worker is intercepting requests properly
     const testUrl = '/favicon.svg';
     const response = await fetch(testUrl, { cache: 'no-cache' });
-    
+
     // If we get a response, service worker is likely working
     return response.ok || response.status === 404; // 404 is acceptable for health check
   } catch (error) {
@@ -213,18 +213,18 @@ const handleServiceWorkerRecovery = async (registration: ServiceWorkerRegistrati
     if (!registration.active) {
       console.log('Service worker inactive, attempting re-registration...');
       await registration.unregister();
-      
+
       // Wait a moment before re-registering
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       // Re-register service worker
       await registerServiceWorker();
     }
-    
+
     console.log('Service worker recovery completed');
   } catch (error) {
     console.warn('Service worker recovery failed:', error);
-    
+
     // Log recovery failure
     handlePWAError({
       type: 'service-worker',
@@ -294,12 +294,12 @@ export const fetchWithRetry = async (
       }
     } catch (error) {
       lastError = error as Error;
-      
+
       // Check if it's an abort error (timeout)
       if (error instanceof Error && error.name === 'AbortError') {
         lastError = new Error(`Request timeout after 10 seconds: ${url}`);
       }
-      
+
       // Don't retry on certain errors
       if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
         // Network error - check if we have cached content
@@ -321,9 +321,9 @@ export const fetchWithRetry = async (
           config.baseDelay * Math.pow(config.backoffFactor, attempt - 1),
           config.maxDelay
         );
-        
+
         console.warn(`Request failed (attempt ${attempt}/${config.maxAttempts}), retrying in ${delay}ms:`, error);
-        
+
         // Add jitter to prevent thundering herd
         const jitter = Math.random() * 1000;
         await new Promise(resolve => setTimeout(resolve, delay + jitter));
@@ -345,7 +345,7 @@ export const fetchWithRetry = async (
     originalError: lastError,
     timestamp: Date.now()
   };
-  
+
   handlePWAError(pwaError);
   throw lastError;
 };
@@ -365,7 +365,7 @@ export const getCacheWithFallback = async (cacheName: string, request: string | 
       originalError: error as Error,
       timestamp: Date.now()
     };
-    
+
     handlePWAError(pwaError);
     return null;
   }
@@ -375,8 +375,8 @@ export const getCacheWithFallback = async (cacheName: string, request: string | 
  * Safe cache storage with error handling
  */
 export const putInCacheWithFallback = async (
-  cacheName: string, 
-  request: string | Request, 
+  cacheName: string,
+  request: string | Request,
   response: Response
 ): Promise<boolean> => {
   try {
@@ -390,7 +390,7 @@ export const putInCacheWithFallback = async (
       originalError: error as Error,
       timestamp: Date.now()
     };
-    
+
     handlePWAError(pwaError);
     return false;
   }
@@ -405,10 +405,10 @@ export const getNetworkStatus = (): {
   effectiveType?: string;
 } => {
   const isOnline = navigator.onLine;
-  
+
   // Get connection info if available
   const connection = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection;
-  
+
   return {
     isOnline,
     connectionType: connection?.type,
@@ -422,7 +422,7 @@ export const getNetworkStatus = (): {
 export const isContentCached = async (url: string): Promise<boolean> => {
   try {
     const cacheNames = await caches.keys();
-    
+
     for (const cacheName of cacheNames) {
       const cache = await caches.open(cacheName);
       const response = await cache.match(url);
@@ -430,7 +430,7 @@ export const isContentCached = async (url: string): Promise<boolean> => {
         return true;
       }
     }
-    
+
     return false;
   } catch (error) {
     console.warn('Failed to check cache for URL:', url, error);
@@ -445,7 +445,7 @@ export const getOfflineFallbackSuggestions = async (): Promise<string[]> => {
   try {
     const suggestions: string[] = [];
     const cacheNames = await caches.keys();
-    
+
     for (const cacheName of cacheNames) {
       if (cacheName.includes('blog-posts')) {
         const cache = await caches.open(cacheName);
@@ -459,7 +459,7 @@ export const getOfflineFallbackSuggestions = async (): Promise<string[]> => {
         });
       }
     }
-    
+
     return suggestions.slice(0, 5); // Return top 5 suggestions
   } catch (error) {
     console.warn('Failed to get offline suggestions:', error);
@@ -473,7 +473,7 @@ export const getOfflineFallbackSuggestions = async (): Promise<string[]> => {
 export const clearCorruptedCaches = async (): Promise<void> => {
   try {
     const cacheNames = await caches.keys();
-    
+
     for (const cacheName of cacheNames) {
       try {
         const cache = await caches.open(cacheName);
@@ -503,22 +503,22 @@ export const clearCorruptedCaches = async (): Promise<void> => {
 export const handlePWAError = (error: PWAError): void => {
   // Log error for debugging
   console.error(`PWA Error [${error.type}]:`, error.message, error.originalError);
-  
+
   // Store error for analytics/debugging
   try {
     const errorLog = JSON.parse(localStorage.getItem('pwa-errors') || '[]');
     errorLog.push(error);
-    
+
     // Keep only last 10 errors
     if (errorLog.length > 10) {
       errorLog.splice(0, errorLog.length - 10);
     }
-    
+
     localStorage.setItem('pwa-errors', JSON.stringify(errorLog));
   } catch (storageError) {
     console.warn('Failed to store PWA error:', storageError);
   }
-  
+
   // Dispatch custom event for error handling components
   window.dispatchEvent(new CustomEvent('pwa-error', {
     detail: error

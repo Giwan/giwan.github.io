@@ -161,39 +161,39 @@ export class MobileTransitionInitializer {
     const mobileOptimization = mobileTransitionOptimizer.getTransitionOptimization();
     const pwaSettings = pwaTransitionIntegration.getPWATransitionSettings();
     const deviceCapabilities = mobileTransitionOptimizer.getDeviceCapabilities();
-    
+
     const root = document.documentElement;
-    
+
     // Determine the most restrictive optimization
     let finalDuration = 300; // Default
     let finalEasing = 'cubic-bezier(0.4, 0.0, 0.2, 1)'; // Default
-    
+
     // Apply mobile optimizations
     if (mobileOptimization.shouldOptimize) {
       finalDuration = Math.min(finalDuration, mobileOptimization.recommendedDuration);
       finalEasing = mobileOptimization.recommendedEasing;
     }
-    
+
     // Apply PWA optimizations
     if (pwaSettings.shouldOptimize) {
       finalDuration = Math.min(finalDuration, pwaSettings.duration);
       finalEasing = pwaSettings.easing;
     }
-    
+
     // Apply device-specific constraints
     if (deviceCapabilities.isLowBattery) {
       finalDuration = Math.min(finalDuration, 150);
     }
-    
+
     if (!mobileTransitionOptimizer.canHandleComplexTransitions()) {
       finalDuration = Math.min(finalDuration, 200);
       finalEasing = 'ease-out';
     }
-    
+
     // Apply final optimizations
     root.style.setProperty('--transition-duration-coordinated', `${finalDuration}ms`);
     root.style.setProperty('--transition-easing-coordinated', finalEasing);
-    
+
     this.log(`Applied coordinated optimizations: ${finalDuration}ms, ${finalEasing}`);
   }
 
@@ -204,30 +204,30 @@ export class MobileTransitionInitializer {
     const deviceCapabilities = mobileTransitionOptimizer.getDeviceCapabilities();
     const networkCondition = mobileTransitionOptimizer.getNetworkCondition();
     const pwaState = pwaTransitionIntegration.getPWAState();
-    
+
     const root = document.documentElement;
-    
+
     // Update device attributes
     root.setAttribute('data-device-mobile', deviceCapabilities.isMobile.toString());
     root.setAttribute('data-device-tablet', deviceCapabilities.isTablet.toString());
     root.setAttribute('data-device-pwa', deviceCapabilities.isPWA.toString());
     root.setAttribute('data-device-orientation', deviceCapabilities.orientation);
-    
+
     // Update network attributes
     root.setAttribute('data-network-type', networkCondition.effectiveType);
     root.setAttribute('data-network-save-data', networkCondition.saveData.toString());
-    
+
     // Update battery attributes
     if (deviceCapabilities.batteryLevel !== undefined) {
       root.setAttribute('data-battery-level', Math.round(deviceCapabilities.batteryLevel * 100).toString());
     }
     root.setAttribute('data-battery-low', deviceCapabilities.isLowBattery.toString());
-    
+
     // Update PWA attributes
     root.setAttribute('data-pwa-online', pwaState.isOnline.toString());
     root.setAttribute('data-pwa-installed', pwaState.isInstalled.toString());
     root.setAttribute('data-pwa-sw-ready', pwaState.serviceWorkerReady.toString());
-    
+
     this.log('Updated transition optimizations');
   }
 
@@ -237,10 +237,10 @@ export class MobileTransitionInitializer {
   private handlePWAUpdate(event: CustomEvent): void {
     const root = document.documentElement;
     root.setAttribute('data-pwa-update-available', 'true');
-    
+
     // Temporarily optimize transitions during update
     root.style.setProperty('--transition-duration-update', '150ms');
-    
+
     setTimeout(() => {
       root.removeAttribute('data-pwa-update-available');
       root.style.removeProperty('--transition-duration-update');
@@ -253,12 +253,12 @@ export class MobileTransitionInitializer {
   private handlePWAInstalled(event: CustomEvent): void {
     const root = document.documentElement;
     root.setAttribute('data-pwa-newly-installed', 'true');
-    
+
     // Apply PWA-specific optimizations
     const pwaSettings = pwaTransitionIntegration.getPWATransitionSettings();
     root.style.setProperty('--transition-duration-pwa-installed', `${pwaSettings.duration}ms`);
     root.style.setProperty('--transition-easing-pwa-installed', pwaSettings.easing);
-    
+
     // Remove temporary attribute after a delay
     setTimeout(() => {
       root.removeAttribute('data-pwa-newly-installed');
@@ -270,7 +270,7 @@ export class MobileTransitionInitializer {
    */
   private setupDebugLogging(): void {
     this.log('Debug mode enabled');
-    
+
     // Log transition events
     document.addEventListener('astro:before-preparation', (event) => {
       const customEvent = event as CustomEvent;
@@ -282,11 +282,11 @@ export class MobileTransitionInitializer {
         pwaState: pwaTransitionIntegration.getPWAState()
       });
     });
-    
+
     document.addEventListener('astro:after-swap', () => {
       this.log('Transition completed');
     });
-    
+
     // Log optimization changes
     const originalUpdateOptimizations = this.updateTransitionOptimizations.bind(this);
     this.updateTransitionOptimizations = () => {
@@ -334,7 +334,7 @@ export class MobileTransitionInitializer {
     this.cleanupFunctions.forEach(cleanup => cleanup());
     this.cleanupFunctions = [];
     this.isInitialized = false;
-    
+
     this.log('Mobile transition optimizations destroyed');
   }
 }

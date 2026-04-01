@@ -13,12 +13,12 @@ import { transitionController } from '../utils/transitionController';
 export function initializePerformanceMonitoring() {
   // The performance monitor is automatically initialized,
   // but you can customize its behavior
-  
+
   // Listen for performance fallback events
   document.addEventListener('transition-performance-fallback', (event) => {
     const customEvent = event as CustomEvent;
     const { performanceData, recommendedIntensity } = customEvent.detail;
-    
+
     console.log('Performance fallback triggered:', {
       averageFrameRate: performanceData.averageFrameRate,
       droppedFrames: performanceData.droppedFrames,
@@ -28,7 +28,7 @@ export function initializePerformanceMonitoring() {
     // Optionally show a notification to the user
     showPerformanceNotification(recommendedIntensity);
   });
-  
+
   // Set up preference change listeners
   transitionPreferences.addChangeListener((event) => {
     console.log('Transition preference changed:', {
@@ -36,7 +36,7 @@ export function initializePerformanceMonitoring() {
       oldValue: event.oldValue,
       newValue: event.newValue
     });
-    
+
     // You can react to specific preference changes
     if (event.preference === 'intensity') {
       updateTransitionIntensityUI(event.newValue);
@@ -48,12 +48,12 @@ export function initializePerformanceMonitoring() {
 export function monitorCustomTransition(transitionName: string) {
   // Start monitoring
   performanceMonitor.startMonitoring(transitionName);
-  
+
   // Your custom transition code here
   performCustomAnimation().then(() => {
     // Stop monitoring and get results
     const results = performanceMonitor.stopMonitoring();
-    
+
     if (results) {
       console.log('Custom transition performance:', {
         duration: results.endTime - results.startTime,
@@ -68,13 +68,13 @@ export function monitorCustomTransition(transitionName: string) {
 export function setupAdaptiveTransitions() {
   // Get recommended intensity based on current device performance
   const recommendedIntensity = performanceMonitor.getRecommendedIntensity();
-  
+
   // Apply the recommended intensity if user hasn't set a preference
   const currentPreferences = transitionPreferences.getPreferences();
   if (currentPreferences.adaptToPerformance) {
     transitionPreferences.updatePreference('intensity', recommendedIntensity);
   }
-  
+
   // Monitor performance continuously and adapt
   setInterval(() => {
     const currentMetrics = performanceMonitor.getCurrentMetrics();
@@ -82,7 +82,7 @@ export function setupAdaptiveTransitions() {
     // If performance is consistently poor, suggest reducing intensity
     if (currentMetrics.frameRate < 30 && currentPreferences.adaptToPerformance) {
       const newRecommendation = performanceMonitor.getRecommendedIntensity(currentMetrics);
-      
+
       if (newRecommendation !== currentPreferences.intensity) {
         transitionPreferences.updatePreference('intensity', newRecommendation);
       }
@@ -106,7 +106,7 @@ export function createPerformanceDashboard() {
     font-size: 12px;
     z-index: 9999;
   `;
-  
+
   const updateDashboard = () => {
     const metrics = performanceMonitor.getCurrentMetrics();
     const history = performanceMonitor.getPerformanceHistory();
@@ -123,13 +123,13 @@ export function createPerformanceDashboard() {
       <div>Adapt Performance: ${preferences.adaptToPerformance ? 'ON' : 'OFF'}</div>
     `;
   };
-  
+
   // Update dashboard every second
   setInterval(updateDashboard, 1000);
   updateDashboard();
-  
+
   document.body.appendChild(dashboard);
-  
+
   return dashboard;
 }
 
@@ -137,12 +137,12 @@ export function createPerformanceDashboard() {
 export async function performCustomAnimation(): Promise<void> {
   const preferences = transitionPreferences.getPreferences();
   const effectiveIntensity = transitionPreferences.getEffectiveIntensity();
-  
+
   // Adjust animation parameters based on intensity
   let duration = 300;
   let easing = 'ease-out';
   let complexity = 'normal';
-  
+
   switch (effectiveIntensity) {
     case 'minimal':
       duration = 0;
@@ -159,23 +159,23 @@ export async function performCustomAnimation(): Promise<void> {
       complexity = 'complex';
       break;
   }
-  
+
   // Perform animation based on complexity level
   if (complexity === 'none') {
     // No animation, just instant change
     return Promise.resolve();
   }
-  
+
   // Create and run animation
   const element = document.querySelector('.animated-element') as HTMLElement;
   if (!element) return;
-  
+
   return new Promise((resolve) => {
     if (complexity === 'simple') {
       // Simple fade animation
       element.style.transition = `opacity ${duration}ms ${easing}`;
       element.style.opacity = '0';
-      
+
       setTimeout(() => {
         element.style.opacity = '1';
         resolve();
@@ -185,7 +185,7 @@ export async function performCustomAnimation(): Promise<void> {
       element.style.transition = `all ${duration}ms ${easing}`;
       element.style.transform = 'translateY(-20px) scale(0.95)';
       element.style.opacity = '0';
-      
+
       setTimeout(() => {
         element.style.transform = 'translateY(0) scale(1)';
         element.style.opacity = '1';
@@ -212,9 +212,9 @@ function showPerformanceNotification(recommendedIntensity: string) {
     z-index: 10000;
     font-size: 14px;
   `;
-  
+
   document.body.appendChild(notification);
-  
+
   // Remove after 3 seconds
   setTimeout(() => {
     document.body.removeChild(notification);

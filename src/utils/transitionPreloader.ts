@@ -71,7 +71,7 @@ export class TransitionPreloader {
           if (entry.isIntersecting) {
             const link = entry.target as HTMLAnchorElement;
             const href = link.href;
-            
+
             if (href && this.shouldPrefetchLink(href)) {
               this.prefetchTransition(href, { priority: 'low' });
             }
@@ -106,20 +106,20 @@ export class TransitionPreloader {
   private shouldPrefetchLink(href: string): boolean {
     try {
       const url = new URL(href, window.location.origin);
-      
+
       // Only prefetch internal links
       if (url.origin !== window.location.origin) return false;
-      
+
       // Don't prefetch current page
       if (url.pathname === window.location.pathname) return false;
-      
+
       // Don't prefetch if already prefetched
       if (this.prefetchLinks.has(url.pathname)) return false;
-      
+
       // Don't prefetch certain file types
       const excludeExtensions = ['.pdf', '.zip', '.exe', '.dmg'];
       if (excludeExtensions.some(ext => url.pathname.endsWith(ext))) return false;
-      
+
       return true;
     } catch {
       return false;
@@ -132,7 +132,7 @@ export class TransitionPreloader {
   public async prefetchTransition(toPath: string, options: PreloadOptions = {}): Promise<void> {
     const currentPath = window.location.pathname;
     const preloadKey = `${currentPath}->${toPath}`;
-    
+
     // Skip if already preloaded or in progress
     if (this.preloadedTransitions.has(preloadKey) || this.preloadQueue.includes(preloadKey)) {
       return;
@@ -146,22 +146,22 @@ export class TransitionPreloader {
       const fromPageType = transitionRegistry.getPageType(currentPath);
       const toPageType = transitionRegistry.getPageType(toPath);
       const relationship = transitionRegistry.getPageRelationship(fromPageType, toPageType, currentPath, toPath);
-      
+
       const context = {
         direction: 'forward' as const,
         fromPageType,
         toPageType,
         relationship
       };
-      
+
       const transitionConfig = transitionRegistry.getTransitionForNavigation(context);
-      
+
       // Start preloading resources
       const resources = await this.preloadResources(toPath, options);
-      
+
       // Use Astro's prefetch if available
       await this.prefetchWithAstro(toPath, options);
-      
+
       // Store preloaded transition
       const preloadedTransition: PreloadedTransition = {
         fromPath: currentPath,
@@ -170,18 +170,18 @@ export class TransitionPreloader {
         preloadedAt: Date.now(),
         resources
       };
-      
+
       this.preloadedTransitions.set(preloadKey, preloadedTransition);
-      
+
       // Remove from queue
       const queueIndex = this.preloadQueue.indexOf(preloadKey);
       if (queueIndex > -1) {
         this.preloadQueue.splice(queueIndex, 1);
       }
-      
+
     } catch (error) {
       console.warn('Failed to prefetch transition:', error);
-      
+
       // Remove from queue on error
       const queueIndex = this.preloadQueue.indexOf(preloadKey);
       if (queueIndex > -1) {
@@ -195,12 +195,12 @@ export class TransitionPreloader {
    */
   private async preloadResources(path: string, options: PreloadOptions): Promise<PreloadedResource[]> {
     const resources: PreloadedResource[] = [];
-    
+
     // Prefetch the page itself
     if (options.priority === 'high') {
       resources.push(await this.preloadResource(path, 'page'));
     }
-    
+
     // Prefetch critical CSS if needed
     if (options.prefetchCSS !== false) {
       const cssResources = await this.findCriticalCSS(path);
@@ -208,7 +208,7 @@ export class TransitionPreloader {
         resources.push(await this.preloadResource(css, 'css'));
       }
     }
-    
+
     // Prefetch critical images if needed
     if (options.prefetchImages) {
       const imageResources = await this.findCriticalImages(path);
@@ -216,7 +216,7 @@ export class TransitionPreloader {
         resources.push(await this.preloadResource(image, 'image'));
       }
     }
-    
+
     // Prefetch fonts if needed
     if (options.prefetchFonts) {
       const fontResources = await this.findCriticalFonts(path);
@@ -224,7 +224,7 @@ export class TransitionPreloader {
         resources.push(await this.preloadResource(font, 'font'));
       }
     }
-    
+
     return resources;
   }
 
@@ -254,13 +254,13 @@ export class TransitionPreloader {
     const link = document.createElement('link');
     link.rel = 'prefetch';
     link.href = path;
-    
+
     if (options.priority === 'high') {
       link.setAttribute('importance', 'high');
     }
-    
+
     document.head.appendChild(link);
-    
+
     // Clean up after a reasonable time
     setTimeout(() => {
       if (link.parentNode) {
@@ -278,9 +278,9 @@ export class TransitionPreloader {
       type,
       status: 'loading'
     };
-    
+
     const startTime = Date.now();
-    
+
     try {
       switch (type) {
         case 'page':
@@ -299,14 +299,14 @@ export class TransitionPreloader {
           await this.preloadJS(url);
           break;
       }
-      
+
       resource.status = 'loaded';
       resource.loadTime = Date.now() - startTime;
     } catch (error) {
       resource.status = 'error';
       console.warn(`Failed to preload ${type}:`, url, error);
     }
-    
+
     return resource;
   }
 
@@ -402,10 +402,10 @@ export class TransitionPreloader {
   private preloadCriticalTransitions(): void {
     const currentPath = window.location.pathname;
     const currentPageType = transitionRegistry.getPageType(currentPath);
-    
+
     // Define critical navigation paths based on page type
     const criticalPaths: string[] = [];
-    
+
     switch (currentPageType) {
       case 'home':
         criticalPaths.push('/blog', '/tools', '/about');
@@ -430,10 +430,10 @@ export class TransitionPreloader {
         });
         break;
     }
-    
+
     // Prefetch critical paths with high priority
     criticalPaths.forEach((path) => {
-      this.prefetchTransition(path, { 
+      this.prefetchTransition(path, {
         priority: 'high',
         prefetchCSS: true,
         prefetchImages: false,
@@ -448,17 +448,17 @@ export class TransitionPreloader {
   private handleNavigationStart(event: Event): void {
     const customEvent = event as CustomEvent;
     const toPath = customEvent.detail?.to?.pathname;
-    
+
     if (!toPath) return;
-    
+
     const currentPath = window.location.pathname;
     const preloadKey = `${currentPath}->${toPath}`;
     const preloaded = this.preloadedTransitions.get(preloadKey);
-    
+
     if (preloaded) {
       // Apply preloaded transition configuration
       console.log('Using preloaded transition for:', toPath);
-      
+
       // Set transition context based on preloaded config
       const root = document.documentElement;
       root.setAttribute('data-transition-preloaded', 'true');
@@ -472,14 +472,14 @@ export class TransitionPreloader {
   private handleNavigationComplete(): void {
     const currentTime = Date.now();
     const maxAge = 5 * 60 * 1000; // 5 minutes
-    
+
     // Clean up old preloaded transitions
     for (const [key, preloaded] of this.preloadedTransitions.entries()) {
       if (currentTime - preloaded.preloadedAt > maxAge) {
         this.preloadedTransitions.delete(key);
       }
     }
-    
+
     // Re-observe links on new page
     setTimeout(() => {
       this.observeLinks();
@@ -498,15 +498,15 @@ export class TransitionPreloader {
     const preloaded = Array.from(this.preloadedTransitions.values());
     const totalResources = preloaded.flatMap(p => p.resources);
     const loadedResources = totalResources.filter(r => r.status === 'loaded');
-    
-    const averageLoadTime = loadedResources.length > 0 
+
+    const averageLoadTime = loadedResources.length > 0
       ? loadedResources.reduce((sum, r) => sum + (r.loadTime || 0), 0) / loadedResources.length
       : 0;
-    
-    const successRate = totalResources.length > 0 
+
+    const successRate = totalResources.length > 0
       ? loadedResources.length / totalResources.length
       : 0;
-    
+
     return {
       totalPreloaded: preloaded.length,
       averageLoadTime,
@@ -539,10 +539,10 @@ export class TransitionPreloader {
       this.observer.disconnect();
       this.observer = undefined;
     }
-    
+
     document.removeEventListener('astro:before-preparation', this.handleNavigationStart.bind(this));
     document.removeEventListener('astro:after-swap', this.handleNavigationComplete.bind(this));
-    
+
     this.clearPreloads();
   }
 }

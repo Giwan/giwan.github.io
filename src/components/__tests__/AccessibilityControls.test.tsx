@@ -66,10 +66,10 @@ describe('AccessibilityControls', () => {
 
   it('should display all accessibility controls', () => {
     render(<AccessibilityControls />);
-    
+
     const toggleButton = screen.getByRole('button', { name: /open accessibility controls/i });
     fireEvent.click(toggleButton);
-    
+
     expect(screen.getByText('Reduced Motion')).toBeInTheDocument();
     expect(screen.getByText('Screen Reader Announcements')).toBeInTheDocument();
     expect(screen.getByText('Focus Management')).toBeInTheDocument();
@@ -78,13 +78,13 @@ describe('AccessibilityControls', () => {
 
   it('should toggle reduced motion when button is clicked', () => {
     render(<AccessibilityControls />);
-    
+
     const toggleButton = screen.getByRole('button', { name: /open accessibility controls/i });
     fireEvent.click(toggleButton);
-    
+
     const reducedMotionButton = screen.getByRole('button', { name: /enable reduced motion/i });
     fireEvent.click(reducedMotionButton);
-    
+
     expect(mockAccessibilityHook.toggleReducedMotion).toHaveBeenCalled();
     expect(mockAccessibilityHook.announce).toHaveBeenCalledWith({
       message: 'Reduced motion enabled',
@@ -94,13 +94,13 @@ describe('AccessibilityControls', () => {
 
   it('should toggle screen reader announcements when button is clicked', () => {
     render(<AccessibilityControls />);
-    
+
     const toggleButton = screen.getByRole('button', { name: /open accessibility controls/i });
     fireEvent.click(toggleButton);
-    
+
     const screenReaderButton = screen.getByRole('button', { name: /disable screen reader announcements/i });
     fireEvent.click(screenReaderButton);
-    
+
     expect(mockAccessibilityHook.toggleScreenReaderAnnouncements).toHaveBeenCalled();
     expect(mockAccessibilityHook.announce).toHaveBeenCalledWith({
       message: 'Screen reader announcements disabled',
@@ -110,13 +110,13 @@ describe('AccessibilityControls', () => {
 
   it('should toggle focus management when button is clicked', () => {
     render(<AccessibilityControls />);
-    
+
     const toggleButton = screen.getByRole('button', { name: /open accessibility controls/i });
     fireEvent.click(toggleButton);
-    
+
     const focusManagementButton = screen.getByRole('button', { name: /disable focus management/i });
     fireEvent.click(focusManagementButton);
-    
+
     expect(mockAccessibilityHook.toggleFocusManagement).toHaveBeenCalled();
     expect(mockAccessibilityHook.announce).toHaveBeenCalledWith({
       message: 'Focus management disabled',
@@ -126,13 +126,13 @@ describe('AccessibilityControls', () => {
 
   it('should toggle keyboard navigation when button is clicked', () => {
     render(<AccessibilityControls />);
-    
+
     const toggleButton = screen.getByRole('button', { name: /open accessibility controls/i });
     fireEvent.click(toggleButton);
     
     const keyboardNavButton = screen.getByRole('button', { name: /disable keyboard navigation enhancements/i });
     fireEvent.click(keyboardNavButton);
-    
+
     expect(mockAccessibilityHook.toggleKeyboardNavigation).toHaveBeenCalled();
     expect(mockAccessibilityHook.announce).toHaveBeenCalledWith({
       message: 'Keyboard navigation enhancements disabled',
@@ -142,10 +142,10 @@ describe('AccessibilityControls', () => {
 
   it('should display keyboard shortcuts information', () => {
     render(<AccessibilityControls />);
-    
+
     const toggleButton = screen.getByRole('button', { name: /open accessibility controls/i });
     fireEvent.click(toggleButton);
-    
+
     expect(screen.getByText('Keyboard Shortcuts:')).toBeInTheDocument();
     expect(screen.getByText('Skip to main content')).toBeInTheDocument();
     expect(screen.getByText('Navigate back')).toBeInTheDocument();
@@ -154,10 +154,10 @@ describe('AccessibilityControls', () => {
 
   it('should close the panel when close button is clicked', () => {
     render(<AccessibilityControls />);
-    
+
     const toggleButton = screen.getByRole('button', { name: /open accessibility controls/i });
     fireEvent.click(toggleButton);
-    
+
     // Get the close button inside the dialog (the × button)
     const dialog = screen.getByRole('dialog');
     const closeButton = dialog.querySelector('button[aria-label="Close accessibility controls"]');
@@ -182,10 +182,10 @@ describe('AccessibilityControls', () => {
     });
 
     render(<AccessibilityControls />);
-    
+
     const toggleButton = screen.getByRole('button', { name: /open accessibility controls/i });
     fireEvent.click(toggleButton);
-    
+
     expect(screen.getByRole('button', { name: /disable reduced motion/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /enable screen reader announcements/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /disable focus management/i })).toBeInTheDocument();

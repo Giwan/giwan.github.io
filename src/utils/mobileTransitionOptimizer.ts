@@ -58,16 +58,16 @@ export class MobileTransitionOptimizer {
 
     // Set up orientation change handling
     this.setupOrientationChangeHandling();
-    
+
     // Set up network condition monitoring
     this.setupNetworkMonitoring();
-    
+
     // Set up battery monitoring
     this.setupBatteryMonitoring();
-    
+
     // Apply initial optimizations
     this.applyOptimizations();
-    
+
     this.isInitialized = true;
   }
 
@@ -92,20 +92,20 @@ export class MobileTransitionOptimizer {
     const userAgent = (typeof navigator !== 'undefined') ? navigator.userAgent.toLowerCase() : '';
     const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
     const isTablet = /ipad|android(?!.*mobile)/i.test(userAgent);
-    const isPWA = (typeof window !== 'undefined' && window.matchMedia) 
-      ? window.matchMedia('(display-mode: standalone)').matches || 
+    const isPWA = (typeof window !== 'undefined' && window.matchMedia)
+      ? window.matchMedia('(display-mode: standalone)').matches ||
         (window.navigator as any).standalone === true
       : false;
-    
-    const orientation = (typeof window !== 'undefined') 
+
+    const orientation = (typeof window !== 'undefined')
       ? (window.innerHeight > window.innerWidth ? 'portrait' : 'landscape')
       : 'portrait';
     const hardwareConcurrency = (typeof navigator !== 'undefined') ? (navigator.hardwareConcurrency || 4) : 4;
     const deviceMemory = (typeof navigator !== 'undefined') ? (navigator as any).deviceMemory : undefined;
-    
+
     // Get connection info
-    const connection = (navigator as any).connection || 
-                      (navigator as any).mozConnection || 
+    const connection = (navigator as any).connection ||
+                      (navigator as any).mozConnection ||
                       (navigator as any).webkitConnection;
     const connectionType = connection?.effectiveType || 'unknown';
 
@@ -135,8 +135,8 @@ export class MobileTransitionOptimizer {
       };
     }
 
-    const connection = (navigator as any).connection || 
-                      (navigator as any).mozConnection || 
+    const connection = (navigator as any).connection ||
+                      (navigator as any).mozConnection ||
                       (navigator as any).webkitConnection;
 
     if (!connection) {
@@ -161,10 +161,10 @@ export class MobileTransitionOptimizer {
    */
   private setupOrientationChangeHandling(): void {
     const handleOrientationChange = () => {
-      const newOrientation = (typeof window !== 'undefined') 
+      const newOrientation = (typeof window !== 'undefined')
         ? (window.innerHeight > window.innerWidth ? 'portrait' : 'landscape')
         : 'portrait';
-      
+
       if (newOrientation !== this.deviceCapabilities.orientation) {
         this.deviceCapabilities.orientation = newOrientation;
         
@@ -181,7 +181,7 @@ export class MobileTransitionOptimizer {
       window.addEventListener('orientationchange', handleOrientationChange);
       window.addEventListener('resize', handleOrientationChange);
     }
-    
+
     // Handle Astro transition events during orientation changes
     document.addEventListener('astro:before-preparation', (event) => {
       if (this.isOrientationChanging()) {
@@ -194,8 +194,8 @@ export class MobileTransitionOptimizer {
    * Set up network condition monitoring
    */
   private setupNetworkMonitoring(): void {
-    const connection = (navigator as any).connection || 
-                      (navigator as any).mozConnection || 
+    const connection = (navigator as any).connection ||
+                      (navigator as any).mozConnection ||
                       (navigator as any).webkitConnection;
 
     if (!connection) {
@@ -204,13 +204,13 @@ export class MobileTransitionOptimizer {
 
     const handleNetworkChange = () => {
       const newCondition = this.detectNetworkCondition();
-      
+
       if (newCondition.effectiveType !== this.networkCondition.effectiveType) {
         this.networkCondition = newCondition;
-        
+
         // Apply network-specific optimizations
         this.applyNetworkOptimizations(newCondition);
-        
+
         // Notify listeners
         this.networkChangeListeners.forEach(listener => listener(newCondition));
       }
@@ -229,14 +229,14 @@ export class MobileTransitionOptimizer {
       (navigator as any).getBattery().then((battery: any) => {
         const updateBatteryStatus = () => {
           const isLowBattery = battery.level < 0.2 || battery.charging === false && battery.level < 0.3;
-          
+
           if (isLowBattery !== this.deviceCapabilities.isLowBattery) {
             this.deviceCapabilities.isLowBattery = isLowBattery;
             this.deviceCapabilities.batteryLevel = battery.level;
-            
+
             // Apply battery-specific optimizations
             this.applyBatteryOptimizations(isLowBattery);
-            
+
             // Notify listeners
             this.batteryChangeListeners.forEach(listener => listener(isLowBattery));
           }
@@ -261,8 +261,8 @@ export class MobileTransitionOptimizer {
    */
   private isOrientationChanging(): boolean {
     // Simple heuristic: if the aspect ratio is close to square, we might be mid-rotation
-    const aspectRatio = (typeof window !== 'undefined') 
-      ? window.innerWidth / window.innerHeight 
+    const aspectRatio = (typeof window !== 'undefined')
+      ? window.innerWidth / window.innerHeight
       : 1;
     return Math.abs(aspectRatio - 1) < 0.2;
   }
@@ -272,9 +272,9 @@ export class MobileTransitionOptimizer {
    */
   private applyOrientationOptimizations(orientation: 'portrait' | 'landscape'): void {
     const root = document.documentElement;
-    
+
     root.setAttribute('data-orientation', orientation);
-    
+
     // Apply CSS custom properties for orientation
     if (orientation === 'landscape') {
       root.style.setProperty('--transition-scale-factor', '0.8');
@@ -288,10 +288,10 @@ export class MobileTransitionOptimizer {
    */
   private applyNetworkOptimizations(condition: NetworkCondition): void {
     const root = document.documentElement;
-    
+
     root.setAttribute('data-connection', condition.effectiveType);
     root.setAttribute('data-save-data', condition.saveData.toString());
-    
+
     // Apply network-aware CSS properties
     if (condition.effectiveType === 'slow-2g' || condition.effectiveType === '2g') {
       root.style.setProperty('--transition-duration-fast', '100ms');
@@ -309,9 +309,9 @@ export class MobileTransitionOptimizer {
    */
   private applyBatteryOptimizations(isLowBattery: boolean): void {
     const root = document.documentElement;
-    
+
     root.setAttribute('data-battery-low', isLowBattery.toString());
-    
+
     if (isLowBattery) {
       // Reduce transition durations to save battery
       root.style.setProperty('--transition-duration-fast', '100ms');
@@ -325,10 +325,10 @@ export class MobileTransitionOptimizer {
    */
   private optimizeForOrientationChange(): void {
     const root = document.documentElement;
-    
+
     // Temporarily disable complex transitions during orientation change
     root.setAttribute('data-orientation-changing', 'true');
-    
+
     // Re-enable after orientation change completes
     setTimeout(() => {
       root.removeAttribute('data-orientation-changing');
@@ -342,10 +342,10 @@ export class MobileTransitionOptimizer {
     this.applyOrientationOptimizations(this.deviceCapabilities.orientation);
     this.applyNetworkOptimizations(this.networkCondition);
     this.applyBatteryOptimizations(this.deviceCapabilities.isLowBattery);
-    
+
     // Apply device-specific optimizations
     const root = document.documentElement;
-    
+
     if (this.deviceCapabilities.isMobile) {
       root.setAttribute('data-device-type', 'mobile');
     } else if (this.deviceCapabilities.isTablet) {
@@ -353,16 +353,16 @@ export class MobileTransitionOptimizer {
     } else {
       root.setAttribute('data-device-type', 'desktop');
     }
-    
+
     if (this.deviceCapabilities.isPWA) {
       root.setAttribute('data-pwa', 'true');
     }
-    
+
     // Apply hardware-based optimizations
     if (this.deviceCapabilities.hardwareConcurrency <= 2) {
       root.setAttribute('data-low-power', 'true');
     }
-    
+
     if (this.deviceCapabilities.deviceMemory && this.deviceCapabilities.deviceMemory <= 2) {
       root.setAttribute('data-low-memory', 'true');
     }
@@ -420,7 +420,7 @@ export class MobileTransitionOptimizer {
    */
   public onOrientationChange(listener: () => void): () => void {
     this.orientationChangeListeners.add(listener);
-    
+
     return () => {
       this.orientationChangeListeners.delete(listener);
     };
@@ -431,7 +431,7 @@ export class MobileTransitionOptimizer {
    */
   public onNetworkChange(listener: (condition: NetworkCondition) => void): () => void {
     this.networkChangeListeners.add(listener);
-    
+
     return () => {
       this.networkChangeListeners.delete(listener);
     };
@@ -442,7 +442,7 @@ export class MobileTransitionOptimizer {
    */
   public onBatteryChange(listener: (isLow: boolean) => void): () => void {
     this.batteryChangeListeners.add(listener);
-    
+
     return () => {
       this.batteryChangeListeners.delete(listener);
     };
@@ -481,7 +481,7 @@ export class MobileTransitionOptimizer {
     }
 
     const optimization = this.getTransitionOptimization();
-    
+
     return {
       duration: optimization.recommendedDuration,
       easing: 'cubic-bezier(0.2, 0, 0, 1)' // Native app-like easing

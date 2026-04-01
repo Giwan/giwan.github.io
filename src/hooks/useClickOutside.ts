@@ -10,10 +10,10 @@ export const useClickOutside = (
 
     const handleClickOutside = (e: Event) => {
       const target = e.target as Element;
-      const isExcluded = excludeSelectors.some(selector => 
+      const isExcluded = excludeSelectors.some(selector =>
         target.closest(selector)
       );
-      
+
       if (!isExcluded) {
         onClose();
       }

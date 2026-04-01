@@ -180,7 +180,7 @@ export class TransitionController {
       { from: /^\/search\/results/, to: /^\/search\/?$/ }
     ];
 
-    return backwardPatterns.some(pattern => 
+    return backwardPatterns.some(pattern =>
       pattern.from.test(fromPath) && pattern.to.test(toPath)
     );
   }
@@ -236,9 +236,9 @@ export class TransitionController {
    * Analyze relationship between two page types
    */
   private analyzePageRelationship(
-    fromType: PageType, 
-    toType: PageType, 
-    fromPath: string, 
+    fromType: PageType,
+    toType: PageType,
+    fromPath: string,
     toPath: string
   ): PageRelationship {
     // Same page type - sibling relationship
@@ -272,7 +272,7 @@ export class TransitionController {
       [PageType.HOME, PageType.CONTACT]
     ];
 
-    if (contextualPairs.some(([type1, type2]) => 
+    if (contextualPairs.some(([type1, type2]) =>
       (fromType === type1 && toType === type2) || (fromType === type2 && toType === type1)
     )) {
       return PageRelationship.CONTEXTUAL;
@@ -288,13 +288,13 @@ export class TransitionController {
   private getUserAgentInfo(): UserAgentInfo {
     const userAgent = navigator.userAgent.toLowerCase();
     const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
-    
+
     // Check for reduced motion preference
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
+
     // Check for low power mode (approximation)
     const isLowPowerMode = navigator.hardwareConcurrency <= 2 || prefersReducedMotion;
-    
+
     // Get connection type if available
     const connection = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection;
     const connectionType = connection?.effectiveType || 'unknown';
@@ -313,7 +313,7 @@ export class TransitionController {
   private handleBeforePreparation(event: Event): void {
     const customEvent = event as CustomEvent;
     const toPath = customEvent.detail?.to?.pathname || window.location.pathname;
-    
+
     if (this.transitionInProgress) {
       return;
     }
@@ -327,25 +327,25 @@ export class TransitionController {
         // Let error handler manage fallback
         console.warn('View Transition API not supported, using fallback');
       }
-    
+
     // Detect navigation context
     const context = this.detectNavigationContext(fromPath, toPath);
-    
+
     // Start performance monitoring
     performanceMonitor.startMonitoring(this.getTransitionContextName(context));
-    
+
     // Apply mobile and PWA optimizations
     this.applyMobileOptimizations(context);
-    
+
     // Apply transition context to document
     this.applyTransitionContext(context);
-    
+
     // Apply user preferences
     this.applyUserPreferences();
-    
+
     // Apply performance-based optimizations
     this.applyPerformanceOptimizations();
-    
+
     // Update metrics
     this.updateMetrics(context);
     } catch (error) {
@@ -362,15 +362,15 @@ export class TransitionController {
     try {
       const customEvent = event as CustomEvent;
       const newPath = customEvent.detail?.newDocument?.location?.pathname || window.location.pathname;
-      
+
       // Stop performance monitoring and get results
       const performanceData = performanceMonitor.stopMonitoring();
-      
+
       // Update navigation history
       this.updateNavigationHistory(newPath);
       this.currentPath = newPath;
       this.transitionInProgress = false;
-      
+
       // Update performance metrics if available
       if (performanceData) {
         this.updatePerformanceMetrics(performanceData);
@@ -395,11 +395,11 @@ export class TransitionController {
    */
   private handlePopState(event: PopStateEvent): void {
     const newPath = window.location.pathname;
-    
+
     // This is definitely backward navigation
     const context = this.detectNavigationContext(this.currentPath, newPath);
     context.direction = NavigationDirection.BACKWARD;
-    
+
     this.applyTransitionContext(context);
     this.updateNavigationHistory(newPath);
     this.currentPath = newPath;
@@ -412,36 +412,36 @@ export class TransitionController {
     // Get mobile optimization recommendations
     const optimization = mobileTransitionOptimizer.getTransitionOptimization();
     const pwaSettings = pwaTransitionIntegration.getPWATransitionSettings();
-    
+
     const root = document.documentElement;
-    
+
     // Apply optimization recommendations
     if (optimization.shouldOptimize) {
       root.style.setProperty('--transition-duration-optimized', `${optimization.recommendedDuration}ms`);
       root.style.setProperty('--transition-easing-optimized', optimization.recommendedEasing);
       root.setAttribute('data-transition-optimized', optimization.optimizationType);
     }
-    
+
     // Apply PWA-specific settings
     if (pwaSettings.shouldOptimize) {
       root.style.setProperty('--transition-duration-pwa', `${pwaSettings.duration}ms`);
       root.style.setProperty('--transition-easing-pwa', pwaSettings.easing);
     }
-    
+
     // Apply device capabilities
     const deviceCapabilities = mobileTransitionOptimizer.getDeviceCapabilities();
     const networkCondition = mobileTransitionOptimizer.getNetworkCondition();
-    
+
     // Set device-specific attributes
     root.setAttribute('data-device-mobile', deviceCapabilities.isMobile.toString());
     root.setAttribute('data-device-tablet', deviceCapabilities.isTablet.toString());
     root.setAttribute('data-device-pwa', deviceCapabilities.isPWA.toString());
     root.setAttribute('data-device-orientation', deviceCapabilities.orientation);
-    
+
     // Set network-specific attributes
     root.setAttribute('data-network-type', networkCondition.effectiveType);
     root.setAttribute('data-network-save-data', networkCondition.saveData.toString());
-    
+
     // Set battery-specific attributes
     if (deviceCapabilities.batteryLevel !== undefined) {
       root.setAttribute('data-battery-level', Math.round(deviceCapabilities.batteryLevel * 100).toString());
@@ -454,16 +454,16 @@ export class TransitionController {
    */
   private applyTransitionContext(context: NavigationContext): void {
     const root = document.documentElement;
-    
+
     // Set data attributes for CSS targeting
     root.setAttribute('data-transition-direction', context.direction);
     root.setAttribute('data-transition-from-type', context.fromPageType);
     root.setAttribute('data-transition-to-type', context.toPageType);
     root.setAttribute('data-transition-relationship', context.relationship);
-    
+
     // Set transition context for backward compatibility
     root.setAttribute('data-transition-context', this.getTransitionContextName(context));
-    
+
     // Apply user agent optimizations
     const userAgent = this.getUserAgentInfo();
     if (userAgent.prefersReducedMotion) {
@@ -481,7 +481,7 @@ export class TransitionController {
     if (context.direction === NavigationDirection.BACKWARD) {
       return 'backward';
     }
-    
+
     switch (context.relationship) {
       case PageRelationship.PARENT_CHILD:
         return 'drill-down';
@@ -502,9 +502,9 @@ export class TransitionController {
   private updateNavigationHistory(path: string): void {
     // Limit history size to prevent memory issues
     const MAX_HISTORY_SIZE = 50;
-    
+
     this.navigationHistory.push(path);
-    
+
     if (this.navigationHistory.length > MAX_HISTORY_SIZE) {
       this.navigationHistory = this.navigationHistory.slice(-MAX_HISTORY_SIZE);
     }
@@ -516,11 +516,11 @@ export class TransitionController {
   private updateMetrics(context: NavigationContext): void {
     this.metrics.totalTransitions++;
     this.metrics.lastTransitionTime = context.timestamp;
-    
+
     // Calculate average duration (simplified - would need actual timing in real implementation)
     const estimatedDuration = this.estimateTransitionDuration(context);
-    this.metrics.averageDuration = 
-      (this.metrics.averageDuration * (this.metrics.totalTransitions - 1) + estimatedDuration) / 
+    this.metrics.averageDuration =
+      (this.metrics.averageDuration * (this.metrics.totalTransitions - 1) + estimatedDuration) /
       this.metrics.totalTransitions;
   }
 
@@ -529,15 +529,15 @@ export class TransitionController {
    */
   private estimateTransitionDuration(context: NavigationContext): number {
     const userAgent = this.getUserAgentInfo();
-    
+
     // Base duration
     let duration = 300;
-    
+
     // Adjust for device capabilities
     if (userAgent.isLowPowerMode) {
       duration *= 0.7;
     }
-    
+
     // Adjust for relationship complexity
     switch (context.relationship) {
       case PageRelationship.SIBLING:
@@ -550,7 +550,7 @@ export class TransitionController {
       default:
         break;
     }
-    
+
     return duration;
   }
 
@@ -568,10 +568,10 @@ export class TransitionController {
     if (this.navigationHistory.length < 2) {
       return null;
     }
-    
+
     const currentPath = this.navigationHistory[this.navigationHistory.length - 1];
     const previousPath = this.navigationHistory[this.navigationHistory.length - 2];
-    
+
     return this.detectNavigationContext(previousPath, currentPath);
   }
 
@@ -589,29 +589,29 @@ export class TransitionController {
     const preferences = transitionPreferences.getPreferences();
     const effectiveIntensity = transitionPreferences.getEffectiveIntensity();
     const root = document.documentElement;
-    
+
     // Apply transition intensity
     root.setAttribute('data-transition-intensity', effectiveIntensity);
-    
+
     // Apply custom duration if set
     if (preferences.customDuration) {
       root.style.setProperty('--transition-duration-custom', `${preferences.customDuration}ms`);
     }
-    
+
     // Apply debug mode
     if (preferences.debugMode) {
       root.setAttribute('data-debug-transitions', 'true');
     }
-    
+
     // Apply sound effects and haptic feedback indicators
     root.setAttribute('data-sound-effects', preferences.enableSoundEffects.toString());
     root.setAttribute('data-haptic-feedback', preferences.enableHapticFeedback.toString());
-    
+
     // Trigger sound effect if enabled
     if (preferences.enableSoundEffects) {
       this.triggerSoundEffect();
     }
-    
+
     // Trigger haptic feedback if enabled
     if (preferences.enableHapticFeedback) {
       this.triggerHapticFeedback();
@@ -624,15 +624,15 @@ export class TransitionController {
   private applyPerformanceOptimizations(): void {
     const currentMetrics = performanceMonitor.getCurrentMetrics();
     const root = document.documentElement;
-    
+
     // Set performance monitoring attributes
     root.setAttribute('data-performance-monitoring', 'true');
     root.setAttribute('data-current-fps', currentMetrics.frameRate.toString());
-    
+
     // Apply device capability attributes
     const deviceCapabilities = this.getUserAgentInfo();
     root.setAttribute('data-cpu-cores', navigator.hardwareConcurrency.toString());
-    
+
     if (deviceCapabilities.isLowPowerMode) {
       root.setAttribute('data-performance-mode', 'low');
     } else if (currentMetrics.frameRate >= 55 && navigator.hardwareConcurrency >= 8) {
@@ -640,18 +640,18 @@ export class TransitionController {
     } else {
       root.setAttribute('data-performance-mode', 'normal');
     }
-    
+
     // Apply memory usage if available
     if (currentMetrics.memoryUsage !== undefined) {
-      const memoryLevel = currentMetrics.memoryUsage > 0.8 ? 'high' : 
+      const memoryLevel = currentMetrics.memoryUsage > 0.8 ? 'high' :
                          currentMetrics.memoryUsage > 0.6 ? 'medium' : 'low';
       root.setAttribute('data-memory-usage', memoryLevel);
-      
+
       if (currentMetrics.memoryUsage > 0.8) {
         root.setAttribute('data-low-memory', 'true');
       }
     }
-    
+
     // Apply battery level if available
     if ('getBattery' in navigator) {
       (navigator as any).getBattery().then((battery: any) => {
@@ -668,22 +668,22 @@ export class TransitionController {
    */
   private updatePerformanceMetrics(performanceData: TransitionPerformanceData): void {
     // Update internal metrics with actual performance data
-    this.metrics.averageDuration = 
-      (this.metrics.averageDuration * (this.metrics.totalTransitions - 1) + 
-       (performanceData.endTime - performanceData.startTime)) / 
+    this.metrics.averageDuration =
+      (this.metrics.averageDuration * (this.metrics.totalTransitions - 1) +
+       (performanceData.endTime - performanceData.startTime)) /
       this.metrics.totalTransitions;
-    
+
     // Calculate failure rate based on performance thresholds
-    const isFailure = performanceData.averageFrameRate < 30 || 
+    const isFailure = performanceData.averageFrameRate < 30 ||
                      performanceData.droppedFrames > 5;
-    
+
     if (isFailure) {
-      this.metrics.failureRate = 
-        (this.metrics.failureRate * (this.metrics.totalTransitions - 1) + 1) / 
+      this.metrics.failureRate =
+        (this.metrics.failureRate * (this.metrics.totalTransitions - 1) + 1) /
         this.metrics.totalTransitions;
     } else {
-      this.metrics.failureRate = 
-        (this.metrics.failureRate * (this.metrics.totalTransitions - 1)) / 
+      this.metrics.failureRate =
+        (this.metrics.failureRate * (this.metrics.totalTransitions - 1)) /
         this.metrics.totalTransitions;
     }
   }
@@ -697,16 +697,16 @@ export class TransitionController {
       const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
-      
+
       oscillator.connect(gainNode);
       gainNode.connect(audioContext.destination);
-      
+
       oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
       oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.1);
-      
+
       gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
       gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-      
+
       oscillator.start(audioContext.currentTime);
       oscillator.stop(audioContext.currentTime + 0.1);
     } catch (error) {
@@ -735,7 +735,7 @@ export class TransitionController {
   public getEnhancedMetrics(): TransitionMetrics & { performanceData?: PerformanceMetrics } {
     const baseMetrics = this.getMetrics();
     const performanceData = performanceMonitor.getCurrentMetrics();
-    
+
     return {
       ...baseMetrics,
       performanceData
@@ -751,15 +751,15 @@ export class TransitionController {
       document.removeEventListener('astro:after-swap', this.handleAfterSwap.bind(this));
       document.removeEventListener('astro:page-load', this.handlePageLoad.bind(this));
     }
-    
+
     if (typeof window !== 'undefined') {
       window.removeEventListener('popstate', this.handlePopState.bind(this));
     }
-    
+
     // Cleanup performance monitoring
     performanceMonitor.destroy();
     transitionPreferences.destroy();
-    
+
     this.isInitialized = false;
   }
 }

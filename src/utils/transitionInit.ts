@@ -15,7 +15,7 @@ import { devConsole } from './isDev';
 export function initializeTransitions(): void {
   // The TransitionController is automatically initialized when imported
   // This function exists for explicit initialization if needed
-  
+
   if (typeof window !== 'undefined') {
     // Initialize error handling first
     import('./transitionErrorInit').then(({ initializeTransitionErrorHandling }) => {
@@ -24,7 +24,7 @@ export function initializeTransitions(): void {
 
     // Add any additional initialization logic here
     devConsole('log', ['TransitionController initialized']);
-    
+
     // Optional: Log transition events in development
     if (import.meta.env.DEV) {
       document.addEventListener('astro:before-preparation', (event) => {
@@ -34,7 +34,7 @@ export function initializeTransitions(): void {
           to: customEvent.detail?.to?.pathname
         }]);
       });
-      
+
       document.addEventListener('astro:after-swap', (event) => {
         const context = transitionController.getCurrentContext();
         if (context) {

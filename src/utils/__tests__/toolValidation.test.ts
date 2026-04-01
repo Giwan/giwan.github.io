@@ -87,7 +87,7 @@ describe('Tool Consistency Checks', () => {
       labels: [labels.engineering]
     },
     {
-      title: 'Tool 2', 
+      title: 'Tool 2',
       url: 'https://example2.com',
       description: 'Second tool with proper description length',
       price: 10,
@@ -142,7 +142,7 @@ describe('Tool Consistency Checks', () => {
         tools: [validTools[0], validTools[0]], // Same tool twice
         fileName: 'test.ts'
       }];
-      
+
       const result = detectDuplicateTools(toolsData);
       expect(result.hasDuplicates).toBe(true);
       expect(result.duplicates.some(dup => dup.type === 'exact')).toBe(true);
@@ -154,7 +154,7 @@ describe('Tool Consistency Checks', () => {
         tools: [validTools[0], duplicateTitle],
         fileName: 'test.ts'
       }];
-      
+
       const result = detectDuplicateTools(toolsData);
       expect(result.hasDuplicates).toBe(true);
       expect(result.duplicates.some(dup => dup.type === 'title')).toBe(true);
@@ -166,7 +166,7 @@ describe('Tool Consistency Checks', () => {
         tools: [validTools[0], duplicateUrl],
         fileName: 'test.ts'
       }];
-      
+
       const result = detectDuplicateTools(toolsData);
       expect(result.hasDuplicates).toBe(true);
       expect(result.duplicates.some(dup => dup.type === 'url')).toBe(true);
@@ -177,7 +177,7 @@ describe('Tool Consistency Checks', () => {
         tools: validTools,
         fileName: 'test.ts'
       }];
-      
+
       const result = detectDuplicateTools(toolsData);
       expect(result.hasDuplicates).toBe(false);
     });

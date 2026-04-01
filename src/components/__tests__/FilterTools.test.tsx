@@ -38,7 +38,7 @@ describe('FilterTools Component', () => {
     const aiMlButton = screen.getByRole('button', { name: /ai & ml/i });
     const designButton = screen.getByRole('button', { name: /design/i });
     const allButton = screen.getByRole('button', { name: /all/i });
-    
+
     // Selected category should have default variant (active state)
     expect(aiMlButton).toHaveClass('bg-primary');
     
@@ -49,10 +49,10 @@ describe('FilterTools Component', () => {
 
   it('shows "All" button as selected when no category is active', () => {
     render(<FilterTools {...defaultProps} category={undefined} />);
-    
+
     const allButton = screen.getByRole('button', { name: /all/i });
     const designButton = screen.getByRole('button', { name: /design/i });
-    
+
     // All button should be active when no category is selected
     expect(allButton).toHaveClass('bg-primary');
     expect(designButton).toHaveClass('border-primary');
@@ -63,25 +63,25 @@ describe('FilterTools Component', () => {
     
     const hostingButton = screen.getByRole('button', { name: /hosting/i });
     fireEvent.click(hostingButton);
-    
+
     expect(mockSetCategory).toHaveBeenCalledWith('Hosting');
   });
 
   it('calls setCategory with undefined when "All" button is clicked', () => {
     render(<FilterTools {...defaultProps} category="Testing" />);
-    
+
     const allButton = screen.getByRole('button', { name: /all/i });
     fireEvent.click(allButton);
-    
+
     expect(mockSetCategory).toHaveBeenCalledWith(undefined);
   });
 
   it('handles all new categories correctly', () => {
     render(<FilterTools {...defaultProps} />);
-    
+
     // Test each new category
     const newCategories = ['AI & ML', 'Hosting', 'Frameworks', 'Testing', 'Monitoring'];
-    
+
     newCategories.forEach(category => {
       const button = screen.getByRole('button', { name: new RegExp(category, 'i') });
       fireEvent.click(button);
@@ -93,11 +93,11 @@ describe('FilterTools Component', () => {
 
   it('renders correct number of filter buttons', () => {
     render(<FilterTools {...defaultProps} />);
-    
+
     // Should have "All" button + all subcategories
     const expectedButtonCount = 1 + Object.keys(subCategories).length;
     const buttons = screen.getAllByRole('button');
-    
+
     expect(buttons).toHaveLength(expectedButtonCount);
   });
 });

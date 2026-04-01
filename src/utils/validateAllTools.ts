@@ -85,9 +85,9 @@ export function validateAllToolData(): ValidationReport {
   for (const { tools, fileName } of toolDataFiles) {
     const validation = validateToolArray(tools, fileName);
     report.structuralValidation[fileName] = validation;
-    
+
     report.summary.totalTools += tools.length;
-    
+
     if (!validation.isValid) {
       report.summary.filesWithErrors++;
       report.summary.structuralErrors += validation.errors.length;
@@ -104,11 +104,11 @@ export function validateAllToolData(): ValidationReport {
       !report.consistencyValidation.labelConsistency.isConsistent ||
       report.consistencyValidation.duplicates.hasDuplicates) {
     
-    report.summary.consistencyErrors = 
+    report.summary.consistencyErrors =
       report.consistencyValidation.categoryConsistency.errors.length +
       report.consistencyValidation.labelConsistency.errors.length +
       (report.consistencyValidation.duplicates.hasDuplicates ? 1 : 0);
-    
+
     report.summary.overallValid = false;
   }
 
@@ -120,7 +120,7 @@ export function validateAllToolData(): ValidationReport {
  */
 export async function validateAllToolDataWithUrls(): Promise<ValidationReport> {
   const report = validateAllToolData();
-  
+
   report.urlValidation = {};
   let totalUrlErrors = 0;
 
@@ -134,7 +134,7 @@ export async function validateAllToolDataWithUrls(): Promise<ValidationReport> {
   }
 
   report.summary.urlErrors = totalUrlErrors;
-  
+
   if (totalUrlErrors > 0) {
     report.summary.overallValid = false;
   }
@@ -147,7 +147,7 @@ export async function validateAllToolDataWithUrls(): Promise<ValidationReport> {
  */
 export function printValidationReport(report: ValidationReport): void {
   console.log('\n=== TOOL DATA VALIDATION REPORT ===\n');
-  
+
   // Summary
   console.log('📊 SUMMARY:');
   console.log(`   Total Files: ${report.summary.totalFiles}`);
@@ -158,7 +158,7 @@ export function printValidationReport(report: ValidationReport): void {
   // Structural validation
   console.log('🔍 STRUCTURAL VALIDATION:');
   let hasStructuralIssues = false;
-  
+
   for (const [fileName, validation] of Object.entries(report.structuralValidation)) {
     const status = validation.isValid ? '✅' : '❌';
     const toolCount = toolDataFiles.find(f => f.fileName === fileName)?.tools.length || 0;
@@ -174,7 +174,7 @@ export function printValidationReport(report: ValidationReport): void {
       validation.warnings.forEach(warning => console.log(`      ⚠️  ${warning}`));
     }
   }
-  
+
   if (!hasStructuralIssues) {
     console.log('   ✅ All files have valid structure');
   }
@@ -182,15 +182,15 @@ export function printValidationReport(report: ValidationReport): void {
 
   // Consistency validation
   console.log('🔄 CONSISTENCY VALIDATION:');
-  
+
   const { categoryConsistency, labelConsistency, duplicates } = report.consistencyValidation;
-  
+
   // Category consistency
   console.log(`   Categories: ${categoryConsistency.isConsistent ? '✅ Consistent' : '❌ Inconsistent'}`);
   if (categoryConsistency.errors.length > 0) {
     categoryConsistency.errors.forEach(error => console.log(`      ❌ ${error}`));
   }
-  
+
   // Label consistency
   console.log(`   Labels: ${labelConsistency.isConsistent ? '✅ Consistent' : '❌ Inconsistent'}`);
   if (labelConsistency.warnings.length > 0) {
@@ -199,7 +199,7 @@ export function printValidationReport(report: ValidationReport): void {
       console.log(`      ... and ${labelConsistency.warnings.length - 5} more warnings`);
     }
   }
-  
+
   // Duplicates
   console.log(`   Duplicates: ${duplicates.hasDuplicates ? '❌ Found' : '✅ None'}`);
   if (duplicates.hasDuplicates) {
@@ -207,7 +207,7 @@ export function printValidationReport(report: ValidationReport): void {
       console.log(`      ❌ ${duplicate.type} duplicate: ${duplicate.tools.map(t => t.tool.title).join(', ')}`);
     });
   }
-  
+
   // Suggestions
   if (categoryConsistency.suggestions.length > 0 || labelConsistency.suggestions.length > 0) {
     console.log('\n💡 SUGGESTIONS:');
@@ -225,7 +225,7 @@ export function printValidationReport(report: ValidationReport): void {
     for (const [fileName, urlValidation] of Object.entries(report.urlValidation)) {
       totalAccessible += urlValidation.summary.accessible;
       totalInaccessible += urlValidation.summary.inaccessible;
-      
+
       if (urlValidation.summary.inaccessible > 0) {
         console.log(`   ❌ ${fileName}: ${urlValidation.summary.inaccessible} inaccessible URLs`);
         urlValidation.results

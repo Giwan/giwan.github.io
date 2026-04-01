@@ -63,10 +63,10 @@ const OfflineFallback: React.FC<OfflineFallbackProps> = ({
     try {
       // Wait a moment to show loading state
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       // Update network status
       setNetworkStatus(getNetworkStatus());
-      
+
       if (networkStatus.isOnline && onRetry) {
         onRetry();
       } else if (networkStatus.isOnline) {
@@ -100,7 +100,7 @@ const OfflineFallback: React.FC<OfflineFallbackProps> = ({
       case 'content':
         return {
           title: 'Content Not Available Offline',
-          description: cachedContent 
+          description: cachedContent
             ? 'This content is cached but failed to load. Try refreshing the page.'
             : 'This content hasn\'t been cached for offline viewing yet.',
           icon: <BookOpen className="h-12 w-12 text-gray-400" />
