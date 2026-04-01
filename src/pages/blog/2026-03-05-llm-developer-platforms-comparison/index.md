@@ -204,6 +204,11 @@ or **Trae's** free tier are excellent starting points. Pair them with
 Ready to dive deeper? Here are the tools and resources mentioned in this post,
 along with others worth exploring:
 
+- **[Mistral Vibe](https://docs.mistral.ai/mistral-vibe/introduction)** — European LLM offering advanced instruction tuning and multimodal capabilities.
+- **[Aleph Alpha](https://aleph-alpha.com/)** — German AI platform focusing on large language models with strong European data privacy compliance.
+- **[Stability AI](https://stability.ai/)** — France‑based provider of open‑source generative models and diffusion tools.
+
+
 ### Context & Instruction Standards
 
 - **[AGENTS.md](https://agents.md/)** — The open specification for giving
