@@ -66,7 +66,7 @@ Introduced by Anthropic, [MCP](https://modelcontextprotocol.io/) is the "Univers
 MCP servers run locally. This means your sensitive API keys or database credentials never need to be sent to the LLM provider. The agent only gets the *output* of the tool, keeping your "secrets" within your own infrastructure.
 
 > [!TIP]
-> **Hot Tip:** Use the **MCP Inspector**. It’s a dedicated debugger for MCP developers that lets you test your servers in isolation before connecting them to a complex agent. It saves hours of troubleshooting when your tool isn't responding as expected.
+> **Hot Tip:** Use the [**MCP Inspector**](https://github.com/modelcontextprotocol/inspector). It’s a dedicated debugger for MCP developers that lets you test your servers in isolation before connecting them to a complex agent. It saves hours of troubleshooting when your tool isn't responding as expected.
 
 ## 3. Execution Platforms: Where the Work Happens
 
@@ -113,7 +113,7 @@ If you are budget-conscious, **Goose** (open source) or **Trae's** free tier are
 ## Learn More
 Ready to dive deeper? Check out these resources:
 - **AGENTS.md Specification:** Visit [agents.md](https://agents.md/) for the official specification and community templates.
-- **MCP Community:** Explore the [MCP GitHub organization](https://github.com/modelcontextprotocol) for open-source servers.
+- **MCP Community:** Explore the [MCP GitHub organization](https://github.com/modelcontextprotocol) for open-source servers and the official [Inspector documentation](https://modelcontextprotocol.io/docs/tools/inspector).
 - **Skills Registry:** Browse [Skills.sh](https://skills.sh/) to find portable automation for your stack.
 
 The "standard wars" are far from over, but the winners will be the protocols that remain open and the tools that stay out of the developer's way. Whether you are writing a simple `AGENTS.md` or a complex MCP server, you are ultimately doing one thing: **teaching the machine how to be your best colleague.**
