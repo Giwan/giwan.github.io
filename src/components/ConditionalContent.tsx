@@ -13,13 +13,11 @@ import { $isMobileMenuOpen } from "../stores/mobileMenuStore";
 const ConditionalContent = ({ children, hideWhenMenuOpen = true }) => {
   const isMobileMenuOpen = useStore($isMobileMenuOpen);
   
-  // If menu is open and we should hide content, return null
-  if (isMobileMenuOpen && hideWhenMenuOpen) {
-    return null;
-  }
-  
-  // Otherwise, render the children
-  return children;
+  return (
+    <div className={isMobileMenuOpen && hideWhenMenuOpen ? 'hidden' : 'contents'}>
+      {children}
+    </div>
+  );
 };
 
 export default ConditionalContent;
