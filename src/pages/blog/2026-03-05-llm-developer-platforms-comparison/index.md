@@ -31,6 +31,15 @@ Before an agent can help, it needs to understand the "rules of the house." Two m
 - **Weaknesses:** It is passive. It doesn't "do" anything; it just "tells."
 - **Real-World Example:** Check out the `AGENTS.md` in this very repository! It guides agents on how to run our Astro build, where the PWA config lives, and how to verify changes.
 
+#### How to Structure Your AGENTS.md
+The best `AGENTS.md` files follow a three-phase protocol to ensure high-quality output:
+1.  **Phase 1: Context & Planning:** Instruct the agent to analyze requirements and draft a plan before writing any code.
+2.  **Phase 2: Implementation:** Define your coding standards (e.g., "Use Tailwind first," "Avoid `any` in TypeScript").
+3.  **Phase 3: Verification:** List the mandatory checks, such as `npm run build` and `npm test`, that must be performed before the agent marks a task as complete.
+
+> [!TIP]
+> **Hot Tip:** Don't bloat your main `AGENTS.md`. Use it as a directory. Use an `@import` style approach or link to specialized sub-documents (like `agent-docs/protocol.md` or `agent-docs/guidelines.md`) to keep the primary instructions lean but powerful.
+
 ### Skills.sh / SKILL.md: The "Procedural Brain"
 While AGENTS.md is a README, [Skills.sh](https://skills.sh/) (utilizing the `SKILL.md` format) is a plugin. It allows you to package instructions with executable scripts.
 
@@ -39,6 +48,12 @@ While AGENTS.md is a README, [Skills.sh](https://skills.sh/) (utilizing the `SKI
 - **Pricing:** Open standard, with a community registry at Skills.sh.
 - **More Detail:** We've previously covered how to [leverage agent skills for web development](/blog/2026-02-18-leveraging-agent-skills-in-web-development).
 
+#### Why Use Skills?
+Skills excel when your workflow requires a specific sequence of "thought" and "action." Instead of hoping the agent remembers to check for broken links after a build, you create a skill that *forces* that check. It transforms the LLM from a generalist into a specialized artisan for your codebase.
+
+> [!TIP]
+> **Hot Tip:** Use Skills.sh to codify "Tribal Knowledge." If there’s a weird bug that only happens on M1 Macs when the Docker cache is full, don't just put it in a README. Write a skill that detects the environment and provides the exact fix automatically.
+
 ## 2. The Protocol Layer: MCP (Model Context Protocol)
 
 Introduced by Anthropic, [MCP](https://modelcontextprotocol.io/) is the "Universal Serial Bus" (USB) of the AI world. Instead of writing a custom integration for every tool, you build an MCP server once, and any MCP-compatible client (like Claude Desktop or Cursor) can use it.
@@ -46,6 +61,12 @@ Introduced by Anthropic, [MCP](https://modelcontextprotocol.io/) is the "Univers
 - **Features:** Real-time data access (Google Drive, Slack, Postgres) and tool execution.
 - **Case Study:** A developer at a fintech startup used an MCP server to let Claude query their internal staging database directly. This turned a 20-minute manual data lookup into a 5-second chat query.
 - **Beginner Tip:** Use [Smithery.ai](https://smithery.ai/) to find and install pre-built MCP servers without writing code.
+
+#### The Security Edge
+MCP servers run locally. This means your sensitive API keys or database credentials never need to be sent to the LLM provider. The agent only gets the *output* of the tool, keeping your "secrets" within your own infrastructure.
+
+> [!TIP]
+> **Hot Tip:** Use the **MCP Inspector**. It’s a dedicated debugger for MCP developers that lets you test your servers in isolation before connecting them to a complex agent. It saves hours of troubleshooting when your tool isn't responding as expected.
 
 ## 3. Execution Platforms: Where the Work Happens
 
@@ -64,17 +85,35 @@ The choice of IDE or CLI is where most developers feel the "cost" and "friction"
 - **Claude Code:** Polarizing. Developers love the speed and the "unfiltered" access to Claude 3.7 Sonnet, but the usage-based pricing can lead to "bill shock" if not monitored.
 - **Trae:** The newcomer. It's winning over developers with its aggressive free tier and impressive "Builder" mode, though some express privacy concerns due to its ByteDance heritage.
 
+> [!TIP]
+> **Hot Tip:** Don't just treat these as chat windows. The "killer feature" of Cursor (Composer) and Windsurf (Cascade) is their **structural editing engine**. They can refactor code across multiple files while maintaining import integrity—something a standard terminal-based agent often struggles with.
+
 ## Strategic Advice: Which Should You Use?
 
 ### For Beginners
 Start with **Cursor** and add an **AGENTS.md** to your project. It’s the lowest barrier to entry. Copy a template from [agents.md](https://agents.md/) and customize it with your `npm` commands.
 
+> [!TIP]
+> **Hot Tip:** Use the "Explain" feature religiously. When an agent changes code, ask it *why* it chose that specific pattern. It’s the fastest way to level up your own senior engineering skills.
+
 ### For Experienced Developers
 Build your own **MCP servers** for your internal tools and start codifying your complex deployment steps into **Skills**. This moves you away from "pair programming" and toward "engineering management" of a fleet of specialized subagents.
+
+> [!TIP]
+> **Hot Tip:** Treat your AI instructions as Tier-1 code. Version control your `AGENTS.md` and `SKILL.md` files, and include them in your PR reviews. If the instructions are stale, the agent will hallucinate.
 
 ### For Solo-Preneurs
 If you are budget-conscious, **Goose** (open source) or **Trae's** free tier are excellent starting points. Pair them with **Skills.sh** to ensure you aren't wasting tokens on repetitive explanations.
 
+> [!TIP]
+> **Hot Tip:** Leverage "Context Pinning." Most IDEs allow you to pin specific files or documentation. Pin your architectural ADRs (Architecture Decision Records) so the agent always stays within your established technical boundaries.
+
 ---
+
+## Learn More
+Ready to dive deeper? Check out these resources:
+- **AGENTS.md Specification:** Visit [agents.md](https://agents.md/) for the official specification and community templates.
+- **MCP Community:** Explore the [MCP GitHub organization](https://github.com/modelcontextprotocol) for open-source servers.
+- **Skills Registry:** Browse [Skills.sh](https://skills.sh/) to find portable automation for your stack.
 
 The "standard wars" are far from over, but the winners will be the protocols that remain open and the tools that stay out of the developer's way. Whether you are writing a simple `AGENTS.md` or a complex MCP server, you are ultimately doing one thing: **teaching the machine how to be your best colleague.**
