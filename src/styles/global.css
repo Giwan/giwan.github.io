@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@source "../components/**/*.{astro,tsx,jsx,js}";
+@source "../layouts/**/*.astro";
+@source "../pages/**/*.{astro,md,mdx}";
+
 @custom-variant dark (&:is(.dark *));
 
 @theme {

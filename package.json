@@ -26,6 +26,7 @@
         "validate:tools:quick": "node scripts/validate-tools.js --quick",
         "validate:tools:urls": "node scripts/validate-tools.js --urls",
         "validate:blog-seo": "node scripts/check-blog-seo.js",
+        "validate:ssr-hydration": "node scripts/verify-ssr-hydration.js",
         "audit:tools": "node scripts/audit-tools.js",
         "maintenance:status": "node scripts/maintenance-scheduler.js status",
         "maintenance:checklist": "node scripts/maintenance-scheduler.js checklist",

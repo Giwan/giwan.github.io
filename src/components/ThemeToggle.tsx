@@ -61,34 +61,19 @@ export const ThemeToggle = () => {
     }
   }, []);
 
-  // Don't render until hydrated to prevent hydration mismatch
-  if (!isHydrated) {
-    return (
-      <Button
-        variant="ghost"
-        size="icon"
-        className="h-9 w-9"
-        disabled
-        style={{ viewTransitionName: 'theme-toggle' }}
-      >
-        <Sun className="h-4 w-4" />
-        <span className="sr-only">Loading theme toggle</span>
-      </Button>
-    );
-  }
-
   return (
     <Button
       ref={buttonRef}
       variant="ghost"
       size="icon"
       onClick={handleThemeToggle}
-      title={getAriaLabel()}
+      title={isHydrated ? getAriaLabel() : "Loading theme toggle"}
       className="h-9 w-9"
+      disabled={!isHydrated}
       style={{ viewTransitionName: 'theme-toggle' }}
     >
-      {getIcon()}
-      <span className="sr-only">{getAriaLabel()}</span>
+      {isHydrated ? getIcon() : <Sun className="h-4 w-4" />}
+      <span className="sr-only">{isHydrated ? getAriaLabel() : "Loading theme toggle"}</span>
     </Button>
   );
 };
