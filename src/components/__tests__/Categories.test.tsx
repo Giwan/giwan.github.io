@@ -22,7 +22,7 @@ describe('Categories Component', () => {
     render(<Categories {...defaultProps} />);
     
     // Test new categories specifically
-    const newCategories = ['AI & ML', 'Hosting', 'Frameworks', 'Testing', 'Monitoring'];
+    const newCategories = ['IDE & Agents', 'Hosting', 'Frameworks', 'Testing', 'Monitoring'];
 
     newCategories.forEach(category => {
       const link = screen.getByRole('link', { name: new RegExp(category, 'i') });
@@ -71,7 +71,7 @@ describe('Categories Component', () => {
     const expectedCategories = [
       'all', 'Design', 'Writing', 'Reading', 'Developer', 'Wireframe',
       'Project Management', 'Software', 'Social', 'Data', 'Search',
-      'AI & ML', 'Hosting', 'Frameworks', 'Testing', 'Monitoring'
+      'IDE & Agents', 'Hosting', 'Frameworks', 'Testing', 'Monitoring'
     ];
 
     expectedCategories.forEach(category => {
