@@ -12,14 +12,14 @@ import { STORAGE_KEYS, TIME_CONSTANTS } from '../constants/storage';
  * Hydrates the store with server-rendered articles
  * Handles mobile menu state
  */
-const ArticlesListWrapper: React.FC<ArticlesListWrapperProps> = ({ 
-  initialArticles, 
-  hasMore, 
-  totalArticles, 
-  allArticles 
+const ArticlesListWrapper: React.FC<ArticlesListWrapperProps> = ({
+  initialArticles,
+  hasMore,
+  totalArticles,
+  allArticles
 }) => {
   const isMobileMenuOpen = useStore($isMobileMenuOpen);
-  
+
   useEffect(() => {
     // Check if we have stored article data from a previous visit
     const storedState = sessionStorage.getItem(STORAGE_KEYS.ARTICLE_STATE);
@@ -38,11 +38,11 @@ const ArticlesListWrapper: React.FC<ArticlesListWrapperProps> = ({
         console.error('Error parsing stored article state:', error);
       }
     }
-    
+
     if (storedArticleData) {
       // Use the stored article data
       window.__ARTICLE_DATA__ = storedArticleData;
-      
+
       // Hydrate the store with all articles from storage
       const loadedCount = storedArticleData.loadedCount || 0;
       setArticles(storedArticleData.allArticles.slice(0, storedArticleData.initialCount + loadedCount));
@@ -51,7 +51,7 @@ const ArticlesListWrapper: React.FC<ArticlesListWrapperProps> = ({
       // Hydrate the store with server-rendered articles
       setArticles(initialArticles);
       setHasMore(hasMore);
-      
+
       // Store the full article list for client-side pagination
       // This avoids re-fetching from the server
       window.__ARTICLE_DATA__ = {
@@ -69,12 +69,12 @@ const ArticlesListWrapper: React.FC<ArticlesListWrapperProps> = ({
       // for when the user navigates back to this page
     };
   }, [initialArticles, hasMore, totalArticles, allArticles]);
-  
+
   // Don't render the "load more" UI when mobile menu is open
   if (isMobileMenuOpen) {
     return null;
   }
-  
+
   // Only render the client-side components
   // The initial articles are already rendered by Astro
   return (

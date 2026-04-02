@@ -117,18 +117,18 @@ describe('PerformanceMonitor', () => {
     it('should start monitoring', () => {
       monitor.startMonitoring('test-transition');
       const metrics = monitor.getCurrentMetrics();
-      
+
       expect(metrics.transitionDuration).toBeGreaterThanOrEqual(0);
     });
 
     it('should stop monitoring and return data', async () => {
       monitor.startMonitoring('test-transition');
-      
+
       // Simulate some time passing
       await new Promise(resolve => setTimeout(resolve, 10));
-      
+
       const result = monitor.stopMonitoring();
-      
+
       expect(result).toBeDefined();
       expect(result?.transitionType).toBe('test-transition');
       expect(result?.endTime).toBeGreaterThanOrEqual(result?.startTime || 0);
@@ -137,10 +137,10 @@ describe('PerformanceMonitor', () => {
     it('should handle multiple start/stop cycles', () => {
       monitor.startMonitoring('transition-1');
       const result1 = monitor.stopMonitoring();
-      
+
       monitor.startMonitoring('transition-2');
       const result2 = monitor.stopMonitoring();
-      
+
       expect(result1?.transitionType).toBe('transition-1');
       expect(result2?.transitionType).toBe('transition-2');
     });
@@ -149,7 +149,7 @@ describe('PerformanceMonitor', () => {
   describe('performance metrics', () => {
     it('should provide current metrics', () => {
       const metrics = monitor.getCurrentMetrics();
-      
+
       expect(metrics).toHaveProperty('frameRate');
       expect(metrics).toHaveProperty('averageFrameTime');
       expect(metrics).toHaveProperty('droppedFrames');
@@ -159,7 +159,7 @@ describe('PerformanceMonitor', () => {
 
     it('should calculate memory usage when available', () => {
       const metrics = monitor.getCurrentMetrics();
-      
+
       expect(metrics.memoryUsage).toBeDefined();
       expect(metrics.memoryUsage).toBe(0.5); // 50MB / 100MB
     });
@@ -169,9 +169,9 @@ describe('PerformanceMonitor', () => {
       for (let i = 0; i < 15; i++) {
         (monitor as any).frameRateHistory.push(45 + Math.random() * 10);
       }
-      
+
       const metrics = monitor.getCurrentMetrics();
-      
+
       expect(metrics.cpuUsage).toBeDefined();
       expect(typeof metrics.cpuUsage).toBe('number');
     });
@@ -181,7 +181,7 @@ describe('PerformanceMonitor', () => {
     it('should detect device capabilities', () => {
       monitor.startMonitoring('test');
       const result = monitor.stopMonitoring();
-      
+
       expect(result?.deviceInfo).toBeDefined();
       expect(result?.deviceInfo.hardwareConcurrency).toBe(4);
       expect(result?.deviceInfo.deviceMemory).toBe(8);
@@ -202,7 +202,7 @@ describe('PerformanceMonitor', () => {
       const newMonitor = new PerformanceMonitor();
       newMonitor.startMonitoring('test');
       const result = newMonitor.stopMonitoring();
-      
+
       expect(result?.deviceInfo.isLowPowerMode).toBe(true);
       newMonitor.destroy();
     });
@@ -217,7 +217,7 @@ describe('PerformanceMonitor', () => {
       const newMonitor = new PerformanceMonitor();
       newMonitor.startMonitoring('test');
       const result = newMonitor.stopMonitoring();
-      
+
       expect(result?.deviceInfo.prefersReducedMotion).toBe(true);
       newMonitor.destroy();
     });
@@ -233,7 +233,7 @@ describe('PerformanceMonitor', () => {
 
       const newMonitor = new PerformanceMonitor();
       const intensity = newMonitor.getRecommendedIntensity();
-      
+
       expect(intensity).toBe(TransitionIntensity.MINIMAL);
       newMonitor.destroy();
     });
@@ -257,7 +257,7 @@ describe('PerformanceMonitor', () => {
 
       const newMonitor = new PerformanceMonitor();
       const intensity = newMonitor.getRecommendedIntensity();
-      
+
       expect(intensity).toBe(TransitionIntensity.REDUCED);
       newMonitor.destroy();
     });
@@ -280,7 +280,7 @@ describe('PerformanceMonitor', () => {
       });
 
       const newMonitor = new PerformanceMonitor();
-      
+
       // Mock high frame rate
       const metrics = {
         frameRate: 60,
@@ -288,9 +288,9 @@ describe('PerformanceMonitor', () => {
         droppedFrames: 0,
         transitionDuration: 0
       };
-      
+
       const intensity = newMonitor.getRecommendedIntensity(metrics as any);
-      
+
       expect(intensity).toBe(TransitionIntensity.ENHANCED);
       newMonitor.destroy();
     });
@@ -309,9 +309,9 @@ describe('PerformanceMonitor', () => {
         droppedFrames: 1,
         transitionDuration: 0
       };
-      
+
       const intensity = monitor.getRecommendedIntensity(metrics as any);
-      
+
       expect(intensity).toBe(TransitionIntensity.NORMAL);
     });
   });
@@ -319,9 +319,9 @@ describe('PerformanceMonitor', () => {
   describe('performance fallback', () => {
     it('should trigger fallback for poor performance', () => {
       const mockDispatchEvent = jest.spyOn(document, 'dispatchEvent');
-      
+
       monitor.startMonitoring('test');
-      
+
       // Simulate poor performance data
       const poorPerformanceData = {
         startTime: 0,
@@ -338,10 +338,10 @@ describe('PerformanceMonitor', () => {
           prefersReducedMotion: false
         }
       };
-      
+
       // Manually trigger the performance check
       (monitor as any).checkPerformanceAndTriggerFallback(poorPerformanceData);
-      
+
       expect(mockDispatchEvent).toHaveBeenCalledWith(
         expect.objectContaining({
           type: 'transition-performance-fallback'
@@ -354,12 +354,12 @@ describe('PerformanceMonitor', () => {
     it('should maintain performance history', () => {
       monitor.startMonitoring('test-1');
       monitor.stopMonitoring();
-      
+
       monitor.startMonitoring('test-2');
       monitor.stopMonitoring();
-      
+
       const history = monitor.getPerformanceHistory();
-      
+
       expect(history).toHaveLength(2);
       expect(history[0].transitionType).toBe('test-1');
       expect(history[1].transitionType).toBe('test-2');
@@ -371,9 +371,9 @@ describe('PerformanceMonitor', () => {
         monitor.startMonitoring(`test-${i}`);
         monitor.stopMonitoring();
       }
-      
+
       const history = monitor.getPerformanceHistory();
-      
+
       expect(history).toHaveLength(50);
       expect(history[0].transitionType).toBe('test-5'); // First 5 should be removed
     });
@@ -381,11 +381,11 @@ describe('PerformanceMonitor', () => {
     it('should clear history', () => {
       monitor.startMonitoring('test');
       monitor.stopMonitoring();
-      
+
       expect(monitor.getPerformanceHistory()).toHaveLength(1);
-      
+
       monitor.clearHistory();
-      
+
       expect(monitor.getPerformanceHistory()).toHaveLength(0);
     });
   });
@@ -393,9 +393,9 @@ describe('PerformanceMonitor', () => {
   describe('cleanup', () => {
     it('should cleanup resources on destroy', () => {
       const mockRemoveEventListener = jest.spyOn(document, 'removeEventListener');
-      
+
       monitor.destroy();
-      
+
       expect(mockRemoveEventListener).toHaveBeenCalledWith(
         'astro:before-preparation',
         expect.any(Function)

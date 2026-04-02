@@ -29,7 +29,7 @@ export const useTheme = () => {
   // Initialize with the current theme from DOM to prevent hydration mismatch
   const getInitialTheme = (): Theme => {
     if (isServer()) return THEME_VALUES.SYSTEM;
-    
+
     const storedTheme = localStorage.getItem(STORAGE_KEY) as Theme;
     if (storedTheme && [THEME_VALUES.LIGHT, THEME_VALUES.DARK, THEME_VALUES.SYSTEM].includes(storedTheme)) {
       return storedTheme;
@@ -39,7 +39,7 @@ export const useTheme = () => {
 
   const getInitialResolvedTheme = (): ThemeLimited => {
     if (isServer()) return THEME_VALUES.LIGHT;
-    
+
     const root = document.documentElement;
     return root.classList.contains(DARK_CLASS) || root.getAttribute(DATA_THEME_ATTR) === THEME_VALUES.DARK ? THEME_VALUES.DARK : THEME_VALUES.LIGHT;
   };
@@ -52,9 +52,9 @@ export const useTheme = () => {
   useEffect(() => {
     const updateTheme = () => {
       const root = document.documentElement;
-      
+
       let effectiveTheme: ThemeLimited;
-      
+
       if (theme === THEME_VALUES.SYSTEM) {
         effectiveTheme = window.matchMedia(MEDIA_QUERY).matches ? THEME_VALUES.DARK : THEME_VALUES.LIGHT;
       } else {
@@ -76,7 +76,7 @@ export const useTheme = () => {
 
       // Check if a page transition is in progress
       const isPageTransitioning = document.documentElement.hasAttribute(DATA_TRANSITION_ATTR);
-      
+
       // Use view transition API if available and supported, but coordinate with page transitions
       if (typeof document !== 'undefined' && 'startViewTransition' in document && !isPageTransitioning) {
         try {

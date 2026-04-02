@@ -23,7 +23,7 @@ export const AccessibilityControls: React.FC = () => {
 
   const handleTogglePanel = () => {
     setIsOpen(!isOpen);
-    
+
     if (!isOpen) {
       announce({
         message: 'Accessibility controls panel opened',

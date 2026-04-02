@@ -11,17 +11,17 @@ import type { JSX } from 'astro/jsx-runtime';
  */
 export function ArticlesLoadMore(): JSX.Element | null {
   const { isLoading, error, hasMore, articles } = useStore($articleStore);
-  
+
   // Don't show anything if there are no articles, no more articles, and no error
   if (!hasMore && !error && articles.length === 0) return null;
-  
+
   return (
     <div className="text-center mt-8" aria-live="polite">
       {error && (
         <div className="text-red-500 mb-4 p-2 bg-red-50 border border-red-200 rounded-md inline-block">
           <p className="mb-2">{error}</p>
-          <button 
-            onClick={() => retryLoadingArticles()} 
+          <button
+            onClick={() => retryLoadingArticles()}
             className="underline font-medium hover:text-red-700"
             aria-label="Try loading articles again"
           >
@@ -29,10 +29,10 @@ export function ArticlesLoadMore(): JSX.Element | null {
           </button>
         </div>
       )}
-      
+
       {hasMore && (
-        <button 
-          onClick={() => loadMoreArticles()} 
+        <button
+          onClick={() => loadMoreArticles()}
           disabled={isLoading}
           className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-2 rounded-lg disabled:opacity-70 flex items-center justify-center gap-2 mx-auto"
           aria-label="Load more articles"
@@ -44,7 +44,7 @@ export function ArticlesLoadMore(): JSX.Element | null {
           )}
         </button>
       )}
-      
+
       {!hasMore && articles.length > 0 && !error && (
         <p className="text-muted-foreground mt-4">
           You've reached the end of the articles.

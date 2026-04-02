@@ -208,7 +208,7 @@ describe('TransitionRegistry', () => {
         easing: 'linear',
         elements: []
       };
-      
+
       registry.registerPageType('/test', PageType.HOME);
       registry.setDefaultTransition(customTransition);
 

@@ -328,13 +328,13 @@ export class TransitionErrorHandler {
    */
   private enableFallbackMode(): void {
     const root = document.documentElement;
-    
+
     root.setAttribute('data-transition-fallback', 'true');
     root.setAttribute('data-view-transition-disabled', 'true');
-    
+
     // Disable custom view transition names
     root.style.setProperty('--disable-view-transitions', '1');
-    
+
     if (this.debugMode) {
       console.log('[TransitionErrorHandler] Fallback mode enabled');
     }
@@ -345,14 +345,14 @@ export class TransitionErrorHandler {
    */
   private enableAstroBuiltInTransitions(): void {
     const root = document.documentElement;
-    
+
     root.setAttribute('data-astro-transitions-only', 'true');
     root.setAttribute('data-view-transition-fallback', 'astro');
-    
+
     // Reduce transition complexity
     root.style.setProperty('--transition-duration', '200ms');
     root.style.setProperty('--transition-easing', 'ease-out');
-    
+
     if (this.debugMode) {
       console.log('[TransitionErrorHandler] Astro built-in transitions enabled');
     }
@@ -363,7 +363,7 @@ export class TransitionErrorHandler {
    */
   private attemptRecovery(): void {
     const root = document.documentElement;
-    
+
     // Check if conditions have improved
     const recentErrors = this.errorHistory.filter(
       error => Date.now() - error.context!.timestamp < 30000
@@ -378,12 +378,12 @@ export class TransitionErrorHandler {
       root.removeAttribute('data-view-transition-disabled');
       root.removeAttribute('data-astro-transitions-only');
       root.removeAttribute('data-view-transition-fallback');
-      
+
       // Reset CSS properties
       root.style.removeProperty('--disable-view-transitions');
       root.style.removeProperty('--transition-duration');
       root.style.removeProperty('--transition-easing');
-      
+
       if (this.debugMode) {
         console.log('[TransitionErrorHandler] Recovery attempted');
       }
@@ -395,9 +395,9 @@ export class TransitionErrorHandler {
    */
   private isTransitionRelatedError(error: any): boolean {
     if (!error) return false;
-    
+
     const errorString = typeof error === 'string' ? error : error.message || error.toString();
-    
+
     const transitionKeywords = [
       'view-transition',
       'startViewTransition',
@@ -406,8 +406,8 @@ export class TransitionErrorHandler {
       'transition-name',
       'view-transition-name'
     ];
-    
-    return transitionKeywords.some(keyword => 
+
+    return transitionKeywords.some(keyword =>
       errorString.toLowerCase().includes(keyword.toLowerCase())
     );
   }
@@ -459,8 +459,8 @@ export class TransitionErrorHandler {
    */
   private getDeviceCapabilities(): any {
     try {
-      const connection = (navigator as any).connection || 
-                        (navigator as any).mozConnection || 
+      const connection = (navigator as any).connection ||
+                        (navigator as any).mozConnection ||
                         (navigator as any).webkitConnection;
 
       return {
@@ -468,7 +468,7 @@ export class TransitionErrorHandler {
         hardwareConcurrency: navigator?.hardwareConcurrency || 4,
         deviceMemory: (navigator as any)?.deviceMemory,
         connectionType: connection?.effectiveType || 'unknown',
-        prefersReducedMotion: window?.matchMedia ? 
+        prefersReducedMotion: window?.matchMedia ?
           window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,
         viewportSize: {
           width: window?.innerWidth || 1024,
@@ -496,10 +496,10 @@ export class TransitionErrorHandler {
   public enableDebugMode(): void {
     this.debugMode = true;
     this.fallbackOptions.enableDebugMode = true;
-    
+
     const root = document.documentElement;
     root.setAttribute('data-transition-debug', 'true');
-    
+
     console.log('[TransitionErrorHandler] Debug mode enabled');
     console.log('[TransitionErrorHandler] Current debug info:', this.getDebugInfo());
   }
@@ -510,10 +510,10 @@ export class TransitionErrorHandler {
   public disableDebugMode(): void {
     this.debugMode = false;
     this.fallbackOptions.enableDebugMode = false;
-    
+
     const root = document.documentElement;
     root.removeAttribute('data-transition-debug');
-    
+
     console.log('[TransitionErrorHandler] Debug mode disabled');
   }
 
@@ -529,7 +529,7 @@ export class TransitionErrorHandler {
    */
   public clearErrorHistory(): void {
     this.errorHistory = [];
-    
+
     if (this.debugMode) {
       console.log('[TransitionErrorHandler] Error history cleared');
     }
@@ -540,7 +540,7 @@ export class TransitionErrorHandler {
    */
   public updateFallbackOptions(options: Partial<FallbackOptions>): void {
     this.fallbackOptions = { ...this.fallbackOptions, ...options };
-    
+
     if (options.enableDebugMode !== undefined) {
       if (options.enableDebugMode) {
         this.enableDebugMode();
@@ -548,7 +548,7 @@ export class TransitionErrorHandler {
         this.disableDebugMode();
       }
     }
-    
+
     if (this.debugMode) {
       console.log('[TransitionErrorHandler] Fallback options updated:', this.fallbackOptions);
     }
@@ -619,7 +619,7 @@ export class TransitionErrorHandler {
   private isDevMode(): boolean {
     try {
       // Try to access import.meta.env safely
-      return (globalThis as any).import?.meta?.env?.DEV || 
+      return (globalThis as any).import?.meta?.env?.DEV ||
              process?.env?.NODE_ENV === 'development' ||
              false;
     } catch {
@@ -641,7 +641,7 @@ export class TransitionErrorHandler {
     // For now, we rely on page unload to clean up
 
     this.isInitialized = false;
-    
+
     if (this.debugMode) {
       console.log('[TransitionErrorHandler] Destroyed');
     }

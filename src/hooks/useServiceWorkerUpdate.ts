@@ -46,7 +46,7 @@ export const useServiceWorkerUpdate = (): ServiceWorkerUpdateState => {
       clearError();
 
       const registration = await navigator.serviceWorker.ready;
-      
+
       // Check if there's a waiting service worker
       if (registration.waiting) {
         setWaitingWorker(registration.waiting);

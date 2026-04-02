@@ -97,7 +97,7 @@ const ContentErrorHandler: React.FC<ContentErrorHandlerProps> = ({
         case 'page':
           return {
             title: 'Page Not Available Offline',
-            description: cachedContent 
+            description: cachedContent
               ? 'This page is cached but failed to load. Try refreshing.'
               : 'This page hasn\'t been cached for offline viewing yet.'
           };
@@ -140,7 +140,7 @@ const ContentErrorHandler: React.FC<ContentErrorHandlerProps> = ({
     // If we're offline, show offline-specific fallback
     if (!networkStatus.isOnline) {
       return (
-        <OfflineFallback 
+        <OfflineFallback
           requestedUrl={requestedUrl}
           fallbackType={contentType === 'search' ? 'search' : contentType === 'page' ? 'page' : 'content'}
           onRetry={handleRetry}

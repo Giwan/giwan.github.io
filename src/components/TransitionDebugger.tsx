@@ -98,7 +98,7 @@ export const TransitionDebugger: React.FC<TransitionDebuggerProps> = ({
   };
 
   return (
-    <div 
+    <div
       className={`fixed ${positionClasses[position]} z-50 bg-black/90 text-white text-xs font-mono rounded-lg shadow-lg border border-gray-600 max-w-md`}
       style={{ backdropFilter: 'blur(8px)' }}
     >
@@ -300,8 +300,8 @@ export const TransitionDebuggerToggle: React.FC = () => {
         🔧
       </button>
       {showDebugger && (
-        <TransitionDebugger 
-          position="bottom-left" 
+        <TransitionDebugger
+          position="bottom-left"
           minimized={false}
         />
       )}

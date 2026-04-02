@@ -40,7 +40,7 @@ export class PWATransitionIntegration {
       hasUpdate: false,
       isBackground: typeof document !== 'undefined' ? document.visibilityState === 'hidden' : false
     };
-    
+
     this.initialize();
   }
 
@@ -54,16 +54,16 @@ export class PWATransitionIntegration {
 
     // Set up service worker integration
     await this.setupServiceWorkerIntegration();
-    
+
     // Set up online/offline handling
     this.setupNetworkHandling();
-    
+
     // Set up app lifecycle handling
     this.setupAppLifecycleHandling();
-    
+
     // Set up PWA-specific transition behaviors
     this.setupPWATransitionBehaviors();
-    
+
     this.isInitialized = true;
   }
 
@@ -190,20 +190,20 @@ export class PWATransitionIntegration {
    */
   private handleNetworkStateChange(isOnline: boolean): void {
     const root = document.documentElement;
-    
+
     root.setAttribute('data-network-state', isOnline ? 'online' : 'offline');
-    
+
     if (!isOnline) {
       // Optimize transitions for offline mode
       root.setAttribute('data-offline-mode', 'true');
-      
+
       // Simplify transitions to conserve resources
       root.style.setProperty('--transition-duration-fast', '100ms');
       root.style.setProperty('--transition-duration-normal', '150ms');
       root.style.setProperty('--transition-duration-slow', '200ms');
     } else {
       root.removeAttribute('data-offline-mode');
-      
+
       // Restore normal transition durations
       const optimizer = mobileTransitionOptimizer.getTransitionOptimization();
       root.style.setProperty('--transition-duration-normal', `${optimizer.recommendedDuration}ms`);
@@ -223,7 +223,7 @@ export class PWATransitionIntegration {
     document.addEventListener('visibilitychange', () => {
       const isBackground = document.visibilityState === 'hidden';
       this.pwaState.isBackground = isBackground;
-      
+
       this.handleAppStateChange(isBackground);
     });
 
@@ -253,16 +253,16 @@ export class PWATransitionIntegration {
    */
   private handleAppStateChange(isBackground: boolean): void {
     const root = document.documentElement;
-    
+
     root.setAttribute('data-app-state', isBackground ? 'background' : 'foreground');
-    
+
     if (isBackground) {
       // Pause or simplify transitions when app is in background
       root.setAttribute('data-transitions-paused', 'true');
     } else {
       // Resume normal transitions when app comes to foreground
       root.removeAttribute('data-transitions-paused');
-      
+
       // Check for any queued transitions
       this.processQueuedTransitions();
     }
@@ -275,7 +275,7 @@ export class PWATransitionIntegration {
     // Resume normal transition behavior
     const root = document.documentElement;
     root.removeAttribute('data-app-unfocused');
-    
+
     // Process any queued service worker messages
     this.processQueuedTransitions();
   }
@@ -295,7 +295,7 @@ export class PWATransitionIntegration {
   private handleInstallPrompt(event: BeforeInstallPromptEvent): void {
     // Store the event for later use
     (window as any).deferredPrompt = event;
-    
+
     // Dispatch custom event for install UI
     window.dispatchEvent(new CustomEvent('pwa-install-available', {
       detail: { event }
@@ -308,12 +308,12 @@ export class PWATransitionIntegration {
   private handleAppInstalled(): void {
     const root = document.documentElement;
     root.setAttribute('data-pwa-installed', 'true');
-    
+
     // Apply PWA-specific transition optimizations
     const pwaSettings = mobileTransitionOptimizer.getPWATransitionSettings();
     root.style.setProperty('--transition-duration-normal', `${pwaSettings.duration}ms`);
     root.style.setProperty('--transition-easing-standard', pwaSettings.easing);
-    
+
     // Dispatch custom event
     window.dispatchEvent(new CustomEvent('pwa-installed', {
       detail: { timestamp: Date.now() }
@@ -345,7 +345,7 @@ export class PWATransitionIntegration {
   private handleTransitionStart(event: CustomEvent): void {
     const fromUrl = window.location.href;
     const toUrl = event.detail?.to?.href || fromUrl;
-    
+
     // Queue transition data for service worker
     const transitionData: ServiceWorkerTransitionData = {
       fromUrl,
@@ -354,9 +354,9 @@ export class PWATransitionIntegration {
       timestamp: Date.now(),
       userAgent: navigator.userAgent
     };
-    
+
     this.transitionQueue.push(transitionData);
-    
+
     // Send to service worker if available
     if (this.serviceWorkerRegistration?.active) {
       this.serviceWorkerRegistration.active.postMessage({
@@ -364,7 +364,7 @@ export class PWATransitionIntegration {
         data: transitionData
       });
     }
-    
+
     // Apply PWA-specific optimizations
     this.applyTransitionOptimizations(transitionData);
   }
@@ -374,7 +374,7 @@ export class PWATransitionIntegration {
    */
   private handleTransitionComplete(event: CustomEvent): void {
     const transitionData = this.transitionQueue.pop();
-    
+
     if (transitionData && this.serviceWorkerRegistration?.active) {
       this.serviceWorkerRegistration.active.postMessage({
         type: 'TRANSITION_COMPLETE',
@@ -393,11 +393,11 @@ export class PWATransitionIntegration {
   private detectTransitionType(fromUrl: string, toUrl: string): string {
     const fromPath = new URL(fromUrl).pathname;
     const toPath = new URL(toUrl).pathname;
-    
+
     if (fromPath === toPath) return 'refresh';
     if (toPath.includes(fromPath)) return 'drill-down';
     if (fromPath.includes(toPath)) return 'drill-up';
-    
+
     return 'navigation';
   }
 
@@ -406,10 +406,10 @@ export class PWATransitionIntegration {
    */
   private applyPWATransitionOptimizations(): void {
     const root = document.documentElement;
-    
+
     // Apply PWA-specific CSS properties
     root.setAttribute('data-pwa', 'true');
-    
+
     // Get optimized settings
     const pwaSettings = mobileTransitionOptimizer.getPWATransitionSettings();
     root.style.setProperty('--transition-duration-pwa', `${pwaSettings.duration}ms`);
@@ -421,17 +421,17 @@ export class PWATransitionIntegration {
    */
   private applyTransitionOptimizations(transitionData: ServiceWorkerTransitionData): void {
     const root = document.documentElement;
-    
+
     // Apply network-aware optimizations
     if (!this.pwaState.isOnline) {
       root.setAttribute('data-offline-transition', 'true');
     }
-    
+
     // Apply service worker state optimizations
     if (this.pwaState.hasUpdate) {
       root.setAttribute('data-sw-update-pending', 'true');
     }
-    
+
     // Apply app state optimizations
     if (this.pwaState.isBackground) {
       root.setAttribute('data-background-transition', 'true');
@@ -454,7 +454,7 @@ export class PWATransitionIntegration {
     // Apply offline-specific transition optimizations
     const root = document.documentElement;
     root.setAttribute('data-offline-fallback', 'true');
-    
+
     // Simplify transitions for offline content
     root.style.setProperty('--transition-duration-fast', '50ms');
     root.style.setProperty('--transition-duration-normal', '100ms');
@@ -467,7 +467,7 @@ export class PWATransitionIntegration {
     // Temporarily optimize transitions during cache updates
     const root = document.documentElement;
     root.setAttribute('data-cache-updating', 'true');
-    
+
     setTimeout(() => {
       root.removeAttribute('data-cache-updating');
     }, 1000);
@@ -484,7 +484,7 @@ export class PWATransitionIntegration {
           data: transitionData
         });
       });
-      
+
       this.transitionQueue = [];
     }
   }
@@ -508,7 +508,7 @@ export class PWATransitionIntegration {
    */
   public getPWATransitionSettings(): { duration: number; easing: string; shouldOptimize: boolean } {
     const baseSettings = mobileTransitionOptimizer.getPWATransitionSettings();
-    
+
     return {
       ...baseSettings,
       shouldOptimize: this.shouldApplyPWAOptimizations()
@@ -520,7 +520,7 @@ export class PWATransitionIntegration {
    */
   public async triggerInstallPrompt(): Promise<boolean> {
     const deferredPrompt = (window as any).deferredPrompt;
-    
+
     if (!deferredPrompt) {
       return false;
     }
@@ -528,12 +528,12 @@ export class PWATransitionIntegration {
     try {
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
-      
+
       if (outcome === 'accepted') {
         this.pwaState.isInstalled = true;
         this.applyPWATransitionOptimizations();
       }
-      
+
       (window as any).deferredPrompt = null;
       return outcome === 'accepted';
     } catch (error) {

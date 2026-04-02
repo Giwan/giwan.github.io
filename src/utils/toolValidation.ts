@@ -38,7 +38,7 @@ export function validateToolEntry(tool: any, index?: number): ValidationResult {
 
   // Validate required fields
   const requiredFields = ['title', 'url', 'description', 'price', 'category', 'labels'];
-  
+
   for (const field of requiredFields) {
     if (!(field in tool)) {
       result.errors.push(`${prefix}: Missing required field '${field}'`);
@@ -113,7 +113,7 @@ export function validateToolEntry(tool: any, index?: number): ValidationResult {
           result.warnings.push(`${prefix}: Label '${label}' is not in the predefined labels list`);
         }
       }
-      
+
       if (tool.labels.length === 0) {
         result.warnings.push(`${prefix}: No labels specified, consider adding relevant labels`);
       }
@@ -177,7 +177,7 @@ export function validateToolArray(tools: any[], fileName?: string): ValidationRe
     const toolResult = validateToolEntry(tools[i], i);
     result.errors.push(...toolResult.errors);
     result.warnings.push(...toolResult.warnings);
-    
+
     if (!toolResult.isValid) {
       result.isValid = false;
     }
