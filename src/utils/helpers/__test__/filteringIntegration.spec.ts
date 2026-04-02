@@ -4,11 +4,11 @@ import { subCategories } from "../../../data/categories";
 
 describe("Filtering Integration with Expanded Tool Dataset", () => {
   it("should filter tools correctly for all new categories", () => {
-    // Test AI & ML category
-    const aiMlTools = filteredList(tools, subCategories.AI_ML);
+    // Test IDE & Agents category
+    const aiMlTools = filteredList(tools, subCategories.IDE_AGENTS);
     expect(aiMlTools.length).toBeGreaterThan(0);
     aiMlTools.forEach(tool => {
-      expect(tool.category).toMatch(/ai & ml/i);
+      expect(tool.category).toMatch(/ide & agents/i);
     });
 
     // Test Hosting category
@@ -77,7 +77,7 @@ describe("Filtering Integration with Expanded Tool Dataset", () => {
 
   it("should verify expanded dataset contains expected new tools", () => {
     // Check that we have tools in new categories that weren't there before
-    const aiMlTools = filteredList(tools, "AI & ML");
+    const aiMlTools = filteredList(tools, "IDE & Agents");
     const hostingTools = filteredList(tools, "Hosting");
     const frameworkTools = filteredList(tools, "Frameworks");
 

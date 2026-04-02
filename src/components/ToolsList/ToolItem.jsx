@@ -113,7 +113,7 @@ const UTILS = {
     isPopularTool: (labels) => {
         const popularKeywords = ["popular", "trending", "recommended"];
         return labels?.some((label) => 
-            popularKeywords.includes(label.toLowerCase())
+            label && typeof label === 'string' && popularKeywords.includes(label.toLowerCase())
         ) ?? false;
     },
     getPricingInfo: (price, currency = "$") => {
@@ -186,4 +186,3 @@ const ToolItem = React.memo(({ tool }) => {
 });
 
 export default ToolItem;
-

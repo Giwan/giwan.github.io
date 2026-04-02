@@ -21,7 +21,7 @@ describe('FilterTools Component', () => {
     expect(screen.getByRole('button', { name: /all/i })).toBeInTheDocument();
     
     // Check that all new categories are rendered
-    expect(screen.getByRole('button', { name: /ai & ml/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /ide & agents/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /hosting/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /frameworks/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /testing/i })).toBeInTheDocument();
@@ -33,9 +33,9 @@ describe('FilterTools Component', () => {
   });
 
   it('shows correct visual feedback for selected category', () => {
-    render(<FilterTools {...defaultProps} category="AI & ML" />);
+    render(<FilterTools {...defaultProps} category="IDE & Agents" />);
     
-    const aiMlButton = screen.getByRole('button', { name: /ai & ml/i });
+    const aiMlButton = screen.getByRole('button', { name: /ide & agents/i });
     const designButton = screen.getByRole('button', { name: /design/i });
     const allButton = screen.getByRole('button', { name: /all/i });
 
@@ -80,7 +80,7 @@ describe('FilterTools Component', () => {
     render(<FilterTools {...defaultProps} />);
 
     // Test each new category
-    const newCategories = ['AI & ML', 'Hosting', 'Frameworks', 'Testing', 'Monitoring'];
+    const newCategories = ['IDE & Agents', 'Hosting', 'Frameworks', 'Testing', 'Monitoring'];
 
     newCategories.forEach(category => {
       const button = screen.getByRole('button', { name: new RegExp(category, 'i') });

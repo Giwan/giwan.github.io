@@ -10,12 +10,11 @@ export const subCategories = {
     SOCIAL: "Social",
     DATA_MANAGEMENT: "Data",
     SEARCH: "Search",
-    AI_ML: "AI & ML",
+    IDE_AGENTS: "IDE & Agents",
     HOSTING: "Hosting",
     FRAMEWORKS: "Frameworks",
     TESTING: "Testing",
-    MONITORING: "Monitoring",
-    CLI: "CLI"
+    MONITORING: "Monitoring"
 }
 
 export const categoriesList = ["all", ...Object.values(subCategories)];
