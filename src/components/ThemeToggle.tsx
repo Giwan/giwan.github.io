@@ -61,6 +61,9 @@ export const ThemeToggle = () => {
     }
   }, []);
 
+  // Ensure disabled is always a boolean to prevent hydration mismatch
+  const isDisabled = !isHydrated;
+
   return (
     <Button
       ref={buttonRef}
@@ -69,7 +72,7 @@ export const ThemeToggle = () => {
       onClick={handleThemeToggle}
       title={isHydrated ? getAriaLabel() : "Loading theme toggle"}
       className="h-9 w-9"
-      disabled={!isHydrated}
+      disabled={isDisabled}
       style={{ viewTransitionName: 'theme-toggle' }}
     >
       {isHydrated ? getIcon() : <Sun className="h-4 w-4" />}
