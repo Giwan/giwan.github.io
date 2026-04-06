@@ -1,104 +1,103 @@
-# Framework Conversion Plan
+# Framework Conversion Plan (v2)
 
-This document outlines the comprehensive strategy for transforming this repository into a reusable Astro blog framework.
+This document outlines the comprehensive strategy for transforming this repository into a reusable Astro blog framework, enhanced with senior-level architectural considerations for long-term maintainability.
 
-## 1. Centralized Configuration System
+## 1. Centralized Configuration & Validation
 
-The core of the framework will be a robust, typed configuration file in `src/config.ts`.
+To ensure the framework is robust, we will implement a centralized configuration system using **Zod** for schema validation. This provides both TypeScript types and runtime error checking.
 
-### Configuration Schema
+### Configuration Schema (`src/schemas/config.ts`)
 ```typescript
-export const FRAMEWORK_CONFIG = {
-  site: {
-    title: "My Custom Blog",
-    description: "A blog built with the Astro Framework",
-    author: "User Name",
-    logoText: "MB", // Text-based logo override
-    siteUrl: "https://example.com",
-    lang: "en",
-    social: {
-      twitter: "handle",
-      github: "repo",
-      // ... other social links
-    }
-  },
-  navigation: {
-    header: [
-      { label: "Blog", href: "/blog" },
-      { label: "About", href: "/about" },
-    ],
-    footer: [
-      { label: "Privacy Policy", href: "/privacy" },
-    ]
-  },
-  features: {
-    enableSearch: true,
-    enablePWA: true,
-    enableToolsPage: false,
-    enableRSS: true,
-  },
-  theme: {
-    active: 'newspaper', // Options: 'newspaper', 'minimal', 'modern'
-    overrides: {
-      primaryColor: "hsl(240 6% 10%)",
-      backgroundColor: "hsl(36 33% 98%)",
-      // Other HSL variables
-    }
-  },
-  routing: {
-    homepage: 'blog', // Options: 'blog', 'tools'
-  }
-};
+import { z } from 'zod';
+
+export const FrameworkConfigSchema = z.object({
+  site: z.object({
+    title: z.string(),
+    description: z.string(),
+    author: z.string(),
+    logoText: z.string().optional(),
+    siteUrl: z.string().url(),
+    lang: z.string().default('en'),
+    social: z.record(z.string()).optional(),
+  }),
+  navigation: z.object({
+    header: z.array(z.object({ label: z.string(), href: z.string() })),
+    footer: z.array(z.object({ label: z.string(), href: z.string() })),
+  }),
+  features: z.object({
+    enableSearch: z.boolean().default(true),
+    enablePWA: z.boolean().default(true),
+    enableToolsPage: z.boolean().default(false),
+    enableRSS: z.boolean().default(true),
+  }),
+  theme: z.object({
+    active: z.enum(['newspaper', 'minimal', 'modern']).default('newspaper'),
+    overrides: z.record(z.string()).optional(),
+  }),
+  routing: z.object({
+    homepage: z.enum(['blog', 'tools']).default('blog'),
+  }),
+  assets: z.object({
+    favicon: z.string().default('/favicon.svg'),
+    defaultHeroImage: z.string().default('/placeholder-social.jpg'),
+    pwaIconsDir: z.string().default('/icons'),
+  })
+});
+
+export type FrameworkConfig = z.infer<typeof FrameworkConfigSchema>;
 ```
 
-## 2. Dynamic Routing and Homepage
+## 2. Dynamic Routing & Feature Toggles
 
-To support choosing the landing page (Blog vs. Tools), we will implement a dynamic landing page logic.
+### Homepage Selection
+- **Refactor `src/pages/index.astro`**: It will serve as a dynamic router. Based on `config.routing.homepage`, it will import and render the appropriate template (Blog or Tools).
 
-- **Refactor `src/pages/index.astro`**: Instead of hardcoded components, it will read `FRAMEWORK_CONFIG.routing.homepage` and conditionally render either the `ArticlesList` or the `ToolsLanding`.
-- **Global Feature Flags**: Components like `Search` and `ToolsList` will check `FRAMEWORK_CONFIG.features` before rendering or providing links.
+### Disabling Routes
+- **Astro Middleware**: Use middleware to redirect requests for disabled features (e.g., `/tools`) back to the homepage if `enableToolsPage` is false. This ensures a clean user experience even if URLs are directly accessed.
 
-## 3. Theming System
+## 3. Advanced Theming System
 
-We will expand the current Tailwind v4 setup to support multiple themes.
+- **Tailwind v4 Integration**: Use `@theme` blocks in `src/styles/global.css` to define base variables.
+- **Dynamic CSS Injection**: In `PageLayout.astro`, inject a `<style>` block that maps `config.theme.overrides` to HSL variables. This allows users to tweak the theme without touching the CSS files.
+- **Component-Level Theming**: Use `class-variance-authority` (CVA) in components to support different styles for different themes.
 
-- **Theme Presets**: Define multiple theme blocks in `src/styles/themes.css` (e.g., `.theme-newspaper`, `.theme-minimal`).
-- **Dynamic Application**: The `PageLayout` will apply the selected theme class to the `<body>` or a wrapper based on `FRAMEWORK_CONFIG.theme.active`.
-- **Runtime Overrides**: Inject a `<style>` tag in the head of the document to override HSL variables if custom values are provided in the config.
+## 4. Asset Management
 
-## 4. Decoupling the "Tools" Feature
+- Centralize all asset paths in the configuration.
+- Provide a clear directory structure for user-provided assets (e.g., `public/user-assets/`) to avoid merge conflicts with framework updates.
 
-The "Tools" feature is currently deeply integrated. We will make it optional:
+## 5. Content Bootstrapping & "Clean" Script
 
-- **Move Data to Optional Directory**: Move `src/data/*.ts` related to tools into a dedicated folder that can be easily replaced or emptied by the user.
-- **Conditional Compilation**: Use Astro's integration or simple conditional imports to ensure that if `enableToolsPage` is false, the associated routes and components don't bloating the build.
+To help users start fresh:
+- **`npm run framework:clean`**: A script that removes the "Giwan" demo content (blog posts in `src/pages/blog` and data in `src/data`) while keeping the directory structure intact.
+- **Placeholder Content**: Provide a "Hello World" template for the first blog post and a basic configuration.
 
-## 5. Cleaning Up Hardcoded References
+## 6. Maintainability & Upstream Sync
 
-- **Logo Component**: Update `HeaderLogo.tsx` to use `FRAMEWORK_CONFIG.site.logoText` or the full title if preferred.
-- **Header/Footer**: Replace imports from `headerLinks.json` with the `navigation` object from the config.
-- **Metadata**: Ensure all SEO and manifest data is pulled exclusively from the configuration.
+- **Template Repository Strategy**: Mark the repo as a GitHub Template.
+- **Upstream Sync Guide**: Provide documentation on how users can pull updates from the core framework into their forks using `git remote add framework`.
+- **Decoupling Data**: Ensure all user-specific data (blog posts, tools data) is isolated from framework logic to minimize merge conflicts.
 
-## 6. Implementation Phases
+## 7. Implementation Roadmap
 
-### Phase 1: Configuration & Cleanup
-- Create the new config schema.
-- Update all components to use the new config instead of hardcoded strings or separate JSON files.
+### Phase 1: Core Refactoring (Validation & Config)
+- Implement Zod schemas.
+- Update all components to pull from the validated config.
 
-### Phase 2: Routing & Features
-- Implement the homepage toggle.
-- Add feature flag checks to navigation and page layouts.
+### Phase 2: Routing & Logic (Features & Homepage)
+- Implement the dynamic `index.astro`.
+- Add middleware for route guarding.
 
-### Phase 3: Multi-Theme Support
-- Create the theme CSS architecture.
-- Implement the theme switcher logic in `PageLayout`.
+### Phase 3: Theming & Assets
+- Finalize the multi-theme CSS architecture.
+- Centralize asset handling.
 
-### Phase 4: Documentation
-- Create a `GETTING_STARTED.md` for forkers.
-- Document the configuration options.
+### Phase 4: Developer Experience (Scripts & Docs)
+- Create the `framework:clean` script.
+- Write comprehensive "Quick Start" and "Upstream Sync" documentation.
 
-## 7. Verification
+## 8. Senior-Level Verification
 
-- **Automated Tests**: Update existing tests to mock the configuration and verify different feature states.
-- **Build Checks**: Ensure `npm run build` still works perfectly with different configurations.
-- **Visual Regression**: Use Playwright to verify that toggling themes and homepages works as expected.
+- **Edge Case Testing**: Verify build behavior when features are toggled off.
+- **Schema Validation**: Ensure the app fails gracefully with descriptive errors if the config is invalid.
+- **Performance Audit**: Use Lighthouse to ensure that adding framework layers doesn't impact the current high performance (especially PWA and SSR).
