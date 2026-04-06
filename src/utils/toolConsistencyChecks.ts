@@ -31,7 +31,7 @@ export interface DuplicateResult {
  * Validates that all categories in tools exist in the categories definition
  */
 export function validateCategoryConsistency(
-  tools: TTool[], 
+  tools: TTool[],
   fileName?: string
 ): ConsistencyResult {
   const result: ConsistencyResult = {
@@ -84,7 +84,7 @@ export function validateCategoryConsistency(
  * Validates label consistency across tools
  */
 export function validateLabelConsistency(
-  tools: TTool[], 
+  tools: TTool[],
   fileName?: string
 ): ConsistencyResult {
   const result: ConsistencyResult = {
@@ -116,7 +116,7 @@ export function validateLabelConsistency(
 
     for (const label of tool.labels) {
       usedLabels.add(label);
-      
+
       // Count label usage
       labelUsageCount.set(label, (labelUsageCount.get(label) || 0) + 1);
 
@@ -248,10 +248,10 @@ export function validateAllToolConsistency(
   const labelConsistency = mergeConsistencyResults(labelResults);
   const duplicates = detectDuplicateTools(toolsData);
 
-  const hasErrors = !categoryConsistency.isConsistent || 
+  const hasErrors = !categoryConsistency.isConsistent ||
                    !labelConsistency.isConsistent ||
                    duplicates.hasDuplicates;
-  
+
   const hasWarnings = categoryConsistency.warnings.length > 0 ||
                      labelConsistency.warnings.length > 0;
 
@@ -275,7 +275,7 @@ function findSimilarCategories(target: string, validCategories: string[]): strin
   return validCategories
     .filter(category => {
       const categoryLower = category.toLowerCase();
-      return categoryLower.includes(targetLower) || 
+      return categoryLower.includes(targetLower) ||
              targetLower.includes(categoryLower) ||
              levenshteinDistance(targetLower, categoryLower) <= 2;
     })
@@ -287,7 +287,7 @@ function findSimilarLabels(target: string, validLabels: string[]): string[] {
   return validLabels
     .filter(label => {
       const labelLower = label.toLowerCase();
-      return labelLower.includes(targetLower) || 
+      return labelLower.includes(targetLower) ||
              targetLower.includes(labelLower) ||
              levenshteinDistance(targetLower, labelLower) <= 2;
     })

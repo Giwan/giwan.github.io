@@ -111,5 +111,7 @@ export default Object.freeze({
     crossplatform: "crossplatform",
     // Additional labels
     privacy: "privacy",
-    web: "web"
+    web: "web",
+    terminal: "terminal",
+    editor: "editor"
 });

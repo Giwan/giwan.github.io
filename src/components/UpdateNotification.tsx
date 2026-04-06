@@ -45,8 +45,8 @@ const UpdateNotification: React.FC<UpdateNotificationProps> = ({
   return (
     <div
       className={`fixed bottom-4 right-4 z-50 max-w-sm transition-all duration-300 ease-in-out ${
-        isAnimating 
-          ? 'translate-y-0 opacity-100' 
+        isAnimating
+          ? 'translate-y-0 opacity-100'
           : 'translate-y-full opacity-0'
       }`}
       role="alert"
@@ -57,7 +57,7 @@ const UpdateNotification: React.FC<UpdateNotificationProps> = ({
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center">
             <Download className="h-5 w-5 text-blue-500 mr-2 flex-shrink-0" />
-            <h3 
+            <h3
               id="update-notification-title"
               className="text-sm font-medium text-gray-900 dark:text-gray-100"
             >
@@ -72,11 +72,11 @@ const UpdateNotification: React.FC<UpdateNotificationProps> = ({
             <X className="h-4 w-4" />
           </button>
         </div>
-        
+
         <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
           A new version of the blog is available. Update now to get the latest content and features.
         </p>
-        
+
         <div className="flex gap-2">
           <button
             onClick={handleUpdate}

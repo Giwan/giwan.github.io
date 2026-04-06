@@ -12,7 +12,7 @@ import { $isMobileMenuOpen } from "../stores/mobileMenuStore";
  */
 const ConditionalContent = ({ children, hideWhenMenuOpen = true }) => {
   const isMobileMenuOpen = useStore($isMobileMenuOpen);
-  
+
   return (
     <div className={isMobileMenuOpen && hideWhenMenuOpen ? 'hidden' : 'contents'}>
       {children}

@@ -2,14 +2,14 @@
 jest.mock('../articleStore');
 
 // Import the mocked store
-const { 
-  $articleStore, 
-  setArticles, 
-  appendArticles, 
-  setPage, 
-  setHasMore, 
-  setLoading, 
-  setError, 
+const {
+  $articleStore,
+  setArticles,
+  appendArticles,
+  setPage,
+  setHasMore,
+  setLoading,
+  setError,
   resetStore,
   resetMockState
 } = require('../articleStore');
@@ -38,7 +38,7 @@ describe('articleStore', () => {
     ];
     
     setArticles(articles);
-    
+
     const state = $articleStore.get();
     expect(state.articles).toEqual(articles);
   });
@@ -47,14 +47,14 @@ describe('articleStore', () => {
     const initialArticles = [
       { url: '/blog/1', title: 'Article 1', description: 'Description 1', formattedDate: '2023-01-01' }
     ];
-    
+
     const newArticles = [
       { url: '/blog/2', title: 'Article 2', description: 'Description 2', formattedDate: '2023-01-02' }
     ];
     
     setArticles(initialArticles);
     appendArticles(newArticles);
-    
+
     const state = $articleStore.get();
     expect(state.articles).toEqual([...initialArticles, ...newArticles]);
   });
@@ -95,10 +95,10 @@ describe('articleStore', () => {
     setHasMore(false);
     setLoading(true);
     setError('Some error');
-    
+
     // Reset the store
     resetStore();
-    
+
     // Check that the store is reset
     const state = $articleStore.get();
     expect(state).toEqual({

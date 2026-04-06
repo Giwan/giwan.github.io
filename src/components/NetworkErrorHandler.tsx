@@ -29,7 +29,7 @@ const NetworkErrorHandler: React.FC<NetworkErrorHandlerProps> = ({
     const handleOnline = () => {
       const newStatus = getNetworkStatus();
       setNetworkStatus(newStatus);
-      
+
       // Auto-retry when coming back online if we have a URL to retry
       if (newStatus.isOnline && url && retryCount > 0) {
         handleAutoRetry();
@@ -55,11 +55,11 @@ const NetworkErrorHandler: React.FC<NetworkErrorHandlerProps> = ({
     try {
       setIsRetrying(true);
       const response = await fetchWithRetry(url, {}, retryConfig);
-      
+
       if (onSuccess) {
         onSuccess(response);
       }
-      
+
       // Reset retry count on success
       setRetryCount(0);
     } catch (retryError) {
@@ -81,7 +81,7 @@ const NetworkErrorHandler: React.FC<NetworkErrorHandlerProps> = ({
         if (onSuccess) {
           onSuccess(response);
         }
-        
+
         // Reset retry count on success
         setRetryCount(0);
       } else if (onRetry) {
@@ -115,7 +115,7 @@ const NetworkErrorHandler: React.FC<NetworkErrorHandlerProps> = ({
       case 'network':
         return {
           title: 'Connection Problem',
-          description: networkStatus.isOnline 
+          description: networkStatus.isOnline
             ? 'Unable to reach the server. This might be a temporary issue.'
             : 'You appear to be offline. Check your internet connection.'
         };

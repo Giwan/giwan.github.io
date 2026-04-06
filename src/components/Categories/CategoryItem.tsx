@@ -10,7 +10,7 @@ type TProps = {
 
 const CategoryItem = ({ c, selectedCategory }: TProps) => (
     <li key={c}>
-        <Button 
+        <Button
             variant={isCategorySelected(c, selectedCategory) ? "default" : "outline"}
             size="sm"
             asChild

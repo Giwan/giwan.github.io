@@ -38,7 +38,7 @@ Object.defineProperty(window, 'navigator', {
   value: {
     userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
     hardwareConcurrency: 8,
-    connection: { 
+    connection: {
       effectiveType: '4g',
       addEventListener: jest.fn(),
       removeEventListener: jest.fn()
@@ -149,10 +149,10 @@ jest.mock('../transitionErrorHandler', () => ({
 }));
 
 // Now import the module after mocks are set up
-import TransitionController, { 
-  PageType, 
-  NavigationDirection, 
-  PageRelationship 
+import TransitionController, {
+  PageType,
+  NavigationDirection,
+  PageRelationship
 } from '../transitionController';
 
 describe('TransitionController - Navigation Context Detection', () => {
@@ -160,7 +160,7 @@ describe('TransitionController - Navigation Context Detection', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    window.matchMedia = jest.fn().mockReturnValue({ 
+    window.matchMedia = jest.fn().mockReturnValue({
       matches: false,
       addEventListener: jest.fn(),
       removeEventListener: jest.fn()
@@ -190,7 +190,7 @@ describe('TransitionController - Navigation Context Detection', () => {
     it('should handle trailing slashes consistently', () => {
       const withSlash = controller.detectNavigationContext('/', '/blog/');
       const withoutSlash = controller.detectNavigationContext('/', '/blog');
-      
+
       expect(withSlash.toPageType).toBe(withoutSlash.toPageType);
     });
 
@@ -210,7 +210,7 @@ describe('TransitionController - Navigation Context Detection', () => {
       // Simulate navigation: home -> blog -> post -> blog
       controller.detectNavigationContext('/', '/blog');
       controller.detectNavigationContext('/blog', '/blog/my-post');
-      
+
       const backToBlog = controller.detectNavigationContext('/blog/my-post', '/blog');
       expect(backToBlog.direction).toBe(NavigationDirection.BACKWARD);
     });
@@ -258,7 +258,7 @@ describe('TransitionController - Navigation Context Detection', () => {
       const startTime = Date.now();
       const context = controller.detectNavigationContext('/', '/blog');
       const endTime = Date.now();
-      
+
       expect(context.timestamp).toBeGreaterThanOrEqual(startTime);
       expect(context.timestamp).toBeLessThanOrEqual(endTime);
     });
@@ -266,7 +266,7 @@ describe('TransitionController - Navigation Context Detection', () => {
     it('should preserve original paths', () => {
       const fromPath = '/blog/my-post?page=2#comments';
       const toPath = '/tools/development/';
-      
+
       const context = controller.detectNavigationContext(fromPath, toPath);
       expect(context.fromPath).toBe(fromPath);
       expect(context.toPath).toBe(toPath);
@@ -283,11 +283,11 @@ describe('TransitionController - Navigation Context Detection', () => {
     it('should track navigation metrics correctly', () => {
       const initialMetrics = controller.getMetrics();
       expect(initialMetrics.totalTransitions).toBe(0);
-      
+
       // Simulate some navigation
       controller.detectNavigationContext('/', '/blog');
       controller.detectNavigationContext('/blog', '/blog/post');
-      
+
       // Note: Metrics are updated in event handlers, not in detectNavigationContext
       // So we test that the method exists and returns expected structure
       const metrics = controller.getMetrics();
@@ -318,10 +318,10 @@ describe('TransitionController - Navigation Context Detection', () => {
       // Create a new controller without startViewTransition
       const originalStartViewTransition = (document as any).startViewTransition;
       delete (document as any).startViewTransition;
-      
+
       const testController = new TransitionController();
       expect(testController.isTransitionSupported()).toBe(false);
-      
+
       // Restore
       (document as any).startViewTransition = originalStartViewTransition;
       testController.destroy();
@@ -351,7 +351,7 @@ describe('TransitionController - Navigation Context Detection', () => {
       for (let i = 0; i < 10; i++) {
         contexts.push(controller.detectNavigationContext(`/page-${i}`, `/page-${i + 1}`));
       }
-      
+
       expect(contexts).toHaveLength(10);
       contexts.forEach((context, index) => {
         expect(context.fromPath).toBe(`/page-${index}`);
@@ -373,7 +373,7 @@ describe('TransitionController - Navigation Context Detection', () => {
       for (let i = 0; i < 60; i++) {
         controller.detectNavigationContext(`/page-${i}`, `/page-${i + 1}`);
       }
-      
+
       // The history should be limited internally
       // We can't directly test the private history, but we can ensure the controller still works
       const context = controller.detectNavigationContext('/final-from', '/final-to');
@@ -395,12 +395,12 @@ describe('TransitionController - Integration Tests', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    window.matchMedia = jest.fn().mockReturnValue({ 
+    window.matchMedia = jest.fn().mockReturnValue({
       matches: false,
       addEventListener: jest.fn(),
       removeEventListener: jest.fn()
     });
-    
+
     controller = new TransitionController();
   });
 
@@ -413,7 +413,7 @@ describe('TransitionController - Integration Tests', () => {
   describe('Complete Navigation Scenarios', () => {
     it('should handle home to blog list navigation', () => {
       const context = controller.detectNavigationContext('/', '/blog');
-      
+
       expect(context.direction).toBe(NavigationDirection.FORWARD);
       expect(context.fromPageType).toBe(PageType.HOME);
       expect(context.toPageType).toBe(PageType.BLOG_LIST);
@@ -422,7 +422,7 @@ describe('TransitionController - Integration Tests', () => {
 
     it('should handle blog list to blog post navigation', () => {
       const context = controller.detectNavigationContext('/blog', '/blog/2024-01-21-deploy-astro-static-on-deno-deploy');
-      
+
       expect(context.direction).toBe(NavigationDirection.FORWARD);
       expect(context.fromPageType).toBe(PageType.BLOG_LIST);
       expect(context.toPageType).toBe(PageType.BLOG_POST);
@@ -434,7 +434,7 @@ describe('TransitionController - Integration Tests', () => {
         '/blog/2024-01-21-deploy-astro-static-on-deno-deploy',
         '/blog/2025-05-31-prompt-engineering-do-dont'
       );
-      
+
       expect(context.direction).toBe(NavigationDirection.FORWARD);
       expect(context.fromPageType).toBe(PageType.BLOG_POST);
       expect(context.toPageType).toBe(PageType.BLOG_POST);
@@ -443,7 +443,7 @@ describe('TransitionController - Integration Tests', () => {
 
     it('should handle tools list to tools category navigation', () => {
       const context = controller.detectNavigationContext('/tools', '/tools/developer');
-      
+
       expect(context.direction).toBe(NavigationDirection.FORWARD);
       expect(context.fromPageType).toBe(PageType.TOOLS_LIST);
       expect(context.toPageType).toBe(PageType.TOOLS_CATEGORY);
@@ -452,7 +452,7 @@ describe('TransitionController - Integration Tests', () => {
 
     it('should handle tools category to tools category navigation (sibling)', () => {
       const context = controller.detectNavigationContext('/tools/developer', '/tools/design');
-      
+
       expect(context.direction).toBe(NavigationDirection.FORWARD);
       expect(context.fromPageType).toBe(PageType.TOOLS_CATEGORY);
       expect(context.toPageType).toBe(PageType.TOOLS_CATEGORY);
@@ -461,7 +461,7 @@ describe('TransitionController - Integration Tests', () => {
 
     it('should handle backward navigation from post to list', () => {
       const context = controller.detectNavigationContext('/blog/my-post', '/blog');
-      
+
       expect(context.direction).toBe(NavigationDirection.BACKWARD);
       expect(context.fromPageType).toBe(PageType.BLOG_POST);
       expect(context.toPageType).toBe(PageType.BLOG_LIST);
@@ -470,7 +470,7 @@ describe('TransitionController - Integration Tests', () => {
 
     it('should handle cross-section navigation (blog to tools)', () => {
       const context = controller.detectNavigationContext('/blog', '/tools');
-      
+
       expect(context.direction).toBe(NavigationDirection.FORWARD);
       expect(context.fromPageType).toBe(PageType.BLOG_LIST);
       expect(context.toPageType).toBe(PageType.TOOLS_LIST);
@@ -523,7 +523,7 @@ describe('TransitionController - Integration Tests', () => {
     it('should handle rapid navigation changes', () => {
       const contexts = [];
       const paths = ['/', '/blog', '/blog/post1', '/blog/post2', '/tools', '/tools/dev', '/about'];
-      
+
       for (let i = 0; i < paths.length - 1; i++) {
         contexts.push(controller.detectNavigationContext(paths[i], paths[i + 1]));
       }
@@ -552,14 +552,14 @@ describe('TransitionController - Integration Tests', () => {
 
     it('should maintain state consistency during errors', () => {
       const validContext = controller.detectNavigationContext('/', '/blog');
-      
+
       // Try to cause an error
       try {
         controller.detectNavigationContext(null as any, undefined as any);
       } catch (e) {
         // Ignore error
       }
-      
+
       // Should still work normally
       const nextContext = controller.detectNavigationContext('/blog', '/blog/post');
       expect(nextContext.fromPageType).toBe(PageType.BLOG_LIST);
@@ -585,7 +585,7 @@ describe('TransitionController - Visual Regression Tests', () => {
   describe('Transition Smoothness Validation', () => {
     it('should apply consistent transition context attributes', () => {
       const context = controller.detectNavigationContext('/', '/blog');
-      
+
       // Verify that the context would result in consistent DOM attributes
       expect(context.direction).toBeDefined();
       expect(context.fromPageType).toBeDefined();
@@ -596,7 +596,7 @@ describe('TransitionController - Visual Regression Tests', () => {
     it('should generate predictable transition contexts for same navigation', () => {
       const context1 = controller.detectNavigationContext('/', '/blog');
       const context2 = controller.detectNavigationContext('/', '/blog');
-      
+
       expect(context1.direction).toBe(context2.direction);
       expect(context1.fromPageType).toBe(context2.fromPageType);
       expect(context1.toPageType).toBe(context2.toPageType);
@@ -606,7 +606,7 @@ describe('TransitionController - Visual Regression Tests', () => {
     it('should handle transition context for all page type combinations', () => {
       const pageTypes = [PageType.HOME, PageType.BLOG_LIST, PageType.BLOG_POST, PageType.TOOLS_LIST, PageType.TOOLS_CATEGORY];
       const paths = ['/', '/blog', '/blog/post', '/tools', '/tools/category'];
-      
+
       for (let i = 0; i < paths.length; i++) {
         for (let j = 0; j < paths.length; j++) {
           if (i !== j) {
@@ -621,7 +621,7 @@ describe('TransitionController - Visual Regression Tests', () => {
     it('should maintain visual consistency for sibling transitions', () => {
       const post1ToPost2 = controller.detectNavigationContext('/blog/post1', '/blog/post2');
       const post2ToPost3 = controller.detectNavigationContext('/blog/post2', '/blog/post3');
-      
+
       expect(post1ToPost2.relationship).toBe(post2ToPost3.relationship);
       expect(post1ToPost2.direction).toBe(post2ToPost3.direction);
     });
@@ -632,7 +632,7 @@ describe('TransitionController - Visual Regression Tests', () => {
       // Mock mobile viewport
       Object.defineProperty(window, 'innerWidth', { value: 375, writable: true });
       Object.defineProperty(window, 'innerHeight', { value: 667, writable: true });
-      
+
       const context = controller.detectNavigationContext('/', '/blog');
       expect(context).toBeDefined();
       expect(context.direction).toBe(NavigationDirection.FORWARD);
@@ -642,7 +642,7 @@ describe('TransitionController - Visual Regression Tests', () => {
       // Mock tablet viewport
       Object.defineProperty(window, 'innerWidth', { value: 768, writable: true });
       Object.defineProperty(window, 'innerHeight', { value: 1024, writable: true });
-      
+
       const context = controller.detectNavigationContext('/', '/blog');
       expect(context).toBeDefined();
       expect(context.direction).toBe(NavigationDirection.FORWARD);
@@ -652,7 +652,7 @@ describe('TransitionController - Visual Regression Tests', () => {
       // Mock desktop viewport
       Object.defineProperty(window, 'innerWidth', { value: 1920, writable: true });
       Object.defineProperty(window, 'innerHeight', { value: 1080, writable: true });
-      
+
       const context = controller.detectNavigationContext('/', '/blog');
       expect(context).toBeDefined();
       expect(context.direction).toBe(NavigationDirection.FORWARD);
@@ -677,31 +677,31 @@ describe('TransitionController - Performance Tests', () => {
   describe('Transition Lifecycle Performance', () => {
     it('should complete navigation context detection quickly', () => {
       const startTime = performance.now();
-      
+
       for (let i = 0; i < 100; i++) {
         controller.detectNavigationContext(`/page-${i}`, `/page-${i + 1}`);
       }
-      
+
       const endTime = performance.now();
       const duration = endTime - startTime;
-      
+
       // Should complete 100 detections in under 100ms
       expect(duration).toBeLessThan(100);
     });
 
     it('should handle rapid successive navigation calls', () => {
       const startTime = performance.now();
-      
+
       // Simulate rapid navigation
       for (let i = 0; i < 50; i++) {
         controller.detectNavigationContext('/', '/blog');
         controller.detectNavigationContext('/blog', '/blog/post');
         controller.detectNavigationContext('/blog/post', '/blog');
       }
-      
+
       const endTime = performance.now();
       const duration = endTime - startTime;
-      
+
       // Should handle rapid calls efficiently
       expect(duration).toBeLessThan(50);
     });
@@ -711,33 +711,33 @@ describe('TransitionController - Performance Tests', () => {
       for (let i = 0; i < 1000; i++) {
         controller.detectNavigationContext(`/page-${i}`, `/page-${i + 1}`);
       }
-      
+
       const startTime = performance.now();
-      
+
       // Test performance with large history
       for (let i = 0; i < 10; i++) {
         controller.detectNavigationContext('/test-from', '/test-to');
       }
-      
+
       const endTime = performance.now();
       const duration = endTime - startTime;
-      
+
       // Should still be fast even with large history
       expect(duration).toBeLessThan(10);
     });
 
     it('should efficiently detect backward navigation patterns', () => {
       const startTime = performance.now();
-      
+
       // Test backward navigation detection performance
       for (let i = 0; i < 100; i++) {
         controller.detectNavigationContext('/blog/post', '/blog');
         controller.detectNavigationContext('/tools/category', '/tools');
       }
-      
+
       const endTime = performance.now();
       const duration = endTime - startTime;
-      
+
       expect(duration).toBeLessThan(50);
     });
   });
@@ -745,15 +745,15 @@ describe('TransitionController - Performance Tests', () => {
   describe('Memory Usage Performance', () => {
     it('should not leak memory during repeated navigation', () => {
       const initialMetrics = controller.getMetrics();
-      
+
       // Perform many navigation operations
       for (let i = 0; i < 1000; i++) {
         controller.detectNavigationContext(`/page-${i % 10}`, `/page-${(i + 1) % 10}`);
       }
-      
+
       const finalMetrics = controller.getMetrics();
-      
-      // Memory usage should be controlled (we can't directly measure memory, 
+
+      // Memory usage should be controlled (we can't directly measure memory,
       // but we can ensure the controller still functions)
       expect(finalMetrics).toBeDefined();
       expect(typeof finalMetrics.totalTransitions).toBe('number');
@@ -764,11 +764,11 @@ describe('TransitionController - Performance Tests', () => {
       for (let i = 0; i < 100; i++) {
         controller.detectNavigationContext(`/page-${i}`, `/page-${i + 1}`);
       }
-      
+
       const startTime = performance.now();
       controller.destroy();
       const endTime = performance.now();
-      
+
       const cleanupDuration = endTime - startTime;
       expect(cleanupDuration).toBeLessThan(10);
     });
@@ -777,7 +777,7 @@ describe('TransitionController - Performance Tests', () => {
   describe('Concurrent Performance', () => {
     it('should handle concurrent navigation detection', async () => {
       const promises = [];
-      
+
       for (let i = 0; i < 10; i++) {
         promises.push(
           new Promise(resolve => {
@@ -788,9 +788,9 @@ describe('TransitionController - Performance Tests', () => {
           })
         );
       }
-      
+
       const results = await Promise.all(promises);
-      
+
       expect(results).toHaveLength(10);
       results.forEach(result => {
         expect(result).toHaveProperty('direction');
@@ -800,12 +800,12 @@ describe('TransitionController - Performance Tests', () => {
 
     it('should maintain thread safety during rapid calls', () => {
       const results = [];
-      
+
       // Simulate rapid concurrent calls
       for (let i = 0; i < 100; i++) {
         results.push(controller.detectNavigationContext(`/rapid-${i}`, `/target-${i}`));
       }
-      
+
       expect(results).toHaveLength(100);
       results.forEach((result, index) => {
         expect(result.fromPath).toBe(`/rapid-${index}`);

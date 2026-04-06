@@ -9,12 +9,11 @@ import socialTools from "./socialTools";
 import dataTools from "./dataTools";
 import wireframeTools from "./wireframeTools";
 import searchTools from "./searchTools";
-import aiMlTools from "./aiMlTools";
+import ideAgentTools from "./ideAgentTools";
 import hostingTools from "./hostingTools";
 import frameworkTools from "./frameworkTools";
 import testingTools from "./testingTools";
 import monitoringTools from "./monitoringTools";
-import cliCodingTools from "./cliCodingTools";
 
 const tools = [
     ...readingTools,
@@ -27,12 +26,11 @@ const tools = [
     ...dataTools,
     ...wireframeTools,
     ...searchTools,
-    ...aiMlTools,
+    ...ideAgentTools,
     ...hostingTools,
     ...frameworkTools,
     ...testingTools,
-    ...monitoringTools,
-    ...cliCodingTools
+    ...monitoringTools
 ];
 
 export default tools;
