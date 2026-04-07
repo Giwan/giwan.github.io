@@ -47,7 +47,7 @@ const type = article ? 'article' : 'website';
 <meta property="og:image" content={socialImageURL} />
 <meta property="og:image:alt" content={title} />
 <meta property="og:site_name" content={SITE_CONFIG.title} />
-<meta property="og:locale" content="en_UK" />
+<meta property="og:locale" content={SITE_CONFIG.lang.replace('-', '_')} />
 
 <!-- Article Specific Open Graph Tags -->
 {article && (
@@ -68,5 +68,9 @@ const type = article ? 'article' : 'website';
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={socialImageURL} />
-<meta property="twitter:site" content={SITE_CONFIG.social.twitter} />
-<meta property="twitter:creator" content={SITE_CONFIG.social.twitter} />
+{SITE_CONFIG.social.twitter && (
+    <>
+        <meta property="twitter:site" content={SITE_CONFIG.social.twitter.startsWith('@') ? SITE_CONFIG.social.twitter : `@${SITE_CONFIG.social.twitter}`} />
+        <meta property="twitter:creator" content={SITE_CONFIG.social.twitter.startsWith('@') ? SITE_CONFIG.social.twitter : `@${SITE_CONFIG.social.twitter}`} />
+    </>
+)}

@@ -1,9 +1,26 @@
 ---
 import ArticlesList from "../components/ArticlesList.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
+import ToolsList from "../components/ToolsList/ToolsList";
+import Categories from "../components/Categories/Categories";
+import { categoriesList as categories } from "../data/categories";
+import { SITE_TITLE, SITE_DESCRIPTION, CONFIG } from "../config";
 import PageLayout from "../layouts/PageLayout.astro";
+
+const category = String(categories[0]);
+const isBlogHomepage = CONFIG.routing.homepage === "blog";
 ---
 
 <PageLayout content={{ title: SITE_TITLE, description: SITE_DESCRIPTION }}>
-    <ArticlesList />
+    {isBlogHomepage ? (
+        <ArticlesList />
+    ) : (
+        <div class="space-y-8">
+            <header>
+                <h1 class="text-3xl font-bold tracking-tight mb-4">Developer Tools</h1>
+                <p class="text-muted-foreground text-lg">A curated collection of useful tools for developers and designers.</p>
+            </header>
+            <Categories client:load {...{ category }} />
+            <ToolsList client:load {...{ category }} />
+        </div>
+    )}
 </PageLayout>

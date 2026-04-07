@@ -1,6 +1,15 @@
 ---
 import Logo from "./Header/HeaderLogo";
+import { CONFIG } from "../config";
 const today = new Date();
+
+const footerLinks = CONFIG.navigation.footer.filter(link => {
+    if (link.href === "/tools" && !CONFIG.features.enableToolsPage) return false;
+    if (link.href === "/search" && !CONFIG.features.enableSearch) return false;
+    return true;
+});
+
+const socialLinks = Object.entries(CONFIG.site.social).filter(([_, value]) => !!value);
 ---
 
 <footer id="footer" class="mt-12 border-t pt-8 pb-12" role="contentinfo" transition:name="footer">
@@ -8,26 +17,34 @@ const today = new Date();
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
       <div class="text-left" transition:name="footer-brand">
         <Logo />
-        <p class="mb-4 text-sm">Exploring code and technology - delivered with clarity and insight.</p>
-        <p class="text-xs">&copy; {today.getFullYear()} G1. All rights reserved.</p>
+        <p class="mb-4 text-sm">{CONFIG.site.description}</p>
+        <p class="text-xs">&copy; {today.getFullYear()} {CONFIG.site.author}. All rights reserved.</p>
       </div>
       
       <div class="text-left" transition:name="footer-categories">
-        <h2 class="text-lg text-foreground font-bold mb-4 uppercase tracking-wider">Categories</h2>
+        <h2 class="text-lg text-foreground font-bold mb-4 uppercase tracking-wider">Links</h2>
         <ul class="space-y-2">
-          <li><a href="/" class="link-hover">Articles</a></li>
-          <li><a href="/tools" class="link-hover">Tools</a></li>
-          <li><a href="/search" class="link-hover">Search</a></li>
-          <li><a href="/about" class="link-hover">About</a></li>
+          {footerLinks.map(link => (
+            <li><a href={link.href} class="link-hover">{link.label}</a></li>
+          ))}
         </ul>
       </div>
       
       <div class="text-left" transition:name="footer-connect">
         <h2 class="text-lg text-foreground font-bold mb-4 uppercase tracking-wider">Connect</h2>
         <ul class="space-y-2">
-          <li><a href="/contact" class="link-hover">Contact</a></li>
-          <li><a href="/rss.xml" class="link-hover">RSS Feed</a></li>
-          <li><a href="https://github.com/giwan" class="link-hover" rel="noopener noreferrer" target="_blank">GitHub</a></li>
+          {socialLinks.map(([key, value]) => {
+              let href = value;
+              if (key === 'twitter') href = `https://twitter.com/${value}`;
+              if (key === 'github') href = `https://github.com/${value}`;
+              if (key === 'linkedin') href = `https://linkedin.com/in/${value}`;
+              if (key === 'email') href = `mailto:${value}`;
+
+              return (
+                <li><a href={href} class="link-hover" rel="noopener noreferrer" target="_blank" style="text-transform: capitalize;">{key}</a></li>
+              )
+          })}
+          {CONFIG.features.enableRSS && <li><a href="/rss.xml" class="link-hover">RSS Feed</a></li>}
         </ul>
       </div>
     </div>
