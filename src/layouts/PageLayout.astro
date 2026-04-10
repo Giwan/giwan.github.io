@@ -6,7 +6,7 @@ import ServiceWorkerUpdateManager from "../components/ServiceWorkerUpdateManager
 import PWAErrorBoundary from "../components/PWAErrorBoundary";
 import ConditionalContent from "../components/ConditionalContent";
 import { AccessibilityControls } from "../components/AccessibilityControls";
-import { SITE_CONFIG } from "../config";
+import { SITE_CONFIG, CONFIG } from "../config";
 import "../styles/global.css";
 
 
@@ -39,6 +39,12 @@ const {
         keywords
     },
 } = Astro.props;
+
+const themeClass = `theme-${CONFIG.theme.active}`;
+const themeOverrides = CONFIG.theme.overrides || {};
+const overrideStyle = Object.entries(themeOverrides)
+    .map(([key, value]) => `--color-${key}: ${value};`)
+    .join(" ");
 ---
 
 <html lang={SITE_CONFIG.lang} dir={SITE_CONFIG.dir} transition:animate="fade">
@@ -60,7 +66,8 @@ const {
     </head>
 
     <body
-        class="bg-background min-h-screen font-sans text-foreground leading-relaxed"
+        class:list={["bg-background min-h-screen font-sans text-foreground leading-relaxed", themeClass]}
+        style={overrideStyle}
     >
         <!-- Skip Navigation Links -->
         <nav class="skip-links" aria-label="Skip navigation">

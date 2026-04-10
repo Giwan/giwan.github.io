@@ -1,11 +1,17 @@
 import { useStore } from "@nanostores/react";
 import { $isMobileMenuOpen } from "../../stores/mobileMenuStore";
-import headerNavData from "./headerLinks.json";
+import { CONFIG } from "../../config";
 
 const MobileMenu = ({ onClose }) => {
   const isOpen = useStore($isMobileMenuOpen);
   
   if (!isOpen) return null;
+
+  const links = CONFIG.navigation.header.filter(link => {
+    if (link.href === "/tools" && !CONFIG.features.enableToolsPage) return false;
+    if (link.href === "/search" && !CONFIG.features.enableSearch) return false;
+    return true;
+  });
 
   return (
     <div className="mobile-menu-container fixed inset-0 bg-background border-r border-border" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999 }}>
@@ -22,7 +28,7 @@ const MobileMenu = ({ onClose }) => {
       
       <nav id="mobile-navigation" aria-label="Mobile navigation" className="p-6">
         <ul className="space-y-6">
-          {headerNavData.map(({ label, href }) => (
+          {links.map(({ label, href }) => (
             <li key={href} className="border-b border-border pb-4 last:border-b-0">
               <a 
                 href={href}

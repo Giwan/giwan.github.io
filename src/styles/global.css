@@ -63,6 +63,9 @@
   --color-card-foreground: hsl(0 0% 98%);
 }
 
+/* Import Theme Variations */
+@import './themes.css';
+
 /* Import performance fallbacks */
 @import './performance-fallbacks.css';
 
