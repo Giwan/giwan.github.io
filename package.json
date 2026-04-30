@@ -53,10 +53,10 @@
         "@types/jest": "^30.0.0",
         "@types/react": "^19.2.14",
         "@types/react-dom": "^19.2.3",
-        "astro": "^6.1.9",
+        "astro": "^6.1.10",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
-        "lucide-react": "^1.8.0",
+        "lucide-react": "^1.14.0",
         "nanostores": "^1.3.0",
         "react": "^19.2.5",
         "react-dom": "^19.2.5",
@@ -85,7 +85,7 @@
         "putout": "^42.4.6",
         "ts-jest": "^29.4.9",
         "typescript": "^6.0.3",
-        "typescript-eslint": "^8.59.0"
+        "typescript-eslint": "^8.59.1"
     },
     "overrides": {
         "astro": "$astro",
