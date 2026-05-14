@@ -4,11 +4,11 @@ import { subCategories } from "../../../data/categories";
 
 describe("Filtering Integration with Expanded Tool Dataset", () => {
   it("should filter tools correctly for all new categories", () => {
-    // Test AI & ML category
-    const aiMlTools = filteredList(tools, subCategories.AI_ML);
+    // Test IDE & Agents category
+    const aiMlTools = filteredList(tools, subCategories.IDE_AGENTS);
     expect(aiMlTools.length).toBeGreaterThan(0);
     aiMlTools.forEach(tool => {
-      expect(tool.category).toMatch(/ai & ml/i);
+      expect(tool.category).toMatch(/ide & agents/i);
     });
 
     // Test Hosting category
@@ -70,17 +70,17 @@ describe("Filtering Integration with Expanded Tool Dataset", () => {
     // Ensure each category in subCategories has at least one tool
     Object.values(subCategories).forEach(category => {
       const categoryTools = filteredList(tools, category);
-      expect(categoryTools.length).toBeGreaterThan(0, 
+      expect(categoryTools.length).toBeGreaterThan(0,
         `Category "${category}" should have at least one tool`);
     });
   });
 
   it("should verify expanded dataset contains expected new tools", () => {
     // Check that we have tools in new categories that weren't there before
-    const aiMlTools = filteredList(tools, "AI & ML");
+    const aiMlTools = filteredList(tools, "IDE & Agents");
     const hostingTools = filteredList(tools, "Hosting");
     const frameworkTools = filteredList(tools, "Frameworks");
-    
+
     // Verify we have a reasonable number of tools in each new category
     expect(aiMlTools.length).toBeGreaterThanOrEqual(5);
     expect(hostingTools.length).toBeGreaterThanOrEqual(5);

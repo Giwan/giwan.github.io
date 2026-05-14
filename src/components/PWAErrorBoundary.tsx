@@ -122,10 +122,10 @@ class PWAErrorBoundary extends Component<PWAErrorBoundaryProps, PWAErrorBoundary
       // Clear all PWA-related storage
       await clearCorruptedCaches();
       clearPWAErrors();
-      
+
       // Clear component error log
       localStorage.removeItem('pwa-component-errors');
-      
+
       // Unregister service worker if possible
       if ('serviceWorker' in navigator) {
         const registrations = await navigator.serviceWorker.getRegistrations();
@@ -169,7 +169,7 @@ class PWAErrorBoundary extends Component<PWAErrorBoundaryProps, PWAErrorBoundary
                 <p className="text-sm text-red-700 dark:text-red-300 mb-3">
                   Some advanced features may not be working properly. The site will continue to function normally.
                 </p>
-                
+
                 <div className="flex flex-wrap gap-2">
                   <button
                     onClick={this.handleRetry}
@@ -178,7 +178,7 @@ class PWAErrorBoundary extends Component<PWAErrorBoundaryProps, PWAErrorBoundary
                     <RefreshCw className="h-3 w-3 mr-1" />
                     Retry
                   </button>
-                  
+
                   <button
                     onClick={this.toggleDetails}
                     className="inline-flex items-center px-3 py-1.5 bg-red-100 hover:bg-red-200 dark:bg-red-800 dark:hover:bg-red-700 text-red-800 dark:text-red-200 text-xs font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
@@ -199,7 +199,7 @@ class PWAErrorBoundary extends Component<PWAErrorBoundaryProps, PWAErrorBoundary
                   </div>
                 )}
               </div>
-              
+
               <button
                 onClick={this.handleRetry}
                 className="ml-2 text-red-400 hover:text-red-600 dark:hover:text-red-300 transition-colors"

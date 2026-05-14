@@ -102,10 +102,10 @@ function handleNavigation(fromRoute: string, toRoute: string, direction: 'forwar
   // Detect page types
   const fromPageType = transitionRegistry.getPageType(fromRoute);
   const toPageType = transitionRegistry.getPageType(toRoute);
-  
+
   // Determine relationship
   const relationship = transitionRegistry.getPageRelationship(fromPageType, toPageType, fromRoute, toRoute);
-  
+
   // Create navigation context
   const context = {
     direction,
@@ -113,16 +113,16 @@ function handleNavigation(fromRoute: string, toRoute: string, direction: 'forwar
     toPageType,
     relationship
   };
-  
+
   // Get appropriate transition
   const transition = transitionRegistry.getTransitionForNavigation(context);
-  
+
   console.log(`Navigation: ${fromRoute} → ${toRoute}`);
   console.log(`  Page types: ${fromPageType} → ${toPageType}`);
   console.log(`  Relationship: ${relationship}`);
   console.log(`  Transition: ${transition.name} (${transition.duration}ms)`);
   console.log(`  CSS class: ${transition.cssClass || 'none'}`);
-  
+
   return transition;
 }
 

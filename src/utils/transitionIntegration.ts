@@ -36,10 +36,10 @@ export class TransitionIntegration {
   private registerCurrentPage(): void {
     const currentPath = window.location.pathname;
     const pageType = transitionRegistry.getPageType(currentPath);
-    
+
     // Apply initial page type to document
     document.documentElement.setAttribute('data-page-type', pageType);
-    
+
     console.log(`Registered current page: ${currentPath} as ${pageType}`);
   }
 
@@ -61,7 +61,7 @@ export class TransitionIntegration {
   private setupBrowserEventListeners(): void {
     // Listen for browser back/forward navigation
     window.addEventListener('popstate', this.handlePopState.bind(this));
-    
+
     // Listen for hash changes
     window.addEventListener('hashchange', this.handleHashChange.bind(this));
   }
@@ -76,13 +76,13 @@ export class TransitionIntegration {
 
     // Get navigation context from transition controller
     const context = transitionController.detectNavigationContext(fromPath, toPath);
-    
+
     // Get appropriate transition configuration from registry
     const transitionConfig = transitionRegistry.getTransitionForNavigation(context);
-    
+
     // Apply transition configuration to document
     this.applyTransitionConfig(transitionConfig, context);
-    
+
     console.log(`Preparing transition from ${fromPath} to ${toPath}:`, {
       context,
       transitionConfig: transitionConfig.name
@@ -111,14 +111,14 @@ export class TransitionIntegration {
   private handleAfterSwap(event: Event): void {
     const customEvent = event as CustomEvent;
     const newPath = customEvent.detail?.newDocument?.location?.pathname || window.location.pathname;
-    
+
     // Update page type for new page
     const newPageType = transitionRegistry.getPageType(newPath);
     document.documentElement.setAttribute('data-page-type', newPageType);
-    
+
     // Clean up transition attributes
     this.cleanupTransitionAttributes();
-    
+
     console.log(`Transition complete to ${newPath} (${newPageType})`);
   }
 
@@ -139,7 +139,7 @@ export class TransitionIntegration {
     const newPath = window.location.pathname;
     const newPageType = transitionRegistry.getPageType(newPath);
     document.documentElement.setAttribute('data-page-type', newPageType);
-    
+
     console.log(`Browser navigation to ${newPath} (${newPageType})`);
   }
 
@@ -156,20 +156,20 @@ export class TransitionIntegration {
    */
   private applyTransitionConfig(config: any, context: any): void {
     const root = document.documentElement;
-    
+
     // Apply transition class if specified
     if (config.cssClass) {
       root.classList.add(config.cssClass);
     }
-    
+
     // Set CSS custom properties for transition timing
     root.style.setProperty('--transition-duration', `${config.duration}ms`);
     root.style.setProperty('--transition-easing', config.easing);
-    
+
     // Apply transition context attributes (these are handled by TransitionController)
     // but we can add registry-specific attributes here
     root.setAttribute('data-transition-config', config.name);
-    
+
     // Apply element-specific transition names
     config.elements?.forEach((element: any) => {
       const targetElements = document.querySelectorAll(element.selector);
@@ -184,7 +184,7 @@ export class TransitionIntegration {
    */
   private cleanupTransitionAttributes(): void {
     const root = document.documentElement;
-    
+
     // Remove transition-specific classes
     const transitionClasses = [
       'transition-slide-forward',
@@ -195,14 +195,14 @@ export class TransitionIntegration {
       'transition-crossfade',
       'transition-default'
     ];
-    
+
     transitionClasses.forEach(className => {
       root.classList.remove(className);
     });
-    
+
     // Remove transition config attribute
     root.removeAttribute('data-transition-config');
-    
+
     // Clean up CSS custom properties
     root.style.removeProperty('--transition-duration');
     root.style.removeProperty('--transition-easing');
@@ -215,13 +215,13 @@ export class TransitionIntegration {
     const fromPath = window.location.pathname;
     const context = transitionController.detectNavigationContext(fromPath, toPath);
     const transitionConfig = transitionRegistry.getTransitionForNavigation(context);
-    
+
     this.applyTransitionConfig(transitionConfig, context);
-    
+
     // Navigate using Astro's router if available, otherwise use browser navigation
     if (typeof window !== 'undefined' && 'history' in window) {
       window.history.pushState({}, '', toPath);
-      
+
       // Trigger popstate to simulate navigation
       window.dispatchEvent(new PopStateEvent('popstate'));
     }
@@ -236,7 +236,7 @@ export class TransitionIntegration {
     transitionConfig?: string;
   } {
     const root = document.documentElement;
-    
+
     return {
       isTransitioning: root.hasAttribute('data-transition-direction'),
       currentPageType: root.getAttribute('data-page-type') || 'unknown',

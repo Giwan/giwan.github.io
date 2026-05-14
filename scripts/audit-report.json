@@ -1,9 +1,9 @@
 {
-  "timestamp": "2025-12-23T18:37:18.277Z",
+  "timestamp": "2026-03-31T06:11:19.230Z",
   "summary": {
-    "totalTools": 47,
-    "accessibleTools": 36,
-    "inaccessibleTools": 11,
+    "totalTools": 98,
+    "accessibleTools": 80,
+    "inaccessibleTools": 18,
     "suspiciousTools": 0
   },
   "issues": [
@@ -37,9 +37,29 @@
     },
     {
       "type": "error",
-      "tool": "tints.dev",
-      "url": "https://www.tints.dev",
+      "tool": "Tabler Icons",
+      "url": "https://tabler-icons.io/",
       "message": "This operation was aborted"
+    },
+    {
+      "type": "error",
+      "tool": "Iconify",
+      "url": "https://iconify.design/",
+      "message": "This operation was aborted"
+    },
+    {
+      "type": "inaccessible",
+      "tool": "Unsplash",
+      "url": "https://unsplash.com/",
+      "status": 401,
+      "message": "HTTP 401"
+    },
+    {
+      "type": "inaccessible",
+      "tool": "Pexels",
+      "url": "https://www.pexels.com/",
+      "status": 403,
+      "message": "HTTP 403"
     },
     {
       "type": "inaccessible",
@@ -49,11 +69,22 @@
       "message": "HTTP 403"
     },
     {
-      "type": "inaccessible",
+      "type": "error",
       "tool": "CSS Shadows",
       "url": "https://shadows.brumm.af/",
-      "status": 403,
-      "message": "HTTP 403"
+      "message": "This operation was aborted"
+    },
+    {
+      "type": "error",
+      "tool": "TablePlus",
+      "url": "https://tableplus.com/",
+      "message": "This operation was aborted"
+    },
+    {
+      "type": "error",
+      "tool": "DBeaver",
+      "url": "https://dbeaver.io/",
+      "message": "This operation was aborted"
     },
     {
       "type": "inaccessible",
@@ -68,6 +99,18 @@
       "url": "https://www.patreon.com",
       "status": 403,
       "message": "HTTP 403"
+    },
+    {
+      "type": "error",
+      "tool": "Slack",
+      "url": "https://slack.com/",
+      "message": "This operation was aborted"
+    },
+    {
+      "type": "error",
+      "tool": "Microsoft Teams",
+      "url": "https://www.microsoft.com/en-us/microsoft-teams/",
+      "message": "This operation was aborted"
     },
     {
       "type": "inaccessible",

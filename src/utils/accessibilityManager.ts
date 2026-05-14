@@ -709,5 +709,3 @@ export class AccessibilityManager {
 
 // Create and export a singleton instance
 export const accessibilityManager = new AccessibilityManager();
-
-

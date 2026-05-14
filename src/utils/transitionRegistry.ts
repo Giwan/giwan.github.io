@@ -100,20 +100,20 @@ export class TransitionRegistry {
       // Blog patterns
       { pattern: /^\/blog\/[\w-]+\/$/, pageType: PageType.BLOG_POST, priority: 100 },
       { pattern: /^\/blog\/?$/, pageType: PageType.BLOG_LIST, priority: 90 },
-      
+
       // Tools patterns
       { pattern: /^\/tools\/[^\/]+\/?$/, pageType: PageType.TOOLS_CATEGORY, priority: 100 },
       { pattern: /^\/tools\/?$/, pageType: PageType.TOOLS_LIST, priority: 90 },
-      
+
       // Search patterns
       { pattern: /^\/search/, pageType: PageType.SEARCH, priority: 80 },
-      
+
       // Static pages
       { pattern: /^\/about\/?$/, pageType: PageType.ABOUT, priority: 70 },
       { pattern: /^\/contact\/?$/, pageType: PageType.CONTACT, priority: 70 },
       { pattern: /^\/offline\/?$/, pageType: PageType.OFFLINE, priority: 70 },
       { pattern: /^\/404\/?$/, pageType: PageType.NOT_FOUND, priority: 70 },
-      
+
       // Home page (should be last due to broad matching)
       { pattern: /^\/?$/, pageType: PageType.HOME, priority: 10 },
     ];
@@ -276,7 +276,7 @@ export class TransitionRegistry {
     // Add pattern to route patterns with sorting
     this.routePatterns.push(pattern);
     this.routePatterns.sort((a, b) => b.priority - a.priority);
-    
+
     // Store transition configuration
     this.transitionConfigs.set(transition.name, transition);
   }
@@ -292,7 +292,7 @@ export class TransitionRegistry {
       parentRoute: this.findParentRoute(route),
       childRoutes: this.findChildRoutes(route)
     };
-    
+
     this.pageMetadataCache.set(route, metadata);
   }
 
@@ -323,7 +323,7 @@ export class TransitionRegistry {
   getTransitionForNavigation(context: NavigationContext): TransitionConfig {
     const transitionName = this.selectTransitionName(context);
     const transition = this.transitionConfigs.get(transitionName);
-    
+
     if (!transition) {
       console.warn(`Transition '${transitionName}' not found, using default`);
       return this.defaultTransition;
@@ -459,7 +459,7 @@ export class TransitionRegistry {
     if (segments.length <= 1) {
       return undefined;
     }
-    
+
     segments.pop(); // Remove last segment
     return '/' + segments.join('/');
   }
@@ -478,7 +478,7 @@ export class TransitionRegistry {
    */
   private shouldUseReducedMotion(): boolean {
     if (typeof window === 'undefined') return false;
-    
+
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     return mediaQuery.matches;
   }

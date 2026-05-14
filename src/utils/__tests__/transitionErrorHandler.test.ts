@@ -57,7 +57,7 @@ describe('TransitionErrorHandler', () => {
     global.document = mockDocument as any;
     global.window = mockWindow as any;
     global.navigator = mockWindow.navigator as any;
-    
+
     // Mock console methods to suppress output during tests
     consoleSpy = {
       log: jest.spyOn(console, 'log').mockImplementation(() => {}),
@@ -96,7 +96,7 @@ describe('TransitionErrorHandler', () => {
 
     it('should provide debug information', () => {
       const debugInfo = errorHandler.getDebugInfo();
-      
+
       expect(debugInfo).toHaveProperty('apiSupported');
       expect(debugInfo).toHaveProperty('currentPath');
       expect(debugInfo).toHaveProperty('transitionInProgress');
@@ -113,7 +113,7 @@ describe('TransitionErrorHandler', () => {
       (global.document as any).startViewTransition = jest.fn();
       debugInfo = errorHandler.getDebugInfo();
       expect(debugInfo.apiSupported).toBe(true);
-      
+
       // Clean up
       delete (global.document as any).startViewTransition;
     });
@@ -179,7 +179,7 @@ describe('TransitionErrorHandler', () => {
   describe('device capabilities', () => {
     it('should collect device capabilities safely', () => {
       const debugInfo = errorHandler.getDebugInfo();
-      
+
       expect(debugInfo.deviceCapabilities).toHaveProperty('userAgent');
       expect(debugInfo.deviceCapabilities).toHaveProperty('hardwareConcurrency');
       expect(debugInfo.deviceCapabilities).toHaveProperty('prefersReducedMotion');
@@ -193,7 +193,7 @@ describe('TransitionErrorHandler', () => {
       expect(() => {
         errorHandler.testErrorHandling();
       }).not.toThrow();
-      
+
       // Should warn when not in debug mode
       expect(consoleSpy.warn).toHaveBeenCalledWith(
         '[TransitionErrorHandler] Test methods only available in debug mode'
@@ -203,12 +203,12 @@ describe('TransitionErrorHandler', () => {
     it('should work in debug mode', () => {
       // Enable debug mode first
       errorHandler.enableDebugMode();
-      
+
       // Should not throw and should not warn
       expect(() => {
         errorHandler.testErrorHandling();
       }).not.toThrow();
-      
+
       // Should have logged debug info but not warned about debug mode
       expect(consoleSpy.log).toHaveBeenCalled();
     });

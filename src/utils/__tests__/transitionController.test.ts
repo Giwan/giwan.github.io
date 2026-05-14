@@ -37,7 +37,7 @@ Object.defineProperty(window, 'navigator', {
   value: {
     userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
     hardwareConcurrency: 8,
-    connection: { 
+    connection: {
       effectiveType: '4g',
       addEventListener: jest.fn(),
       removeEventListener: jest.fn()
@@ -148,10 +148,10 @@ jest.mock('../transitionErrorHandler', () => ({
 }));
 
 // Now import the module after mocks are set up
-import TransitionController, { 
-  PageType, 
-  NavigationDirection, 
-  PageRelationship 
+import TransitionController, {
+  PageType,
+  NavigationDirection,
+  PageRelationship
 } from '../transitionController';
 
 describe('TransitionController', () => {
@@ -159,7 +159,7 @@ describe('TransitionController', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    window.matchMedia = jest.fn().mockReturnValue({ 
+    window.matchMedia = jest.fn().mockReturnValue({
       matches: false,
       addEventListener: jest.fn(),
       removeEventListener: jest.fn()
@@ -184,7 +184,7 @@ describe('TransitionController', () => {
     it('should classify blog pages correctly', () => {
       const context = controller.detectNavigationContext('/', '/blog');
       expect(context.toPageType).toBe(PageType.BLOG_LIST);
-      
+
       const postContext = controller.detectNavigationContext('/blog', '/blog/my-post');
       expect(postContext.toPageType).toBe(PageType.BLOG_POST);
     });
@@ -192,7 +192,7 @@ describe('TransitionController', () => {
     it('should classify tools pages correctly', () => {
       const context = controller.detectNavigationContext('/', '/tools');
       expect(context.toPageType).toBe(PageType.TOOLS_LIST);
-      
+
       const categoryContext = controller.detectNavigationContext('/tools', '/tools/developer');
       expect(categoryContext.toPageType).toBe(PageType.TOOLS_CATEGORY);
     });
@@ -200,7 +200,7 @@ describe('TransitionController', () => {
     it('should classify static pages correctly', () => {
       const aboutContext = controller.detectNavigationContext('/', '/about');
       expect(aboutContext.toPageType).toBe(PageType.ABOUT);
-      
+
       const contactContext = controller.detectNavigationContext('/', '/contact');
       expect(contactContext.toPageType).toBe(PageType.CONTACT);
     });
@@ -273,7 +273,7 @@ describe('TransitionController', () => {
         writable: true,
         value: jest.fn(),
       });
-      
+
       expect(controller.isTransitionSupported()).toBe(true);
     });
 
