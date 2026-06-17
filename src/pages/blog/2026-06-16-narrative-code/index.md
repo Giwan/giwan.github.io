@@ -91,29 +91,8 @@ export function DiscountDisplay({ user, cart }) {
 ```
 
 <div class="my-8 flex flex-col items-center justify-center">
-  <svg width="500" height="250" viewBox="0 0 500 250" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing the separation of Domain Narrative and Framework Glue">
-    <rect width="500" height="250" rx="12" fill="hsl(36 33% 98%)" stroke="hsl(30 15% 90%)" />
-    <circle cx="250" cy="125" r="70" fill="hsl(36 20% 94%)" stroke="hsl(30 10% 40%)" stroke-dasharray="4 4" />
-    <text x="250" y="120" text-anchor="middle" font-family="serif" font-size="16" font-weight="bold" fill="hsl(24 10% 10%)">The Story</text>
-    <text x="250" y="140" text-anchor="middle" font-family="serif" font-size="12" fill="hsl(30 10% 40%)">(Domain Core)</text>
-
-    <!-- Left Adapter -->
-    <rect x="40" y="100" width="100" height="50" rx="4" fill="white" stroke="hsl(24 10% 10%)" />
-    <text x="90" y="130" text-anchor="middle" font-family="sans-serif" font-size="10" fill="hsl(24 10% 10%)">React Adapter</text>
-    <path d="M140 125 L180 125" stroke="hsl(24 10% 10%)" stroke-width="1.5" marker-end="url(#arrowhead)" />
-
-    <!-- Right Adapter -->
-    <rect x="360" y="100" width="100" height="50" rx="4" fill="white" stroke="hsl(24 10% 10%)" />
-    <text x="410" y="130" text-anchor="middle" font-family="sans-serif" font-size="10" fill="hsl(24 10% 10%)">CLI / API Adapter</text>
-    <path d="M360 125 L320 125" stroke="hsl(24 10% 10%)" stroke-width="1.5" marker-end="url(#arrowhead)" />
-
-    <defs>
-      <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-        <polygon points="0 0, 10 3.5, 0 7" fill="hsl(24 10% 10%)" />
-      </marker>
-    </defs>
-  </svg>
-  <p class="mt-4 text-sm italic text-gray-600">The Hexagonal Narrative: One story, many adapters.</p>
+<svg width="500" height="250" viewBox="0 0 500 250" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing the separation of Domain Narrative and Framework Glue"><rect width="500" height="250" rx="12" fill="var(--paper)" stroke="var(--color-border)" /><circle cx="250" cy="125" r="70" fill="var(--color-secondary)" stroke="var(--ink)" stroke-dasharray="4 4" opacity="0.6" /><text x="250" y="120" text-anchor="middle" font-family="serif" font-size="16" font-weight="bold" fill="var(--ink)">The Story</text><text x="250" y="140" text-anchor="middle" font-family="serif" font-size="12" fill="var(--ink)" opacity="0.7">(Domain Core)</text><rect x="40" y="100" width="100" height="50" rx="4" fill="var(--paper)" stroke="var(--ink)" /><text x="90" y="130" text-anchor="middle" font-family="sans-serif" font-size="10" fill="var(--ink)">React Adapter</text><path d="M140 125 L180 125" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#arrowhead)" /><rect x="360" y="100" width="100" height="50" rx="4" fill="var(--paper)" stroke="var(--ink)" /><text x="410" y="130" text-anchor="middle" font-family="sans-serif" font-size="10" fill="var(--ink)">CLI / API Adapter</text><path d="M360 125 L320 125" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#arrowhead)" /><defs><marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="var(--ink)" /></marker></defs></svg>
+<p class="mt-4 text-sm italic text-muted-foreground">The Hexagonal Narrative: One story, many adapters.</p>
 </div>
 
 ### Why This Wins
