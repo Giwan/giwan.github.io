@@ -114,8 +114,7 @@ Now, the React component is just a thin "Adapter" that calls the story:
 ```tsx
 // DiscountDisplay.tsx (The Adapter)
 export function DiscountDisplay({ user, cart }) {
-  const discount = calculateReward(user, cart);
-  return <div>Discount: ${discount}</div>;
+  return <div>Discount: ${calculateReward(user, cart)}</div>;
 }
 ```
 
@@ -126,10 +125,16 @@ export function DiscountDisplay({ user, cart }) {
 
 ### Why This Wins
 
-1. **Readability**: A non-technical stakeholder can read `discount.domain.ts`
-   and verify the logic.
+1. **Readability**: A non-technical stakeholder could mostly read
+   `discount.domain.ts` and understand the business logic. A senior developer or
+   tech lead can easily glance at the code without having to dive into too deep
+   to understand the business logic. But AI's are Large Language Models. This
+   also makes it easier for them to understand. Especially considering their
+   limitation on context window.
 2. **Testability**: You can unit test your "Story" without mocking a browser or
-   a rendering tree.
+   a rendering tree. This allows unit tests to do a lot more heavy lifting. They
+   can help prevent weird business bugs, for example a discount code being
+   applied where one might not expect it.
 3. **Auditability**: Security flaws—like a missing eligibility check—stand out
    because the prose is broken.
 
