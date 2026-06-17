@@ -156,16 +156,16 @@ our capacity for comprehension. Narrative code respects these biological limits:
 
 In messy, framework-entangled code, reviewers often fall victim to the
 **Bystander Effect**. Because the logic is dense and coupled with "noise"
-(hooks, types, state management), they assume someone else checked the logic and
-focus only on syntax or naming.
+(hooks, types, state management), they assume someone else checked the business
+logic and focus only on syntax or naming.
 
 **Narrative code mitigates this effect.** By stripping away the noise and
 presenting the logic as prose, you encourage the reviewer to engage with the
 _intent_. It transforms a code review from "checking for semicolons" into
 "verifying the logic."
 
-> "When your code reads like a story, a missing 'else' isn't just a syntax
-> error—it's a plot hole."
+> If code reads like a story, a missing 'else' isn't just a syntax error. It's a
+> plot hole.
 
 ### Security by Prose
 
@@ -178,10 +178,11 @@ obvious as a missing character in a play.
 ```ts
 // Narrative Security: The missing check is obvious.
 export function updateIdentity(currentIdentity, newData) {
-  // If this line is missing, the 'Story' of the update feels incomplete.
-  if (!canModify(currentIdentity)) throw new PermissionDenied();
+  if (canModify(currentIdentity)) { // If this line is missing, the 'Story' of the update feels incomplete.
+    return { ...currentIdentity, ...newData };
+  }
 
-  return { ...currentIdentity, ...newData };
+  throw new PermissionDenied();
 }
 ```
 
