@@ -48,8 +48,10 @@ better.
 ## 🏚️ The Challenge: Framework Entanglement
 
 Consider a typical implementation where business logic is embedded directly
-within a component. While initial development is fast, long-term maintenance
-becomes challenging.
+within a component. While initial development may feel fast, long-term
+maintenance becomes challenging. A developer looking at the code 2 years after
+it has been written needs to understand the business logic and the framework
+implementation details.
 
 ### The Entangled Implementation
 
@@ -77,13 +79,14 @@ export function DiscountManager({ user, cart }) {
 
 In this example, the **Story** (how we reward premium users) is buried inside
 the **Machinery** (`useEffect`, `useState`). If you want to move to Svelte or
-run this logic on a server-side CLI tool, you have to rewrite it from scratch.
+run this logic on a server-side CLI tool, you have to rewrite almosts all of it.
 
 ---
 
 ## 🏗️ The Solution: Narrative Core + Hexagonal Architecture
 
-Narrative coding is most effective when paired with **Hexagonal Architecture**
+**Narrative coding** is already valuable for readability and seperation of
+concerns. It is even more powerful when paired with **Hexagonal Architecture**
 (Ports & Adapters). Business logic is treated as the "Core," while frameworks
 (React, Svelte, etc.) serve as "Adapters."
 
