@@ -1,7 +1,7 @@
 ---
 layout: "../../../layouts/BlogArticle.astro"
-title: "Narrative Code: Ending the Era of Framework Entanglement"
-description: "The '10-Year React Trap' turned logic into glue. Learn how Narrative Code and Hexagonal Architecture restore readability and future-proof your tech stack."
+title: "Narrative Code: Decoupling Logic from Framework Infrastructure"
+description: "Many frameworks mix logic and glue-code. Narrative Code and Hexagonal Architecture restore readability and future-proof your tech stack."
 pubDate: "2026-06-16"
 createdDate: "2026-06-16"
 status: "published"
@@ -13,13 +13,13 @@ category: "Technology"
 
 > "Programs must be written for people to read, and only incidentally for machines to execute." — Abelson & Sussman, [SICP](https://mitpress.mit.edu/9780262510875/structure-and-interpretation-of-computer-programs/)
 
-We are currently living through the "React Debt" era. Over the last decade, we haven't just been building applications; we’ve been weaving our business logic into the very fabric of our frameworks. In 2026, many teams find themselves trapped—unable to upgrade, unable to migrate, and spending **70% of their time** performing "code archaeology" just to understand how a simple discount is applied.
+Modern development often leads to high architectural debt. Over the last decade, business logic has frequently been woven into the fabric of UI frameworks. In 2026, many teams find themselves with codebases that are difficult to upgrade or migrate, where developers spend **70% of their time** performing "code archaeology" to understand core business rules.
 
-The solution isn't another framework. It's a return to **Narrative Code**: the practice of writing software that reads like prose, where business rules are the protagonists and frameworks are merely the scenery.
+Long-term maintainability is improved by adopting **Narrative Code**: the practice of writing software that reads like prose, where business rules are expressed clearly and frameworks act as supporting infrastructure.
 
 ## TLDR: The Narrative Protocol
 
-- **Kill the 'Framework First' Mental Model**: Business logic belongs in pure TypeScript "Stories," not React hooks.
+- **Adopt a Domain-First Perspective**: Business logic belongs in pure TypeScript "Stories," decoupled from framework-specific hooks or state.
 - **Hexagonal Thinking**: Use "Ports and Adapters" to keep your Domain Core clean of infrastructure noise.
 - **SLAP (Single Level of Abstraction)**: Keep your "Chapters" focused. Never mix high-level policy with low-level primitives.
 - **The AI Signal**: Narrative code turns your codebase into a "High-Resolution" map for AI agents, reducing hallucinations by 40%.
@@ -27,14 +27,14 @@ The solution isn't another framework. It's a return to **Narrative Code**: the p
 
 ---
 
-## 🏚️ The Messy Reality: Entanglement as a Default
+## 🏚️ The Challenge: Framework Entanglement
 
-Before we look at the cure, we must confront the disease. Consider this typical "Framework-First" component. It’s productive for about five minutes, then it becomes a maintenance nightmare.
+Consider a typical implementation where business logic is embedded directly within a component. While initial development is fast, long-term maintenance becomes challenging.
 
-### The "Non-Narrative" Villain
+### The Entangled Implementation
 ```tsx
 // DiscountManager.tsx
-// Logic is trapped in a framework lifecycle.
+// Logic is coupled to the framework lifecycle.
 // Un-testable in isolation.
 // Coupled to React's rendering engine.
 export function DiscountManager({ user, cart }) {
@@ -58,9 +58,9 @@ In this example, the **Story** (how we reward premium users) is buried inside th
 
 ---
 
-## 🏗️ The Cure: Narrative Core + Hexagonal Architecture
+## 🏗️ The Solution: Narrative Core + Hexagonal Architecture
 
-Narrative coding works best when paired with **Hexagonal Architecture** (Ports & Adapters). We treat our business logic as the "Core" and our framework (React, Svelte, etc.) as just one of many "Adapters."
+Narrative coding is most effective when paired with **Hexagonal Architecture** (Ports & Adapters). Business logic is treated as the "Core," while frameworks (React, Svelte, etc.) serve as "Adapters."
 
 ### The "Narrative" Protocol
 ```ts
@@ -139,7 +139,7 @@ Yehonathan Sharvit identifies three "brain spans" that define our capacity for c
 
 In messy, framework-entangled code, reviewers often fall victim to the **Bystander Effect**. Because the logic is dense and coupled with "noise" (hooks, types, state management), they assume someone else checked the logic and focus only on syntax or naming.
 
-**Narrative code kills this effect.** By stripping away the noise and presenting the logic as prose, you force the reviewer to engage with the *intent*. It transforms a code review from "checking for semicolons" into "verifying the plot."
+**Narrative code mitigates this effect.** By stripping away the noise and presenting the logic as prose, you encourage the reviewer to engage with the *intent*. It transforms a code review from "checking for semicolons" into "verifying the logic."
 
 > "When your code reads like a story, a missing 'else' isn't just a syntax error—it's a plot hole."
 
