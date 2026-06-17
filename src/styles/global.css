@@ -39,9 +39,14 @@
 
   --color-card: hsl(36 33% 99%);
   --color-card-foreground: hsl(240 6% 10%);
+
+  --paper: hsl(36 33% 98%);
+  --ink: hsl(240 6% 10%);
 }
 
 .dark {
+  --paper: hsl(240 10% 3.9%);
+  --ink: hsl(0 0% 98%);
   --color-border: hsl(240 3.7% 15.9%);
   --color-input: hsl(240 3.7% 15.9%);
   --color-ring: hsl(240 4.9% 83.9%);
