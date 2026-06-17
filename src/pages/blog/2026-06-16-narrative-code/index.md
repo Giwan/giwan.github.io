@@ -1,6 +1,6 @@
 ---
 layout: "../../../layouts/BlogArticle.astro"
-title: "Decoupling Business Logic from Frameworks"
+title: "Narrative Code: Decoupling Logic from Framework Infrastructure"
 description: "Many frameworks mix logic and glue-code. Narrative Code and Hexagonal Architecture restore readability and future-proof your tech stack."
 pubDate: "2026-06-16"
 createdDate: "2026-06-16"
@@ -15,43 +15,41 @@ category: "Technology"
 > machines to execute." — Abelson & Sussman,
 > [SICP](https://mitpress.mit.edu/9780262510875/structure-and-interpretation-of-computer-programs/)
 
-The above quote was written before AI. I would argue that it's even more true
-today where AI will write most of the code.
-
 Modern development often leads to high architectural debt. Over the last decade,
 business logic has frequently been woven into the fabric of UI frameworks. In
 2026, many teams find themselves with codebases that are difficult to upgrade or
 migrate, where developers spend **70% of their time** performing "code
 archaeology" to understand core business rules.
 
-The practice of writing software that reads like prose, where business rules are
-expressed clearly cannot be found in many projects today. This **narrative
-code** could help humans and AI agents alike to easily understand, maintain, and
-reason about the code. A finely tuned agent can help to do that faster and
-better.
+Long-term maintainability is improved by adopting **Narrative Code**: the
+practice of writing software that reads like prose, where business rules are
+expressed clearly and frameworks act as supporting infrastructure.
 
 ## TLDR: The Narrative Protocol
 
-- **Adopt a Domain-First Perspective**: Business logic belongs in pure JS/TS
-  "Stories," _decoupled_ from framework-specific hooks or state.
-- **Hexagonal Thinking**: Use "Ports and Adapters" to keep your Domain Core
-  clean of infrastructure noise.
+- **Adopt a Domain-First Perspective**: Business logic belongs in pure
+  TypeScript "Stories," decoupled from framework-specific hooks or state.
+- **Hexagonal Thinking**: Use
+  [Ports and Adapters](https://alistair.cockburn.us/hexagonal-architecture/) to
+  keep your Domain Core clean of infrastructure noise.
 - **SLAP (Single Level of Abstraction)**: Keep your "Chapters" focused. Never
   mix high-level policy with low-level primitives.
+  [Adhering to SLAP](http://principles-wiki.net/principles:single_level_of_abstraction)
+  results in smaller, more readable methods.
 - **The AI Signal**: Narrative code turns your codebase into a "High-Resolution"
   map for AI agents, reducing hallucinations by 40%.
 - **Security by Prose**: When code reads like English, logic flaws become "Plot
   Holes" that are impossible to ignore.
+  [Insecure Direct Object References (IDOR)](https://owasp.org/www-community/attacks/insecure_direct_object_reference)
+  become visually obvious.
 
 ---
 
 ## 🏚️ The Challenge: Framework Entanglement
 
 Consider a typical implementation where business logic is embedded directly
-within a component. While initial development may feel fast, long-term
-maintenance becomes challenging. A developer looking at the code 2 years after
-it has been written needs to understand the business logic and the framework
-implementation details.
+within a component. While initial development is fast, long-term maintenance
+becomes challenging.
 
 ### The Entangled Implementation
 
@@ -79,14 +77,14 @@ export function DiscountManager({ user, cart }) {
 
 In this example, the **Story** (how we reward premium users) is buried inside
 the **Machinery** (`useEffect`, `useState`). If you want to move to Svelte or
-run this logic on a server-side CLI tool, you have to rewrite almosts all of it.
+run this logic on a server-side CLI tool, you have to rewrite it from scratch.
 
 ---
 
 ## 🏗️ The Solution: Narrative Core + Hexagonal Architecture
 
-**Narrative coding** is already valuable for readability and seperation of
-concerns. It is even more powerful when paired with **Hexagonal Architecture**
+Narrative coding is most effective when paired with
+[Hexagonal Architecture](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software))
 (Ports & Adapters). Business logic is treated as the "Core," while frameworks
 (React, Svelte, etc.) serve as "Adapters."
 
@@ -142,8 +140,9 @@ export function DiscountDisplay({ user, cart }) {
 
 ## 🧠 The Cognitive Case for Storytelling
 
-Yehonathan Sharvit identifies three "brain spans" that define our capacity for
-comprehension. Narrative code respects these biological limits:
+Yehonathan Sharvit identifies three
+[brain spans](https://semaphore.io/blog/storytelling-programming) that define
+our capacity for comprehension. Narrative code respects these biological limits:
 
 | Brain Span         | Capacity    | The Narrative Fix                                               |
 | :----------------- | :---------- | :-------------------------------------------------------------- |
@@ -231,6 +230,14 @@ Next time you open a file, ask: _Is this a story, or is it just glue?_
   — Yehonathan Sharvit
 - [Coding like Shakespeare](https://dmitripavlutin.com/coding-like-shakespeare-practical-function-naming-conventions/)
   — Dmitri Pavlutin
+- [Your Code Should Tell a Story](https://medium.com/better-programming/your-code-should-tell-a-story-8e9d42e91ef2)
+  — Madhavan Nagarajan
+- [Your Code Is a Story: Writing Software That Reads Like Prose](https://www.nottldr.com/CodeCraft/your-code-is-a-story-writing-software-that-reads-like-prose-0g4oi0d)
+  — CodeCraft
+- [Intention-Revealing Function Names](https://www.freecodecamp.org/news/how-to-make-your-code-better-with-intention-revealing-function-names-6c8b5271693e/)
+  — Cristian Salcescu
+- [Intent-Revealing Code: Writing for Humans, Not Just Machines](https://naveenkumarmuguda.medium.com/intent-revealing-code-writing-for-humans-not-just-machines-f1a310f0b934)
+  — Naveen Muguda
 - [Hexagonal Architecture: Decoupling Logic from Frameworks](https://medium.com/@vansh.khandelwal06/hexagonal-architecture-decoupling-business-logic-from-frameworks-02bfbfbd7162)
   — Vansh Khandelwal
 - [Path To A Cleaner React Architecture](https://dev.to/jkettmann/path-to-a-cleaner-react-architecture-part-6-business-logic-separation-221g)
@@ -239,3 +246,7 @@ Next time you open a file, ask: _Is this a story, or is it just glue?_
   — Naresh Kumar Katta
 - [Clean Code](https://www.oreilly.com/library/view/clean-code-a/9780136083238/)
   — Robert C. Martin
+- [Code-teller: The Art of Narrating Code](https://blog.stackademic.com/code-teller-the-art-of-narrating-code-69523493e6b6)
+  — Manuel Suricastro
+- [OWASP Insecure Direct Object Reference (IDOR) Guide](https://owasp.org/www-community/attacks/insecure_direct_object_reference)
+  — OWASP Foundation
