@@ -31,4 +31,6 @@ pnpm-debug.log*
 /docs
 !docs/_astro/.gitkeep
 
-.vscode
+.vscode/
+
+unlighthouse-report/
