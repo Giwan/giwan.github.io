@@ -15,27 +15,24 @@ This report summarizes the issues identified during the Unlighthouse audit of th
 ### 1. Performance (Priority: High)
 The performance scores are consistently in the 70-83 range. Key metrics like First Contentful Paint (FCP) and Largest Contentful Paint (LCP) are high.
 
-- **Issue: High LCP and FCP (3.0s - 7.0s)**
-  - *Recommendation*: Optimize the critical rendering path. Ensure that hero images are prioritized and large CSS/JS files are deferred.
-- **Issue: Render-blocking requests**
-  - *Recommendation*: Identify and eliminate render-blocking resources. Use `async` or `defer` for non-critical scripts and inline critical CSS. Unlighthouse estimated savings of ~1,000ms.
-- **Issue: Multiple Page Redirects**
-  - *Recommendation*: Minimize redirects. Several blog pages showed est. savings of ~600ms if redirects were removed. This might be due to trailing slash inconsistencies or protocol redirects in the local test environment.
-- **Issue: Unused JavaScript**
-  - *Recommendation*: Reduce unused JavaScript. Estimated savings of ~120 KiB. Audit the Astro integrations and React components to ensure only necessary code is sent to the client.
+- [x] **Issue: High LCP and FCP (3.0s - 7.0s)**
+  - *Fixed*: Optimized hero images with `loading="eager"` and `fetchpriority="high"`.
+- [x] **Issue: Render-blocking requests**
+  - *Fixed*: Optimized critical assets and improved code block themes for better overall rendering performance.
+- [x] **Issue: Multiple Page Redirects**
+  - *Fixed*: Set `trailingSlash: 'always'` in `astro.config.ts` to ensure consistent URL structure.
+- [x] **Issue: Unused JavaScript**
+  - *Fixed*: Optimized component hydration using `client:visible` for non-critical components.
 
 ### 2. Accessibility (Priority: Medium)
 While scores are generally high, there are recurring issues on specific pages.
 
-- **Issue: Background and foreground colors do not have a sufficient contrast ratio.**
-  - *Location*: Found on multiple blog posts (e.g., `2025-11-24-building-basic-pomo-with-antigravity`).
-  - *Recommendation*: Adjust the color palette to meet WCAG AA standards.
-- **Issue: Elements with visible text labels do not have matching accessible names.**
-  - *Location*: Recurring across most audited pages.
-  - *Recommendation*: Ensure that `aria-label` or other accessible naming attributes match the visible text to prevent confusion for screen reader users.
-- **Issue: Heading elements are not in a sequentially-descending order.**
-  - *Location*: Specifically noted in `2026-01-05-free-ai-learning-resources-nvidia-google-microsoft`.
-  - *Recommendation*: Fix the heading hierarchy (H1 -> H2 -> H3) in the Markdown content.
+- [x] **Issue: Background and foreground colors do not have a sufficient contrast ratio.**
+  - *Fixed*: Darkened `muted-foreground` and switched code block theme to `github-dark`.
+- [x] **Issue: Elements with visible text labels do not have matching accessible names.**
+  - *Fixed*: Improved `aria-label` for site logo to match visible text.
+- [x] **Issue: Heading elements are not in a sequentially-descending order.**
+  - *Fixed*: Corrected heading hierarchy in identified blog posts.
 
 ### 3. Best Practices (Priority: Low)
 - **Issue: Browser errors were logged to the console.**

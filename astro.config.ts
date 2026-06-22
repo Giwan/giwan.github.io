@@ -13,6 +13,7 @@ import { SITE_CONFIG, PWA_CONFIG } from "./src/config";
 // https://docs.astro.build/en/guides/server-side-rendering/#enabling-ssr-in-your-project
 export default defineConfig({
     site: SITE_CONFIG.siteUrl,
+    trailingSlash: 'always',
     vite: {
         plugins: [tailwindcss()],
     },
@@ -130,7 +131,7 @@ export default defineConfig({
     outDir: "./docs",
     markdown: {
         shikiConfig: {
-            theme: 'monokai',
+            theme: 'github-dark',
             wrap: true
         },
         image: {

@@ -13,7 +13,7 @@ const currentDate = formatDateWithOptions(new Date().toString());
             <Logo />
         </div>
         <div class="col-span-1 flex justify-end items-center gap-4 sm:gap-2" transition:name="header-controls">
-            <ThemeToggle client:load />
+            <ThemeToggle client:visible />
             <HeaderNav />
         </div>
         <div class="col-span-2 w-full flex flex-col sm:flex-row sm:justify-between items-center sm:items-baseline border-t border-border py-2 sm:py-1 gap-1 sm:gap-0 font-sans font-bold text-sm text-muted-foreground" transition:name="header-meta">
