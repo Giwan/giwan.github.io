@@ -16,8 +16,9 @@ const rootDir = path.resolve(__dirname, '..');
 
 class LighthouseAuditor {
     constructor() {
-        this.reportPath = path.join(rootDir, 'lighthouse-report.html');
-        this.jsonReportPath = path.join(rootDir, 'lighthouse-report.json');
+        this.reportBase = path.join(rootDir, 'lighthouse-report');
+        this.reportPath = `${this.reportBase}.report.html`;
+        this.jsonReportPath = `${this.reportBase}.report.json`;
     }
 
     async checkLighthouseInstalled() {
@@ -88,10 +89,10 @@ class LighthouseAuditor {
         
         const args = [
             url,
-            '--only-categories=pwa',
+            '--only-categories=accessibility,best-practices,seo',
             '--chrome-flags="--headless --no-sandbox --disable-gpu"',
             '--output=html,json',
-            `--output-path=${this.reportPath.replace('.html', '')}`,
+            `--output-path=${this.reportBase}`,
             '--quiet'
         ];
 
@@ -115,32 +116,41 @@ class LighthouseAuditor {
         }
 
         const reportData = JSON.parse(fs.readFileSync(this.jsonReportPath, 'utf8'));
-        const pwaCategory = reportData.categories.pwa;
         
         console.log('\n' + '='.repeat(60));
-        console.log('LIGHTHOUSE PWA AUDIT RESULTS');
+        console.log('LIGHTHOUSE AUDIT RESULTS');
         console.log('='.repeat(60));
-        
-        console.log(`\nPWA Score: ${Math.round(pwaCategory.score * 100)}/100`);
-        
-        if (pwaCategory.auditRefs) {
-            console.log('\nPWA Audit Details:');
-            for (const auditRef of pwaCategory.auditRefs) {
-                const audit = reportData.audits[auditRef.id];
-                if (audit) {
-                    const status = audit.score === 1 ? '✅' : audit.score === null ? '⚠️' : '❌';
-                    console.log(`${status} ${audit.title}: ${audit.displayValue || audit.score}`);
-                    
-                    if (audit.score !== 1 && audit.description) {
-                        console.log(`   ${audit.description}`);
+
+        const categories = ['accessibility', 'best-practices', 'seo'];
+        let overallPassed = true;
+
+        for (const catId of categories) {
+            const category = reportData.categories[catId];
+            if (!category) continue;
+
+            const score = Math.round(category.score * 100);
+            console.log(`\n${catId.toUpperCase()} Score: ${score}/100`);
+
+            if (category.auditRefs) {
+                console.log(`\n${catId.toUpperCase()} Audit Details:`);
+                for (const auditRef of category.auditRefs) {
+                    const audit = reportData.audits[auditRef.id];
+                    if (audit && audit.score !== 1) {
+                        const status = audit.score === 1 ? '✅' : audit.score === null ? '⚠️' : '❌';
+                        console.log(`${status} ${audit.title}: ${audit.displayValue || audit.score}`);
+
+                        if (audit.score !== 1 && audit.description) {
+                            console.log(`   ${audit.description}`);
+                        }
                     }
                 }
             }
+            if (score < 90) overallPassed = false;
         }
 
         console.log(`\nFull report available at: ${this.reportPath}`);
         
-        return Math.round(pwaCategory.score * 100);
+        return overallPassed;
     }
 
     async cleanup(server) {
@@ -170,11 +180,11 @@ class LighthouseAuditor {
             await this.runLighthouseAudit();
             
             // Parse and display results
-            const score = await this.parseResults();
+            const success = await this.parseResults();
             
             await this.cleanup(server);
             
-            return score >= 100;
+            return success;
             
         } catch (error) {
             console.error('❌ Lighthouse audit failed:', error.message);

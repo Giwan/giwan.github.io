@@ -15,7 +15,7 @@ export default HeaderLogo;
 function Logo() {
     return (
         <p className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-primary mb-1">
-            <a href="/" className="hover:opacity-90 transition-opacity" aria-label={`${SITE_CONFIG.title} home`}>
+            <a href="/" className="hover:opacity-90 transition-opacity">
                 G1
             </a>
         </p>
