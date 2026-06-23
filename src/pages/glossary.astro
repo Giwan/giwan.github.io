@@ -1,0 +1,57 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { acronyms } from '../data/acronyms';
+
+const sortedAcronyms = [...acronyms].sort((a, b) => a.acronym.localeCompare(b.acronym));
+---
+
+<PageLayout content={{
+    title: "Acronym Glossary",
+    description: "Reference for all acronyms used across this blog with definitions and links.",
+    article: false
+}}>
+  <main class="prose max-w-4xl mx-auto px-4 py-8">
+    <h1>Acronym Glossary</h1>
+    <p class="lead mb-8">
+      This page lists all acronyms used throughout this blog with their full forms, descriptions, and links to learn more.
+      When you encounter an acronym in an article without a direct link, you can find its definition here.
+    </p>
+
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {sortedAcronyms.map(({ acronym, fullForm, description, url }) => (
+        <article class="bg-muted/30 rounded-lg p-4 border border-border transition-shadow hover:shadow-lg">
+          <header class="mb-2">
+            <h2 class="text-xl font-semibold text-foreground">
+              <a href={url} target="_blank" rel="noopener noreferrer" class="hover:underline">
+                {acronym}
+              </a>
+            </h2>
+            <p class="text-sm text-muted-foreground mt-1">{fullForm}</p>
+          </header>
+          {description && <p class="text-sm text-muted-foreground mb-2">{description}</p>}
+          <footer>
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-sm text-primary hover:underline inline-flex items-center gap-1"
+            >
+              Learn more →
+            </a>
+          </footer>
+        </article>
+      ))}
+    </div>
+
+    <hr class="my-12 border-border" />
+
+    <section>
+      <h2 class="text-2xl font-semibold mb-4">Usage Guidelines</h2>
+      <ul class="list-disc list-inside space-y-2 text-muted-foreground">
+        <li>Acronyms in articles should link to their definition on first use, or reference this glossary via footnote.</li>
+        <li>Common acronyms like <strong>HTML</strong>, <strong>CSS</strong>, <strong>JS</strong>, <strong>API</strong> may be used without links on subsequent mentions.</li>
+        <li>This glossary is automatically validated during build to ensure all known acronyms have references.</li>
+      </ul>
+    </section>
+  </main>
+</PageLayout>

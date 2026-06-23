@@ -29,6 +29,11 @@ Standardized practices for code quality and maintainability.
 - **Images**: Use Astro's `<Image />` component for optimization.
 - **Scripts**: Externalize large scripts and load them efficiently.
 
+## React Formatting
+
+- **Multi-line JSX**: Wrap in parentheses, indent children.
+- **No intermediate variables**: Prefer inline expressions for simple return values.
+
 ## Content Guidelines (Blog)
 
 1. **Title and Headers**:
