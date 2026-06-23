@@ -4,15 +4,15 @@
         "label": "Articles"
     },
     {
-        "href": "/tools",
+        "href": "/tools/",
         "label": "Tools"
     },
     {
-        "href": "/search",
+        "href": "/search/",
         "label": "Search"
     },
     {
-        "href": "/about",
+        "href": "/about/",
         "label": "About"
     }
 ]

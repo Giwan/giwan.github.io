@@ -37,7 +37,7 @@ retrieval, and keep inference costs under control.
 - **Best for Deep Learning Theory:**
   [fast.ai](#5-the-pure-engineering-honorable-mentions-🚀)
 
-### 🛠️ What You'll Actually Build
+## 🛠️ What You'll Actually Build
 
 | Provider         | Tangible Outcome                                      |
 | :--------------- | :---------------------------------------------------- |
