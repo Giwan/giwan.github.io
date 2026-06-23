@@ -20,7 +20,7 @@ function isAcronym(text: string): boolean {
 }
 
 function isInLinkOrFootnote(ancestors: Parent[]): boolean {
-  return ancestors.some(ancestor => 
+  return ancestors.some(ancestor =>
     ancestor.type === 'link' || ancestor.type === 'footnoteReference' || ancestor.type === 'footnote'
   );
 }
@@ -62,21 +62,21 @@ export function remarkAcronymValidator(options: AcronymValidationOptions = {}): 
       }
 
       const words = node.value.split(/\s+/);
-      
+
       for (const word of words) {
         const cleanWord = word.replace(/[.,;:!?()[\]{}"']/g, '');
-        
+
         if (cleanWord.length < 2) continue;
         if (isAllowedAcronym(cleanWord, allowedPatterns)) continue;
-        
+
         if (isAcronym(cleanWord)) {
           const definition = getAcronymDefinition(cleanWord);
-          const suggestion = definition 
+          const suggestion = definition
             ? ` Consider linking to [${definition.fullForm}](${definition.url}) or adding a footnote.`
             : ' Consider adding a link or footnote reference.';
-          
+
           const message = `Acronym "${cleanWord}" should have a link or footnote reference.${suggestion}`;
-          
+
           const position = node.position;
           if (position) {
             messages.push({
