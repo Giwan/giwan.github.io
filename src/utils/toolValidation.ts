@@ -1,4 +1,5 @@
-import { validateTool, ValidationIssue } from "../domain/tools/validation.domain";
+import { validateTool } from "../domain/tools/validation.domain";
+import type { ValidationIssue } from "../domain/tools/validation.domain";
 import type { TTool } from "../types/tools.d";
 
 export interface ValidationResult {
@@ -11,8 +12,8 @@ export function validateToolEntry(tool: any, index?: number): ValidationResult {
   const issues = validateTool(tool);
   const prefix = index !== undefined ? `Tool ${index + 1}` : 'Tool';
 
-  const errors = issues.filter(i => i.type === 'error').map(i => `${prefix}: ${i.message}`);
-  const warnings = issues.filter(i => i.type === 'warning').map(i => `${prefix}: ${i.message}`);
+  const errors = issues.filter((i: ValidationIssue) => i.type === 'error').map((i: ValidationIssue) => `${prefix}: ${i.message}`);
+  const warnings = issues.filter((i: ValidationIssue) => i.type === 'warning').map((i: ValidationIssue) => `${prefix}: ${i.message}`);
 
   return {
     isValid: errors.length === 0,

@@ -5,7 +5,9 @@ import {
   formatSkipAnnouncement
 } from '../domain/accessibility/announcements.domain';
 import {
-  resolvePreferences,
+  resolvePreferences
+} from '../domain/accessibility/preferences.domain';
+import type {
   AccessibilityPreferences
 } from '../domain/accessibility/preferences.domain';
 import {
@@ -104,7 +106,7 @@ export class AccessibilityManager {
       main.focus();
       setTimeout(() => main.removeAttribute('tabindex'), 100);
     } else {
-      findFirstFocusable()?.focus();
+      findFirstFocusable(document, window)?.focus();
     }
   }
 
@@ -139,7 +141,7 @@ export class AccessibilityManager {
   private handleTabDuringTransition(event: KeyboardEvent): void {
     const main = document.getElementById('main-content');
     if (!main) return;
-    const first = findFirstFocusable(main);
+    const first = findFirstFocusable(main, window);
     const last = Array.from(main.querySelectorAll('a, button, input, select, textarea')).pop() as HTMLElement;
 
     if (event.shiftKey && document.activeElement === first) {

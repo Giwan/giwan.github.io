@@ -19,35 +19,34 @@ export enum NavigationDirection {
 
 export function classifyPageType(path: string): PageType {
   const cleanPath = path.replace(/\/$/, '') || '/';
+  const pageMap: Record<string, PageType> = {
+    '/': PageType.HOME,
+    '/blog': PageType.BLOG_LIST,
+    '/tools': PageType.TOOLS_LIST,
+    '/about': PageType.ABOUT,
+    '/contact': PageType.CONTACT,
+    '/offline': PageType.OFFLINE,
+  };
 
-  if (isHome(cleanPath)) return PageType.HOME;
-  if (isBlogList(cleanPath)) return PageType.BLOG_LIST;
-  if (isBlogPost(cleanPath)) return PageType.BLOG_POST;
-  if (isToolsList(cleanPath)) return PageType.TOOLS_LIST;
-  if (isToolsCategory(cleanPath)) return PageType.TOOLS_CATEGORY;
-  if (isSearch(cleanPath)) return PageType.SEARCH;
-  if (isAbout(cleanPath)) return PageType.ABOUT;
-  if (isContact(cleanPath)) return PageType.CONTACT;
-  if (isOffline(cleanPath)) return PageType.OFFLINE;
+  if (pageMap[cleanPath]) return pageMap[cleanPath];
+  return classifyDynamicRoute(cleanPath);
+}
 
+function classifyDynamicRoute(path: string): PageType {
+  if (path.startsWith('/blog/')) return PageType.BLOG_POST;
+  if (path.startsWith('/tools/')) return PageType.TOOLS_CATEGORY;
+  if (path.startsWith('/search')) return PageType.SEARCH;
   return PageType.UNKNOWN;
 }
 
-const isHome = (path: string) => path === '' || path === '/';
-const isBlogList = (path: string) => path === '/blog';
-const isBlogPost = (path: string) => path.startsWith('/blog/') && path !== '/blog';
-const isToolsList = (path: string) => path === '/tools';
-const isToolsCategory = (path: string) => path.startsWith('/tools/') && path !== '/tools';
-const isSearch = (path: string) => path.startsWith('/search');
-const isAbout = (path: string) => path === '/about';
-const isContact = (path: string) => path === '/contact';
-const isOffline = (path: string) => path === '/offline';
-
 export function detectNavigationDirection(fromPath: string, toPath: string, history: string[]): NavigationDirection {
   if (fromPath === toPath) return NavigationDirection.REFRESH;
-  if (isInHistoryBefore(toPath, fromPath, history)) return NavigationDirection.BACKWARD;
-  if (matchesBackwardPattern(fromPath, toPath)) return NavigationDirection.BACKWARD;
+  if (isReturningBack(fromPath, toPath, history)) return NavigationDirection.BACKWARD;
   return NavigationDirection.FORWARD;
+}
+
+function isReturningBack(from: string, to: string, history: string[]): boolean {
+  return isInHistoryBefore(to, from, history) || matchesBackwardPattern(from, to);
 }
 
 function isInHistoryBefore(to: string, from: string, history: string[]): boolean {
@@ -57,17 +56,19 @@ function isInHistoryBefore(to: string, from: string, history: string[]): boolean
 }
 
 function matchesBackwardPattern(from: string, to: string): boolean {
-  if (from.includes(to) && from !== to) return true;
   if (isDrillingUp(from, to)) return true;
-
-  const patterns = [
-    { from: /^\/blog\/[\w-]+/, to: /^\/blog\/?$/ },
-    { from: /^\/tools\/[\w-]+/, to: /^\/tools\/?$/ },
-    { from: /^\/search\/results/, to: /^\/search\/?$/ }
-  ];
-
-  return patterns.some(p => p.from.test(from) && p.to.test(to));
+  return matchesBreadcrumbReduction(from, to);
 }
 
-const isDrillingUp = (from: string, to: string) =>
-  from.startsWith(to) && from.split('/').length > to.split('/').length;
+function isDrillingUp(from: string, to: string): boolean {
+  return from.startsWith(to) && from.length > to.length && from.split('/').length > to.split('/').length;
+}
+
+function matchesBreadcrumbReduction(from: string, to: string): boolean {
+  const patterns = [
+    { from: /^\/blog\/.+/, to: /^\/blog$/ },
+    { from: /^\/tools\/.+/, to: /^\/tools$/ },
+    { from: /^\/search\/.+/, to: /^\/search$/ }
+  ];
+  return patterns.some(p => p.from.test(from) && p.to.test(to));
+}

@@ -15,7 +15,7 @@ import {
 import { PageRelationship } from '../domain/transitions/relationship.domain';
 import {
   createNavigationContext,
-  NavigationContext
+  type NavigationContext
 } from '../domain/transitions/context.domain';
 import {
   getTransitionContextName,

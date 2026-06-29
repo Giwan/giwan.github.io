@@ -8,34 +8,36 @@ export enum PageRelationship {
   CONTEXTUAL = 'contextual'
 }
 
-export function analyzePageRelationship(fromType: PageType, toType: PageType): PageRelationship {
-  if (fromType === toType) return PageRelationship.SIBLING;
-  if (isParentToChild(fromType, toType)) return PageRelationship.PARENT_CHILD;
-  if (isParentToChild(toType, fromType)) return PageRelationship.CHILD_PARENT;
-  if (isContextuallyRelated(fromType, toType)) return PageRelationship.CONTEXTUAL;
+export function analyzePageRelationship(from: PageType, to: PageType): PageRelationship {
+  if (from === to) return PageRelationship.SIBLING;
+  if (isDrillingDown(from, to)) return PageRelationship.PARENT_CHILD;
+  if (isDrillingUp(from, to)) return PageRelationship.CHILD_PARENT;
+  if (isContextuallyLinked(from, to)) return PageRelationship.CONTEXTUAL;
 
   return PageRelationship.UNRELATED;
 }
 
-function isParentToChild(parent: PageType, child: PageType): boolean {
-  const pairs = [
-    [PageType.BLOG_LIST, PageType.BLOG_POST],
-    [PageType.TOOLS_LIST, PageType.TOOLS_CATEGORY],
+function isDrillingDown(from: PageType, to: PageType): boolean {
+  const hierarchies = [
     [PageType.HOME, PageType.BLOG_LIST],
-    [PageType.HOME, PageType.TOOLS_LIST]
+    [PageType.HOME, PageType.TOOLS_LIST],
+    [PageType.BLOG_LIST, PageType.BLOG_POST],
+    [PageType.TOOLS_LIST, PageType.TOOLS_CATEGORY]
   ];
-  return pairs.some(([p, c]) => p === parent && c === child);
+  return hierarchies.some(([parent, child]) => from === parent && to === child);
 }
 
-function isContextuallyRelated(type1: PageType, type2: PageType): boolean {
-  const contextualPairs = [
-    [PageType.BLOG_LIST, PageType.SEARCH],
-    [PageType.TOOLS_LIST, PageType.SEARCH],
-    [PageType.HOME, PageType.ABOUT],
-    [PageType.HOME, PageType.CONTACT]
+function isDrillingUp(from: PageType, to: PageType): boolean {
+  return isDrillingDown(to, from);
+}
+
+function isContextuallyLinked(a: PageType, b: PageType): boolean {
+  const contextualSets = [
+    new Set([PageType.BLOG_LIST, PageType.SEARCH]),
+    new Set([PageType.TOOLS_LIST, PageType.SEARCH]),
+    new Set([PageType.HOME, PageType.ABOUT]),
+    new Set([PageType.HOME, PageType.CONTACT])
   ];
 
-  return contextualPairs.some(([p1, p2]) =>
-    (type1 === p1 && type2 === p2) || (type1 === p2 && type2 === p1)
-  );
+  return contextualSets.some(set => set.has(a) && set.has(b));
 }
