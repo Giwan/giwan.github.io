@@ -19,7 +19,11 @@ export enum NavigationDirection {
 
 export function classifyPageType(path: string): PageType {
   const cleanPath = path.replace(/\/$/, '') || '/';
-  const pageMap: Record<string, PageType> = {
+  return matchDirectRoute(cleanPath) || classifyDynamicRoute(cleanPath);
+}
+
+function matchDirectRoute(path: string): PageType | null {
+  const routes: Record<string, PageType> = {
     '/': PageType.HOME,
     '/blog': PageType.BLOG_LIST,
     '/tools': PageType.TOOLS_LIST,
@@ -27,9 +31,7 @@ export function classifyPageType(path: string): PageType {
     '/contact': PageType.CONTACT,
     '/offline': PageType.OFFLINE,
   };
-
-  if (pageMap[cleanPath]) return pageMap[cleanPath];
-  return classifyDynamicRoute(cleanPath);
+  return routes[path] || null;
 }
 
 function classifyDynamicRoute(path: string): PageType {
@@ -41,8 +43,9 @@ function classifyDynamicRoute(path: string): PageType {
 
 export function detectNavigationDirection(fromPath: string, toPath: string, history: string[]): NavigationDirection {
   if (fromPath === toPath) return NavigationDirection.REFRESH;
-  if (isReturningBack(fromPath, toPath, history)) return NavigationDirection.BACKWARD;
-  return NavigationDirection.FORWARD;
+  return isReturningBack(fromPath, toPath, history)
+    ? NavigationDirection.BACKWARD
+    : NavigationDirection.FORWARD;
 }
 
 function isReturningBack(from: string, to: string, history: string[]): boolean {
@@ -56,12 +59,13 @@ function isInHistoryBefore(to: string, from: string, history: string[]): boolean
 }
 
 function matchesBackwardPattern(from: string, to: string): boolean {
-  if (isDrillingUp(from, to)) return true;
-  return matchesBreadcrumbReduction(from, to);
+  return isDrillingUp(from, to) || matchesBreadcrumbReduction(from, to);
 }
 
 function isDrillingUp(from: string, to: string): boolean {
-  return from.startsWith(to) && from.length > to.length && from.split('/').length > to.split('/').length;
+  return from.startsWith(to) &&
+         from.length > to.length &&
+         from.split('/').length > to.split('/').length;
 }
 
 function matchesBreadcrumbReduction(from: string, to: string): boolean {

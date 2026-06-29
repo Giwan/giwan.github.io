@@ -8,29 +8,15 @@ import { pwaTransitionIntegration } from './pwaTransitionIntegration';
 import { performanceMonitor } from './performanceMonitor';
 import type { TransitionPerformanceData, PerformanceMetrics } from './performanceMonitor';
 import { transitionPreferences } from './transitionPreferences';
-import {
-  PageType,
-  NavigationDirection
-} from '../domain/transitions/navigation.domain';
+import { PageType, NavigationDirection } from '../domain/transitions/navigation.domain';
 import { PageRelationship } from '../domain/transitions/relationship.domain';
-import {
-  createNavigationContext,
-  type NavigationContext
-} from '../domain/transitions/context.domain';
-import {
-  getTransitionContextName,
-  estimateTransitionDuration
-} from '../domain/transitions/optimization.domain';
+import { createNavigationContext, type NavigationContext } from '../domain/transitions/context.domain';
+import { getTransitionContextName, estimateTransitionDuration } from '../domain/transitions/optimization.domain';
+import { calculateTransitionAttributes, calculateOptimizationStyles } from '../domain/transitions/attribute.domain';
+import { parseEnvironment, calculateMemoryLevel, PerformanceTier } from '../domain/common/environment.domain';
 
 export { PageType, NavigationDirection, PageRelationship };
 export type { NavigationContext };
-
-export interface UserAgentInfo {
-  isMobile: boolean;
-  isLowPowerMode: boolean;
-  prefersReducedMotion: boolean;
-  connectionType?: string;
-}
 
 export interface TransitionMetrics {
   averageDuration: number;
@@ -42,49 +28,39 @@ export interface TransitionMetrics {
 export class TransitionController {
   private navigationHistory: string[] = [];
   private currentPath: string = '';
-  private metrics: TransitionMetrics = {
-    averageDuration: 0,
-    failureRate: 0,
-    totalTransitions: 0,
-    lastTransitionTime: 0
-  };
+  private metrics: TransitionMetrics = { averageDuration: 0, failureRate: 0, totalTransitions: 0, lastTransitionTime: 0 };
   private isInitialized: boolean = false;
   private transitionInProgress: boolean = false;
 
-  constructor() {
-    this.initialize();
-  }
+  constructor() { this.initialize(); }
 
   private initialize(): void {
     if (typeof window === 'undefined' || this.isInitialized) return;
-
     this.currentPath = window.location.pathname;
     this.navigationHistory = [this.currentPath];
+    this.bindEvents();
+    this.isInitialized = true;
+  }
 
+  private bindEvents(): void {
     document.addEventListener('astro:before-preparation', this.handleBeforePreparation.bind(this));
     document.addEventListener('astro:after-swap', this.handleAfterSwap.bind(this));
     document.addEventListener('astro:page-load', this.handlePageLoad.bind(this));
     window.addEventListener('popstate', this.handlePopState.bind(this));
-
-    this.isInitialized = true;
   }
 
   private handleBeforePreparation(event: Event): void {
     const customEvent = event as CustomEvent;
     const toPath = customEvent.detail?.to?.pathname || window.location.pathname;
-
     if (this.transitionInProgress) return;
     this.transitionInProgress = true;
-
-    const context = createNavigationContext(this.currentPath, toPath, this.navigationHistory);
-
-    this.startTransitionPreparation(context);
+    this.startTransitionPreparation(createNavigationContext(this.currentPath, toPath, this.navigationHistory));
   }
 
   private startTransitionPreparation(context: NavigationContext): void {
     performanceMonitor.startMonitoring(getTransitionContextName(context.direction, context.relationship));
     this.applyMobileOptimizations(context);
-    this.applyTransitionContext(context);
+    this.applyDomainAttributes(context);
     this.applyUserPreferences();
     this.applyPerformanceOptimizations();
     this.updateMetrics(context);
@@ -94,140 +70,84 @@ export class TransitionController {
     const customEvent = event as CustomEvent;
     const newPath = customEvent.detail?.newDocument?.location?.pathname || window.location.pathname;
     const performanceData = performanceMonitor.stopMonitoring();
-
     this.updateNavigationHistory(newPath);
     this.currentPath = newPath;
     this.transitionInProgress = false;
-
     if (performanceData) this.updatePerformanceMetrics(performanceData);
   }
 
-  private handlePageLoad(): void {
-    this.transitionInProgress = false;
-  }
+  private handlePageLoad(): void { this.transitionInProgress = false; }
 
   private handlePopState(): void {
     const newPath = window.location.pathname;
     const context = createNavigationContext(this.currentPath, newPath, this.navigationHistory);
     context.direction = NavigationDirection.BACKWARD;
-
-    this.applyTransitionContext(context);
+    this.applyDomainAttributes(context);
     this.updateNavigationHistory(newPath);
     this.currentPath = newPath;
   }
 
   private applyMobileOptimizations(context: NavigationContext): void {
-    const optimization = mobileTransitionOptimizer.getTransitionOptimization();
-    const pwaSettings = pwaTransitionIntegration.getPWATransitionSettings();
-    const root = document.documentElement;
-
-    if (optimization.shouldOptimize) {
-      root.style.setProperty('--transition-duration-optimized', `${optimization.recommendedDuration}ms`);
-      root.style.setProperty('--transition-easing-optimized', optimization.recommendedEasing);
-      root.setAttribute('data-transition-optimized', optimization.optimizationType);
-    }
-
-    if (pwaSettings.shouldOptimize) {
-      root.style.setProperty('--transition-duration-pwa', `${pwaSettings.duration}ms`);
-      root.style.setProperty('--transition-easing-pwa', pwaSettings.easing);
-    }
-
-    this.applyDeviceStateAttributes(root);
+    const opt = mobileTransitionOptimizer.getTransitionOptimization();
+    const pwa = pwaTransitionIntegration.getPWATransitionSettings();
+    if (opt.shouldOptimize) this.applyStyles(calculateOptimizationStyles(opt.recommendedDuration, opt.recommendedEasing, opt.optimizationType));
+    if (pwa.shouldOptimize) this.applyStyles({ attributes: {}, cssVariables: { '--transition-duration-pwa': `${pwa.duration}ms`, '--transition-easing-pwa': pwa.easing } });
+    this.applyDeviceStateAttributes();
   }
 
-  private applyDeviceStateAttributes(root: HTMLElement): void {
+  private applyDeviceStateAttributes(): void {
     const caps = mobileTransitionOptimizer.getDeviceCapabilities();
     const net = mobileTransitionOptimizer.getNetworkCondition();
-
+    const root = document.documentElement;
     root.setAttribute('data-device-mobile', caps.isMobile.toString());
     root.setAttribute('data-device-tablet', caps.isTablet.toString());
     root.setAttribute('data-device-pwa', caps.isPWA.toString());
-    root.setAttribute('data-device-orientation', caps.orientation);
     root.setAttribute('data-network-type', net.effectiveType);
-    root.setAttribute('data-network-save-data', net.saveData.toString());
-
-    if (caps.batteryLevel !== undefined) {
-      root.setAttribute('data-battery-level', Math.round(caps.batteryLevel * 100).toString());
-    }
-    root.setAttribute('data-battery-low', caps.isLowBattery.toString());
+    if (caps.batteryLevel !== undefined) root.setAttribute('data-battery-level', Math.round(caps.batteryLevel * 100).toString());
   }
 
-  private applyTransitionContext(context: NavigationContext): void {
-    const root = document.documentElement;
-    root.setAttribute('data-transition-direction', context.direction);
-    root.setAttribute('data-transition-from-type', context.fromPageType);
-    root.setAttribute('data-transition-to-type', context.toPageType);
-    root.setAttribute('data-transition-relationship', context.relationship);
-    root.setAttribute('data-transition-context', getTransitionContextName(context.direction, context.relationship));
-
-    const ua = this.getUserAgentInfo();
-    if (ua.prefersReducedMotion) root.setAttribute('data-reduced-motion', 'true');
-    if (ua.isLowPowerMode) root.setAttribute('data-low-power', 'true');
+  private applyDomainAttributes(context: NavigationContext): void {
+    const env = this.getEnvironment();
+    const blueprint = calculateTransitionAttributes(context, env.prefersReducedMotion, env.isLowPower);
+    this.applyStyles(blueprint);
   }
 
   private applyUserPreferences(): void {
     const preferences = transitionPreferences.getPreferences();
-    const intensity = transitionPreferences.getEffectiveIntensity();
     const root = document.documentElement;
-
-    root.setAttribute('data-transition-intensity', intensity);
-    if (preferences.customDuration) {
-      root.style.setProperty('--transition-duration-custom', `${preferences.customDuration}ms`);
-    }
+    root.setAttribute('data-transition-intensity', transitionPreferences.getEffectiveIntensity());
     root.setAttribute('data-debug-transitions', preferences.debugMode.toString());
-    root.setAttribute('data-sound-effects', preferences.enableSoundEffects.toString());
-    root.setAttribute('data-haptic-feedback', preferences.enableHapticFeedback.toString());
-
     if (preferences.enableSoundEffects) this.triggerSoundEffect();
     if (preferences.enableHapticFeedback) this.triggerHapticFeedback();
   }
 
   private applyPerformanceOptimizations(): void {
     const metrics = performanceMonitor.getCurrentMetrics();
+    const env = this.getEnvironment();
     const root = document.documentElement;
-    const ua = this.getUserAgentInfo();
-
-    root.setAttribute('data-performance-monitoring', 'true');
+    root.setAttribute('data-performance-mode', env.tier);
     root.setAttribute('data-current-fps', metrics.frameRate.toString());
-    root.setAttribute('data-cpu-cores', navigator.hardwareConcurrency.toString());
-
-    this.setPerformanceMode(root, metrics, ua);
-    this.setMemoryStatus(root, metrics);
+    if (metrics.memoryUsage !== undefined) root.setAttribute('data-memory-usage', calculateMemoryLevel(metrics.memoryUsage));
   }
 
-  private setPerformanceMode(root: HTMLElement, metrics: any, ua: UserAgentInfo): void {
-    if (ua.isLowPowerMode) {
-      root.setAttribute('data-performance-mode', 'low');
-    } else if (metrics.frameRate >= 55 && navigator.hardwareConcurrency >= 8) {
-      root.setAttribute('data-performance-mode', 'high');
-    } else {
-      root.setAttribute('data-performance-mode', 'normal');
-    }
-  }
-
-  private setMemoryStatus(root: HTMLElement, metrics: any): void {
-    if (metrics.memoryUsage !== undefined) {
-      const level = metrics.memoryUsage > 0.8 ? 'high' : metrics.memoryUsage > 0.6 ? 'medium' : 'low';
-      root.setAttribute('data-memory-usage', level);
-      if (metrics.memoryUsage > 0.8) root.setAttribute('data-low-memory', 'true');
-    }
+  private applyStyles(blueprint: { attributes: Record<string, string>; cssVariables: Record<string, string> }): void {
+    const root = document.documentElement;
+    Object.entries(blueprint.attributes).forEach(([k, v]) => root.setAttribute(k, v));
+    Object.entries(blueprint.cssVariables).forEach(([k, v]) => root.style.setProperty(k, v));
   }
 
   private updateMetrics(context: NavigationContext): void {
-    const ua = this.getUserAgentInfo();
+    const env = this.getEnvironment();
     this.metrics.totalTransitions++;
     this.metrics.lastTransitionTime = context.timestamp;
-
-    const estimated = estimateTransitionDuration(context.relationship, ua.isLowPowerMode);
+    const estimated = estimateTransitionDuration(context.relationship, env.isLowPower);
     this.metrics.averageDuration = (this.metrics.averageDuration * (this.metrics.totalTransitions - 1) + estimated) / this.metrics.totalTransitions;
   }
 
   private updatePerformanceMetrics(data: TransitionPerformanceData): void {
     this.metrics.averageDuration = (this.metrics.averageDuration * (this.metrics.totalTransitions - 1) + (data.endTime - data.startTime)) / this.metrics.totalTransitions;
-
     const isFailure = data.averageFrameRate < 30 || data.droppedFrames > 5;
-    const failureCount = isFailure ? 1 : 0;
-    this.metrics.failureRate = (this.metrics.failureRate * (this.metrics.totalTransitions - 1) + failureCount) / this.metrics.totalTransitions;
+    this.metrics.failureRate = (this.metrics.failureRate * (this.metrics.totalTransitions - 1) + (isFailure ? 1 : 0)) / this.metrics.totalTransitions;
   }
 
   private updateNavigationHistory(path: string): void {
@@ -235,18 +155,14 @@ export class TransitionController {
     if (this.navigationHistory.length > 50) this.navigationHistory = this.navigationHistory.slice(-50);
   }
 
-  private getUserAgentInfo(): UserAgentInfo {
-    const ua = navigator.userAgent.toLowerCase();
-    const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(ua);
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  private getEnvironment() {
     const connection = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection;
-
-    return {
-      isMobile,
-      isLowPowerMode: navigator.hardwareConcurrency <= 2 || prefersReducedMotion,
-      prefersReducedMotion,
-      connectionType: connection?.effectiveType || 'unknown'
-    };
+    return parseEnvironment(
+      navigator.userAgent,
+      navigator.hardwareConcurrency,
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+      connection?.effectiveType || 'unknown'
+    );
   }
 
   private triggerSoundEffect(): void {
@@ -254,26 +170,24 @@ export class TransitionController {
       const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
+      osc.connect(gain); gain.connect(ctx.destination);
       osc.frequency.setValueAtTime(800, ctx.currentTime);
       osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.1);
       gain.gain.setValueAtTime(0.1, ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + 0.1);
+      osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.1);
     } catch (e) {}
   }
 
   private triggerHapticFeedback(): void {
-    if ('vibrate' in navigator) {
-      try { navigator.vibrate([10, 5, 10]); } catch (e) {}
-    }
+    if ('vibrate' in navigator) try { navigator.vibrate([10, 5, 10]); } catch (e) {}
   }
 
-  public detectNavigationContext(fromPath: string, toPath: string): NavigationContext {
-    return createNavigationContext(fromPath, toPath, this.navigationHistory);
-  }
+  public detectNavigationContext(from: string, to: string) { return createNavigationContext(from, to, this.navigationHistory); }
+
+  public getEnhancedMetrics() { return { ...this.metrics, performanceData: performanceMonitor.getCurrentMetrics() }; }
+
+  public getMetrics(): TransitionMetrics { return { ...this.metrics }; }
 
   public getCurrentContext(): NavigationContext | null {
     if (this.navigationHistory.length < 2) return null;
@@ -284,15 +198,7 @@ export class TransitionController {
     );
   }
 
-  public getEnhancedMetrics(): TransitionMetrics & { performanceData?: PerformanceMetrics } {
-    return { ...this.getMetrics(), performanceData: performanceMonitor.getCurrentMetrics() };
-  }
-
-  public isTransitionSupported(): boolean {
-    return typeof document !== 'undefined' && 'startViewTransition' in document;
-  }
-
-  public getMetrics(): TransitionMetrics { return { ...this.metrics }; }
+  public isTransitionSupported() { return typeof document !== 'undefined' && 'startViewTransition' in document; }
 
   public destroy(): void {
     if (typeof document !== 'undefined') {
@@ -300,9 +206,7 @@ export class TransitionController {
       document.removeEventListener('astro:after-swap', this.handleAfterSwap.bind(this));
       document.removeEventListener('astro:page-load', this.handlePageLoad.bind(this));
     }
-    if (typeof window !== 'undefined') {
-      window.removeEventListener('popstate', this.handlePopState.bind(this));
-    }
+    if (typeof window !== 'undefined') window.removeEventListener('popstate', this.handlePopState.bind(this));
     performanceMonitor.destroy();
     transitionPreferences.destroy();
     this.isInitialized = false;

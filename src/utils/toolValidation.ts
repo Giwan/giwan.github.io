@@ -12,14 +12,14 @@ export function validateToolEntry(tool: any, index?: number): ValidationResult {
   const issues = validateTool(tool);
   const prefix = index !== undefined ? `Tool ${index + 1}` : 'Tool';
 
-  const errors = issues.filter((i: ValidationIssue) => i.type === 'error').map((i: ValidationIssue) => `${prefix}: ${i.message}`);
-  const warnings = issues.filter((i: ValidationIssue) => i.type === 'warning').map((i: ValidationIssue) => `${prefix}: ${i.message}`);
+  const categorize = (type: string) => issues
+    .filter((i: ValidationIssue) => i.type === type)
+    .map((i: ValidationIssue) => `${prefix}: ${i.message}`);
 
-  return {
-    isValid: errors.length === 0,
-    errors,
-    warnings
-  };
+  const errors = categorize('error');
+  const warnings = categorize('warning');
+
+  return { isValid: errors.length === 0, errors, warnings };
 }
 
 export function validateToolArray(tools: any[], fileName?: string): ValidationResult {
