@@ -1,5 +1,11 @@
 import type { ArticleData } from '../types/article';
-import { TIME_CONSTANTS } from '../constants/storage';
+import {
+  isFresh,
+  isBlogPath,
+  getScrollToTopBlueprint,
+  getRestoreScrollBlueprint,
+  type ScrollBlueprint
+} from '../domain/blog/scroll.domain';
 
 function supportsSmoothScroll(): boolean {
   return typeof document !== 'undefined' && 'scrollBehavior' in document.documentElement.style;
@@ -13,29 +19,34 @@ export function articleDataHandler() {
 }
 
 export function isBlogPage(): boolean {
-  return window.location.pathname.startsWith("/blog");
+  return isBlogPath(window.location.pathname);
 }
 
 export function isLessThanFiveMinutes(timestamp: number): boolean {
-  return (Date.now() - timestamp) < TIME_CONSTANTS.FIVE_MINUTES_MS;
+  return isFresh(timestamp, Date.now());
 }
-
-const getScrollAction = () => supportsSmoothScroll() ? windowScrollTo : legacyBrowserWindowScroll;
 
 export function windowScrollTo(top = 0) {
-  window.scrollTo({ top, behavior: 'smooth' });
+  const blueprint = getScrollToTopBlueprint(supportsSmoothScroll());
+  applyScroll(blueprint, top);
 }
 
-export function legacyBrowserWindowScroll(top = 0) {
-  window.scrollTo(0, top);
+function applyScroll(blueprint: ScrollBlueprint, overrideTop?: number) {
+  const top = overrideTop ?? blueprint.top;
+  if (blueprint.isLegacy) {
+    window.scrollTo(0, top);
+  } else {
+    window.scrollTo({ top, behavior: blueprint.behavior });
+  }
 }
 
 export function restoreToScrollPosition(pos: number, delay = 150) {
-  setTimeout(() => getScrollAction()(pos), delay);
+  const blueprint = getRestoreScrollBlueprint(pos, supportsSmoothScroll());
+  setTimeout(() => applyScroll(blueprint), delay);
 }
 
 export function smoothScrollToTop() {
-  getScrollAction()(0);
+  applyScroll(getScrollToTopBlueprint(supportsSmoothScroll()));
 }
 
 export function scrollToTopOfShell() {
