@@ -12,24 +12,18 @@ export function analyzePageRelationship(from: PageType, to: PageType): PageRelat
   if (from === to) return PageRelationship.SIBLING;
   if (isDrillingDown(from, to)) return PageRelationship.PARENT_CHILD;
   if (isDrillingUp(from, to)) return PageRelationship.CHILD_PARENT;
-  if (isContextuallyLinked(from, to)) return PageRelationship.CONTEXTUAL;
-
-  return PageRelationship.UNRELATED;
+  return isContextuallyLinked(from, to) ? PageRelationship.CONTEXTUAL : PageRelationship.UNRELATED;
 }
 
 function isDrillingDown(from: PageType, to: PageType): boolean {
   const hierarchies = [
-    [PageType.HOME, PageType.BLOG_LIST],
-    [PageType.HOME, PageType.TOOLS_LIST],
-    [PageType.BLOG_LIST, PageType.BLOG_POST],
-    [PageType.TOOLS_LIST, PageType.TOOLS_CATEGORY]
+    [PageType.HOME, PageType.BLOG_LIST], [PageType.HOME, PageType.TOOLS_LIST],
+    [PageType.BLOG_LIST, PageType.BLOG_POST], [PageType.TOOLS_LIST, PageType.TOOLS_CATEGORY]
   ];
   return hierarchies.some(([parent, child]) => from === parent && to === child);
 }
 
-function isDrillingUp(from: PageType, to: PageType): boolean {
-  return isDrillingDown(to, from);
-}
+const isDrillingUp = (from: PageType, to: PageType) => isDrillingDown(to, from);
 
 function isContextuallyLinked(a: PageType, b: PageType): boolean {
   const contextualSets = [
@@ -38,6 +32,5 @@ function isContextuallyLinked(a: PageType, b: PageType): boolean {
     new Set([PageType.HOME, PageType.ABOUT]),
     new Set([PageType.HOME, PageType.CONTACT])
   ];
-
   return contextualSets.some(set => set.has(a) && set.has(b));
 }

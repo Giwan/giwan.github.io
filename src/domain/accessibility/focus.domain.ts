@@ -1,10 +1,12 @@
 export function isElementVisible(element: HTMLElement, windowObj: Window): boolean {
   if (!element || !windowObj) return false;
+  return hasDimensions(element) && hasVisibleStyles(element, windowObj);
+}
 
-  const rect = element.getBoundingClientRect();
-  if (rect.width <= 0 || rect.height <= 0) return false;
+const hasDimensions = (el: HTMLElement) => el.getBoundingClientRect().width > 0 && el.getBoundingClientRect().height > 0;
 
-  const style = windowObj.getComputedStyle(element);
+function hasVisibleStyles(el: HTMLElement, win: Window): boolean {
+  const style = win.getComputedStyle(el);
   return style.visibility !== 'hidden' && style.display !== 'none';
 }
 
@@ -16,27 +18,22 @@ export function getSkipTargetName(href: string): string {
     '#search': 'search',
     '#sidebar': 'sidebar',
   };
-
   return targetMap[href] || href.replace('#', '');
 }
 
 export function findFirstFocusable(container: HTMLElement | Document, windowObj: Window): HTMLElement | null {
   if (!container || !windowObj) return null;
-
-  const focusableSelectors = [
-    'a[href]', 'button:not([disabled])', 'input:not([disabled])',
-    'select:not([disabled])', 'textarea:not([disabled])', '[tabindex]:not([tabindex="-1"])'
-  ];
-
-  return searchForVisibleFocusable(container, focusableSelectors, windowObj);
+  return searchForVisibleFocusable(container, getFocusableSelectors(), windowObj);
 }
 
-function searchForVisibleFocusable(container: HTMLElement | Document, selectors: string[], windowObj: Window): HTMLElement | null {
-  for (const selector of selectors) {
-    const element = Array.from(container.querySelectorAll<HTMLElement>(selector))
-      .find(el => isElementVisible(el, windowObj));
+const getFocusableSelectors = () => [
+  'a[href]', 'button:not([disabled])', 'input:not([disabled])',
+  'select:not([disabled])', 'textarea:not([disabled])', '[tabindex]:not([tabindex="-1"])'
+];
 
-    if (element) return element;
-  }
-  return null;
+function searchForVisibleFocusable(container: HTMLElement | Document, selectors: string[], win: Window): HTMLElement | null {
+  return selectors
+    .map(selector => container.querySelectorAll<HTMLElement>(selector))
+    .map(nodes => Array.from(nodes).find(el => isElementVisible(el, win)))
+    .find(match => !!match) || null;
 }

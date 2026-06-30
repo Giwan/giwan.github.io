@@ -1,14 +1,10 @@
 import { subCategories } from "../../data/categories";
 import labels from "../../data/labels";
 
-export type ValidationIssue = {
-  message: string;
-  type: 'error' | 'warning';
-};
+export type ValidationIssue = { message: string; type: 'error' | 'warning'; };
 
 export function validateTool(tool: any): ValidationIssue[] {
   if (isNotAnObject(tool)) return [{ message: 'Tool must be an object', type: 'error' }];
-
   return [
     ...validateRequiredFields(tool),
     ...validateFieldFormats(tool),
@@ -26,14 +22,28 @@ function validateRequiredFields(tool: any): ValidationIssue[] {
 }
 
 function validateFieldFormats(tool: any): ValidationIssue[] {
-  const issues: ValidationIssue[] = [];
+  return [
+    ...validateTitle(tool.title),
+    ...validateUrl(tool.url),
+    ...validateDescription(tool.description),
+    ...validatePrice(tool.price)
+  ];
+}
 
-  if (isEmptyString(tool.title)) issues.push({ message: "'title' must be a non-empty string", type: 'error' });
-  if (isInvalidUrl(tool.url)) issues.push({ message: "'url' must be a valid HTTP/HTTPS URL", type: 'error' });
-  if (isTooShort(tool.description, 20)) issues.push({ message: "'description' is quite short", type: 'warning' });
-  if (isNegative(tool.price)) issues.push({ message: "'price' must be a non-negative number", type: 'error' });
+function validateTitle(t: any): ValidationIssue[] {
+  return isEmptyString(t) ? [{ message: "'title' must be a non-empty string", type: 'error' }] : [];
+}
 
-  return issues;
+function validateUrl(u: any): ValidationIssue[] {
+  return isInvalidUrl(u) ? [{ message: "'url' must be a valid HTTP/HTTPS URL", type: 'error' }] : [];
+}
+
+function validateDescription(d: any): ValidationIssue[] {
+  return isTooShort(d, 20) ? [{ message: "'description' is quite short", type: 'warning' }] : [];
+}
+
+function validatePrice(p: any): ValidationIssue[] {
+  return isNegative(p) ? [{ message: "'price' must be a non-negative number", type: 'error' }] : [];
 }
 
 const isEmptyString = (val: any) => typeof val !== 'string' || val.trim().length === 0;
@@ -43,11 +53,9 @@ const isNegative = (val: any) => typeof val !== 'number' || val < 0;
 
 function validateCategoryAndLabels(tool: any): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
-
   if (isInvalidCategory(tool.category)) issues.push({ message: 'Invalid category', type: 'error' });
   if (!Array.isArray(tool.labels)) issues.push({ message: "'labels' must be an array", type: 'error' });
   else issues.push(...validateLabelValues(tool.labels));
-
   return issues;
 }
 
