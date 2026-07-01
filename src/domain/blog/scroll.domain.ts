@@ -1,11 +1,12 @@
 import { TIME_CONSTANTS } from '../../constants/storage';
+import { isNot } from '../common/logic.domain';
 
 export function isStale(timestamp: number, now: number): boolean {
   return (now - timestamp) >= TIME_CONSTANTS.FIVE_MINUTES_MS;
 }
 
 export function isFresh(timestamp: number, now: number): boolean {
-  return !isStale(timestamp, now);
+  return isNot(isStale(timestamp, now));
 }
 
 export function isBlogPath(path: string): boolean {
@@ -19,17 +20,15 @@ export interface ScrollBlueprint {
 }
 
 export function getScrollToTopBlueprint(supportsSmooth: boolean): ScrollBlueprint {
-  return {
-    top: 0,
-    behavior: 'smooth',
-    isLegacy: !supportsSmooth
-  };
+  return buildBlueprint(0, supportsSmooth);
 }
 
 export function getRestoreScrollBlueprint(pos: number, supportsSmooth: boolean): ScrollBlueprint {
-  return {
-    top: pos,
-    behavior: 'smooth',
-    isLegacy: !supportsSmooth
-  };
+  return buildBlueprint(pos, supportsSmooth);
 }
+
+const buildBlueprint = (top: number, supportsSmooth: boolean): ScrollBlueprint => ({
+  top,
+  behavior: 'smooth',
+  isLegacy: isNot(supportsSmooth)
+});

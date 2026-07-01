@@ -1,3 +1,5 @@
+import { isTrue } from "../common/logic.domain";
+
 export enum UserIntent {
   SKIP_TO_CONTENT = 'skip-to-content',
   GO_BACK = 'go-back',
@@ -14,10 +16,12 @@ export function identifyIntent(event: { ctrlKey: boolean; metaKey: boolean; altK
   return UserIntent.NONE;
 }
 
-const isSkipIntent = (e: any) => e.ctrlKey && e.key === '/';
-const isBackIntent = (e: any) => e.altKey && e.key === 'ArrowLeft';
-const isForwardIntent = (e: any) => e.altKey && e.key === 'ArrowRight';
-const isSearchIntent = (e: any) => (e.ctrlKey || e.metaKey) && e.key === 'k';
+const isSkipIntent = (e: any) => isTrue(e.ctrlKey) && isKey(e, '/');
+const isBackIntent = (e: any) => isTrue(e.altKey) && isKey(e, 'ArrowLeft');
+const isForwardIntent = (e: any) => isTrue(e.altKey) && isKey(e, 'ArrowRight');
+const isSearchIntent = (e: any) => (isTrue(e.ctrlKey) || isTrue(e.metaKey)) && isKey(e, 'k');
+
+const isKey = (e: any, key: string) => e.key === key;
 
 export function getLandmarkMap(): Record<string, string> {
   return {

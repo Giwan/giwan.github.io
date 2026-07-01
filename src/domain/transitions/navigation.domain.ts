@@ -1,3 +1,5 @@
+import { isDefined, isNot } from '../common/logic.domain';
+
 export enum PageType {
   HOME = 'home',
   BLOG_LIST = 'blog-list',
@@ -19,10 +21,11 @@ export enum NavigationDirection {
 
 export function classifyPageType(path: string): PageType {
   const cleanPath = path.replace(/\/$/, '') || '/';
-  return matchDirectRoute(cleanPath) || classifyDynamicRoute(cleanPath);
+  const directMatch = matchDirectRoute(cleanPath);
+  return isDefined(directMatch) ? directMatch : classifyDynamicRoute(cleanPath);
 }
 
-function matchDirectRoute(path: string): PageType | null {
+function matchDirectRoute(path: string): PageType | undefined {
   const routes: Record<string, PageType> = {
     '/': PageType.HOME,
     '/blog': PageType.BLOG_LIST,
@@ -31,7 +34,7 @@ function matchDirectRoute(path: string): PageType | null {
     '/contact': PageType.CONTACT,
     '/offline': PageType.OFFLINE,
   };
-  return routes[path] || null;
+  return routes[path];
 }
 
 function classifyDynamicRoute(path: string): PageType {
@@ -48,25 +51,29 @@ export function detectNavigationDirection(fromPath: string, toPath: string, hist
     : NavigationDirection.FORWARD;
 }
 
-function isReturningBack(from: string, to: string, history: string[]): boolean {
-  return isInHistoryBefore(to, from, history) || matchesBackwardPattern(from, to);
-}
+const isReturningBack = (from: string, to: string, history: string[]): boolean =>
+  isInHistoryBefore(to, from, history) || matchesBackwardPattern(from, to);
 
 function isInHistoryBefore(to: string, from: string, history: string[]): boolean {
   const fromIndex = history.lastIndexOf(from);
   const toIndex = history.lastIndexOf(to);
-  return toIndex !== -1 && toIndex < fromIndex;
+  return isDefinedInHistory(toIndex) && isReturningToIndex(toIndex, fromIndex);
 }
 
-function matchesBackwardPattern(from: string, to: string): boolean {
-  return isDrillingUp(from, to) || matchesBreadcrumbReduction(from, to);
-}
+const isDefinedInHistory = (index: number) => index !== -1;
+const isReturningToIndex = (to: number, from: number) => to < from;
+
+const matchesBackwardPattern = (from: string, to: string): boolean =>
+  isDrillingUp(from, to) || matchesBreadcrumbReduction(from, to);
 
 function isDrillingUp(from: string, to: string): boolean {
   return from.startsWith(to) &&
-         from.length > to.length &&
-         from.split('/').length > to.split('/').length;
+         isLonger(from, to) &&
+         isDeeper(from, to);
 }
+
+const isLonger = (a: string, b: string) => a.length > b.length;
+const isDeeper = (a: string, b: string) => a.split('/').length > b.split('/').length;
 
 function matchesBreadcrumbReduction(from: string, to: string): boolean {
   const patterns = [

@@ -1,3 +1,5 @@
+import { isNot } from './logic.domain';
+
 export const dateOptions: Intl.DateTimeFormatOptions = {
   year: 'numeric',
   month: 'long',
@@ -13,9 +15,13 @@ export function formatDateWithWeekday(date: string): string {
 }
 
 export function getDateNumber(dateString: string): number {
-  if (typeof dateString !== 'string') throw Error('Provided date argument is not of type string');
-  return Number(dateString.replace(/-/g, '')) || 0;
+  if (isNotString(dateString)) throw Error('Provided date argument is not of type string');
+  return parseNumericDate(dateString);
 }
+
+const isNotString = (val: unknown): boolean => typeof val !== 'string';
+
+const parseNumericDate = (date: string) => Number(date.replace(/-/g, '')) || 0;
 
 export function reverseDate(date = ''): number {
   return parseInt(date.split('-').reverse().join(''));
