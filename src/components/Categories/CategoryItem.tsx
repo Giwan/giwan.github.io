@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { isCategorySelected } from "../../utils/helpers/isCategorySelected";
-import { cn } from "@/lib/utils";
+import { getCategoryRoute } from "../../domain/common/router.domain";
 
 type TProps = {
     selectedCategory?: string;
@@ -15,7 +15,7 @@ const CategoryItem = ({ c, selectedCategory }: TProps) => (
             size="sm"
             asChild
         >
-            <a href={`/tools/${c}`}>{c}</a>
+            <a href={getCategoryRoute(c)}>{c}</a>
         </Button>
     </li>
 );

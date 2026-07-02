@@ -1,51 +1,39 @@
 import type { ArticleData } from '../types/article';
-import { TIME_CONSTANTS } from '../constants/storage';
-
-function supportsSmoothScroll(): boolean {
-  return 'scrollBehavior' in document.documentElement.style;
-}
+import {
+  isFresh,
+  isBlogPath,
+  getScrollToTopBlueprint,
+  getRestoreScrollBlueprint,
+  type ScrollBlueprint
+} from '../domain/blog/scroll.domain';
+import { isDefined, isNot } from '../domain/common/logic.domain';
 
 export function articleDataHandler() {
   return {
-    get(): ArticleData | undefined {
-      return window.__ARTICLE_DATA__;
-    },
-    set(data: ArticleData): ArticleData {
-      return window.__ARTICLE_DATA__ = data;
-    }
+    get(): ArticleData | undefined { return window.__ARTICLE_DATA__; },
+    set(data: ArticleData): ArticleData { return window.__ARTICLE_DATA__ = data; }
   };
 }
 
-export function isBlogPage(): boolean {
-  return !!window.location.pathname.startsWith("/blog");
+export const isBlogPage = () => isBlogPath(window.location.pathname);
+
+export const isLessThanFiveMinutes = (timestamp: number) => isFresh(timestamp, Date.now());
+
+export const windowScrollTo = (top = 0) => applyScroll(getScrollToTopBlueprint(hasSmoothScroll()), top);
+
+export const smoothScrollToTop = () => applyScroll(getScrollToTopBlueprint(hasSmoothScroll()));
+
+export const scrollToTopOfShell = () => smoothScrollToTop();
+
+export const restoreToScrollPosition = (pos: number, delay = 150) =>
+  setTimeout(() => applyScroll(getRestoreScrollBlueprint(pos, hasSmoothScroll())), delay);
+
+function applyScroll(blueprint: ScrollBlueprint, overrideTop?: number) {
+  const top = overrideTop ?? blueprint.top;
+  return blueprint.isLegacy
+    ? window.scrollTo(0, top)
+    : window.scrollTo({ top, behavior: blueprint.behavior });
 }
 
-export function isLessThanFiveMinutes(timestamp: number): boolean {
-  return !!(Date.now() - timestamp < TIME_CONSTANTS.FIVE_MINUTES_MS);
-}
-
-export function windowScrollTo(scrollPosition = 0) {
-  window.scrollTo({
-    top: scrollPosition ?? 0,
-    behavior: 'smooth'
-  })
-}
-
-export function legacyBrowserWindowScroll(scrollPosition = 0) {
-  window.scrollTo(0, scrollPosition);
-}
-
-const getScrollAction = () => supportsSmoothScroll() ? windowScrollTo : legacyBrowserWindowScroll;
-
-export function restoreToScrollPosition(scrollPosition: number, delay = 150) {
-  // Restore the scroll position with smooth transition
-  setTimeout(() => getScrollAction()(scrollPosition), delay); // Slightly longer delay to allow for page transition to complete
-}
-
-export function smoothScrollToTop() {
-  getScrollAction()();
-}
-
-export function scrollToTopOfShell() {
-  smoothScrollToTop();
-}
+const hasSmoothScroll = () =>
+  isDefined(document) && 'scrollBehavior' in document.documentElement.style;
