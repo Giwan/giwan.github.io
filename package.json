@@ -53,7 +53,7 @@
         "@types/jest": "^30.0.0",
         "@types/react": "^19.2.14",
         "@types/react-dom": "^19.2.3",
-        "astro": "^6.4.6",
+        "astro": "6.4.8",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "lucide-react": "^1.14.0",
@@ -90,6 +90,7 @@
     "overrides": {
         "astro": "$astro",
         "typescript": "$typescript",
-        "serialize-javascript": "^7.0.5"
+        "serialize-javascript": "^7.0.5",
+        "esbuild": "^0.28.1"
     }
 }
