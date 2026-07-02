@@ -10,6 +10,9 @@ export function getActiveStyle(router: TRouter, styles: { activeLink: string }, 
   return undefined;
 }
 
+export const getCategoryRoute = (category: string): string =>
+  `/tools/${encodeURIComponent(category)}`;
+
 function normalizeTarget(target: TTarget): { path: string; routes: string[] } {
   if (isString(target)) return { path: target, routes: [] };
   if (isMissingPath(target)) throw Error('The path value is required when the target is an object');

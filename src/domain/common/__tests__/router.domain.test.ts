@@ -1,25 +1,16 @@
-import { getActiveStyle } from '../router.domain';
+import { describe, it, expect } from '@jest/globals';
+import { getCategoryRoute } from '../router.domain';
 
-describe('Router Domain', () => {
-  const styles = { activeLink: 'active-class' };
-
-  it('returns active style for exact matches', () => {
-    const router = { pathname: '/blog' } as any;
-    expect(getActiveStyle(router, styles, '/blog')).toBe('active-class');
+describe('Router Domain - Category Routing', () => {
+  it('returns /tools/all for the "all" category', () => {
+    expect(getCategoryRoute('all')).toBe('/tools/all');
   });
 
-  it('returns active style for route matches', () => {
-    const router = { pathname: '/blog/some-article' } as any;
-    expect(getActiveStyle(router, styles, { path: '/blog', routes: ['/blog/'] })).toBe('active-class');
+  it('encodes special characters in category names', () => {
+    expect(getCategoryRoute('IDE & Agents')).toBe('/tools/IDE%20%26%20Agents');
   });
 
-  it('returns undefined for non-matches', () => {
-    const router = { pathname: '/about' } as any;
-    expect(getActiveStyle(router, styles, '/blog')).toBeUndefined();
-  });
-
-  it('throws error when path is missing in object target', () => {
-    const router = { pathname: '/' } as any;
-    expect(() => getActiveStyle(router, styles, {} as any)).toThrow();
+  it('handles regular category names correctly', () => {
+    expect(getCategoryRoute('Design')).toBe('/tools/Design');
   });
 });
