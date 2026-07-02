@@ -18,15 +18,19 @@ describe('Categories Component', () => {
     });
   });
 
-  it('renders new categories with correct links', () => {
+  it('renders new categories with encoded links', () => {
     render(<Categories {...defaultProps} />);
     
     // Test new categories specifically
-    const newCategories = ['IDE & Agents', 'Hosting', 'Frameworks', 'Testing', 'Monitoring'];
+    const newCategories = [
+      { name: 'IDE & Agents', expected: '/tools/IDE%20%26%20Agents' },
+      { name: 'Hosting', expected: '/tools/Hosting' },
+      { name: 'Project Management', expected: '/tools/Project%20Management' }
+    ];
 
-    newCategories.forEach(category => {
-      const link = screen.getByRole('link', { name: new RegExp(category, 'i') });
-      expect(link).toHaveAttribute('href', `/tools/${category}`);
+    newCategories.forEach(cat => {
+      const link = screen.getByRole('link', { name: new RegExp(cat.name, 'i') });
+      expect(link).toHaveAttribute('href', cat.expected);
     });
   });
 
