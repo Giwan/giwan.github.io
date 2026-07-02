@@ -14,7 +14,7 @@ const RadarDemo = () => (
         >
             <img
                 src="https://res.cloudinary.com/mytoori/image/upload/c_scale,w_300/v1614270412/blog/radar.png"
-                alt="radar animation"
+                alt="Radar animation demo on Glitch"
             />
         </a>
     </div>

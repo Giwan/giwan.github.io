@@ -5,8 +5,8 @@ import { acronyms } from '../data/acronyms';
 const sortedAcronyms = [...acronyms].sort((a, b) => a.acronym.localeCompare(b.acronym));
 ---
 
-<PageLayout content={{ 
-    title: "Acronym Glossary", 
+<PageLayout content={{
+    title: "Acronym Glossary",
     description: "Reference for all acronyms used across this blog with definitions and links.",
     article: false
 }}>
@@ -30,10 +30,10 @@ const sortedAcronyms = [...acronyms].sort((a, b) => a.acronym.localeCompare(b.ac
           </header>
           {description && <p class="text-sm text-muted-foreground mb-2">{description}</p>}
           <footer>
-            <a 
-              href={url} 
-              target="_blank" 
-              rel="noopener noreferrer" 
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
               class="text-sm text-primary hover:underline inline-flex items-center gap-1"
             >
               Learn more →
