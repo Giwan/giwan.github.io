@@ -1,4 +1,5 @@
 import { validateTool } from '../validation.domain';
+import type { ValidationIssue } from '../validation.domain';
 
 describe('Tools Validation Domain', () => {
   const validTool = {
@@ -10,28 +11,20 @@ describe('Tools Validation Domain', () => {
     labels: []
   };
 
+  const toolWith = (overrides: Partial<typeof validTool>) => ({ ...validTool, ...overrides });
+
   it('validates a correct tool without issues', () => {
     const issues = validateTool(validTool);
     expect(issues.filter(i => i.type === 'error')).toHaveLength(0);
   });
 
-  it('flags missing required fields', () => {
-    const issues = validateTool({});
-    expect(issues.some(i => i.message.includes('Missing required field'))).toBe(true);
-  });
-
-  it('flags invalid URLs', () => {
-    const issues = validateTool({ ...validTool, url: 'invalid-url' });
-    expect(issues.some(i => i.message.includes('valid HTTP/HTTPS URL'))).toBe(true);
-  });
-
-  it('warns about short descriptions', () => {
-    const issues = validateTool({ ...validTool, description: 'Short' });
-    expect(issues.some(i => i.type === 'warning' && i.message.includes('quite short'))).toBe(true);
-  });
-
-  it('flags invalid categories', () => {
-    const issues = validateTool({ ...validTool, category: 'Invalid' });
-    expect(issues.some(i => i.message.includes('Invalid category'))).toBe(true);
+  it.each<[string, unknown, (i: ValidationIssue) => boolean]>([
+    ['flags missing required fields', {}, i => i.message.includes('Missing required field')],
+    ['flags invalid URLs', toolWith({ url: 'invalid-url' }), i => i.message.includes('valid HTTP/HTTPS URL')],
+    ['warns about short descriptions', toolWith({ description: 'Short' }), i => i.type === 'warning' && i.message.includes('quite short')],
+    ['flags invalid categories', toolWith({ category: 'Invalid' }), i => i.message.includes('Invalid category')],
+  ])('%s', (_label, input, matches) => {
+    const issues = validateTool(input);
+    expect(issues.some(matches)).toBe(true);
   });
 });

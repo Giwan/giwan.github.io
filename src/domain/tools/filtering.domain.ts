@@ -1,17 +1,18 @@
+import { isNot } from '../common/logic.domain';
+
 export interface Tool {
   category: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export function filterToolsByCategory(tools: Tool[], category?: string): Tool[] {
-  if (isAllCategory(category)) return tools;
-  return tools.filter(tool => matchesCategory(tool, category!));
+  return isSpecificCategory(category)
+    ? tools.filter(tool => matchesCategory(tool, category))
+    : tools;
 }
 
-function isAllCategory(category?: string): boolean {
-  if (!category) return true;
-  return /all/i.test(category);
-}
+const isSpecificCategory = (category: string | undefined): category is string =>
+  category !== undefined && isNot(/all/i.test(category));
 
 function matchesCategory(tool: Tool, category: string): boolean {
   const regCategory = new RegExp(category, "i");

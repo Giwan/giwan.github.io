@@ -8,7 +8,7 @@ export interface ValidationResult {
   warnings: string[];
 }
 
-export function validateToolEntry(tool: any, index?: number): ValidationResult {
+export function validateToolEntry(tool: unknown, index?: number): ValidationResult {
   const issues = validateTool(tool);
   const prefix = index !== undefined ? `Tool ${index + 1}` : 'Tool';
 
@@ -22,7 +22,7 @@ export function validateToolEntry(tool: any, index?: number): ValidationResult {
   return { isValid: errors.length === 0, errors, warnings };
 }
 
-export function validateToolArray(tools: any[], fileName?: string): ValidationResult {
+export function validateToolArray(tools: unknown[], fileName?: string): ValidationResult {
   const result: ValidationResult = { isValid: true, errors: [], warnings: [] };
   const prefix = fileName ? `File ${fileName}` : 'Tool array';
 
