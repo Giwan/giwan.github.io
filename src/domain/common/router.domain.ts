@@ -10,7 +10,7 @@ export function getActiveStyle(router: TRouter, styles: { activeLink: string }, 
 }
 
 export const getCategoryRoute = (category: string): string =>
-  `/tools/${encodeURIComponent(category)}`;
+  `/tools/${encodeURI(category)}/`;
 
 function normalizeTarget(target: TTarget): { path: string; routes: string[] } {
   if (isString(target)) return { path: target, routes: [] };

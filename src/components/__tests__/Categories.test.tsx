@@ -23,9 +23,9 @@ describe('Categories Component', () => {
     
     // Test new categories specifically
     const newCategories = [
-      { name: 'IDE & Agents', expected: '/tools/IDE%20%26%20Agents' },
-      { name: 'Hosting', expected: '/tools/Hosting' },
-      { name: 'Project Management', expected: '/tools/Project%20Management' }
+      { name: 'IDE & Agents', expected: '/tools/IDE%20&%20Agents/' },
+      { name: 'Hosting', expected: '/tools/Hosting/' },
+      { name: 'Project Management', expected: '/tools/Project%20Management/' }
     ];
 
     newCategories.forEach(cat => {
