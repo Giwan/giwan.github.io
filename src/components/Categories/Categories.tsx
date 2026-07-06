@@ -18,9 +18,11 @@ const Categories = ({ category }: TCategoryProps) => (
         <ul className="flex flex-wrap gap-2 sm:gap-3">
             {categoriesList.map((c) => (
                 <CategoryItem
-                    key={c}
-                    c={c}
-                    selectedCategory={category}
+                    {...{
+                        key: c,
+                        c,
+                        selectedCategory: category,
+                    }}
                 />
             ))}
         </ul>

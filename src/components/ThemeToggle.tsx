@@ -26,7 +26,7 @@ export const ThemeToggle = () => {
       "dark": "system",
       "system": "light"
     };
-    return `Switch to ${nextModes[theme]} mode`;
+    return `Currently in ${theme} mode. Click to switch to ${nextModes[theme]} mode.`;
   };
 
   // Enhanced theme toggle that coordinates with page transitions
@@ -70,12 +70,13 @@ export const ThemeToggle = () => {
       variant="ghost"
       size="icon"
       onClick={handleThemeToggle}
-      aria-label={isHydrated ? getAriaLabel() : "Loading theme toggle"}
+      title={isHydrated ? getAriaLabel() : "Loading theme toggle"}
       className="h-9 w-9"
       disabled={isDisabled}
       style={{ viewTransitionName: 'theme-toggle' }}
     >
       {isHydrated ? getIcon() : <Sun className="h-4 w-4" />}
+      <span className="sr-only">{isHydrated ? getAriaLabel() : "Loading theme toggle"}</span>
     </Button>
   );
 };

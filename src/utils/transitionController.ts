@@ -54,7 +54,7 @@ export class TransitionController {
     const toPath = customEvent.detail?.to?.pathname || window.location.pathname;
     if (this.transitionInProgress) return;
     this.transitionInProgress = true;
-    this.startTransitionPreparation(createNavigationContext(this.currentPath, toPath, this.navigationHistory, Date.now()));
+    this.startTransitionPreparation(createNavigationContext(this.currentPath, toPath, this.navigationHistory));
   }
 
   private startTransitionPreparation(context: NavigationContext): void {
@@ -80,7 +80,7 @@ export class TransitionController {
 
   private handlePopState(): void {
     const newPath = window.location.pathname;
-    const context = createNavigationContext(this.currentPath, newPath, this.navigationHistory, Date.now());
+    const context = createNavigationContext(this.currentPath, newPath, this.navigationHistory);
     context.direction = NavigationDirection.BACKWARD;
     this.applyDomainAttributes(context);
     this.updateNavigationHistory(newPath);
@@ -183,7 +183,7 @@ export class TransitionController {
     if ('vibrate' in navigator) try { navigator.vibrate([10, 5, 10]); } catch (e) {}
   }
 
-  public detectNavigationContext(from: string, to: string) { return createNavigationContext(from, to, this.navigationHistory, Date.now()); }
+  public detectNavigationContext(from: string, to: string) { return createNavigationContext(from, to, this.navigationHistory); }
 
   public getEnhancedMetrics() { return { ...this.metrics, performanceData: performanceMonitor.getCurrentMetrics() }; }
 
@@ -194,8 +194,7 @@ export class TransitionController {
     return createNavigationContext(
       this.navigationHistory[this.navigationHistory.length - 2],
       this.navigationHistory[this.navigationHistory.length - 1],
-      this.navigationHistory,
-      Date.now()
+      this.navigationHistory
     );
   }
 

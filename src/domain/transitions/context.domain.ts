@@ -19,7 +19,7 @@ export interface NavigationContext {
   timestamp: number;
 }
 
-export function createNavigationContext(fromPath: string, toPath: string, history: string[], now: number): NavigationContext {
+export function createNavigationContext(fromPath: string, toPath: string, history: string[]): NavigationContext {
   const fromPageType = classifyPageType(fromPath);
   const toPageType = classifyPageType(toPath);
 
@@ -30,6 +30,6 @@ export function createNavigationContext(fromPath: string, toPath: string, histor
     relationship: analyzePageRelationship(fromPageType, toPageType),
     fromPath,
     toPath,
-    timestamp: now
+    timestamp: Date.now()
   };
 }

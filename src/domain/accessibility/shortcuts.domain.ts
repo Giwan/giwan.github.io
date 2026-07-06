@@ -8,14 +8,7 @@ export enum UserIntent {
   NONE = 'none'
 }
 
-export interface KeyboardShortcutEvent {
-  ctrlKey: boolean;
-  metaKey: boolean;
-  altKey: boolean;
-  key: string;
-}
-
-export function identifyIntent(event: KeyboardShortcutEvent): UserIntent {
+export function identifyIntent(event: { ctrlKey: boolean; metaKey: boolean; altKey: boolean; key: string }): UserIntent {
   if (isSkipIntent(event)) return UserIntent.SKIP_TO_CONTENT;
   if (isBackIntent(event)) return UserIntent.GO_BACK;
   if (isForwardIntent(event)) return UserIntent.GO_FORWARD;
@@ -23,12 +16,12 @@ export function identifyIntent(event: KeyboardShortcutEvent): UserIntent {
   return UserIntent.NONE;
 }
 
-const isSkipIntent = (e: KeyboardShortcutEvent) => isTrue(e.ctrlKey) && isKey(e, '/');
-const isBackIntent = (e: KeyboardShortcutEvent) => isTrue(e.altKey) && isKey(e, 'ArrowLeft');
-const isForwardIntent = (e: KeyboardShortcutEvent) => isTrue(e.altKey) && isKey(e, 'ArrowRight');
-const isSearchIntent = (e: KeyboardShortcutEvent) => (isTrue(e.ctrlKey) || isTrue(e.metaKey)) && isKey(e, 'k');
+const isSkipIntent = (e: any) => isTrue(e.ctrlKey) && isKey(e, '/');
+const isBackIntent = (e: any) => isTrue(e.altKey) && isKey(e, 'ArrowLeft');
+const isForwardIntent = (e: any) => isTrue(e.altKey) && isKey(e, 'ArrowRight');
+const isSearchIntent = (e: any) => (isTrue(e.ctrlKey) || isTrue(e.metaKey)) && isKey(e, 'k');
 
-const isKey = (e: KeyboardShortcutEvent, key: string) => e.key === key;
+const isKey = (e: any, key: string) => e.key === key;
 
 export function getLandmarkMap(): Record<string, string> {
   return {
