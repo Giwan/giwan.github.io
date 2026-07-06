@@ -8,98 +8,101 @@ import {
 } from '../stores/articleStore';
 import type { Article } from '../types/article';
 import { devConsole } from '../utils/isDev';
+import {
+  POSTS_PER_PAGE,
+  getArticleSlice,
+  isEligibleForNextPage,
+  getNextPageNumber
+} from '../domain/blog/article.domain';
+import type { ArticleRepository } from '../domain/blog/ports';
 
-const POSTS_PER_PAGE = 10;
 const MAX_RETRY_ATTEMPTS = 3;
 
 /**
- * Load initial articles from the client-side cache
- * This is typically called when the component mounts
- * The initial articles are already rendered by Astro
+ * Browser-based implementation of the ArticleRepository
  */
-export function loadInitialArticles(): void {
-  // We don't need to fetch anything here since the initial articles
-  // are already rendered by Astro and passed to the client
-  // The store is hydrated with these articles in the ArticlesListWrapper component
-}
+const browserArticleRepository: ArticleRepository = {
+  async fetchArticles(page: number, limit: number): Promise<Article[]> {
+    const { allArticles } = window.__ARTICLE_DATA__ || { allArticles: [] };
 
-/**
- * Load more articles from the client-side cache
- * This is called when the user clicks the "Load More" button
- * @param retryAttempt - The current retry attempt (used internally)
- */
+    // Simulate network delay
+    await new Promise(resolve => setTimeout(resolve, 300));
+
+    return getArticleSlice(allArticles, page, limit);
+  },
+
+  getTotalCount(): number {
+    return window.__ARTICLE_DATA__?.totalArticles || 0;
+  },
+
+  getAllArticles(): Article[] {
+    return window.__ARTICLE_DATA__?.allArticles || [];
+  }
+};
+
 export async function loadMoreArticles(retryAttempt = 0): Promise<void> {
   const { page, isLoading, hasMore } = $articleStore.get();
 
-  // Don't do anything if we're already loading or there are no more articles
-  if (isLoading || !hasMore) return;
+  if (shouldSkipLoading(isLoading, hasMore)) return;
 
   try {
-    setLoading(true);
-    setError(null);
-    
-    const nextPage = page + 1;
-    const newArticles = await fetchArticles(nextPage, POSTS_PER_PAGE);
-    
-    appendArticles(newArticles);
-    setPage(nextPage);
-    setHasMore(newArticles.length === POSTS_PER_PAGE);
-
-    // Update the loaded count in the article data
-    if (window.__ARTICLE_DATA__) {
-      window.__ARTICLE_DATA__.loadedCount = (window.__ARTICLE_DATA__.loadedCount || 0) + newArticles.length;
-    }
+    await performLoadAction(page);
   } catch (error) {
-    // Only log errors in development mode
-    devConsole('error', ['Error loading more articles:', error]);
-
-    // Retry logic
-    if (retryAttempt < MAX_RETRY_ATTEMPTS) {
-      // Only log retry attempts in development mode
-      devConsole('log', [`Retrying (${retryAttempt + 1}/${MAX_RETRY_ATTEMPTS})...`]);
-      // Wait a bit before retrying (exponential backoff)
-      await new Promise(resolve => setTimeout(resolve, 1000 * Math.pow(2, retryAttempt)));
-      return loadMoreArticles(retryAttempt + 1);
-    }
-
-    // If we've exhausted our retry attempts, show an error
-    setError('Failed to load more articles. Please try again.');
+    await handleLoadError(error, retryAttempt);
   } finally {
     setLoading(false);
   }
 }
 
-/**
- * Retry loading articles after an error
- */
-export function retryLoadingArticles(): void {
-  const { error } = $articleStore.get();
+function shouldSkipLoading(isLoading: boolean, hasMore: boolean): boolean {
+  return isLoading || !hasMore;
+}
 
-  // Only retry if there was an error
-  if (error) {
+async function performLoadAction(currentPage: number): Promise<void> {
+  setLoading(true);
+  setError(null);
+
+  const nextPage = getNextPageNumber(currentPage);
+  const newArticles = await browserArticleRepository.fetchArticles(nextPage, POSTS_PER_PAGE);
+
+  updateStoreWithNewArticles(newArticles, nextPage);
+  updateGlobalMetadata(newArticles.length);
+}
+
+function updateStoreWithNewArticles(newArticles: Article[], nextPage: number): void {
+  appendArticles(newArticles);
+  setPage(nextPage);
+  setHasMore(isEligibleForNextPage(newArticles.length, POSTS_PER_PAGE));
+}
+
+function updateGlobalMetadata(count: number): void {
+  if (window.__ARTICLE_DATA__) {
+    window.__ARTICLE_DATA__.loadedCount = (window.__ARTICLE_DATA__.loadedCount || 0) + count;
+  }
+}
+
+async function handleLoadError(error: unknown, retryAttempt: number): Promise<void> {
+  devConsole('error', ['Error loading more articles:', error]);
+
+  if (retryAttempt < MAX_RETRY_ATTEMPTS) {
+    return retryWithBackoff(retryAttempt);
+  }
+
+  setError('Failed to load more articles. Please try again.');
+}
+
+async function retryWithBackoff(retryAttempt: number): Promise<void> {
+  devConsole('log', [`Retrying (${retryAttempt + 1}/${MAX_RETRY_ATTEMPTS})...`]);
+  await new Promise(resolve => setTimeout(resolve, 1000 * Math.pow(2, retryAttempt)));
+  return loadMoreArticles(retryAttempt + 1);
+}
+
+export function retryLoadingArticles(): void {
+  if ($articleStore.get().error) {
     loadMoreArticles();
   }
 }
 
-/**
- * Fetch articles from the client-side cache
- * This uses the data hydrated from SSR to avoid re-fetching from the server
- * 
- * @param page - The page number to fetch
- * @param limit - The number of articles per page
- * @returns A promise that resolves to an array of articles
- */
-async function fetchArticles(page: number, limit: number): Promise<Article[]> {
-  // Use the data hydrated from SSR
-  const { allArticles, totalArticles } = window.__ARTICLE_DATA__ || { allArticles: [], totalArticles: 0 };
-
-  // Calculate start and end indices for pagination
-  const startIndex = (page - 1) * limit;
-  const endIndex = Math.min(startIndex + limit, totalArticles);
-
-  // Simulate network delay for a more realistic experience
-  await new Promise(resolve => setTimeout(resolve, 300));
-
-  // Return the paginated articles
-  return allArticles.slice(startIndex, endIndex);
+export function loadInitialArticles(): void {
+  // SSR handled
 }

@@ -17,6 +17,15 @@ directory:
 - [**Agent Protocol**](file:///Users/giwan/Projects/blog-astro-github/agent-docs/protocol.md):
   The systematic approach agents must take for every task.
 
+## Narrative Coding Standards
+
+This project adheres to **Narrative Coding** and **Hexagonal Architecture**.
+- **Domain Core**: Business logic resides in `src/domain/`. It must be pure TS/JS, zero framework dependencies.
+- **SLAP**: Single Level of Abstraction Principle. Functions should stay at one level.
+- **Small Chapters**: Functions should be < 7 lines whenever possible.
+- **Prose-like**: Code should read like English. Extracted predicates are preferred over complex conditionals.
+- **Ports & Adapters**: Infrastructure (Astro, React, Browser APIs) belongs in Adapters that implement or call Domain Ports.
+
 ## Mandatory Reading
 
 Before starting any task, an agent **must** read this file and `@import` it into
