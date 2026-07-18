@@ -88,8 +88,8 @@
         "typescript-eslint": "^8.59.2"
     },
     "overrides": {
-        "astro": "$astro",
-        "typescript": "$typescript",
+        "astro": "6.4.8",
+        "typescript": "^6.0.3",
         "serialize-javascript": "^7.0.5",
         "esbuild": "^0.28.1"
     }
