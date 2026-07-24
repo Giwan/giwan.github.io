@@ -142,8 +142,6 @@ glance instead of parsing through logs.
 
 **[jules.google](https://jules.google/)**
 
-![Jules Coding Agent](https://cdn.mos.cms.futurecdn.net/4S3p6pU44xH5a5B7f967B7-970-80.jpg)
-
 Execute complex tasks and submit them as pull requests with Jules, an
 autonomous, asynchronous AI coding agent that integrates directly with your
 GitHub workflows. Unlike a standard IDE, Jules operates in its own isolated

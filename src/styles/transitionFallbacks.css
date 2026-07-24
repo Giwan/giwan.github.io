@@ -126,24 +126,6 @@
   position: relative;
 }
 
-/* DEBUG STYLES - REMOVED FROM PRODUCTION */
-/* [data-transition-debug="true"]::after {
-  content: 'DEBUG';
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  background: rgba(147, 51, 234, 0.9);
-  color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-family: monospace;
-  font-size: 10px;
-  font-weight: bold;
-  z-index: 9998;
-  pointer-events: none;
-  backdrop-filter: blur(4px);
-} */
-
 /* Debug transition indicators */
 [data-transition-debug="true"] [style*="view-transition-name"] {
   position: relative;
