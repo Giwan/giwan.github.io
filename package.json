@@ -77,7 +77,7 @@
         "@testing-library/jest-dom": "6.10.0",
         "@testing-library/react": "16.3.3",
         "@types/node": "26.6.6",
-        "@vite-pwa/astro": "1.2.0",
+        "@vite-pwa/astro": "2.0.0",
         "babel-jest": "30.5.2",
         "eslint": "10.14.0",
         "eslint-plugin-astro": "3.2.1",
