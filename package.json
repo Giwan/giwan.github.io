@@ -69,7 +69,7 @@
         "@emnapi/wasi-threads": "2.2.0",
         "@babel/core": "7.29.13",
         "@babel/preset-env": "7.29.7",
-        "@babel/preset-react": "7.29.7",
+        "@babel/preset-react": "8.0.1",
         "@babel/preset-typescript": "7.29.7",
         "@putout/processor-html": "14.1.1",
         "@tailwindcss/typography": "0.5.20",
