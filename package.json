@@ -87,7 +87,7 @@
         "puppeteer": "25.16.0",
         "putout": "42.24.2",
         "ts-jest": "29.4.15",
-        "typescript": "6.0.3",
+        "typescript": "7.0.2",
         "typescript-eslint": "8.72.1"
     },
     "overrides": {
