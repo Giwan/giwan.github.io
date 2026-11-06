@@ -1,0 +1,69 @@
+name: Auto-merge Dependabot PRs
+
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize, ready_for_review]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: dependabot-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  ci-and-merge:
+    # pull_request_target runs with write permissions, so restrict it to Dependabot PRs.
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check mergeable state
+        id: state
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          state=$(gh pr view "$PR_URL" --json mergeStateStatus --jq .mergeStateStatus)
+          echo "state=$state" >> "$GITHUB_OUTPUT"
+          if [ "$state" = "DIRTY" ]; then
+            echo "::warning::PR has merge conflicts. Close and reopen it so Dependabot rebases, or rebase manually."
+            exit 0
+          fi
+
+      - name: Checkout PR
+        if: steps.state.outputs.state != 'DIRTY'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+
+      - name: Set up Node.js
+        if: steps.state.outputs.state != 'DIRTY'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        if: steps.state.outputs.state != 'DIRTY'
+        run: npm ci
+
+      - name: Lint
+        if: steps.state.outputs.state != 'DIRTY'
+        run: npm run lint
+
+      - name: Test
+        if: steps.state.outputs.state != 'DIRTY'
+        run: npm test
+
+      - name: Build
+        if: steps.state.outputs.state != 'DIRTY'
+        run: npm run build
+
+      - name: Merge PR
+        if: steps.state.outputs.state != 'DIRTY'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: gh pr merge "$PR_URL" --squash --delete-branch
