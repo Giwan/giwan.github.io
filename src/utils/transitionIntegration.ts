@@ -5,6 +5,7 @@
 
 import { transitionController } from './transitionController';
 import { transitionRegistry } from './transitionRegistry';
+import { devConsole } from './isDev';
 
 export class TransitionIntegration {
   private isInitialized = false;
@@ -27,7 +28,7 @@ export class TransitionIntegration {
     this.setupBrowserEventListeners();
 
     this.isInitialized = true;
-    console.log('Transition integration initialized');
+    devConsole('log', ['Transition integration initialized']);
   }
 
   /**
@@ -40,7 +41,7 @@ export class TransitionIntegration {
     // Apply initial page type to document
     document.documentElement.setAttribute('data-page-type', pageType);
 
-    console.log(`Registered current page: ${currentPath} as ${pageType}`);
+    devConsole('log', [`Registered current page: ${currentPath} as ${pageType}`]);
   }
 
   /**
@@ -83,10 +84,10 @@ export class TransitionIntegration {
     // Apply transition configuration to document
     this.applyTransitionConfig(transitionConfig, context);
 
-    console.log(`Preparing transition from ${fromPath} to ${toPath}:`, {
+    devConsole('log', [`Preparing transition from ${fromPath} to ${toPath}:`, {
       context,
       transitionConfig: transitionConfig.name
-    });
+    }]);
   }
 
   /**

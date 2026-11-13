@@ -9,6 +9,7 @@
  */
 
 import { TransitionIntensity, performanceMonitor } from './performanceMonitor';
+import { devConsole } from './isDev';
 
 export interface TransitionPreferences {
   intensity: TransitionIntensity;
@@ -118,7 +119,7 @@ export class TransitionPreferencesManager {
         return { ...this.DEFAULT_PREFERENCES, ...parsed };
       }
     } catch (error) {
-      console.warn('Failed to load transition preferences:', error);
+      devConsole('warn', ['Failed to load transition preferences:', error]);
     }
 
     return { ...this.DEFAULT_PREFERENCES };
@@ -133,7 +134,7 @@ export class TransitionPreferencesManager {
     try {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.preferences));
     } catch (error) {
-      console.warn('Failed to save transition preferences:', error);
+      devConsole('warn', ['Failed to save transition preferences:', error]);
     }
   }
 
@@ -180,7 +181,7 @@ export class TransitionPreferencesManager {
       try {
         listener(changeEvent);
       } catch (error) {
-        console.warn('Error in preference change listener:', error);
+        devConsole('warn', ['Error in preference change listener:', error]);
       }
     });
   }

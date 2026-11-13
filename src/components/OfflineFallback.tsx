@@ -25,7 +25,9 @@ const OfflineFallback: React.FC<OfflineFallbackProps> = ({
         const offlineSuggestions = await getOfflineFallbackSuggestions();
         setSuggestions(offlineSuggestions);
       } catch (error) {
-        console.warn('Failed to load offline suggestions:', error);
+        if (import.meta.env.DEV) {
+          console.warn('Failed to load offline suggestions:', error);
+        }
       }
     };
 
@@ -36,7 +38,9 @@ const OfflineFallback: React.FC<OfflineFallbackProps> = ({
           const isCached = await isContentCached(requestedUrl);
           setCachedContent(isCached);
         } catch (error) {
-          console.warn('Failed to check cached content:', error);
+          if (import.meta.env.DEV) {
+            console.warn('Failed to check cached content:', error);
+          }
         }
       }
     };
@@ -74,7 +78,9 @@ const OfflineFallback: React.FC<OfflineFallbackProps> = ({
         window.location.reload();
       }
     } catch (error) {
-      console.warn('Retry failed:', error);
+      if (import.meta.env.DEV) {
+        console.warn('Retry failed:', error);
+      }
     } finally {
       setIsRetrying(false);
     }

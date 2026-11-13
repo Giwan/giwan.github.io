@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import isServer from "../utils/helpers/isServer";
+import { devWarn } from '../utils/logger';
 
 export type Theme = 'light' | 'dark' | 'system';
 export type ThemeLimited = Exclude<Theme, 'system'>;
@@ -82,7 +83,7 @@ export const useTheme = () => {
         try {
           (document as any).startViewTransition(() => updateDOMWithTransition());
         } catch (error) {
-          console.warn('View transition failed, using fallback:', error);
+          devWarn('View transition failed, using fallback:', error);
           updateDOMWithTransition();
         }
       } else if (isPageTransitioning) {

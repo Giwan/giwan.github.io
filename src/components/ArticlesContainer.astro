@@ -135,7 +135,9 @@ import { articleDataHandler, isBlogPage, isLessThanFiveMinutes, restoreToScrollP
                 sessionStorage.removeItem(STORAGE_KEYS.ARTICLE_STATE);
             }
         } catch (error) {
-            console.error("Error restoring article state:", error);
+            if (import.meta.env.DEV) {
+                console.error("Error restoring article state:", error);
+            }
             sessionStorage.removeItem(STORAGE_KEYS.ARTICLE_STATE);
         }
     });

@@ -35,7 +35,9 @@ const ArticlesListWrapper: React.FC<ArticlesListWrapperProps> = ({
           storedArticleData = null;
         }
       } catch (error) {
-        console.error('Error parsing stored article state:', error);
+        if (import.meta.env.DEV) {
+          console.error('Error parsing stored article state:', error);
+        }
       }
     }
 

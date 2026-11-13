@@ -258,7 +258,11 @@ export const TransitionDebugger: React.FC<TransitionDebuggerProps> = ({
                 Test Errors
               </button>
               <button
-                onClick={() => console.log('Debug Info:', debugInfo)}
+                onClick={() => {
+                  if (import.meta.env.DEV) {
+                    console.log('Debug Info:', debugInfo);
+                  }
+                }}
                 className="px-2 py-1 bg-blue-700 hover:bg-blue-600 rounded text-xs"
               >
                 Log Debug

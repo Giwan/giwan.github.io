@@ -7,6 +7,7 @@
 
 import { performanceMonitor } from './performanceMonitor';
 import { transitionPreferences } from './transitionPreferences';
+import { devConsole } from './isDev';
 import {
   detectDeviceCapabilities
 } from './transition/deviceDetector';
@@ -216,9 +217,7 @@ export function applyEmergencyOptimizations(): void {
   root.setAttribute('data-force-simple-transitions', 'true');
 
   // Only warn in development mode
-  if (import.meta.env.DEV) {
-    console.warn('Emergency transition optimizations applied due to poor performance');
-  }
+  devConsole('warn', ['Emergency transition optimizations applied due to poor performance']);
 }
 
 /**

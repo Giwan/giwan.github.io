@@ -15,6 +15,7 @@ import { performanceMonitor } from './performanceMonitor';
 import type { PerformanceMetrics, TransitionPerformanceData } from './performanceMonitor';
 import { transitionPreferences } from './transitionPreferences';
 import { transitionErrorHandler } from './transitionErrorHandler';
+import { devConsole } from './isDev';
 
 export enum PageType {
   HOME = 'home',
@@ -325,7 +326,7 @@ export class TransitionController {
     try {
       if (!this.isTransitionSupported()) {
         // Let error handler manage fallback
-        console.warn('View Transition API not supported, using fallback');
+        devConsole('warn', ['View Transition API not supported, using fallback']);
       }
 
     // Detect navigation context
@@ -350,7 +351,7 @@ export class TransitionController {
     this.updateMetrics(context);
     } catch (error) {
       // Handle preparation errors gracefully
-      console.error('Error during transition preparation:', error);
+      devConsole('error', ['Error during transition preparation:', error]);
       this.transitionInProgress = false;
     }
   }
@@ -377,7 +378,7 @@ export class TransitionController {
       }
     } catch (error) {
       // Handle after-swap errors gracefully
-      console.error('Error during transition after-swap:', error);
+      devConsole('error', ['Error during transition after-swap:', error]);
       this.transitionInProgress = false;
     }
   }

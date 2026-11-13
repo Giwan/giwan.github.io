@@ -63,7 +63,9 @@ const NetworkErrorHandler: React.FC<NetworkErrorHandlerProps> = ({
       // Reset retry count on success
       setRetryCount(0);
     } catch (retryError) {
-      console.warn('Auto-retry failed:', retryError);
+      if (import.meta.env.DEV) {
+        console.warn('Auto-retry failed:', retryError);
+      }
     } finally {
       setIsRetrying(false);
     }
@@ -88,7 +90,9 @@ const NetworkErrorHandler: React.FC<NetworkErrorHandlerProps> = ({
         await onRetry();
       }
     } catch (retryError) {
-      console.warn('Manual retry failed:', retryError);
+      if (import.meta.env.DEV) {
+        console.warn('Manual retry failed:', retryError);
+      }
     } finally {
       setIsRetrying(false);
     }

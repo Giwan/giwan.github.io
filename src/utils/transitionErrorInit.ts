@@ -9,6 +9,7 @@
  */
 
 import { transitionErrorHandler } from './transitionErrorHandler';
+import { devLog, devWarn, isDev } from './logger';
 
 /**
  * Initialize transition error handling system
@@ -25,14 +26,14 @@ export function initializeTransitionErrorHandling(): void {
   setupGlobalErrorRecovery();
 
   // Initialize debug mode in development
-  if (import.meta.env.DEV) {
+  if (isDev()) {
     setupDevelopmentMode();
   }
 
   // Set up performance-based fallbacks
   setupPerformanceFallbacks();
 
-  console.log('[TransitionErrorInit] Error handling initialized');
+  devLog('[TransitionErrorInit] Error handling initialized');
 }
 
 /**
@@ -110,7 +111,7 @@ function setupGlobalErrorRecovery(): void {
     // Set up timeout to detect stuck transitions
     setTimeout(() => {
       if (transitionStartTime && Date.now() - transitionStartTime > 10000) {
-        console.warn('[TransitionErrorInit] Transition appears stuck, forcing recovery');
+        devWarn('[TransitionErrorInit] Transition appears stuck, forcing recovery');
         forceTransitionRecovery();
       }
     }, 10000);
@@ -145,7 +146,7 @@ function forceTransitionRecovery(): void {
     root.removeAttribute('data-view-transition-disabled');
   }, 1000);
 
-  console.log('[TransitionErrorInit] Forced transition recovery');
+  devLog('[TransitionErrorInit] Forced transition recovery');
 }
 
 /**
@@ -177,11 +178,11 @@ function setupDevelopmentMode(): void {
   });
 
   // Log debug info to console
-  console.log('[TransitionErrorInit] Development mode enabled');
-  console.log('Keyboard shortcuts:');
-  console.log('  Ctrl/Cmd + Shift + T: Toggle transition debugger');
-  console.log('  Ctrl/Cmd + Shift + F: Force fallback mode');
-  console.log('  Ctrl/Cmd + Shift + E: Test error handling');
+  devLog('[TransitionErrorInit] Development mode enabled');
+  devLog('Keyboard shortcuts:');
+  devLog('  Ctrl/Cmd + Shift + T: Toggle transition debugger');
+  devLog('  Ctrl/Cmd + Shift + F: Force fallback mode');
+  devLog('  Ctrl/Cmd + Shift + E: Test error handling');
 }
 
 /**

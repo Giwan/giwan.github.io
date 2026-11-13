@@ -325,7 +325,9 @@ export class TransitionRegistry {
     const transition = this.transitionConfigs.get(transitionName);
 
     if (!transition) {
-      console.warn(`Transition '${transitionName}' not found, using default`);
+      if (import.meta.env.DEV) {
+        console.warn(`Transition '${transitionName}' not found, using default`);
+      }
       return this.defaultTransition;
     }
 

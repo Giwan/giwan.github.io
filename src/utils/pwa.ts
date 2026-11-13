@@ -4,6 +4,7 @@
  */
 
 import { mobileTransitionInitializer } from './mobileTransitionInit';
+import { devConsole } from './isDev';
 
 // Types for error handling
 export interface PWAError {
@@ -34,7 +35,7 @@ const DEFAULT_RETRY_CONFIG: RetryConfig = {
 export const registerServiceWorker = async (): Promise<ServiceWorkerRegistration | null> => {
   // Check if service workers are supported
   if (!('serviceWorker' in navigator)) {
-    console.warn('Service workers are not supported in this browser');
+    devConsole('warn', ['Service workers are not supported in this browser']);
     handlePWAError({
       type: 'service-worker',
       message: 'Service workers not supported in this browser',
@@ -45,7 +46,7 @@ export const registerServiceWorker = async (): Promise<ServiceWorkerRegistration
 
   // Check if we're in a secure context (required for service workers)
   if (!window.isSecureContext) {
-    console.warn('Service workers require a secure context (HTTPS)');
+    devConsole('warn', ['Service workers require a secure context (HTTPS)']);
     handlePWAError({
       type: 'service-worker',
       message: 'Service workers require HTTPS',
@@ -59,7 +60,7 @@ export const registerServiceWorker = async (): Promise<ServiceWorkerRegistration
       scope: '/'
     });
 
-    console.log('Service worker registered successfully:', registration);
+    devConsole('log', ['Service worker registered successfully:', registration]);
     
     // Set up update detection with error handling
     setupServiceWorkerUpdateHandling(registration);
@@ -70,9 +71,9 @@ export const registerServiceWorker = async (): Promise<ServiceWorkerRegistration
     // Initialize mobile transition optimizations
     try {
       await mobileTransitionInitializer.initialize();
-      console.log('Mobile transition optimizations initialized');
+      devConsole('log', ['Mobile transition optimizations initialized']);
     } catch (error) {
-      console.warn('Failed to initialize mobile transition optimizations:', error);
+      devConsole('warn', ['Failed to initialize mobile transition optimizations:', error]);
     }
     
     return registration;
@@ -88,16 +89,16 @@ export const registerServiceWorker = async (): Promise<ServiceWorkerRegistration
 
     // Attempt fallback registration with different scope
     try {
-      console.log('Attempting fallback service worker registration...');
+      devConsole('log', ['Attempting fallback service worker registration...']);
       const fallbackRegistration = await navigator.serviceWorker.register('/sw.js', {
         scope: './'
       });
 
-      console.log('Fallback service worker registered successfully:', fallbackRegistration);
+      devConsole('log', ['Fallback service worker registered successfully:', fallbackRegistration]);
       setupServiceWorkerUpdateHandling(fallbackRegistration);
       return fallbackRegistration;
     } catch (fallbackError) {
-      console.warn('Fallback service worker registration also failed:', fallbackError);
+      devConsole('warn', ['Fallback service worker registration also failed:', fallbackError]);
 
       // Final graceful degradation - app continues to work without SW
       return null;
@@ -136,7 +137,7 @@ const setupServiceWorkerUpdateHandling = (registration: ServiceWorkerRegistratio
     });
 
   } catch (error) {
-    console.warn('Failed to set up service worker update handling:', error);
+    devConsole('warn', ['Failed to set up service worker update handling:', error]);
   }
 };
 
@@ -148,7 +149,7 @@ const setupServiceWorkerErrorRecovery = (registration: ServiceWorkerRegistration
     // Monitor service worker state changes for error recovery
     if (registration.active) {
       registration.active.addEventListener('error', (event) => {
-        console.warn('Active service worker error:', event);
+        devConsole('warn', ['Active service worker error:', event]);
         handleServiceWorkerRecovery(registration);
       });
     }
@@ -159,11 +160,11 @@ const setupServiceWorkerErrorRecovery = (registration: ServiceWorkerRegistration
         // Check if service worker is still responsive
         const isHealthy = await checkServiceWorkerHealth(registration);
         if (!isHealthy) {
-          console.warn('Service worker health check failed, attempting recovery...');
+          devConsole('warn', ['Service worker health check failed, attempting recovery...']);
           await handleServiceWorkerRecovery(registration);
         }
       } catch (error) {
-        console.warn('Service worker health check error:', error);
+        devConsole('warn', ['Service worker health check error:', error]);
       }
     }, 5 * 60 * 1000); // Check every 5 minutes
 
@@ -173,7 +174,7 @@ const setupServiceWorkerErrorRecovery = (registration: ServiceWorkerRegistration
     });
 
   } catch (error) {
-    console.warn('Failed to set up service worker error recovery:', error);
+    devConsole('warn', ['Failed to set up service worker error recovery:', error]);
   }
 };
 
@@ -194,7 +195,7 @@ const checkServiceWorkerHealth = async (registration: ServiceWorkerRegistration)
     // If we get a response, service worker is likely working
     return response.ok || response.status === 404; // 404 is acceptable for health check
   } catch (error) {
-    console.warn('Service worker health check failed:', error);
+    devConsole('warn', ['Service worker health check failed:', error]);
     return false;
   }
 };
@@ -204,14 +205,14 @@ const checkServiceWorkerHealth = async (registration: ServiceWorkerRegistration)
  */
 const handleServiceWorkerRecovery = async (registration: ServiceWorkerRegistration): Promise<void> => {
   try {
-    console.log('Attempting service worker recovery...');
+    devConsole('log', ['Attempting service worker recovery...']);
     
     // Try to update the service worker
     await registration.update();
     
     // If that doesn't work, try to unregister and re-register
     if (!registration.active) {
-      console.log('Service worker inactive, attempting re-registration...');
+      devConsole('log', ['Service worker inactive, attempting re-registration...']);
       await registration.unregister();
 
       // Wait a moment before re-registering
@@ -221,9 +222,9 @@ const handleServiceWorkerRecovery = async (registration: ServiceWorkerRegistrati
       await registerServiceWorker();
     }
 
-    console.log('Service worker recovery completed');
+    devConsole('log', ['Service worker recovery completed']);
   } catch (error) {
-    console.warn('Service worker recovery failed:', error);
+    devConsole('warn', ['Service worker recovery failed:', error]);
 
     // Log recovery failure
     handlePWAError({

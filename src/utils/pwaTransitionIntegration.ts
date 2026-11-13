@@ -113,7 +113,9 @@ export class PWATransitionIntegration {
       }
 
     } catch (error) {
-      console.warn('Failed to set up service worker integration:', error);
+      if (import.meta.env.DEV) {
+        console.warn('Failed to set up service worker integration:', error);
+      }
     }
   }
 
@@ -537,7 +539,9 @@ export class PWATransitionIntegration {
       (window as any).deferredPrompt = null;
       return outcome === 'accepted';
     } catch (error) {
-      console.warn('Failed to trigger install prompt:', error);
+      if (import.meta.env.DEV) {
+        console.warn('Failed to trigger install prompt:', error);
+      }
       return false;
     }
   }

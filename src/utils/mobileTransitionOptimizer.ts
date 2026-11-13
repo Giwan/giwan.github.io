@@ -8,6 +8,8 @@
  * - PWA-specific behaviors
  */
 
+import { devConsole } from './isDev';
+
 export interface DeviceCapabilities {
   isMobile: boolean;
   isTablet: boolean;
@@ -251,7 +253,7 @@ export class MobileTransitionOptimizer {
           battery.addEventListener('chargingchange', updateBatteryStatus);
         }
       }).catch((error: Error) => {
-        console.warn('Battery API not available:', error);
+        devConsole('warn', ['Battery API not available:', error]);
       });
     }
   }

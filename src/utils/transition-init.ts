@@ -1,12 +1,13 @@
 import { transitionController } from './transitionController';
+import { devConsole } from './isDev';
 
 export function initializeTransitions(): void {
   if (typeof window === 'undefined') return;
   if (import.meta.env.DEV) {
     document.addEventListener('astro:before-preparation', () => {
-      console.log('Transition starting:', {
+      devConsole('log', ['Transition starting:', {
         from: window.location.pathname
-      });
+      }]);
     });
   }
 }

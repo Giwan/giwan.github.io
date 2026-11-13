@@ -7,6 +7,7 @@
 
 import { transitionRegistry } from './transitionRegistry';
 import { transitionController } from './transitionController';
+import { devConsole } from './isDev';
 
 export interface PreloadOptions {
   priority?: 'high' | 'low';
@@ -180,7 +181,7 @@ export class TransitionPreloader {
       }
 
     } catch (error) {
-      console.warn('Failed to prefetch transition:', error);
+      devConsole('warn', ['Failed to prefetch transition:', error]);
 
       // Remove from queue on error
       const queueIndex = this.preloadQueue.indexOf(preloadKey);
@@ -239,7 +240,7 @@ export class TransitionPreloader {
           priority: options.priority || 'low'
         });
       } catch (error) {
-        console.warn('Astro prefetch failed:', error);
+        devConsole('warn', ['Astro prefetch failed:', error]);
       }
     } else {
       // Fallback to manual prefetch using link rel="prefetch"
@@ -304,7 +305,7 @@ export class TransitionPreloader {
       resource.loadTime = Date.now() - startTime;
     } catch (error) {
       resource.status = 'error';
-      console.warn(`Failed to preload ${type}:`, url, error);
+      devConsole('warn', [`Failed to preload ${type}:`, url, error]);
     }
 
     return resource;

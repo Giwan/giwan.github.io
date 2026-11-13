@@ -8,7 +8,7 @@
 import { mobileTransitionOptimizer } from './mobileTransitionOptimizer';
 import { pwaTransitionIntegration } from './pwaTransitionIntegration';
 import { transitionController } from './transitionController';
-import { devConsole } from '../utils/isDev';
+import { devConsole } from './isDev';
 
 export interface MobileTransitionConfig {
   enableMobileOptimizations: boolean;
@@ -301,9 +301,9 @@ export class MobileTransitionInitializer {
   private log(message: string, data?: any): void {
     if (this.config.debugMode) {
       if (data) {
-        console.log(`[MobileTransitions] ${message}`, data);
+        devConsole('log', [`[MobileTransitions] ${message}`, data]);
       } else {
-        console.log(`[MobileTransitions] ${message}`);
+        devConsole('log', [`[MobileTransitions] ${message}`]);
       }
     }
   }

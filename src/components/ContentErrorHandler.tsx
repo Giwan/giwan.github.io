@@ -70,7 +70,9 @@ const ContentErrorHandler: React.FC<ContentErrorHandlerProps> = ({
         window.location.reload();
       }
     } catch (retryError) {
-      console.warn('Retry failed:', retryError);
+      if (import.meta.env.DEV) {
+        console.warn('Retry failed:', retryError);
+      }
     } finally {
       setIsRetrying(false);
     }

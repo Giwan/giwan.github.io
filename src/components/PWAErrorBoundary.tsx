@@ -55,7 +55,9 @@ class PWAErrorBoundary extends Component<PWAErrorBoundaryProps, PWAErrorBoundary
     }
 
     // Log error for debugging
-    console.error('PWA Error Boundary caught an error:', error, errorInfo);
+    if (import.meta.env.DEV) {
+      console.error('PWA Error Boundary caught an error:', error, errorInfo);
+    }
 
     // Store error in localStorage for debugging
     try {
@@ -81,7 +83,9 @@ class PWAErrorBoundary extends Component<PWAErrorBoundaryProps, PWAErrorBoundary
 
       localStorage.setItem('pwa-component-errors', JSON.stringify(errorLog));
     } catch (storageError) {
-      console.warn('Failed to store component error:', storageError);
+      if (import.meta.env.DEV) {
+        console.warn('Failed to store component error:', storageError);
+      }
     }
   }
 
@@ -108,7 +112,9 @@ class PWAErrorBoundary extends Component<PWAErrorBoundaryProps, PWAErrorBoundary
         isRecovering: false
       });
     } catch (recoveryError) {
-      console.warn('Recovery attempt failed:', recoveryError);
+      if (import.meta.env.DEV) {
+        console.warn('Recovery attempt failed:', recoveryError);
+      }
       this.setState({
         isRecovering: false
       });
@@ -138,7 +144,9 @@ class PWAErrorBoundary extends Component<PWAErrorBoundaryProps, PWAErrorBoundary
       await new Promise(resolve => setTimeout(resolve, 1500));
       window.location.reload();
     } catch (error) {
-      console.warn('Advanced recovery failed:', error);
+      if (import.meta.env.DEV) {
+        console.warn('Advanced recovery failed:', error);
+      }
       this.setState({ isRecovering: false });
     }
   };

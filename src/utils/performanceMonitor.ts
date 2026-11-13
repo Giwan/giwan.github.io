@@ -8,6 +8,8 @@
  * - User preference controls for transition intensity
  */
 
+import { devConsole } from './isDev';
+
 export interface PerformanceMetrics {
     frameRate: number;
     averageFrameTime: number;
@@ -163,7 +165,7 @@ export class PerformanceMonitor {
                 entryTypes: ['navigation', 'paint', 'layout-shift']
             });
         } catch (error) {
-            console.warn('Performance Observer not fully supported:', error);
+            devConsole('warn', ['Performance Observer not fully supported:', error]);
         }
     }
 
@@ -481,7 +483,7 @@ export class PerformanceMonitor {
         // Track layout shifts during transitions
         if (this.isMonitoring && entry.value > 0.1) {
             // Significant layout shift detected during transition
-            console.warn('Layout shift detected during transition:', entry.value);
+            devConsole('warn', ['Layout shift detected during transition:', entry.value]);
         }
     }
 
@@ -525,7 +527,7 @@ export class PerformanceMonitor {
             try {
                 callback(metrics);
             } catch (error) {
-                console.error('Error in performance change callback:', error);
+                devConsole('error', ['Error in performance change callback:', error]);
             }
         });
     }
