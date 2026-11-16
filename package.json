@@ -98,7 +98,7 @@
         "jake": "^10.9.4",
         "ejs": "^4.0.1",
         "glob": "^10.5.0",
-        "minimatch": "^10.0.2",
+        "minimatch": "^11.0.1",
         "brace-expansion": "^5.0.7",
         "@emnapi/runtime": "1.11.3",
         "@emnapi/core": "1.11.3",
