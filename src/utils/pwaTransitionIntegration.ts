@@ -8,6 +8,7 @@
  * - Native-like transition behaviors
  */
 
+import { isDev } from './isDev';
 import { mobileTransitionOptimizer } from './mobileTransitionOptimizer';
 
 export interface PWATransitionState {
@@ -113,7 +114,7 @@ export class PWATransitionIntegration {
       }
 
     } catch (error) {
-      if (import.meta.env.DEV) {
+      if (isDev()) {
         console.warn('Failed to set up service worker integration:', error);
       }
     }
@@ -539,7 +540,7 @@ export class PWATransitionIntegration {
       (window as any).deferredPrompt = null;
       return outcome === 'accepted';
     } catch (error) {
-      if (import.meta.env.DEV) {
+      if (isDev()) {
         console.warn('Failed to trigger install prompt:', error);
       }
       return false;

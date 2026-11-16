@@ -8,6 +8,8 @@
  * - Transition debugging tools for development mode
  */
 
+import { isDev } from './isDev';
+
 export interface TransitionError {
   type: 'api-unsupported' | 'preparation-failed' | 'transition-failed' | 'timeout' | 'unknown';
   message: string;
@@ -74,7 +76,7 @@ export class TransitionErrorHandler {
 
     this.isInitialized = true;
 
-    if (this.debugMode && import.meta.env.DEV) {
+    if (this.debugMode && isDev()) {
       console.log('[TransitionErrorHandler] Initialized with debug mode enabled');
     }
   }
@@ -147,7 +149,7 @@ export class TransitionErrorHandler {
           this.handleApiUnsupported(fromPath, toPath);
         }
 
-        if (this.debugMode && import.meta.env.DEV) {
+        if (this.debugMode && isDev()) {
           console.log('[TransitionErrorHandler] Transition preparation started', {
             from: fromPath,
             to: toPath,
@@ -183,7 +185,7 @@ export class TransitionErrorHandler {
         this.transitionTimeouts.delete(timeoutKey);
       }
 
-      if (this.debugMode && import.meta.env.DEV) {
+      if (this.debugMode && isDev()) {
         console.log('[TransitionErrorHandler] Transition completed successfully', {
           from: fromPath,
           to: toPath
@@ -199,7 +201,7 @@ export class TransitionErrorHandler {
       });
       this.transitionTimeouts.clear();
 
-      if (this.debugMode && import.meta.env.DEV) {
+      if (this.debugMode && isDev()) {
         console.log('[TransitionErrorHandler] Page load completed');
       }
     });
@@ -211,7 +213,7 @@ export class TransitionErrorHandler {
   private setupGlobalErrorHandlers(): void {
     // Override console.error to catch transition-related errors
     // Only in development to avoid production overhead
-    if (import.meta.env.DEV) {
+    if (isDev()) {
       const originalConsoleError = console.error;
       console.error = (...args: any[]) => {
         const errorMessage = args.join(' ');
@@ -269,7 +271,7 @@ export class TransitionErrorHandler {
     }
 
     // Log error in debug mode
-    if (this.debugMode && import.meta.env.DEV) {
+    if (this.debugMode && isDev()) {
       console.error('[TransitionErrorHandler] Transition error:', error);
     }
 
@@ -338,7 +340,7 @@ export class TransitionErrorHandler {
     // Disable custom view transition names
     root.style.setProperty('--disable-view-transitions', '1');
 
-    if (this.debugMode && import.meta.env.DEV) {
+    if (this.debugMode && isDev()) {
       console.log('[TransitionErrorHandler] Fallback mode enabled');
     }
   }
@@ -356,7 +358,7 @@ export class TransitionErrorHandler {
     root.style.setProperty('--transition-duration', '200ms');
     root.style.setProperty('--transition-easing', 'ease-out');
 
-    if (this.debugMode && import.meta.env.DEV) {
+    if (this.debugMode && isDev()) {
       console.log('[TransitionErrorHandler] Astro built-in transitions enabled');
     }
   }
@@ -387,7 +389,7 @@ export class TransitionErrorHandler {
       root.style.removeProperty('--transition-duration');
       root.style.removeProperty('--transition-easing');
 
-      if (this.debugMode && import.meta.env.DEV) {
+      if (this.debugMode && isDev()) {
         console.log('[TransitionErrorHandler] Recovery attempted');
       }
     }
@@ -503,7 +505,7 @@ export class TransitionErrorHandler {
     const root = document.documentElement;
     root.setAttribute('data-transition-debug', 'true');
 
-    if (import.meta.env.DEV) {
+    if (isDev()) {
       console.log('[TransitionErrorHandler] Debug mode enabled');
       console.log('[TransitionErrorHandler] Current debug info:', this.getDebugInfo());
     }
@@ -519,7 +521,7 @@ export class TransitionErrorHandler {
     const root = document.documentElement;
     root.removeAttribute('data-transition-debug');
 
-    if (import.meta.env.DEV) {
+    if (isDev()) {
       console.log('[TransitionErrorHandler] Debug mode disabled');
     }
   }
@@ -537,7 +539,7 @@ export class TransitionErrorHandler {
   public clearErrorHistory(): void {
     this.errorHistory = [];
 
-    if (this.debugMode && import.meta.env.DEV) {
+    if (this.debugMode && isDev()) {
       console.log('[TransitionErrorHandler] Error history cleared');
     }
   }
@@ -556,7 +558,7 @@ export class TransitionErrorHandler {
       }
     }
 
-    if (this.debugMode && import.meta.env.DEV) {
+    if (this.debugMode && isDev()) {
       console.log('[TransitionErrorHandler] Fallback options updated:', this.fallbackOptions);
     }
   }
@@ -580,13 +582,13 @@ export class TransitionErrorHandler {
    */
   public testErrorHandling(): void {
     if (!this.debugMode) {
-      if (import.meta.env.DEV) {
+      if (isDev()) {
         console.warn('[TransitionErrorHandler] Test methods only available in debug mode');
       }
       return;
     }
 
-    if (import.meta.env.DEV) {
+    if (isDev()) {
       console.log('[TransitionErrorHandler] Testing error handling...');
     }
 
@@ -653,7 +655,7 @@ export class TransitionErrorHandler {
 
     this.isInitialized = false;
 
-    if (this.debugMode && import.meta.env.DEV) {
+    if (this.debugMode && isDev()) {
       console.log('[TransitionErrorHandler] Destroyed');
     }
   }

@@ -2,6 +2,7 @@
  * Tests for TransitionRegistry
  */
 
+import { jest } from '@jest/globals';
 import { TransitionRegistry, PageType, PageRelationship } from '../transitionRegistry';
 
 // Mock window.matchMedia

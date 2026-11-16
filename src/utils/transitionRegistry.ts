@@ -5,6 +5,8 @@
  * to appropriate transition configurations, supporting Astro's file-based routing system.
  */
 
+import { isDev } from './isDev';
+
 // Types and interfaces
 export enum PageType {
   HOME = 'home',
@@ -325,7 +327,7 @@ export class TransitionRegistry {
     const transition = this.transitionConfigs.get(transitionName);
 
     if (!transition) {
-      if (import.meta.env.DEV) {
+      if (isDev()) {
         console.warn(`Transition '${transitionName}' not found, using default`);
       }
       return this.defaultTransition;

@@ -1,4 +1,6 @@
 // Mock for articleStore.js
+import { jest } from '@jest/globals';
+
 const defaultState = {
   articles: [],
   page: 1,
@@ -58,7 +60,7 @@ function resetMockState() {
   jest.clearAllMocks();
 }
 
-module.exports = {
+export {
   $articleStore,
   resetStore,
   setArticles,

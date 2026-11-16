@@ -6,6 +6,7 @@ import { ArticlesList } from './ArticlesList';
 import { ArticlesLoadMore } from './ArticlesLoadMore';
 import type { ArticlesListWrapperProps, ArticleData, Article } from '../types/article';
 import { STORAGE_KEYS, TIME_CONSTANTS } from '../constants/storage';
+import { isDev } from '../utils/isDev';
 
 /**
  * Wrapper component for articles list
@@ -35,7 +36,7 @@ const ArticlesListWrapper: React.FC<ArticlesListWrapperProps> = ({
           storedArticleData = null;
         }
       } catch (error) {
-        if (import.meta.env.DEV) {
+        if (isDev()) {
           console.error('Error parsing stored article state:', error);
         }
       }

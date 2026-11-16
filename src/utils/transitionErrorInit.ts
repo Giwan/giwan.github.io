@@ -9,7 +9,7 @@
  */
 
 import { transitionErrorHandler } from './transitionErrorHandler';
-import { devLog, devWarn, isDev } from './logger';
+import { devConsole, isDev } from './isDev';
 
 /**
  * Initialize transition error handling system
@@ -33,7 +33,7 @@ export function initializeTransitionErrorHandling(): void {
   // Set up performance-based fallbacks
   setupPerformanceFallbacks();
 
-  devLog('[TransitionErrorInit] Error handling initialized');
+  devConsole('log', ['[TransitionErrorInit] Error handling initialized']);
 }
 
 /**
@@ -111,7 +111,7 @@ function setupGlobalErrorRecovery(): void {
     // Set up timeout to detect stuck transitions
     setTimeout(() => {
       if (transitionStartTime && Date.now() - transitionStartTime > 10000) {
-        devWarn('[TransitionErrorInit] Transition appears stuck, forcing recovery');
+        devConsole('warn', ['[TransitionErrorInit] Transition appears stuck, forcing recovery']);
         forceTransitionRecovery();
       }
     }, 10000);
@@ -146,7 +146,7 @@ function forceTransitionRecovery(): void {
     root.removeAttribute('data-view-transition-disabled');
   }, 1000);
 
-  devLog('[TransitionErrorInit] Forced transition recovery');
+  devConsole('log', ['[TransitionErrorInit] Forced transition recovery']);
 }
 
 /**
@@ -178,11 +178,11 @@ function setupDevelopmentMode(): void {
   });
 
   // Log debug info to console
-  devLog('[TransitionErrorInit] Development mode enabled');
-  devLog('Keyboard shortcuts:');
-  devLog('  Ctrl/Cmd + Shift + T: Toggle transition debugger');
-  devLog('  Ctrl/Cmd + Shift + F: Force fallback mode');
-  devLog('  Ctrl/Cmd + Shift + E: Test error handling');
+  devConsole('log', ['[TransitionErrorInit] Development mode enabled']);
+  devConsole('log', ['Keyboard shortcuts:']);
+  devConsole('log', ['  Ctrl/Cmd + Shift + T: Toggle transition debugger']);
+  devConsole('log', ['  Ctrl/Cmd + Shift + F: Force fallback mode']);
+  devConsole('log', ['  Ctrl/Cmd + Shift + E: Test error handling']);
 }
 
 /**
@@ -311,7 +311,7 @@ export function getErrorHandlingStatus(): {
 
   return {
     initialized: isTransitionErrorHandlingInitialized(),
-    debugMode: import.meta.env.DEV,
+    debugMode: isDev(),
     fallbackStylesLoaded: document.querySelector('#transition-fallback-styles') !== null,
     errorCount: debugInfo.errorHistory.length
   };

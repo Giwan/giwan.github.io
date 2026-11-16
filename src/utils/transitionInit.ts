@@ -6,7 +6,7 @@
  */
 
 import { transitionController } from './transitionController';
-import { devConsole } from './isDev';
+import { devConsole, isDev } from './isDev';
 
 /**
  * Initialize transitions for the application
@@ -26,7 +26,7 @@ export function initializeTransitions(): void {
     devConsole('log', ['TransitionController initialized']);
 
     // Optional: Log transition events in development
-    if (import.meta.env.DEV) {
+    if (isDev()) {
       document.addEventListener('astro:before-preparation', (event) => {
         const customEvent = event as CustomEvent;
         devConsole('log', ['Transition starting:', {

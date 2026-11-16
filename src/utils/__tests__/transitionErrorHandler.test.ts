@@ -3,6 +3,7 @@
  * Simplified tests focusing on core functionality
  */
 
+import { jest } from '@jest/globals';
 import { TransitionErrorHandler } from '../transitionErrorHandler';
 
 // Mock DOM environment
@@ -39,7 +40,7 @@ const mockWindow = {
     userAgent: 'test-agent',
     hardwareConcurrency: 4
   },
-  requestAnimationFrame: jest.fn((cb) => setTimeout(cb, 16)),
+  requestAnimationFrame: jest.fn((cb: FrameRequestCallback) => setTimeout(() => cb(performance.now()), 16)),
   innerWidth: 1024,
   innerHeight: 768
 };
@@ -47,9 +48,9 @@ const mockWindow = {
 describe('TransitionErrorHandler', () => {
   let errorHandler: TransitionErrorHandler;
   let consoleSpy: {
-    log: jest.SpyInstance;
-    warn: jest.SpyInstance;
-    error: jest.SpyInstance;
+    log: jest.Spied<typeof console.log>;
+    warn: jest.Spied<typeof console.warn>;
+    error: jest.Spied<typeof console.error>;
   };
 
   beforeAll(() => {
