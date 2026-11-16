@@ -20,7 +20,7 @@
         "test:pwa": "npm run validate-pwa-final && npm run test-pwa-functionality",
         "audit:pwa": "npm run lighthouse-audit",
         "predeploy": "npm run build:pwa",
-        "test": "node test.cjs",
+        "test": "jest",
         "clean": "rm -rf docs/*",
         "validate:tools": "node scripts/validate-tools.js",
         "validate:tools:quick": "node scripts/validate-tools.js --quick",
