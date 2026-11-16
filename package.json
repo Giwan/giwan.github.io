@@ -37,7 +37,7 @@
         "lint:putout:fix": "npx putout \"src/**/*.{js,ts,tsx,json,md}\" --fix"
     },
     "dependencies": {
-        "@astrojs/mdx": "8.1.2",
+        "@astrojs/mdx": "8.1.5",
         "@astrojs/react": "7.1.8",
         "@astrojs/rss": "4.0.19",
         "@astrojs/sitemap": "3.7.4",
@@ -67,12 +67,12 @@
         "@emnapi/core": "1.11.3",
         "@emnapi/runtime": "1.11.3",
         "@emnapi/wasi-threads": "2.2.0",
-        "@babel/core": "8.1.0",
+        "@babel/core": "8.1.2",
         "@babel/preset-env": "8.0.7",
         "@babel/preset-react": "8.0.1",
         "@babel/preset-typescript": "8.0.7",
         "@putout/processor-html": "14.1.1",
-        "@tailwindcss/typography": "0.5.4",
+        "@tailwindcss/typography": "0.5.20",
         "@testing-library/dom": "10.4.2",
         "@testing-library/jest-dom": "6.10.0",
         "@testing-library/react": "16.3.3",
