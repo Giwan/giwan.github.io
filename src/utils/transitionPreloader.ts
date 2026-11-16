@@ -458,7 +458,7 @@ export class TransitionPreloader {
 
     if (preloaded) {
       // Apply preloaded transition configuration
-      console.log('Using preloaded transition for:', toPath);
+      devConsole('log', ['Using preloaded transition for:', toPath]);
 
       // Set transition context based on preloaded config
       const root = document.documentElement;

@@ -329,26 +329,26 @@ export class TransitionController {
         devConsole('warn', ['View Transition API not supported, using fallback']);
       }
 
-    // Detect navigation context
-    const context = this.detectNavigationContext(fromPath, toPath);
+      // Detect navigation context
+      const context = this.detectNavigationContext(fromPath, toPath);
 
-    // Start performance monitoring
-    performanceMonitor.startMonitoring(this.getTransitionContextName(context));
+      // Start performance monitoring
+      performanceMonitor.startMonitoring(this.getTransitionContextName(context));
 
-    // Apply mobile and PWA optimizations
-    this.applyMobileOptimizations(context);
+      // Apply mobile and PWA optimizations
+      this.applyMobileOptimizations(context);
 
-    // Apply transition context to document
-    this.applyTransitionContext(context);
+      // Apply transition context to document
+      this.applyTransitionContext(context);
 
-    // Apply user preferences
-    this.applyUserPreferences();
+      // Apply user preferences
+      this.applyUserPreferences();
 
-    // Apply performance-based optimizations
-    this.applyPerformanceOptimizations();
+      // Apply performance-based optimizations
+      this.applyPerformanceOptimizations();
 
-    // Update metrics
-    this.updateMetrics(context);
+      // Update metrics
+      this.updateMetrics(context);
     } catch (error) {
       // Handle preparation errors gracefully
       devConsole('error', ['Error during transition preparation:', error]);
@@ -645,7 +645,7 @@ export class TransitionController {
     // Apply memory usage if available
     if (currentMetrics.memoryUsage !== undefined) {
       const memoryLevel = currentMetrics.memoryUsage > 0.8 ? 'high' :
-                         currentMetrics.memoryUsage > 0.6 ? 'medium' : 'low';
+        currentMetrics.memoryUsage > 0.6 ? 'medium' : 'low';
       root.setAttribute('data-memory-usage', memoryLevel);
 
       if (currentMetrics.memoryUsage > 0.8) {
@@ -671,12 +671,12 @@ export class TransitionController {
     // Update internal metrics with actual performance data
     this.metrics.averageDuration =
       (this.metrics.averageDuration * (this.metrics.totalTransitions - 1) +
-       (performanceData.endTime - performanceData.startTime)) /
+        (performanceData.endTime - performanceData.startTime)) /
       this.metrics.totalTransitions;
 
     // Calculate failure rate based on performance thresholds
     const isFailure = performanceData.averageFrameRate < 30 ||
-                     performanceData.droppedFrames > 5;
+      performanceData.droppedFrames > 5;
 
     if (isFailure) {
       this.metrics.failureRate =
@@ -712,7 +712,7 @@ export class TransitionController {
       oscillator.stop(audioContext.currentTime + 0.1);
     } catch (error) {
       // Fallback or ignore if Web Audio API is not available
-      console.debug('Sound effect not available:', error);
+      devConsole('debug', ['Sound effect not available:', error]);
     }
   }
 
@@ -725,7 +725,7 @@ export class TransitionController {
       try {
         navigator.vibrate([10, 5, 10]); // Short vibration pattern
       } catch (error) {
-        console.debug('Haptic feedback not available:', error);
+        devConsole('debug', ['Haptic feedback not available:', error]);
       }
     }
   }

@@ -16,17 +16,25 @@
       document.addEventListener('DOMContentLoaded', async () => {
         try {
           await mobileTransitionInitializer.initialize();
-          console.log('Mobile transition optimizations ready');
+          if (import.meta.env.DEV) {
+            console.log('Mobile transition optimizations ready');
+          }
         } catch (error) {
-          console.warn('Failed to initialize mobile transitions:', error);
+          if (import.meta.env.DEV) {
+            console.warn('Failed to initialize mobile transitions:', error);
+          }
         }
       });
     } else {
       // DOM is already ready
       mobileTransitionInitializer.initialize().then(() => {
-        console.log('Mobile transition optimizations ready');
+        if (import.meta.env.DEV) {
+          console.log('Mobile transition optimizations ready');
+        }
       }).catch((error) => {
-        console.warn('Failed to initialize mobile transitions:', error);
+        if (import.meta.env.DEV) {
+          console.warn('Failed to initialize mobile transitions:', error);
+        }
       });
     }
   }
@@ -108,7 +116,9 @@
       battery.addEventListener('levelchange', updateBatteryState);
       battery.addEventListener('chargingchange', updateBatteryState);
     }).catch((error) => {
-      console.warn('Battery API not available:', error);
+      if (import.meta.env.DEV) {
+        console.warn('Battery API not available:', error);
+      }
     });
   }
   

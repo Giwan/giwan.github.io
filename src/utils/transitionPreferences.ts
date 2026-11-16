@@ -217,7 +217,7 @@ export class TransitionPreferencesManager {
           try {
             listener(change);
           } catch (error) {
-            console.warn('Error in preference change listener:', error);
+            devConsole('warn', ['Error in preference change listener:', error]);
           }
         });
       });
@@ -251,7 +251,7 @@ export class TransitionPreferencesManager {
           try {
             listener(changeEvent);
           } catch (error) {
-            console.warn('Error in preference change listener:', error);
+            devConsole('warn', ['Error in preference change listener:', error]);
           }
         });
       }

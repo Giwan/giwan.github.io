@@ -95,7 +95,7 @@ export class TransitionIntegration {
    */
   private handleAfterPreparation(event: Event): void {
     // Transition preparation is complete, ready for swap
-    console.log('Transition preparation complete');
+    devConsole('log', ['Transition preparation complete']);
   }
 
   /**
@@ -103,7 +103,7 @@ export class TransitionIntegration {
    */
   private handleBeforeSwap(event: Event): void {
     // Document is about to be swapped
-    console.log('Document swap starting');
+    devConsole('log', ['Document swap starting']);
   }
 
   /**
@@ -120,7 +120,7 @@ export class TransitionIntegration {
     // Clean up transition attributes
     this.cleanupTransitionAttributes();
 
-    console.log(`Transition complete to ${newPath} (${newPageType})`);
+    devConsole('log', [`Transition complete to ${newPath} (${newPageType})`]);
   }
 
   /**
@@ -129,7 +129,7 @@ export class TransitionIntegration {
   private handlePageLoad(event: Event): void {
     // Page has fully loaded
     this.registerCurrentPage();
-    console.log('Page load complete');
+    devConsole('log', ['Page load complete']);
   }
 
   /**
@@ -141,7 +141,7 @@ export class TransitionIntegration {
     const newPageType = transitionRegistry.getPageType(newPath);
     document.documentElement.setAttribute('data-page-type', newPageType);
 
-    console.log(`Browser navigation to ${newPath} (${newPageType})`);
+    devConsole('log', [`Browser navigation to ${newPath} (${newPageType})`]);
   }
 
   /**
@@ -149,7 +149,7 @@ export class TransitionIntegration {
    */
   private handleHashChange(event: HashChangeEvent): void {
     // Hash navigation doesn't typically require page transitions
-    console.log('Hash navigation:', event.newURL);
+    devConsole('log', ['Hash navigation:', event.newURL]);
   }
 
   /**
@@ -268,7 +268,7 @@ export class TransitionIntegration {
     this.cleanupTransitionAttributes();
 
     this.isInitialized = false;
-    console.log('Transition integration destroyed');
+    devConsole('log', ['Transition integration destroyed']);
   }
 }
 
