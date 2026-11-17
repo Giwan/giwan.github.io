@@ -3,16 +3,36 @@ import HeaderNav from "./HeaderNav/HeaderNav.astro";
 import Logo from "./Header/HeaderLogo";
 import { ThemeToggle } from "./ThemeToggle";
 import { formatDateWithOptions } from "../utils/helpers.ts";
-import { SITE_DESCRIPTION, SITE_DATE, PUBLICATION_INFO } from "../config";
 const currentDate = formatDateWithOptions(new Date().toString());
+
+// The issue number mirrors the number of published posts, so the masthead never
+// shows a stale, hardcoded value.
+const publishedPosts = Object.values(
+    import.meta.glob("/src/pages/blog/**/*.{md,mdx}", { eager: true })
+) as Array<{ frontmatter?: { pubDate?: unknown; published?: unknown } }>;
+const issueNumber = publishedPosts.filter(
+    (post) => post.frontmatter?.pubDate || post.frontmatter?.published
+).length;
 ---
 
 <header id="header" class="block w-full" role="banner" transition:name="header">
+    <div class="mb-6 h-[3px] w-full bg-editorial" aria-hidden="true" transition:name="header-rule"></div>
     <div class="grid grid-cols-2 gap-4">
         <div class="col-span-1" transition:name="header-logo">
             <Logo />
         </div>
         <div class="col-span-1 flex justify-end items-center gap-4 sm:gap-2" transition:name="header-controls">
+            <a
+                href="/search/"
+                class="focus-editorial inline-flex items-center gap-2 rounded-none border border-border px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:border-editorial hover:text-editorial"
+                aria-label="Search articles (Command or Control, K)"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" />
+                </svg>
+                <span class="hidden sm:inline">Search</span>
+                <kbd class="hidden sm:inline rounded-none border border-border px-1.5 py-0.5 font-mono text-[11px] text-muted-foreground">⌘K</kbd>
+            </a>
             <ThemeToggle client:visible />
             <HeaderNav />
         </div>
@@ -21,7 +41,7 @@ const currentDate = formatDateWithOptions(new Date().toString());
                 {currentDate}
             </p>
             <p transition:name="header-issue">
-                {SITE_DATE} • ISSUE {PUBLICATION_INFO.currentIssue}
+                ISSUE {issueNumber}
             </p>
         </div>
     </div>

@@ -1,0 +1,58 @@
+---
+export interface Props {
+    url: string;
+    title: string;
+    description: string;
+    formattedDate: string;
+    image?: string;
+    variant?: "featured" | "secondary" | "standard";
+}
+
+const { url, title, description, formattedDate, image, variant = "standard" } = Astro.props;
+
+const gridClasses = {
+    featured: "col-span-1 md:col-span-6 mb-8 pb-12 border-b border-border",
+    secondary: "col-span-1 md:col-span-3",
+    standard: "col-span-1 md:col-span-2",
+}[variant];
+
+const isFeatured = variant === "featured";
+const titleClasses = `${isFeatured ? "text-5xl md:text-7xl leading-[1.05]" : "text-3xl md:text-4xl leading-snug"} mb-3 font-serif font-bold text-primary transition-colors group-hover:text-editorial group-focus-visible:text-editorial`;
+const dekClasses = `${isFeatured ? "text-xl md:text-2xl" : "text-lg"} mb-4 max-w-3xl font-serif leading-relaxed text-foreground/70`;
+---
+
+<li class={`${gridClasses} group article-item transition-all duration-300`}>
+    <a
+        href={url}
+        class="focus-editorial flex h-full flex-col"
+    >
+        {
+            image && (
+                <div class="mb-4 overflow-hidden border border-border">
+                    <img
+                        src={image}
+                        alt=""
+                        role="presentation"
+                        width="800"
+                        height="450"
+                        loading="lazy"
+                        decoding="async"
+                        class="aspect-[16/9] w-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0"
+                    />
+                </div>
+            )
+        }
+        <div class="flex flex-col gap-2">
+            <p class="font-heading text-xs font-bold uppercase tracking-widest text-muted-foreground" data-date>
+                {formattedDate}
+            </p>
+            <h2 class={titleClasses} data-title>{title}</h2>
+        </div>
+        <p class={dekClasses} data-description>{description}</p>
+        <div class="mt-auto">
+            <span class="inline-flex items-center gap-2 border-b-2 border-editorial/30 text-sm font-bold uppercase tracking-tight text-editorial transition-colors group-hover:border-editorial group-focus-visible:border-editorial">
+                Read Article <span aria-hidden="true">→</span>
+            </span>
+        </div>
+    </a>
+</li>

@@ -132,6 +132,10 @@ export default defineConfig({
     }), pwaValidationIntegration()],
     output: "static",
     outDir: "./docs",
+    redirects: {
+        // Legacy orphan page — the real search lives at /search/.
+        "/search/results": "/search/",
+    },
     markdown: {
         shikiConfig: {
             theme: 'github-dark',

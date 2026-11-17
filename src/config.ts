@@ -83,10 +83,5 @@ export const ASSETS = {
   favicon: "/favicon.svg",
 };
 
-export const PUBLICATION_INFO = {
-  currentIssue: 42,
-};
-
 export const SITE_TITLE = SITE_CONFIG.title;
 export const SITE_DESCRIPTION = SITE_CONFIG.description;
-export const SITE_DATE = new Date().toISOString().split("T")[0];

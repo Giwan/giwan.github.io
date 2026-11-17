@@ -39,8 +39,8 @@ describe('Categories Component', () => {
     // Selected category should have active styling (the link itself has the button classes)
     expect(frameworksLink).toHaveClass('bg-primary');
 
-    // Non-selected category should have outline styling
-    expect(designLink).toHaveClass('border-input');
+    // Non-selected category should have neutral outlined styling
+    expect(designLink).toHaveClass('border-border');
   });
 
   it('renders proper navigation structure', () => {

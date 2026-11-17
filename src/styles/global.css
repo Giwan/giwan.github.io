@@ -8,10 +8,10 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-family-serif: "Merriweather", "Georgia", "serif";
-  --font-family-sans: "Inter", "system-ui", "sans-serif";
-  --font-family-mono: "JetBrains Mono", "Fira Code", "monospace";
-  --font-family-heading: "Inter", "system-ui", "sans-serif";
+  --font-serif: "Merriweather", "Georgia", "serif";
+  --font-sans: "Inter", "system-ui", "sans-serif";
+  --font-mono: "JetBrains Mono", "Fira Code", "monospace";
+  --font-heading: "Inter", "system-ui", "sans-serif";
 
   --color-border: hsl(20 10% 88%);
   --color-input: hsl(20 10% 88%);
@@ -34,6 +34,10 @@
   --color-accent: hsl(36 20% 94%);
   --color-accent-foreground: hsl(240 6% 10%);
 
+  /* Editorial accent — the single point of emphasis across the system */
+  --color-editorial: hsl(10 72% 42%);
+  --color-editorial-foreground: hsl(36 33% 98%);
+
   --color-popover: hsl(36 33% 99%);
   --color-popover-foreground: hsl(240 6% 10%);
 
@@ -42,6 +46,16 @@
 
   --paper: hsl(36 33% 98%);
   --ink: hsl(240 6% 10%);
+}
+
+:root {
+  /* Channel values expected by accessibility-transitions.css (hsl(var(--x))) */
+  --background: 36 33% 98%;
+  --primary: 240 6% 10%;
+  --primary-foreground: 36 33% 98%;
+  --ring: 240 5.9% 10%;
+  --accent: 36 20% 94%;
+  --destructive: 0 84.2% 60.2%;
 }
 
 .dark {
@@ -62,10 +76,20 @@
   --color-muted-foreground: hsl(240 5% 75%);
   --color-accent: hsl(240 3.7% 15.9%);
   --color-accent-foreground: hsl(0 0% 98%);
+  --color-editorial: hsl(12 85% 66%);
+  --color-editorial-foreground: hsl(240 10% 4%);
   --color-popover: hsl(240 10% 3.9%);
   --color-popover-foreground: hsl(0 0% 98%);
   --color-card: hsl(240 10% 3.9%);
   --color-card-foreground: hsl(0 0% 98%);
+
+  /* Channel values expected by accessibility-transitions.css (hsl(var(--x))) */
+  --background: 240 10% 3.9%;
+  --primary: 0 0% 98%;
+  --primary-foreground: 240 5.9% 10%;
+  --ring: 240 4.9% 83.9%;
+  --accent: 240 3.7% 15.9%;
+  --destructive: 0 62.8% 30.6%;
 }
 
 /* Import performance fallbacks */
@@ -93,7 +117,7 @@
   }
 
   .dark body::before {
-    opacity: 0.05;
+    display: none;
   }
 
   /* Skip Link Styles */
@@ -107,6 +131,7 @@
   .focus-visible-ring {
     @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
   }
+
   
   /* High contrast focus for critical interactive elements */
   .focus-high-contrast {
@@ -120,6 +145,19 @@
 
 @layer utilities {
   .link-hover {
-    @apply transition-all duration-200 hover:text-primary hover:underline underline-offset-4 focus-visible:text-primary focus-visible:underline decoration-2;
+    @apply transition-all duration-200 hover:text-editorial hover:underline underline-offset-4 focus-visible:text-editorial focus-visible:underline decoration-2;
+  }
+}
+
+/*
+ * Single focus treatment for interactive elements.
+ * Lives in the base layer with !important so it wins over the later
+ * accessibility-transitions.css focus rules (important declarations in
+ * earlier layers take precedence).
+ */
+@layer base {
+  .focus-editorial:focus-visible {
+    outline: 2px solid var(--color-editorial) !important;
+    outline-offset: 3px !important;
   }
 }

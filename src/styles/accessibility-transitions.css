@@ -160,13 +160,6 @@
         contain: layout;
     }
 
-    /* Tool card links delegate focus ring to parent cards */
-    a.tool-card-link:focus-visible {
-        outline: none !important;
-        outline-offset: 0 !important;
-        box-shadow: none !important;
-    }
-
     /* Focus management during transitions */
 
     /* Ensure main content can receive focus */

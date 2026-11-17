@@ -4,6 +4,8 @@ export interface IPost {
         published?: string;
         title: string;
         description: string;
+        tags?: string[];
+        heroImage?: string;
     }
     url: string;
 }

@@ -1,6 +1,7 @@
 ---
 import type { MarkdownLayoutProps } from 'astro';
 import PageLayout from './PageLayout.astro';
+import RelatedArticles from '../components/RelatedArticles.astro';
 
 type Props = MarkdownLayoutProps<{
   title: string;
@@ -25,8 +26,11 @@ const {
     categories = [],
     tags = [],
     readTime
-  } 
+  },
+  headings = []
 } = Astro.props;
+
+const toc = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
 
 const dateToUse = pubDate || createdDate || new Date().toISOString();
 
@@ -135,6 +139,12 @@ const articleSchema = {
 }}>
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+
+  <!-- Reading progress -->
+  <div class="fixed inset-x-0 top-0 z-[60] h-[3px]" aria-hidden="true">
+    <div id="reading-progress-bar" class="h-full w-full origin-left bg-editorial transition-[scale] duration-150 ease-out" style="scale: 0 1;"></div>
+  </div>
+
   <article 
     class="max-w-5xl mx-auto my-16 px-4 md:px-0"
     transition:name={`article-${Astro.url.pathname.replace(/\//g, '-')}`}
@@ -145,7 +155,7 @@ const articleSchema = {
       {categories.length > 0 && (
         <div class="mb-6 flex justify-center gap-2">
           {categories.map((category: string) => (
-            <a href={`/category/${category.toLowerCase()}`} class="text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors border border-border px-2 py-1">
+            <a href={`/category/${category.toLowerCase()}`} class="focus-editorial text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-editorial hover:border-editorial transition-colors border border-border px-2 py-1">
               {category}
             </a>
           ))}
@@ -153,11 +163,11 @@ const articleSchema = {
       )}
       
       <!-- Title -->
-      <h1 class="text-5xl md:text-7xl font-heading font-extrabold text-primary mb-6 leading-tight max-w-4xl mx-auto">
+      <h1 class="text-5xl md:text-7xl font-serif font-bold text-primary mb-6 leading-tight max-w-4xl mx-auto">
         {title}
       </h1>
 
-      <p class="text-xl md:text-2xl text-muted-foreground font-serif italic mb-8 max-w-2xl mx-auto leading-relaxed">
+      <p class="text-xl md:text-2xl text-muted-foreground font-serif mb-8 max-w-2xl mx-auto leading-relaxed">
         {description}
       </p>
       
@@ -175,6 +185,26 @@ const articleSchema = {
         )}
       </div>
     </header>
+
+    <!-- Table of contents -->
+    {toc.length >= 3 && (
+      <nav aria-label="On this page" class="mx-auto mb-12 max-w-2xl border-y border-border py-6">
+        <h2 class="mb-4 text-xs font-bold uppercase tracking-widest text-muted-foreground">On this page</h2>
+        <ol class="grid grid-cols-1 gap-x-8 gap-y-2 sm:grid-cols-2">
+          {toc.map((heading) => (
+            <li class={heading.depth === 3 ? 'ml-4' : ''}>
+              <a
+                href={`#${heading.slug}`}
+                data-toc-link
+                class="focus-editorial link-hover text-sm text-foreground/80"
+              >
+                {heading.text}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )}
     
     <!-- Hero Image -->
     {heroImage && (
@@ -201,9 +231,9 @@ const articleSchema = {
       {tags.length > 0 && (
         <div class="mb-6">
           <h3 class="text-sm uppercase tracking-wider text-muted-foreground mb-3">Related Topics</h3>
-          <div class="flex flex-wrap">
+          <div class="flex flex-wrap gap-2">
             {tags.map((tag: string) => (
-              <a href={`/tag/${tag.toLowerCase()}`} class="inline-block px-2 py-1 mr-2 mb-2 text-sm bg-muted text-muted-foreground rounded hover:bg-accent hover:text-accent-foreground transition-colors">
+              <a href={`/tag/${tag.toLowerCase()}`} class="focus-editorial inline-block px-2 py-1 text-xs font-bold uppercase tracking-widest text-muted-foreground border border-border hover:text-editorial hover:border-editorial transition-colors">
                 #{tag}
               </a>
             ))}
@@ -245,6 +275,53 @@ const articleSchema = {
         </a>
       </div>
     </footer>
+
+    <RelatedArticles currentPath={Astro.url.pathname} tags={tags} />
   </article>
+
+  <script>
+    function initArticleReading() {
+      const bar = document.getElementById('reading-progress-bar');
+      if (bar) {
+        const update = () => {
+          const doc = document.documentElement;
+          const max = doc.scrollHeight - doc.clientHeight;
+          bar.style.scale = `${max > 0 ? Math.min(doc.scrollTop / max, 1) : 0} 1`;
+        };
+        document.addEventListener('scroll', update, { passive: true });
+        update();
+      }
+
+      const links = Array.from(document.querySelectorAll('[data-toc-link]'));
+      if (!links.length || !('IntersectionObserver' in window)) return;
+
+      const setActive = (id) => {
+        links.forEach((link) => {
+          const active = link.getAttribute('href') === `#${id}`;
+          link.classList.toggle('text-editorial', active);
+          link.classList.toggle('font-semibold', active);
+          if (active) link.setAttribute('aria-current', 'true');
+          else link.removeAttribute('aria-current');
+        });
+      };
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const visible = entries.find((entry) => entry.isIntersecting);
+          if (visible) setActive(visible.target.id);
+        },
+        { rootMargin: '0px 0px -70% 0px', threshold: 0 }
+      );
+
+      links.forEach((link) => {
+        const href = link.getAttribute('href') || '';
+        const heading = document.getElementById(decodeURIComponent(href.slice(1)));
+        if (heading) observer.observe(heading);
+      });
+    }
+
+    initArticleReading();
+    document.addEventListener('astro:page-load', initArticleReading);
+  </script>
 </PageLayout>
 

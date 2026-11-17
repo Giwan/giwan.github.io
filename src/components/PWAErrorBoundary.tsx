@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { AlertTriangle, RefreshCw, X, Settings } from 'lucide-react';
-import { clearCorruptedCaches, clearPWAErrors, getPWAErrors } from '../utils/pwa';
+import { AlertTriangle, RefreshCw, X } from 'lucide-react';
+import { clearCorruptedCaches, clearPWAErrors } from '../utils/pwa';
 
 interface PWAErrorBoundaryState {
   hasError: boolean;
@@ -166,7 +166,7 @@ class PWAErrorBoundary extends Component<PWAErrorBoundaryProps, PWAErrorBoundary
 
       // Default error UI
       return (
-        <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:max-w-md z-50">
+        <div className="fixed bottom-20 left-4 right-4 z-50 md:left-auto md:right-4 md:max-w-md">
           <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 shadow-lg">
             <div className="flex items-start">
               <AlertTriangle className="h-5 w-5 text-red-500 mt-0.5 mr-3 flex-shrink-0" />

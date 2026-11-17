@@ -14,7 +14,7 @@ import HeaderNavMobile from "./HeaderNavMobile"; // jsx component
             links.map(({ href, label }, index) => (
                 <HeaderLink
                     href={href}
-                    class="font-medium text-foreground hover:bg-accent focus:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background transition-colors duration-200 rounded-sm text-base"
+                    class="font-medium text-foreground focus-editorial transition-colors duration-200 text-base"
                     aria-label={`Navigate to ${label}`}
                     style={`view-transition-name: nav-link-${label.toLowerCase().replace(/\s+/g, '-')};`}
                 >

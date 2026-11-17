@@ -14,5 +14,18 @@ export function initializeNavigationHandler(): void {
     });
 }
 
+/**
+ * Cmd/Ctrl + K jumps to search, matching the shortcut advertised in the header.
+ */
+export function initializeSearchShortcut(): void {
+    document.addEventListener("keydown", (event: KeyboardEvent) => {
+        if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+            event.preventDefault();
+            window.location.assign("/search/");
+        }
+    });
+}
+
 // Auto-initialize when script loads
 initializeNavigationHandler();
+initializeSearchShortcut();

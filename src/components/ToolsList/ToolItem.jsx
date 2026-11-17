@@ -5,20 +5,18 @@ import {
     CardFooter,
     CardHeader,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-
 // Design constants
 const STYLES = {
-    CARD: "shadow-none transition-all duration-300 border-0 border-t-2 border-primary rounded-none bg-background h-full flex flex-col group/card focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2",
-    BADGE_NEW: "bg-primary text-primary-foreground text-[10px] uppercase font-bold rounded-none px-1.5 py-0",
-    BADGE_POPULAR: "bg-primary/10 text-primary border border-primary/20 text-[10px] uppercase font-bold rounded-none px-1.5 py-0",
-    BADGE_FREE: "ml-2 text-primary border-primary text-[10px] uppercase font-bold rounded-none shrink-0",
-    LINK: "tool-card-link block hover:no-underline focus:outline-none focus-visible:outline-none group",
-    TITLE: "text-2xl font-black text-foreground group-hover:text-primary transition-colors leading-none tracking-tight flex-grow uppercase",
-    DESCRIPTION: "text-foreground leading-relaxed text-sm sm:text-base font-serif italic opacity-90 text-justify hyphens-auto",
-    PRICE_LABEL: "text-[10px] font-mono uppercase tracking-widest text-muted-foreground",
-    READ_MORE: "text-[10px] font-mono uppercase tracking-widest text-primary font-bold group-hover:underline",
-    LABEL_BADGE: "text-[10px] uppercase font-bold rounded-none bg-muted/50 text-muted-foreground"
+    CARD: "shadow-none transition-all duration-300 border-0 border-t-2 border-primary rounded-none bg-background h-full flex flex-col group/card",
+    BADGE_NEW: "bg-primary text-primary-foreground text-[11px] uppercase font-bold rounded-none px-1.5 py-0",
+    BADGE_POPULAR: "bg-primary/10 text-primary border border-primary/20 text-[11px] uppercase font-bold rounded-none px-1.5 py-0",
+    BADGE_FREE: "ml-2 shrink-0 border border-primary px-1.5 py-0 text-primary text-[11px] uppercase font-bold tracking-widest",
+    LINK: "flex h-full flex-col hover:no-underline group focus-editorial",
+    TITLE: "text-2xl font-black text-foreground group-hover:text-editorial transition-colors leading-none tracking-tight flex-grow uppercase",
+    DESCRIPTION: "text-foreground leading-relaxed text-sm sm:text-base font-serif opacity-90 text-justify hyphens-auto line-clamp-4",
+    PRICE_LABEL: "text-[11px] font-mono uppercase tracking-widest text-muted-foreground",
+    READ_MORE: "text-[11px] font-mono uppercase tracking-widest text-editorial font-bold group-hover:underline",
+    LABEL_CHIP: "rounded-none border border-border px-2 py-1 text-[11px] uppercase font-bold tracking-widest text-muted-foreground"
 };
 
 /**
@@ -32,22 +30,14 @@ const StatusBadges = React.memo(({ isNew, isPopular }) => {
         <CardHeader className="pb-2 pt-4 px-0">
             <div className="flex gap-2">
                 {isNew && (
-                    <Badge 
-                        variant="default" 
-                        className={STYLES.BADGE_NEW} 
-                        aria-label="Recently added tool"
-                    >
+                    <span className={STYLES.BADGE_NEW} aria-label="Recently added tool">
                         New
-                    </Badge>
+                    </span>
                 )}
                 {isPopular && (
-                    <Badge 
-                        variant="default" 
-                        className={STYLES.BADGE_POPULAR} 
-                        aria-label="Popular tool"
-                    >
+                    <span className={STYLES.BADGE_POPULAR} aria-label="Popular tool">
                         Popular
-                    </Badge>
+                    </span>
                 )}
             </div>
         </CardHeader>
@@ -62,13 +52,9 @@ const ToolHeader = React.memo(({ title, isFree }) => (
     <div className="flex items-start justify-between mb-2">
         <h3 className={STYLES.TITLE}>{title}</h3>
         {isFree && (
-            <Badge 
-                variant="outline" 
-                className={STYLES.BADGE_FREE} 
-                aria-label="Free tool"
-            >
+            <span className={STYLES.BADGE_FREE} aria-label="Free tool">
                 Free
-            </Badge>
+            </span>
         )}
     </div>
 ));
@@ -88,15 +74,14 @@ const ToolFooterLabels = React.memo(({ labels, toolUrl }) => {
                 aria-label="Tool categories and tags"
             >
                 {labels.map((label) => (
-                    <Badge
+                    <span
                         key={`${label}-${toolUrl}`}
-                        variant="secondary"
-                        className={STYLES.LABEL_BADGE}
+                        className={STYLES.LABEL_CHIP}
                         role="listitem"
                         aria-label={`Category: ${label}`}
                     >
                         {label}
-                    </Badge>
+                    </span>
                 ))}
             </div>
         </CardFooter>
@@ -149,7 +134,7 @@ const ToolItem = React.memo(({ tool }) => {
         <Card className={STYLES.CARD}>
             <StatusBadges isNew={isNew} isPopular={isPopular} />
 
-            <CardContent className={`${isNew || isPopular ? "pt-2" : "pt-6"} flex-grow px-0`}>
+            <CardContent className={`${isNew || isPopular ? "pt-2" : "pt-6"} flex flex-grow flex-col px-0`}>
                 <a
                     className={STYLES.LINK}
                     href={tool.url}
@@ -167,7 +152,7 @@ const ToolItem = React.memo(({ tool }) => {
                         {tool.description}
                     </p>
 
-                    <div className="mt-4 flex items-center justify-between">
+                    <div className="mt-auto flex items-center justify-between pt-4">
                         {!isFree && (
                             <p className={STYLES.PRICE_LABEL} aria-label="Pricing information">
                                 Rate: {tool.currency || "$"}{tool.price}

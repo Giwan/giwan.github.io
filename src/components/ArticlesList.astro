@@ -1,4 +1,5 @@
 ---
+import ArticleCard from "./ArticleCard.astro";
 import { formatArticlePublishedDate } from "../utils/helpers";
 import type { IPost } from "../types/post";
 
@@ -16,103 +17,77 @@ const posts = allPosts
     .filter(filterFn)
     .sort((a, b) => getPubDate(b) - getPubDate(a));
 
-const postsPerPage = 10;
+// Multiples of 12 keep the standard 3-column grid hole-free (12 = featured + 2 secondary + 3×3).
+const postsPerPage = 12;
 
-const clientPosts = posts.map((post) => ({
+const toCard = (post: IPost) => ({
     url: post.url,
     title: post.frontmatter.title,
     description: post.frontmatter.description,
     formattedDate: formatArticlePublishedDate(post),
-}));
+    image: post.frontmatter.heroImage,
+});
+
+const initialPosts = posts.slice(0, postsPerPage);
+const remainingPosts = posts.slice(postsPerPage).map(toCard);
+
+const variantForIndex = (index: number): "featured" | "secondary" | "standard" =>
+    index === 0 ? "featured" : index <= 2 ? "secondary" : "standard";
 ---
 
 <section class="col-span-full">
     <ul id="articles-list" class="grid grid-cols-1 md:grid-cols-6 gap-x-8 gap-y-12 mt-12 w-full border-t border-border pt-12">
         {
-            posts.slice(0, postsPerPage).map((post, index) => {
-                const isFeatured = index === 0;
-                const isTwoColumn = index === 1 || index === 2;
-
-                let gridClasses = "col-span-1 md:col-span-2";
-                if (isFeatured) {
-                    gridClasses = "col-span-1 md:col-span-6 mb-8 pb-12 border-b border-border";
-                } else if (isTwoColumn) {
-                    gridClasses = "col-span-1 md:col-span-3";
-                }
-
-                return (
-                    <li class={`${gridClasses} group article-item transition-all duration-300`}>
-                        <a href={post.url} class="block h-full flex flex-col">
-                            <div class="flex flex-col gap-2">
-                                <p class="text-muted-foreground font-heading text-xs uppercase tracking-widest font-bold">
-                                    {formatArticlePublishedDate(post)}
-                                </p>
-                                <h2 class={`${isFeatured ? 'text-5xl md:text-7xl leading-tight' : 'text-3xl md:text-4xl leading-snug'} mb-3 font-heading font-extrabold text-primary/80 group-hover:text-primary transition-colors`}>
-                                    {post.frontmatter.title}
-                                </h2>
-                            </div>
-                            <p class={`${isFeatured ? 'text-xl md:text-2xl' : 'text-lg'} text-foreground/80 leading-relaxed font-serif italic mb-4 max-w-3xl`}>
-                                {post.frontmatter.description}
-                            </p>
-                            <div class="mt-auto">
-                                <span class="text-sm font-bold uppercase tracking-tighter border-b-2 border-primary group-hover:border-primary/40 transition-colors">
-                                    Read Article →
-                                </span>
-                            </div>
-                        </a>
-                    </li>
-                );
-            })
+            initialPosts.map((post, index) => (
+                <ArticleCard {...toCard(post)} variant={variantForIndex(index)} />
+            ))
         }
     </ul>
-    {posts.length > postsPerPage && (
-        <div class="text-center mt-8">
-            <button id="load-more-button" class="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-lg">
-                More
-            </button>
-        </div>
-    )}
+    {
+        remainingPosts.length > 0 && (
+            <div class="mt-12">
+                <button
+                    id="load-more-button"
+                    type="button"
+                    class="focus-editorial group flex w-full items-center justify-center gap-3 border-y border-border py-5 text-sm font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:border-editorial hover:text-editorial"
+                >
+                    More articles
+                    <span aria-hidden="true" class="transition-transform duration-300 group-hover:translate-y-0.5">↓</span>
+                </button>
+            </div>
+        )
+    }
 </section>
 
-<script define:vars={{ posts: clientPosts, postsPerPage }}>
-    let visiblePosts = postsPerPage;
+<!-- Single source of truth for cards added by "More articles" -->
+<template id="article-card-template">
+    <ArticleCard url="" title="" description="" formattedDate="" variant="standard" />
+</template>
+
+<script define:vars={{ remainingPosts, postsPerPage }}>
     const articlesList = document.getElementById('articles-list');
     const loadMoreButton = document.getElementById('load-more-button');
+    const template = document.getElementById('article-card-template');
 
-    if (loadMoreButton) {
+    if (articlesList && loadMoreButton && template && template instanceof HTMLTemplateElement) {
+        let visibleCount = 0;
+
         loadMoreButton.addEventListener('click', () => {
-            const currentPostsCount = visiblePosts;
-            visiblePosts += postsPerPage;
-            const nextPosts = posts.slice(currentPostsCount, visiblePosts);
+            const nextPosts = remainingPosts.slice(visibleCount, visibleCount + postsPerPage);
 
             nextPosts.forEach((post) => {
-                const listItem = document.createElement('li');
-                listItem.className = 'col-span-1 md:col-span-2 group article-item transition-all duration-300';
-                listItem.innerHTML = `
-                    <a href="${post.url}" class="block h-full flex flex-col">
-                        <div class="flex flex-col gap-2">
-                            <p class="text-muted-foreground font-heading text-xs uppercase tracking-widest font-bold">
-                                ${post.formattedDate}
-                            </p>
-                            <h2 class="text-3xl md:text-4xl leading-snug mb-3 font-heading font-extrabold text-primary group-hover:text-primary/80 transition-colors">
-                                ${post.title}
-                            </h2>
-                        </div>
-                        <p class="text-lg text-foreground/80 leading-relaxed font-serif italic mb-4 max-w-3xl">
-                            ${post.description}
-                        </p>
-                        <div class="mt-auto">
-                            <span class="text-sm font-bold uppercase tracking-tighter border-b-2 border-primary group-hover:border-primary/40 transition-colors">
-                                Read Article →
-                            </span>
-                        </div>
-                    </a>
-                `;
-                articlesList.appendChild(listItem);
+                const clone = template.content.firstElementChild.cloneNode(true);
+                clone.querySelector('[data-date]').textContent = post.formattedDate;
+                clone.querySelector('[data-title]').textContent = post.title;
+                clone.querySelector('[data-description]').textContent = post.description;
+                clone.querySelector('a').setAttribute('href', post.url);
+                articlesList.appendChild(clone);
             });
 
-            if (visiblePosts >= posts.length) {
-                loadMoreButton.style.display = 'none';
+            visibleCount += nextPosts.length;
+
+            if (visibleCount >= remainingPosts.length) {
+                loadMoreButton.remove();
             }
         });
     }

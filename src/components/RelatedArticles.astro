@@ -1,0 +1,71 @@
+---
+import { formatArticlePublishedDate } from "../utils/helpers";
+import type { IPost } from "../types/post";
+
+export interface Props {
+    currentPath: string;
+    tags?: string[];
+    limit?: number;
+}
+
+const { currentPath, tags = [], limit = 3 } = Astro.props;
+
+const publishedPosts = (Object.values(
+    import.meta.glob("/src/pages/blog/**/*.{md,mdx}", { eager: true })
+) as IPost[]).filter(
+    (post) =>
+        post.url !== currentPath &&
+        Boolean(post.frontmatter.pubDate || post.frontmatter.published)
+);
+
+const timeOf = (post: IPost) =>
+    new Date(post.frontmatter.pubDate ?? post.frontmatter.published ?? 0).valueOf();
+
+const byNewest = (a: IPost, b: IPost) => timeOf(b) - timeOf(a);
+
+const sharedTagCount = (post: IPost) =>
+    (post.frontmatter.tags ?? []).filter((tag) => tags.includes(tag)).length;
+
+const related = publishedPosts
+    .map((post) => ({ post, shared: sharedTagCount(post) }))
+    .filter(({ shared }) => shared > 0)
+    .sort((a, b) => b.shared - a.shared || byNewest(a.post, b.post))
+    .map(({ post }) => post)
+    .slice(0, limit);
+
+// Backfill with the newest posts so the module is never empty.
+const picked = new Set(related.map((post) => post.url));
+const filled = [
+    ...related,
+    ...publishedPosts.filter((post) => !picked.has(post.url)).sort(byNewest).slice(0, limit - related.length),
+];
+
+const items = filled.slice(0, limit);
+---
+
+{
+    items.length > 0 && (
+        <aside class="mt-16 border-t border-border pt-10" aria-label="Related articles">
+            <h2 class="mb-6 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                Continue Reading
+            </h2>
+            <ul class="grid grid-cols-1 gap-8 md:grid-cols-3">
+                {items.map((post) => (
+                    <li class="group">
+                        <a href={post.url} class="focus-editorial block h-full">
+                            <p class="mb-2 font-heading text-[11px] font-bold uppercase tracking-widest text-muted-foreground">
+                                {formatArticlePublishedDate(post)}
+                            </p>
+                            <h3 class="mb-2 font-serif text-xl font-bold leading-snug text-primary transition-colors group-hover:text-editorial">
+                                {post.frontmatter.title}
+                            </h3>
+                            <p class="line-clamp-3 font-serif text-sm leading-relaxed text-foreground/70">
+                                {post.frontmatter.description}
+                            </p>
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </aside>
+    )
+}
