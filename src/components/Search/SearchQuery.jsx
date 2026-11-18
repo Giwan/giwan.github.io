@@ -5,10 +5,10 @@ const STYLES = {
     form: "relative transition-all duration-300",
     container: "relative flex items-center w-full",
     iconContainer: "absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground",
-    input: "w-full pl-12 pr-24 py-4 font-sans text-lg bg-background border border-input rounded-lg outline-none focus:border-primary focus:ring-2 focus:ring-ring placeholder-muted-foreground text-foreground transition-all duration-200",
+    input: "w-full pl-12 pr-24 py-4 font-sans text-lg bg-background border border-input rounded-none outline-none focus:border-editorial focus:ring-2 focus:ring-editorial/40 placeholder-muted-foreground text-foreground transition-all duration-200",
     shortcutHint: "absolute right-24 top-1/2 transform -translate-y-1/2 hidden md:flex items-center text-sm text-muted-foreground",
-    shortcutKey: "px-1.5 py-0.5 border border-border rounded font-mono bg-muted",
-    submitButton: "absolute right-0 top-0 bottom-0 w-20 bg-primary text-primary-foreground font-medium px-4 rounded-r-lg hover:bg-primary/90 focus:ring-2 focus:ring-offset-2 focus:ring-ring transition-all duration-200 font-sans"
+    shortcutKey: "px-1.5 py-0.5 border border-border rounded-none font-mono bg-muted",
+    submitButton: "absolute right-0 top-0 bottom-0 w-20 bg-primary text-primary-foreground font-medium px-4 rounded-none hover:bg-editorial focus:ring-2 focus:ring-offset-2 focus:ring-editorial transition-all duration-200 font-sans"
 };
 
 const SearchQuery = function ({ handleSearch }) {

@@ -45,12 +45,12 @@ const SearchContainer = function () {
     }, []);
 
     return (
-        <div className="max-w-3xl mx-auto p-6">
-            <header className="mb-8 text-center bg-card rounded-lg p-6 border border-border">
-                <h2 className="font-heading text-2xl font-bold text-foreground mb-3">Search Articles</h2>
-                <p className="text-muted-foreground text-lg">Find stories, interviews, and insights from our archives</p>
+        <div className="max-w-3xl mx-auto py-4">
+            <header className="mb-10 text-center">
+                <h1 className="mb-3 font-serif text-4xl font-bold text-foreground md:text-5xl">Search</h1>
+                <p className="font-serif text-lg text-muted-foreground">Find stories, interviews, and insights from our archives</p>
             </header>
-            
+
             <section className="mb-8">
                 <SearchQuery handleSearch={handleSearch} />
             </section>
@@ -63,10 +63,10 @@ const SearchContainer = function () {
 };
 
 const SearchLoadingState = () => (
-    <div className="flex justify-center items-center py-12">
-        <div className="flex flex-col items-center bg-muted rounded-lg p-8 border border-border">
-            <div className="h-8 w-8 border-t-2 border-b-2 border-primary rounded-full animate-spin mb-3"></div>
-            <p className="text-muted-foreground italic">Searching archives...</p>
+    <div className="flex items-center justify-center py-12">
+        <div className="flex flex-col items-center gap-3 border border-border bg-muted p-8">
+            <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-t-2 border-primary"></div>
+            <p className="font-serif italic text-muted-foreground">Searching archives...</p>
         </div>
     </div>
 );

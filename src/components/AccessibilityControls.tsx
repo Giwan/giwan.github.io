@@ -70,25 +70,25 @@ export const AccessibilityControls: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-50">
+    <div className="relative inline-block">
       {/* Toggle Button */}
-      <Button
+      <button
+        type="button"
         onClick={handleTogglePanel}
-        variant="outline"
-        size="icon"
-        className="h-12 w-12 rounded-full shadow-lg bg-background border-2 hover:bg-accent focus:ring-2 focus:ring-ring focus:ring-offset-2"
-        aria-label={isOpen ? "Close accessibility controls" : "Open accessibility controls"}
+        className="focus-editorial inline-flex h-10 items-center gap-2 rounded-none border border-border bg-background px-3 text-sm font-medium text-muted-foreground transition-colors hover:border-editorial hover:text-editorial"
+        aria-label={isOpen ? "Close accessibility settings" : "Open accessibility settings"}
         aria-expanded={isOpen}
         aria-controls="accessibility-controls-panel"
       >
-        <Settings className="h-5 w-5" />
-      </Button>
+        <Settings className="h-4 w-4" aria-hidden="true" />
+        <span>Accessibility</span>
+      </button>
 
       {/* Controls Panel */}
       {isOpen && (
         <div
           id="accessibility-controls-panel"
-          className="absolute bottom-16 right-0 w-80 bg-background border border-border rounded-lg shadow-xl p-4 space-y-4"
+          className="absolute bottom-full right-0 z-50 mb-3 max-h-[70vh] w-80 max-w-[calc(100vw-2rem)] space-y-4 overflow-y-auto rounded-none border border-border bg-background p-4 shadow-xl"
           role="dialog"
           aria-labelledby="accessibility-controls-title"
           aria-describedby="accessibility-controls-description"
@@ -114,7 +114,7 @@ export const AccessibilityControls: React.FC = () => {
 
           <div className="space-y-3">
             {/* Reduced Motion Control */}
-            <div className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors">
+            <div className="flex items-center justify-between p-3 rounded-none border border-border hover:bg-accent/50 transition-colors">
               <div className="flex items-center space-x-3">
                 {preferences.reducedMotion ? (
                   <ZapOff className="h-5 w-5 text-muted-foreground" />
@@ -140,7 +140,7 @@ export const AccessibilityControls: React.FC = () => {
             </div>
 
             {/* Screen Reader Announcements Control */}
-            <div className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors">
+            <div className="flex items-center justify-between p-3 rounded-none border border-border hover:bg-accent/50 transition-colors">
               <div className="flex items-center space-x-3">
                 {preferences.screenReaderAnnouncements ? (
                   <Volume2 className="h-5 w-5 text-primary" />
@@ -166,7 +166,7 @@ export const AccessibilityControls: React.FC = () => {
             </div>
 
             {/* Focus Management Control */}
-            <div className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors">
+            <div className="flex items-center justify-between p-3 rounded-none border border-border hover:bg-accent/50 transition-colors">
               <div className="flex items-center space-x-3">
                 {preferences.focusManagement ? (
                   <Eye className="h-5 w-5 text-primary" />
@@ -192,7 +192,7 @@ export const AccessibilityControls: React.FC = () => {
             </div>
 
             {/* Keyboard Navigation Control */}
-            <div className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors">
+            <div className="flex items-center justify-between p-3 rounded-none border border-border hover:bg-accent/50 transition-colors">
               <div className="flex items-center space-x-3">
                 <Keyboard className={`h-5 w-5 ${preferences.keyboardNavigation ? 'text-primary' : 'text-muted-foreground'}`} />
                 <div>

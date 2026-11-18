@@ -19,10 +19,11 @@ export function initializeNavigationHandler(): void {
  */
 export function initializeSearchShortcut(): void {
     document.addEventListener("keydown", (event: KeyboardEvent) => {
-        if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
-            event.preventDefault();
-            window.location.assign("/search/");
-        }
+        if (!(event.metaKey || event.ctrlKey) || event.key.toLowerCase() !== "k") return;
+        // On the search page the SearchQuery component focuses its own input.
+        if (window.location.pathname.startsWith("/search")) return;
+        event.preventDefault();
+        window.location.assign("/search/");
     });
 }
 

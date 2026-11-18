@@ -1,12 +1,10 @@
-const stripeBaseStyle = "block w-6 h-0.5 bg-background transition-all duration-300";
+const stripeBaseStyle = "block w-5 h-0.5 bg-current transition-all duration-300";
 
 const HamburgerButton = ({ isOpen, onClick }) => (
   <button
+    type="button"
     onClick={onClick}
-    className={`menu-button mb-1 bg-primary text-background rounded-sm 
-      flex flex-col items-center justify-center space-y-1.5 w-12 h-12 
-      focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2
-      transition-all duration-200`}
+    className="menu-button flex h-11 w-11 flex-col items-center justify-center space-y-1.5 rounded-none border border-border bg-background text-primary transition-colors duration-200 hover:border-editorial hover:text-editorial focus-editorial"
     aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
     aria-expanded={isOpen}
     aria-controls="mobile-navigation"

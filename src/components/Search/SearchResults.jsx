@@ -10,14 +10,14 @@ const STYLES = {
     SECTION_CONTAINER: "space-y-6",
     // Empty & No Results
     EMPTY_CARD: "bg-card border-border text-center py-12 px-6 rounded-none border-t-2 border-primary/20",
-    EMPTY_TEXT: "font-serif italic text-muted-foreground text-lg",
+    EMPTY_TEXT: "font-serif text-muted-foreground text-lg",
     NO_RESULTS_HEADER: "font-heading text-2xl font-black uppercase text-foreground mb-2",
     SUGGESTION_TITLE: "font-mono text-[11px] uppercase tracking-widest text-muted-foreground mb-4 block",
     // Result Item
-    RESULT_CARD: "shadow-none transition-all duration-300 border-0 border-l-4 border-primary rounded-none bg-background group/card hover:bg-muted/30 focus-within:ring-2 focus-within:ring-primary",
-    RESULT_TITLE: "text-xl font-black text-foreground group-hover:text-primary transition-colors leading-tight tracking-tight uppercase mb-3",
-    RESULT_DATE: "font-serif italic text-muted-foreground text-sm",
-    READ_MORE: "text-[11px] font-mono uppercase tracking-widest text-primary font-bold group-hover:underline",
+    RESULT_CARD: "shadow-none transition-all duration-300 border-0 border-l-4 border-editorial rounded-none bg-background group/card hover:bg-muted/30",
+    RESULT_TITLE: "text-xl font-black text-foreground group-hover:text-editorial transition-colors leading-tight tracking-tight uppercase mb-3",
+    RESULT_DATE: "font-serif text-muted-foreground text-sm",
+    READ_MORE: "text-[11px] font-mono uppercase tracking-widest text-editorial font-bold group-hover:underline",
     // Stat Card (Result Count)
     STAT_CARD: "bg-primary/5 border-primary/20 rounded-none border-t-4",
     STAT_TITLE: "text-[11px] font-mono uppercase tracking-widest text-muted-foreground",
@@ -75,7 +75,7 @@ const ResultItem = ({ result }) => (
         <CardContent className="p-6">
             <a 
                 href={`/blog/${result.id}`} 
-                className="block group focus:outline-none"
+                className="focus-editorial block group"
                 aria-label={`Read article: ${result.title}`}
             >
                 <h3 className={STYLES.RESULT_TITLE}>
