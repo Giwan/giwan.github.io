@@ -1,16 +1,20 @@
 /**
  * Accessibility Controls Component
- * 
+ *
  * Provides user interface for managing accessibility preferences
  * including reduced motion, screen reader announcements, and focus management.
+ *
+ * Uses a native <dialog> (showModal) so it gets a focus trap, Escape-to-close,
+ * a ::backdrop, and automatic focus return to the trigger — for free.
  */
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Settings, Eye, EyeOff, Keyboard, Volume2, VolumeX, Zap, ZapOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAccessibility } from '@/hooks/useAccessibility';
 
 export const AccessibilityControls: React.FC = () => {
+  const dialogRef = useRef<HTMLDialogElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const {
     preferences,
@@ -21,21 +25,46 @@ export const AccessibilityControls: React.FC = () => {
     announce
   } = useAccessibility();
 
-  const handleTogglePanel = () => {
-    setIsOpen(!isOpen);
-
-    if (!isOpen) {
-      announce({
-        message: 'Accessibility controls panel opened',
-        priority: 'polite'
-      });
+  const openPanel = () => {
+    const dialog = dialogRef.current;
+    if (!dialog || dialog.open) return;
+    // showModal is unsupported in jsdom (and very old browsers); fall back to
+    // the non-modal `open` attribute there.
+    if (typeof dialog.showModal === 'function') {
+      try {
+        dialog.showModal();
+      } catch {
+        dialog.setAttribute('open', '');
+      }
     } else {
-      announce({
-        message: 'Accessibility controls panel closed',
-        priority: 'polite'
-      });
+      dialog.setAttribute('open', '');
     }
+    setIsOpen(true);
+    announce({ message: 'Accessibility settings opened', priority: 'polite' });
   };
+
+  const closePanel = () => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    if (typeof dialog.close === 'function') {
+      dialog.close(); // fires the `close` event → handleDialogClose
+      return;
+    }
+    dialog.removeAttribute('open');
+    handleDialogClose();
+  };
+
+  const handleDialogClose = () => {
+    setIsOpen(false);
+    announce({ message: 'Accessibility settings closed', priority: 'polite' });
+  };
+
+  const handleBackdropClick = (event: React.MouseEvent<HTMLDialogElement>) => {
+    // The dialog itself has no padding, so clicks landing on it are the backdrop.
+    if (event.target === dialogRef.current) closePanel();
+  };
+
+  const handleTogglePanel = () => (isOpen ? closePanel() : openPanel());
 
   const handleReducedMotionToggle = () => {
     toggleReducedMotion();
@@ -70,39 +99,43 @@ export const AccessibilityControls: React.FC = () => {
   };
 
   return (
-    <div className="relative inline-block">
-      {/* Toggle Button */}
+    <div className="inline-block">
+      {/* Trigger */}
       <button
         type="button"
         onClick={handleTogglePanel}
         className="focus-editorial inline-flex h-10 items-center gap-2 rounded-none border border-border bg-background px-3 text-sm font-medium text-muted-foreground transition-colors hover:border-editorial hover:text-editorial"
-        aria-label={isOpen ? "Close accessibility settings" : "Open accessibility settings"}
+        aria-label="Open accessibility settings"
+        aria-haspopup="dialog"
         aria-expanded={isOpen}
-        aria-controls="accessibility-controls-panel"
       >
         <Settings className="h-4 w-4" aria-hidden="true" />
         <span>Accessibility</span>
       </button>
 
-      {/* Controls Panel */}
-      {isOpen && (
-        <div
-          id="accessibility-controls-panel"
-          className="absolute bottom-full right-0 z-50 mb-3 max-h-[70vh] w-80 max-w-[calc(100vw-2rem)] space-y-4 overflow-y-auto rounded-none border border-border bg-background p-4 shadow-xl"
-          role="dialog"
-          aria-labelledby="accessibility-controls-title"
-          aria-describedby="accessibility-controls-description"
-        >
+      {/* Modal */}
+      <dialog
+        ref={dialogRef}
+        id="accessibility-controls-panel"
+        onClose={handleDialogClose}
+        onClick={handleBackdropClick}
+        aria-labelledby="accessibility-controls-title"
+        aria-describedby="accessibility-controls-description"
+        className="m-auto max-h-[85vh] w-[min(32rem,calc(100vw-2rem))] overflow-y-auto rounded-none border border-border bg-background p-0 text-foreground shadow-xl backdrop:bg-black/50"
+      >
+        {/* Rendered only once open so server/client preference state can't mismatch */}
+        {isOpen && (
+        <div className="space-y-4 p-5">
           <div className="flex items-center justify-between">
             <h2 id="accessibility-controls-title" className="text-lg font-semibold text-foreground">
               Accessibility Settings
             </h2>
             <Button
-              onClick={handleTogglePanel}
+              onClick={closePanel}
               variant="ghost"
               size="sm"
               className="h-8 w-8 p-0"
-              aria-label="Close accessibility controls"
+              aria-label="Close accessibility settings"
             >
               ×
             </Button>
@@ -114,7 +147,7 @@ export const AccessibilityControls: React.FC = () => {
 
           <div className="space-y-3">
             {/* Reduced Motion Control */}
-            <div className="flex items-center justify-between p-3 rounded-none border border-border hover:bg-accent/50 transition-colors">
+            <div className="flex items-center justify-between rounded-none border border-border p-3 transition-colors hover:bg-accent/50">
               <div className="flex items-center space-x-3">
                 {preferences.reducedMotion ? (
                   <ZapOff className="h-5 w-5 text-muted-foreground" />
@@ -140,7 +173,7 @@ export const AccessibilityControls: React.FC = () => {
             </div>
 
             {/* Screen Reader Announcements Control */}
-            <div className="flex items-center justify-between p-3 rounded-none border border-border hover:bg-accent/50 transition-colors">
+            <div className="flex items-center justify-between rounded-none border border-border p-3 transition-colors hover:bg-accent/50">
               <div className="flex items-center space-x-3">
                 {preferences.screenReaderAnnouncements ? (
                   <Volume2 className="h-5 w-5 text-primary" />
@@ -166,7 +199,7 @@ export const AccessibilityControls: React.FC = () => {
             </div>
 
             {/* Focus Management Control */}
-            <div className="flex items-center justify-between p-3 rounded-none border border-border hover:bg-accent/50 transition-colors">
+            <div className="flex items-center justify-between rounded-none border border-border p-3 transition-colors hover:bg-accent/50">
               <div className="flex items-center space-x-3">
                 {preferences.focusManagement ? (
                   <Eye className="h-5 w-5 text-primary" />
@@ -192,7 +225,7 @@ export const AccessibilityControls: React.FC = () => {
             </div>
 
             {/* Keyboard Navigation Control */}
-            <div className="flex items-center justify-between p-3 rounded-none border border-border hover:bg-accent/50 transition-colors">
+            <div className="flex items-center justify-between rounded-none border border-border p-3 transition-colors hover:bg-accent/50">
               <div className="flex items-center space-x-3">
                 <Keyboard className={`h-5 w-5 ${preferences.keyboardNavigation ? 'text-primary' : 'text-muted-foreground'}`} />
                 <div>
@@ -215,19 +248,20 @@ export const AccessibilityControls: React.FC = () => {
           </div>
 
           {/* Keyboard Shortcuts Info */}
-          <div className="pt-3 border-t border-border">
+          <div className="border-t border-border pt-3">
             <div className="text-sm text-muted-foreground">
-              <div className="font-medium mb-2">Keyboard Shortcuts:</div>
+              <div className="mb-2 font-medium">Keyboard Shortcuts:</div>
               <div className="space-y-1">
-                <div><kbd className="px-1 py-0.5 bg-muted rounded text-xs">Ctrl + /</kbd> Skip to main content</div>
-                <div><kbd className="px-1 py-0.5 bg-muted rounded text-xs">Alt + ←</kbd> Navigate back</div>
-                <div><kbd className="px-1 py-0.5 bg-muted rounded text-xs">Alt + →</kbd> Navigate forward</div>
-                <div><kbd className="px-1 py-0.5 bg-muted rounded text-xs">Ctrl/Cmd + K</kbd> Search</div>
+                <div><kbd className="rounded-none bg-muted px-1 py-0.5 text-xs">Ctrl + /</kbd> Skip to main content</div>
+                <div><kbd className="rounded-none bg-muted px-1 py-0.5 text-xs">Alt + ←</kbd> Navigate back</div>
+                <div><kbd className="rounded-none bg-muted px-1 py-0.5 text-xs">Alt + →</kbd> Navigate forward</div>
+                <div><kbd className="rounded-none bg-muted px-1 py-0.5 text-xs">Ctrl/Cmd + K</kbd> Search</div>
               </div>
             </div>
           </div>
         </div>
-      )}
+        )}
+      </dialog>
     </div>
   );
 };

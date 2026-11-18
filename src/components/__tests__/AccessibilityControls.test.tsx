@@ -59,7 +59,7 @@ describe('AccessibilityControls', () => {
     fireEvent.click(toggleButton);
     
     expect(mockAccessibilityHook.announce).toHaveBeenCalledWith({
-      message: 'Accessibility controls panel opened',
+      message: 'Accessibility settings opened',
       priority: 'polite'
     });
   });
@@ -160,12 +160,12 @@ describe('AccessibilityControls', () => {
 
     // Get the close button inside the dialog (the × button)
     const dialog = screen.getByRole('dialog');
-    const closeButton = dialog.querySelector('button[aria-label="Close accessibility controls"]');
+    const closeButton = dialog.querySelector('button[aria-label="Close accessibility settings"]');
     fireEvent.click(closeButton!);
-    
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+
+    expect(dialog).not.toHaveAttribute('open');
     expect(mockAccessibilityHook.announce).toHaveBeenCalledWith({
-      message: 'Accessibility controls panel closed',
+      message: 'Accessibility settings closed',
       priority: 'polite'
     });
   });

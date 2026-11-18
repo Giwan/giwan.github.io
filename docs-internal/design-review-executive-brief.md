@@ -162,3 +162,18 @@ since `ArticlesList.astro` became the sole renderer): `ArticlesList.tsx`,
 `articleStore` / `articleService` (+ tests/mocks), `ToolsList/Tools.jsx`,
 `ToolsList/FilterTools.jsx`, and `TransitionControls.astro`. Test suites went
 from 25 → 20; all green.
+
+## Follow-up polish (2026-11-18)
+
+- **Search page** migrated to the editorial system: removed the redundant
+  "Search Articles" card and the undefined `bg-paperDark`/`shadow-paper`
+  wrapper, added a real serif `<h1>`, sharp input and accent focus. ⌘K no longer
+  hijacks `/search`.
+- **Accessibility controls** moved from a floating FAB (which overlapped
+  content) into the footer and upgraded to a native `<dialog>`: real focus trap,
+  Escape-to-close, `::backdrop`, and focus return. Content renders only when open
+  to avoid an SSR/client hydration mismatch.
+- **Mobile chrome** sharpened; the mobile menu is rendered through a portal so
+  the `contain: layout` ancestors no longer trap its fixed overlay.
+- **Dead code**: removed `stores/menuStore.js` and the unused `--paper`/`--ink`
+  theme tokens.
