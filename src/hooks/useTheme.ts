@@ -14,7 +14,8 @@ const THEME_VALUES = {
 
 const STORAGE_KEY = 'theme';
 const DATA_THEME_ATTR = 'data-theme';
-const DATA_TRANSITION_ATTR = 'data-transition-direction';
+// Astro's ClientRouter sets data-astro-transition on <html> during a navigation.
+const DATA_TRANSITION_ATTR = 'data-astro-transition';
 const DARK_CLASS = 'dark';
 const MEDIA_QUERY = '(prefers-color-scheme: dark)';
 

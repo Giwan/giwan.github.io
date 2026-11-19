@@ -5,12 +5,12 @@ repository.
 
 ## Tech Stack
 
-- **Core Framework**: Astro 4.0
+- **Core Framework**: Astro 7.x
 - **UI Libraries**: React (for islands), Vanilla HTML (Astro components)
-- **Styling**: TailwindCSS, CSS Variables
+- **Styling**: TailwindCSS v4 (CSS-first `@theme`), CSS Variables
 - **Language**: TypeScript (Strict mode)
 - **Bundler**: Vite (included with Astro)
-- **Unit Testing**: Jest (or Vitest, check `package.json`)
+- **Unit Testing**: Jest (`package.json` is the source of truth)
 
 ## Architecture
 
@@ -19,11 +19,20 @@ repository.
   elements. Static parts remain in `.astro` components.
 - **Hydration**: Be mindful of hydration. Use `client:load` only when necessary,
   prefer `client:visible` or `client:idle`.
+- **View Transitions**: Astro's `<ClientRouter />` drives navigation with the
+  native View Transitions API (`document.startViewTransition`), styled via the
+  standard `::view-transition-*` pseudo-elements. There is no custom transition
+  engine — see `docs-internal/transition-system-guide.md`.
 
 ## Directory Structure
 
 - `/src/pages`: File-based routing.
-- `/src/components`: Reusable UI components.
+- `/src/components`: Reusable UI components (`.astro` + React islands).
 - `/src/layouts`: Page templates.
-- `/src/lib`: Utilities and shared logic.
-- `/docs`: Output directory for the production build (GitHub Pages requirement).
+- `/src/utils`: Utilities and shared logic.
+- `/docs`: Production build output (generated; git-ignored, deployed via CI).
+
+## Documentation Map
+
+- `agent-docs/` — context, workflow, guidelines, protocol (for agents).
+- `docs-internal/` — design review, plans, and system guides.

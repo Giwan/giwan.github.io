@@ -31,8 +31,9 @@ export const ThemeToggle = () => {
 
   // Enhanced theme toggle that coordinates with page transitions
   const handleThemeToggle = () => {
-    // Check if a page transition is in progress
-    const isTransitioning = document.documentElement.hasAttribute('data-transition-direction');
+    // Check if a page transition is in progress (Astro sets this attribute
+    // on <html> while a view transition runs).
+    const isTransitioning = document.documentElement.hasAttribute('data-astro-transition');
 
     if (isTransitioning) {
       // Queue the theme change to happen after the page transition

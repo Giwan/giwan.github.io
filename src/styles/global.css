@@ -87,9 +87,6 @@
   --destructive: 0 62.8% 30.6%;
 }
 
-/* Import performance fallbacks */
-@import './performance-fallbacks.css';
-
 /* Import accessibility enhancements */
 @import './accessibility-transitions.css';
 
