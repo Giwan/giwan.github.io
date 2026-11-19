@@ -141,10 +141,11 @@ const {
 )}
 
 <script is:inline>
-  // Theme initialization
+  // Theme initialization + re-apply on view-transition navigation.
   (function() {
     const STORAGE_KEY = 'theme';
     const DARK_CLASS = 'dark';
+    const DATA_THEME_ATTR = 'data-theme';
     const THEME_VALUES = {
       DARK: 'dark',
       LIGHT: 'light',
@@ -165,15 +166,24 @@ const {
       return persistedTheme;
     }
 
-    const theme = getInitialTheme();
-    const root = document.documentElement;
-
-    if (theme === THEME_VALUES.DARK) {
-      root.classList.add(DARK_CLASS);
-      root.setAttribute('data-theme', THEME_VALUES.DARK);
-    } else {
-      root.classList.remove(DARK_CLASS);
-      root.setAttribute('data-theme', THEME_VALUES.LIGHT);
+    function applyTheme(root) {
+      if (getInitialTheme() === THEME_VALUES.DARK) {
+        root.classList.add(DARK_CLASS);
+        root.setAttribute(DATA_THEME_ATTR, THEME_VALUES.DARK);
+      } else {
+        root.classList.remove(DARK_CLASS);
+        root.setAttribute(DATA_THEME_ATTR, THEME_VALUES.LIGHT);
+      }
     }
+
+    applyTheme(document.documentElement);
+
+    // Astro's ClientRouter removes every <html> attribute on navigation and
+    // copies the server-rendered ones — which can't include the localStorage
+    // theme. Without this, dark mode flashes light on every navigation.
+    // Re-apply the theme to the incoming document before the swap copies it.
+    document.addEventListener('astro:before-swap', (event) => {
+      if (event.newDocument) applyTheme(event.newDocument.documentElement);
+    });
   })();
 </script>
