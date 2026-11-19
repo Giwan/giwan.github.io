@@ -60,8 +60,10 @@ const {
 
 ---
 
-<!-- View Transitions client-side router -->
-<ClientRouter />
+<!-- View Transitions client-side router.
+     fallback="swap" = on browsers without the native API, swap instantly
+     instead of running Astro's animated simulation (which flashes). -->
+<ClientRouter fallback="swap" />
 
 <!-- Global Metadata -->
 <meta charset="utf-8" />

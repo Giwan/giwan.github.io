@@ -9,10 +9,6 @@
    * view-transition-name; Astro's built-in animations (transition:animate)
    * provide the actual motion.
    *
-   * This file only defines shared timing tokens and a reduced-motion opt-out.
-   * All motion is expressed with the standard ::view-transition-* pseudo
-   * elements.
-   *
    * @see https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API
    */
 
@@ -23,6 +19,12 @@
     --transition-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  /* Keep the canvas opaque so the browser's white base never shows through
+     mid-swap (a common source of a white "flash"). */
+  html {
+    background-color: var(--color-background);
+  }
+
   /* Apply the shared timing to the standard root transition. */
   ::view-transition-group(root),
   ::view-transition-old(root),
@@ -31,7 +33,16 @@
     animation-timing-function: var(--transition-easing-standard);
   }
 
-  /* Respect the user's reduced-motion preference: opt out of transitions. */
+  /*
+   * Reduced motion => no transition at all.
+   *
+   * Disable EVERY named group, not just `root`/`main-content`. If only some
+   * groups are disabled, the rest still run the browser's default cross-fade,
+   * so a partial fade remains and reads as a flash.
+   *
+   * `mix-blend-mode: normal` neutralises Astro's additive (`plus-lighter`)
+   * cross-fade, which brightens/ flashes when the pair is out of sync.
+   */
   @media (prefers-reduced-motion: reduce) {
     :root {
       --transition-duration-fast: 0ms;
@@ -39,13 +50,22 @@
       --transition-duration-slow: 0ms;
     }
 
-    ::view-transition-group(root),
-    ::view-transition-old(root),
-    ::view-transition-new(root),
-    ::view-transition-group(main-content),
-    ::view-transition-old(main-content),
-    ::view-transition-new(main-content) {
+    ::view-transition-group(*),
+    ::view-transition-image-pair(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
       animation: none !important;
+      mix-blend-mode: normal !important;
+    }
+
+    /*
+     * Astro's simulation fallback, used by browsers without the native API
+     * (e.g. older Firefox). It animates real elements via this attribute, so
+     * it must be disabled here too. Prefer <ClientRouter fallback="swap" />.
+     */
+    html[data-astro-transition-fallback] * {
+      animation: none !important;
+      transition: none !important;
     }
   }
 }

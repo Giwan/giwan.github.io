@@ -16,12 +16,12 @@ const issueNumber = publishedPosts.filter(
 ---
 
 <header id="header" class="block w-full" role="banner" transition:name="header">
-    <div class="mb-6 h-[3px] w-full bg-editorial" aria-hidden="true" transition:name="header-rule"></div>
+    <div class="mb-6 h-[3px] w-full bg-editorial" aria-hidden="true"></div>
     <div class="grid grid-cols-2 gap-4">
-        <div class="col-span-1" transition:name="header-logo">
+        <div class="col-span-1">
             <Logo />
         </div>
-        <div class="col-span-1 flex justify-end items-center gap-4 sm:gap-2" transition:name="header-controls">
+        <div class="col-span-1 flex justify-end items-center gap-4 sm:gap-2">
             <a
                 href="/search/"
                 class="focus-editorial inline-flex items-center gap-2 rounded-none border border-border px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:border-editorial hover:text-editorial"
@@ -36,11 +36,11 @@ const issueNumber = publishedPosts.filter(
             <ThemeToggle client:visible />
             <HeaderNav />
         </div>
-        <div class="col-span-2 w-full flex flex-col sm:flex-row sm:justify-between items-center sm:items-baseline border-t border-border py-2 sm:py-1 gap-1 sm:gap-0 font-sans font-bold text-sm text-muted-foreground" transition:name="header-meta">
-            <p transition:name="header-date">
+        <div class="col-span-2 w-full flex flex-col sm:flex-row sm:justify-between items-center sm:items-baseline border-t border-border py-2 sm:py-1 gap-1 sm:gap-0 font-sans font-bold text-sm text-muted-foreground">
+            <p>
                 {currentDate}
             </p>
-            <p transition:name="header-issue">
+            <p>
                 ISSUE {issueNumber}
             </p>
         </div>

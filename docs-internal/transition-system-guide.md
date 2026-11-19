@@ -35,10 +35,47 @@ All transition CSS lives in `src/styles/view-transitions.css` and uses only
 standard pseudo-elements. It also defines the shared timing tokens
 (`--transition-duration-*`, `--transition-easing-standard`).
 
-## Accessibility
+## Reduced motion
 
-`@media (prefers-reduced-motion: reduce)` sets the transition durations to `0ms`
-and removes the animations, so users who opt out get instant navigation.
+Under `@media (prefers-reduced-motion: reduce)` the transition must be a **hard
+cut** (no animation). Two things are easy to get wrong here:
+
+1. **Disable every group, not just `root`.** If you only target
+   `::view-transition-old(root)`, every other named element (`header`, `footer`,
+   `theme-toggle`, …) still runs the browser's default cross-fade, so a partial
+   fade remains and reads as a flash. Use the `(*)` wildcard:
+
+   ```css
+   ::view-transition-group(*),
+   ::view-transition-image-pair(*),
+   ::view-transition-old(*),
+   ::view-transition-new(*) {
+     animation: none !important;
+     mix-blend-mode: normal !important; /* Astro's fade is additive (plus-lighter) */
+   }
+   ```
+
+2. **Neutralise the additive cross-fade.** Astro's built-in `fade` uses
+   `mix-blend-mode: plus-lighter`; when the old/new snapshots are out of sync it
+   brightens — a flash. Setting `mix-blend-mode: normal` avoids it.
+
+Also keep **`html` opaque** (`background-color: var(--color-background)`) so the
+browser's white canvas never shows through during the swap.
+
+## No-native-support fallback
+
+On browsers without the native API (older Firefox), Astro can *simulate* the
+transition by animating real elements via `data-astro-transition-fallback`.
+That simulation is not motion-guarded and flashes. We use
+`<ClientRouter fallback="swap" />` so those browsers swap instantly instead.
+
+## Naming elements (keep it minimal)
+
+Only add `transition:name` to elements that must animate/persist independently.
+Naming a region **and** its children (`header` *and* `header-logo`,
+`header-controls`, …) creates nested groups, extra compositing layers, and more
+surface for flashes. The site names only: `page-container`, `header`,
+`main-content`, `footer`, `theme-toggle`, the skip links, and per-article names.
 
 ## Verifying it works
 
@@ -50,3 +87,6 @@ and removes the animations, so users who opt out get instant navigation.
 - No app code should call `startViewTransition` for navigation; the only
   legitimate direct use is the theme toggle (`src/hooks/useTheme.ts`), which
   animates a same-document theme swap.
+- With `prefers-reduced-motion: reduce` emulated, a navigation's
+  `ViewTransition.finished` should resolve in ~1 frame (single-digit ms),
+  not the full `--transition-duration-normal`.

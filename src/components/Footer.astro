@@ -7,13 +7,13 @@ const today = new Date();
 <footer id="footer" class="mt-12 border-t pt-8 pb-12" role="contentinfo" transition:name="footer">
   <div class="w-full text-foreground/80">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-      <div class="text-left" transition:name="footer-brand">
+      <div class="text-left">
         <Logo />
         <p class="mb-4 text-sm">Exploring code and technology - delivered with clarity and insight.</p>
         <p class="text-xs">&copy; {today.getFullYear()} G1. All rights reserved.</p>
       </div>
       
-      <div class="text-left" transition:name="footer-categories">
+      <div class="text-left">
         <h2 class="text-lg text-foreground font-bold mb-4 uppercase tracking-wider">Categories</h2>
         <ul class="space-y-2">
           <li><a href="/" class="link-hover">Articles</a></li>
@@ -24,7 +24,7 @@ const today = new Date();
         </ul>
       </div>
       
-      <div class="text-left" transition:name="footer-connect">
+      <div class="text-left">
         <h2 class="text-lg text-foreground font-bold mb-4 uppercase tracking-wider">Connect</h2>
         <ul class="space-y-2">
           <li><a href="/contact" class="link-hover">Contact</a></li>
