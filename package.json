@@ -4,10 +4,9 @@
     "version": "0.0.1",
     "private": true,
     "scripts": {
-        "dev": "astro dev",
-        "start": "astro dev",
-        "prebuild": "npm run populateSearchData",
-        "build": "astro build",
+        "dev": "npm run populateSearchData && astro dev",
+        "start": "npm run populateSearchData && astro dev",
+        "build": "npm run populateSearchData && astro build",
         "preview": "astro preview",
         "astro": "astro",
         "populateSearchData": "node populateSearchData.js",

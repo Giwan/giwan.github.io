@@ -65,15 +65,20 @@ const variantForIndex = (index: number): "featured" | "secondary" | "standard" =
 </template>
 
 <script define:vars={{ remainingPosts, postsPerPage }}>
-    const articlesList = document.getElementById('articles-list');
-    const loadMoreButton = document.getElementById('load-more-button');
-    const template = document.getElementById('article-card-template');
+    // Delegated + bound once so the handler survives view-transition navigation
+    // (the button is replaced on every visit to the homepage). Pagination state
+    // lives on the button's data attribute, so it also survives re-renders.
+    if (!window.__loadMoreBound) {
+        window.__loadMoreBound = true;
 
-    if (articlesList && loadMoreButton && template && template instanceof HTMLTemplateElement) {
-        let visibleCount = 0;
+        document.addEventListener('click', (event) => {
+            const button = event.target instanceof Element ? event.target.closest('#load-more-button') : null;
+            const articlesList = document.getElementById('articles-list');
+            const template = document.getElementById('article-card-template');
+            if (!button || !articlesList || !(template instanceof HTMLTemplateElement)) return;
 
-        loadMoreButton.addEventListener('click', () => {
-            const nextPosts = remainingPosts.slice(visibleCount, visibleCount + postsPerPage);
+            const cursor = Number(button.dataset.cursor || 0);
+            const nextPosts = remainingPosts.slice(cursor, cursor + postsPerPage);
 
             nextPosts.forEach((post) => {
                 const clone = template.content.firstElementChild.cloneNode(true);
@@ -84,11 +89,9 @@ const variantForIndex = (index: number): "featured" | "secondary" | "standard" =
                 articlesList.appendChild(clone);
             });
 
-            visibleCount += nextPosts.length;
-
-            if (visibleCount >= remainingPosts.length) {
-                loadMoreButton.remove();
-            }
+            const newCursor = cursor + nextPosts.length;
+            if (newCursor >= remainingPosts.length) button.remove();
+            else button.dataset.cursor = String(newCursor);
         });
     }
 </script>

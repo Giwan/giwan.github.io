@@ -43,7 +43,7 @@ async function main() {
       'src/data/dataTools.ts',
       'src/data/wireframeTools.ts',
       'src/data/searchTools.ts',
-      'src/data/aiMlTools.ts',
+      'src/data/ideAgentTools.ts',
       'src/data/hostingTools.ts',
       'src/data/frameworkTools.ts',
       'src/data/testingTools.ts',

@@ -34,3 +34,8 @@ pnpm-debug.log*
 .vscode/
 
 unlighthouse-report/
+lighthouse-report.report.*
+
+# generated at build/dev time from blog posts
+src/cache/searchData.js
+cache/

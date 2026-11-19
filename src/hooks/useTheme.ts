@@ -18,14 +18,6 @@ const DATA_TRANSITION_ATTR = 'data-transition-direction';
 const DARK_CLASS = 'dark';
 const MEDIA_QUERY = '(prefers-color-scheme: dark)';
 
-// Import transition controller for coordination
-let transitionController: any = null;
-if (!isServer()) {
-  import('../utils/transitionController').then(module => {
-    transitionController = module.transitionController;
-  });
-}
-
 export const useTheme = () => {
   // Initialize with the current theme from DOM to prevent hydration mismatch
   const getInitialTheme = (): Theme => {
@@ -81,7 +73,9 @@ export const useTheme = () => {
       // Use view transition API if available and supported, but coordinate with page transitions
       if (typeof document !== 'undefined' && 'startViewTransition' in document && !isPageTransitioning) {
         try {
-          (document as any).startViewTransition(() => updateDOMWithTransition());
+          (document as Document & {
+            startViewTransition: (callback: () => void) => void;
+          }).startViewTransition(() => updateDOMWithTransition());
         } catch (error) {
           devConsole('warn', ['View transition failed, using fallback:', error]);
           updateDOMWithTransition();

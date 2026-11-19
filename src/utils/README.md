@@ -16,7 +16,6 @@ The validation system provides three main types of validation:
 
 - `toolValidation.ts` - Core validation functions for individual tools and tool arrays
 - `toolConsistencyChecks.ts` - Category, label consistency, and duplicate detection
-- `validateAllTools.ts` - Comprehensive validation orchestration and reporting
 
 ### Scripts
 
@@ -58,16 +57,11 @@ This includes all validations plus URL accessibility checks. Note: This requires
 
 ### Programmatic Usage
 
-```typescript
-import { validateAllToolData, printValidationReport } from './utils/validateAllTools';
+Run the validation from the CLI:
 
-// Quick validation
-const report = validateAllToolData();
-printValidationReport(report);
-
-// With URL validation
-const fullReport = await validateAllToolDataWithUrls();
-printValidationReport(fullReport);
+```bash
+npm run validate:tools        # structural validation
+npm run validate:tools:urls   # include URL accessibility checks
 ```
 
 ## Validation Rules
@@ -153,7 +147,7 @@ To add new validation rules:
 
 1. **For structural validation** - Modify `validateToolEntry()` in `toolValidation.ts`
 2. **For consistency checks** - Add functions to `toolConsistencyChecks.ts`
-3. **For new validation types** - Update `validateAllTools.ts` to orchestrate new checks
+3. **For new validation types** - Extend `scripts/validate-tools.js`
 4. **Add tests** - Create tests in `__tests__/toolValidation.test.ts`
 
 ## Testing

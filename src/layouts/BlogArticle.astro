@@ -280,18 +280,23 @@ const articleSchema = {
   </article>
 
   <script>
-    function initArticleReading() {
-      const bar = document.getElementById('reading-progress-bar');
-      if (bar) {
-        const update = () => {
-          const doc = document.documentElement;
-          const max = doc.scrollHeight - doc.clientHeight;
-          bar.style.scale = `${max > 0 ? Math.min(doc.scrollTop / max, 1) : 0} 1`;
-        };
-        document.addEventListener('scroll', update, { passive: true });
-        update();
-      }
+    // Attach the progress listener once; look the bar up on each scroll so it
+    // keeps working after a navigation replaces the element.
+    if (!document.documentElement.dataset.readingProgressInit) {
+      document.documentElement.dataset.readingProgressInit = 'true';
+      document.addEventListener('scroll', () => {
+        const bar = document.getElementById('reading-progress-bar');
+        if (!bar) return;
+        const doc = document.documentElement;
+        const max = doc.scrollHeight - doc.clientHeight;
+        bar.style.scale = `${max > 0 ? Math.min(doc.scrollTop / max, 1) : 0} 1`;
+      }, { passive: true });
+    }
 
+    let tocObserver;
+
+    function initArticleToc() {
+      tocObserver?.disconnect();
       const links = Array.from(document.querySelectorAll('[data-toc-link]'));
       if (!links.length || !('IntersectionObserver' in window)) return;
 
@@ -305,7 +310,7 @@ const articleSchema = {
         });
       };
 
-      const observer = new IntersectionObserver(
+      tocObserver = new IntersectionObserver(
         (entries) => {
           const visible = entries.find((entry) => entry.isIntersecting);
           if (visible) setActive(visible.target.id);
@@ -316,12 +321,12 @@ const articleSchema = {
       links.forEach((link) => {
         const href = link.getAttribute('href') || '';
         const heading = document.getElementById(decodeURIComponent(href.slice(1)));
-        if (heading) observer.observe(heading);
+        if (heading) tocObserver.observe(heading);
       });
     }
 
-    initArticleReading();
-    document.addEventListener('astro:page-load', initArticleReading);
+    initArticleToc();
+    document.addEventListener('astro:page-load', initArticleToc);
   </script>
 </PageLayout>
 

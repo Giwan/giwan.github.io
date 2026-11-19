@@ -7,7 +7,6 @@ import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 import headersIntegration from "./src/integrations/headers";
 import pwaValidationIntegration from "./src/integrations/pwaValidation";
-import { remarkAcronymValidator } from "./src/integrations/acronymValidator";
 import { SITE_CONFIG, PWA_CONFIG } from "./src/config";
 
 // https://astro.build/config
@@ -18,9 +17,7 @@ export default defineConfig({
     vite: {
         plugins: [tailwindcss()],
     },
-    integrations: [mdx({
-        remarkPlugins: [remarkAcronymValidator],
-    }), react(), sitemap(), headersIntegration(), VitePWA({
+    integrations: [mdx(), react(), sitemap(), headersIntegration(), VitePWA({
         scope: '/',
         registerType: 'prompt',
         manifestFilename: 'manifest.json',
@@ -42,7 +39,6 @@ export default defineConfig({
             prefer_related_applications: false
         },
         workbox: {
-            mode: 'development',
             disableDevLogs: true,
             navigateFallback: '/offline.html',
             globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,woff,woff2}'],
