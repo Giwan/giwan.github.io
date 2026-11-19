@@ -46,6 +46,10 @@
 }
 
 :root {
+  /* Tell the browser the default canvas/UI colour. Without this, Firefox paints
+     a WHITE canvas, which flashes through during a (dark-mode) page swap. */
+  color-scheme: light;
+
   /* Channel values expected by accessibility-transitions.css (hsl(var(--x))) */
   --background: 36 33% 98%;
   --primary: 240 6% 10%;
@@ -56,6 +60,7 @@
 }
 
 .dark {
+  color-scheme: dark;
   --color-border: hsl(240 3.7% 15.9%);
   --color-input: hsl(240 3.7% 15.9%);
   --color-ring: hsl(240 4.9% 83.9%);

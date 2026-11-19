@@ -62,6 +62,21 @@ cut** (no animation). Two things are easy to get wrong here:
 Also keep **`html` opaque** (`background-color: var(--color-background)`) so the
 browser's white canvas never shows through during the swap.
 
+### Dark-mode canvas flash
+
+The browser paints its default canvas **white** regardless of your page
+background unless you declare `color-scheme`. In dark mode that white shows
+through during a transition (which is why the flash is invisible in light mode).
+Declare it per theme in `src/styles/global.css`:
+
+```css
+:root { color-scheme: light; }
+.dark { color-scheme: dark; }
+```
+
+Plus `<meta name="color-scheme" content="light dark" />` in `BaseHead.astro` as a
+pre-CSS hint.
+
 ## No-native-support fallback
 
 On browsers without the native API (older Firefox), Astro can *simulate* the
