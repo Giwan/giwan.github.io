@@ -55,11 +55,11 @@
         "astro": "7.4.13",
         "class-variance-authority": "0.7.1",
         "clsx": "2.1.1",
-        "lucide-react": "1.76.0",
+        "lucide-react": "1.77.0",
         "nanostores": "1.5.5",
         "react": "19.3.1",
         "react-dom": "19.3.1",
-        "tailwind-merge": "3.7.0",
+        "tailwind-merge": "3.7.1",
         "tailwindcss": "^4.3.5"
     },
     "devDependencies": {
@@ -70,7 +70,7 @@
         "@babel/preset-env": "8.0.7",
         "@babel/preset-react": "8.0.1",
         "@babel/preset-typescript": "8.0.7",
-        "@putout/processor-html": "14.1.1",
+        "@putout/processor-html": "14.3.0",
         "@tailwindcss/typography": "0.5.20",
         "@testing-library/dom": "10.4.2",
         "@testing-library/jest-dom": "6.10.0",
